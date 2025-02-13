@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { CustomCursorDirective } from './directives/custom-cursor.directive';
 import { InsurancesComponent } from './insurance/insurances/insurances.component';
 import { LifeInsurancesComponent } from './insurance/life-insurances/life-insurances.component';
+import { WowDirective } from './directives/wow.directive';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { LifeInsurancesComponent } from './insurance/life-insurances/life-insura
     HomeComponent,
     CustomCursorDirective,
     InsurancesComponent,
-    LifeInsurancesComponent
+    LifeInsurancesComponent,
+    WowDirective
   ],
   imports: [
     BrowserModule,
