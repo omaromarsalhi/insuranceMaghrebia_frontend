@@ -24,7 +24,6 @@
               "src/favicon.ico",
               "src/assets"
             ],
-        
             "styles": [
               "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
               "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
@@ -34,12 +33,12 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/vendors/jquery/jquery-3.7.0.min.js",
               "node_modules/owl.carousel/dist/owl.carousel.min.js",
               "node_modules/isotope-layout/dist/isotope.pkgd.min.js",
               "node_modules/imagesloaded/imagesloaded.pkgd.min.js",
-              "src/assets/vendors/jquery-appear/jquery.appear.min.js",
-              "src/assets/js/insuba.js"
+              "src/assets/js/insuba.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui/dist/jquery-ui.min.js"
             ]
           },
           "configurations": {
@@ -81,7 +80,6 @@
           },
           "defaultConfiguration": "development"
         },
-
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
