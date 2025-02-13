@@ -15,7 +15,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component'; 
 import { HomeComponent } from './home/home.component';
 import { CustomCursorDirective } from './directives/custom-cursor.directive';
-import { MainPageDirective } from './directives/main-page-directive.directive';
+import { InsurancesComponent } from './insurance/insurances/insurances.component';
+import { LifeInsurancesComponent } from './insurance/life-insurances/life-insurances.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MainPageDirective } from './directives/main-page-directive.directive';
     FooterComponent,
     HomeComponent,
     CustomCursorDirective,
-    MainPageDirective
+    InsurancesComponent,
+    LifeInsurancesComponent
   ],
   imports: [
     BrowserModule,
