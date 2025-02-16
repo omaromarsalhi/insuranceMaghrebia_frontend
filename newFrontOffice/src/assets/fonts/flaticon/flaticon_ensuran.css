@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "flaticon_ensuran";
+    src: url("flaticon_ensuran3f38.ttf?c0ee43424c9db6ba0e38488554b1ddc1") format("truetype"),
+url("flaticon_ensuran3f38.woff?c0ee43424c9db6ba0e38488554b1ddc1") format("woff"),
+url("flaticon_ensuran3f38.woff2?c0ee43424c9db6ba0e38488554b1ddc1") format("woff2"),
+url("flaticon_ensuran3f38.eot?c0ee43424c9db6ba0e38488554b1ddc1#iefix") format("embedded-opentype"),
+url("flaticon_ensuran3f38.svg?c0ee43424c9db6ba0e38488554b1ddc1#flaticon_ensuran") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_ensuran !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-insurance:before {
+    content: "\f101";
+}
+.flaticon-shield:before {
+    content: "\f102";
+}
+.flaticon-home-insurance:before {
+    content: "\f103";
+}
+.flaticon-insurance-policy:before {
+    content: "\f104";
+}
+.flaticon-save-money:before {
+    content: "\f105";
+}
+.flaticon-investor:before {
+    content: "\f106";
+}
+.flaticon-right-arrow:before {
+    content: "\f107";
+}
+.flaticon-right-arrow-1:before {
+    content: "\f108";
+}
+.flaticon-check:before {
+    content: "\f109";
+}
+.flaticon-cross:before {
+    content: "\f10a";
+}
