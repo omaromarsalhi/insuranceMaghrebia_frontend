@@ -15,6 +15,8 @@ import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.componen
 import { CounterComponent } from './shared/ui/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InsuranceOfferComponent } from './offers/insurance-offer/insurance-offer.component';
+import { HomeFooterComponent } from './home-footer/home-footer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NiceSelectDirective,
     AnimationDirective,
     BackToTopComponent,
-    CounterComponent
+    CounterComponent,
+    InsuranceOfferComponent,
+    HomeFooterComponent
   ],
   imports: [
     BrowserModule,
