@@ -108,10 +108,10 @@
       "TEXT": "File Manager",
       "BADGE": "New"
     },
-    "ECOMMERCE": {
-      "TEXT": "Ecommerce",
+    "INSURANCE": {
+      "TEXT": "Insurance",
       "LIST": {
-        "PRODUCTS": "Products",
+        "CATEGORY": "Categories",
         "PRODUCTDETAIL": "Product Detail",
         "ORDERS": "Orders",
         "CUSTOMERS": "Customers",

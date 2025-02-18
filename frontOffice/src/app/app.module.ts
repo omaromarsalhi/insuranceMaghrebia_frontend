@@ -7,16 +7,15 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
 import { MagnificPopupDirective } from './directives/magnific-popup.directive';
 import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
-import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.component';
-import { CounterComponent } from './shared/ui/counter/counter.component';
+import { BackToTopComponent } from './shared/back-to-top/back-to-top.component';
+import { CounterComponent } from './shared/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InsuranceOfferComponent } from './offers/insurance-offer/insurance-offer.component';
 import { HomeFooterComponent } from './home-footer/home-footer.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,13 +23,11 @@ import { HomeFooterComponent } from './home-footer/home-footer.component';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    PreloaderComponent,
     MagnificPopupDirective,
     NiceSelectDirective,
     AnimationDirective,
     BackToTopComponent,
     CounterComponent,
-    InsuranceOfferComponent,
     HomeFooterComponent
   ],
   imports: [
@@ -39,7 +36,8 @@ import { HomeFooterComponent } from './home-footer/home-footer.component';
     AppRoutingModule, // Add the routing module here
     SlickCarouselModule,
     FontAwesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

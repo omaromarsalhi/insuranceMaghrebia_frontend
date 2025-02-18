@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: 'insurance', loadChildren: () => import('./offers/offers.module').then(m => m.OffersModule) },
+  { path: 'insurance', loadChildren: () => import('./insurances/insurance-routing.module').then(m => m.InsuranceRoutingModule) },
   { path: 'home', component: HomeComponent }, 
   { path: '', component: HomeComponent }, 
 
