@@ -1,57 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { Customers } from './category.model';
-
-import { customersData } from './data';
+import { ImageUploadControllerService, OfferCategoryControllerService } from "src/app/core/services";
+import { OfferCategory } from "src/app/core/models";
+import { parseMarker } from "@fullcalendar/core";
+import { UploadImage$Params } from "src/app/core/fn/image-upload-controller/upload-image";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  selector: "app-category",
+  templateUrl: "./category.component.html",
+  styleUrls: ["./category.component.scss"],
 })
-
 /**
- * Ecomerce category component
+ * Ecommerce category component
  */
 export class CategoryComponent implements OnInit {
-
-  // bread crumb items
+  // Bread crumb items
   breadCrumbItems: Array<{}>;
   formData: FormGroup;
   submitted = false;
-  customersData: Customers[];
+  categoriesData: OfferCategory[] = [];
+  uploadedImageUrl: string | ArrayBuffer = '';  // To display image preview
+  selectedFile: File = null;
 
   term: any;
 
-  // page
-  currentpage: number;
+  currentPage: number;
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder) { }
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private categoryService: OfferCategoryControllerService,
+    private imageUploadService: ImageUploadControllerService
+  ) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Ecommerce' }, { label: 'Customers', active: true }];
+    this.breadCrumbItems = [
+      { label: "Insurance" },
+      { label: "Categories", active: true },
+    ];
 
     this.formData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      offerCategoryId: [null],
+      name: ["", [Validators.required]],
+      description: ["", [Validators.required]],
     });
 
-    this.currentpage = 1;
+    this.currentPage = 1;
 
-    /**
-     * Fetches the data
-     */
     this._fetchData();
   }
 
   /**
-   * Customers data fetches
+   * Fetch categories data
    */
   private _fetchData() {
-    this.customersData = customersData;
+    this.categoryService.getAllOfferCategories().subscribe({
+      next: (data) => {
+        this.categoriesData = data;
+      },
+      error: (error) => {
+        console.error("Error fetching categories:", error);
+      },
+    });
   }
+
   get form() {
     return this.formData.controls;
   }
@@ -61,18 +75,116 @@ export class CategoryComponent implements OnInit {
    * @param content modal content
    */
   openModal(content: any) {
-    this.modalService.open(content);
+    this.formData.reset();
+    this.submitted = false;
+    this.modalService.open(content, { backdrop: "static", size: "lg" });
   }
 
-  saveCustomer() {
-    const currentDate = new Date();
-    if (this.formData.valid) {
-     const name = this.formData.get('name').value;
-     const description = this.formData.get('description').value;
-
+  /**
+   * Open modal
+   * @param content modal content
+   */
+  openUpdateModal(content: any, category: OfferCategory) {
+    this.formData.patchValue(category);
+    this.submitted = false;
+    this.modalService.open(content, { backdrop: 'static', size: 'lg' });
+  }
   
-      this.modalService.dismissAll()
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.uploadedImageUrl = reader.result;  // Preview the selected image
+    };
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+
+  // Upload the image
+  onUpload() {
+    if (this.selectedFile) {
+      const params: UploadImage$Params = {
+        body: {
+          image: this.selectedFile 
+        }
+      };
+
+      
+      this.imageUploadService.uploadImage(params).subscribe({
+        next: (response) => {
+          // Handle the response (e.g., convert Blob to URL)
+          console.log("dohne")
+          const blob = response;
+          if (blob) {
+            // this.imageUrl = URL.createObjectURL(blob); // Convert Blob to URL
+          }
+        },
+        error: (err) => {
+          console.error('Error uploading image:', err);
+        }
+      });
+    } else {
+      console.error('No file selected');
     }
-    this.submitted = true
+  }
+  
+
+  saveCategory() {
+    this.submitted = true;
+
+    if (this.formData.invalid) {
+      return;
+    }
+
+    this.onUpload()
+
+    const params = {
+      body: this.formData.value,
+    };
+
+    this.categoryService.createOfferCategory(params).subscribe({
+      next: (response) => {
+        this.modalService.dismissAll();
+        this._fetchData();
+      },
+      error: (error) => {
+        console.error("Error saving category:", error);
+      },
+    });
+  }
+
+  updateCategory(categoryId: string) {
+    if (this.formData.invalid) {
+      return;
+    }
+
+    const params = {
+      id: categoryId,
+      body: this.formData.value,
+    };
+
+    this.categoryService.updateOfferCategory(params).subscribe({
+      next: (response) => {
+        console.log("Category successfully updated:");
+        this._fetchData();
+        this.modalService.dismissAll();
+      },
+      error: (error) => {
+        console.error("Error updating category:", error);
+      },
+    });
+  }
+
+  deleteCategory(categoryId: string) {
+    if (confirm("Are you sure you want to delete this category?")) {
+      this.categoryService.deleteOfferCategory({ id: categoryId }).subscribe({
+        next: () => {
+          this._fetchData();
+        },
+        error: (error) => {
+          console.error("Error deleting category:", error);
+        },
+      });
+    }
   }
 }

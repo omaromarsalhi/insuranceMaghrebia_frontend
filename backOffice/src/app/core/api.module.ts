@@ -8,6 +8,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { OfferControllerService } from './services/offer-controller.service';
 import { OfferCategoryControllerService } from './services/offer-category-controller.service';
+import { ImageUploadControllerService } from './services/image-upload-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -19,6 +20,7 @@ import { OfferCategoryControllerService } from './services/offer-category-contro
   providers: [
     OfferControllerService,
     OfferCategoryControllerService,
+    ImageUploadControllerService,
     ApiConfiguration
   ],
 })

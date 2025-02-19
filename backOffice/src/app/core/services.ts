@@ -4,3 +4,4 @@
 
 export { OfferControllerService } from './services/offer-controller.service';
 export { OfferCategoryControllerService } from './services/offer-category-controller.service';
+export { ImageUploadControllerService } from './services/image-upload-controller.service';
