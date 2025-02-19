@@ -5,7 +5,7 @@
 export interface OfferCategory {
   createdAt?: string;
   description?: string;
+  imageUri?: string;
   name?: string;
   offerCategoryId?: string;
-  imageUri?: string;
 }

@@ -10,12 +10,14 @@ import { RequestBuilder } from '../../request-builder';
 
 import { OfferCategory } from '../../models/offer-category';
 
-export interface GetAllOfferCategories$Params {
+export interface GetOfferCategoryById$Params {
+  id: string;
 }
 
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferCategory>>> {
-  const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
+export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  const rb = new RequestBuilder(rootUrl, getOfferCategoryById.PATH, 'get');
   if (params) {
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -23,9 +25,9 @@ export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<OfferCategory>>;
+      return r as StrictHttpResponse<OfferCategory>;
     })
   );
 }
 
-getAllOfferCategories.PATH = '/api/v1/offer-categories/getAll';
+getOfferCategoryById.PATH = '/api/v1/offer-categories/getOne/{id}';

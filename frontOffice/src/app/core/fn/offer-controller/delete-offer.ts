@@ -9,20 +9,14 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface UploadImage$Params {
-      body?: {
-    'file': File;
-  }
+export interface DeleteOffer$Params {
+  id: string;
 }
 
-export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadImage$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, uploadImage.PATH, 'post');
+export function deleteOffer(http: HttpClient, rootUrl: string, params: DeleteOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, deleteOffer.PATH, 'delete');
   if (params) {
-    const formData: FormData = new FormData();
-
-    formData.append('file', params.body.file);
-
-    rb.body(formData, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -30,11 +24,9 @@ export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadIm
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-
-
-uploadImage.PATH = '/api/v1/images/upload';
+deleteOffer.PATH = '/api/v1/offers/{id}';

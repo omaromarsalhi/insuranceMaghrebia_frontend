@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
   formData: FormGroup;
   submitted = false;
   categoriesData: OfferCategory[] = [];
-  uploadedImageUrl: string | ArrayBuffer = '';  // To display image preview
+  uploadedImageUrl: string | ArrayBuffer = '';  
   selectedFile: File = null;
 
   term: any;
@@ -90,57 +90,79 @@ export class CategoryComponent implements OnInit {
     this.modalService.open(content, { backdrop: 'static', size: 'lg' });
   }
   
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.uploadedImageUrl = reader.result;  // Preview the selected image
-    };
-    reader.readAsDataURL(this.selectedFile);
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
   }
 
+  // uploadImage(): void {
+  //   if (this.selectedFile) {
+  
+  //     const params: UploadImage$Params = {
+  //       body: {
+  //         file: this.selectedFile,
+  //       },
+  //     };
+  
+  //     this.imageUploadService.uploadImage(params).subscribe(
+  //       (response: string) => {
+  //         this.uploadedImageUrl = response;
+  //         console.log('Image uploaded successfully:', response);
+  //         console.log('Image uploaded successfully:', this.uploadedImageUrl );
+  //       },
+  //       (error) => {
+  //         console.error('Error uploading image:', error);
+  //       }
+  //     );
+  //   }
+  // }
 
-  // Upload the image
-  onUpload() {
-    if (this.selectedFile) {
+  uploadImage(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this.selectedFile) {
+        reject("No file selected");
+        return;
+      }
+  
       const params: UploadImage$Params = {
         body: {
-          image: this.selectedFile 
-        }
-      };
-
-      
-      this.imageUploadService.uploadImage(params).subscribe({
-        next: (response) => {
-          // Handle the response (e.g., convert Blob to URL)
-          console.log("dohne")
-          const blob = response;
-          if (blob) {
-            // this.imageUrl = URL.createObjectURL(blob); // Convert Blob to URL
-          }
+          file: this.selectedFile,
         },
-        error: (err) => {
-          console.error('Error uploading image:', err);
+      };
+  
+      this.imageUploadService.uploadImage(params).subscribe(
+        (response: string) => {
+          this.uploadedImageUrl = response;
+          console.log('Image uploaded successfully:', response);
+          resolve(response); // Resolve the promise with the uploaded URL
+        },
+        (error) => {
+          console.error('Error uploading image:', error);
+          reject(error); // Reject the promise if there's an error
         }
-      });
-    } else {
-      console.error('No file selected');
-    }
+      );
+    });
   }
   
 
-  saveCategory() {
+  async saveCategory() {
+    
     this.submitted = true;
 
     if (this.formData.invalid) {
       return;
     }
 
-    this.onUpload()
+    await this.uploadImage()
 
     const params = {
       body: this.formData.value,
     };
+
+    console.log(this.uploadedImageUrl)
+    params.body.imageUri=this.uploadedImageUrl
 
     this.categoryService.createOfferCategory(params).subscribe({
       next: (response) => {

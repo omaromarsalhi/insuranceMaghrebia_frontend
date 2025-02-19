@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CategoryComponent } from './category/category.component';
 
 
+
 @NgModule({
   declarations: [
     CategoryComponent,
@@ -16,6 +17,7 @@ import { CategoryComponent } from './category/category.component';
     CommonModule,
     ParticularRoutingModule,
     SharedModule
-  ]
+  ],
+  providers:[]
 })
 export class ParticularModule { }

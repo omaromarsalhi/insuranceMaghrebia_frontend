@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "generate-api": "ng-openapi-gen -i http://localhost:9002/v3/api-docs  --output ./src/app/core"
   },
   "private": true,
   "dependencies": {
