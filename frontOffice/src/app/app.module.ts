@@ -15,6 +15,10 @@ import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.componen
 import { CounterComponent } from './shared/ui/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CamplaintComponent } from './camplaint/camplaint.component';
+import { HttpClientModule } from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ShowComplaintComponent } from './show-complaint/show-complaint.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NiceSelectDirective,
     AnimationDirective,
     BackToTopComponent,
-    CounterComponent
+    CounterComponent,
+    CamplaintComponent,
+    ShowComplaintComponent,
   ],
   imports: [
     BrowserModule,
