@@ -1,0 +1,61 @@
+<div class="container-fluid">
+
+  <!-- start page title -->
+  <app-page-title title="Create New" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <!-- end page title -->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Create New Incident Type</h4>
+          <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
+            <div class="row mb-4">
+              <label for="incidentTypeName" class="col-form-label col-lg-2">Incident Type Name</label>
+              <div class="col-lg-10">
+                <input id="incidentTypeName" name="incidentTypeName" type="text" class="form-control"
+                  placeholder="Enter Incident Type Name..." formControlName="name"> 
+                  <ngb-alert *ngIf="incidentForm.controls.name.invalid && (incidentForm.controls.name.touched || incidentForm.controls.name.dirty)" [dismissible]="false" [type]="submitted ? 'danger' : 'warning'" style="margin-top: 10px">
+                    <div *ngIf="incidentForm.controls.name.errors?.['required']">
+                        Field Required
+                    </div>
+                    <div *ngIf="incidentForm.controls.name.errors?.['minlength']">
+                      Minimum Length : 3 letters
+                  </div>
+                  </ngb-alert>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="incidentTypeDescription" class="col-form-label col-lg-2">Incident Type Description</label>
+              <div class="col-lg-10">
+                <textarea class="form-control" id="incidentTypeDescription" rows="3"
+                  placeholder="Enter Incident Type Description..." formControlName="description"></textarea>
+                  <ngb-alert *ngIf="incidentForm.controls.description.invalid && (incidentForm.controls.description.touched || incidentForm.controls.description.dirty)" [dismissible]="false" [type]="submitted ? 'danger' : 'warning'" style="margin-top: 10px">
+                    <div *ngIf="incidentForm.controls.description.errors?.['required']">
+                        Field Required
+                    </div>
+                    <div *ngIf="incidentForm.controls.description.errors?.['minlength']">
+                      Minimum Length : 10 letters
+                  </div>
+                  </ngb-alert>
+              </div>
+              
+            </div>
+
+            
+            <div class="row justify-content-end">
+              <div class="col-lg-10">
+                <button type="submit" class="btn btn-primary">Add Incident Type</button>
+              </div>
+            </div>
+            
+          </form>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+
+</div> <!-- container-fluid -->
