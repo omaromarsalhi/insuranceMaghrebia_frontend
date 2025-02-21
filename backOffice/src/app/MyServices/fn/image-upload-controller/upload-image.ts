@@ -8,26 +8,27 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/offer-category';
 
-export interface CreateOfferCategory$Params {
-      body: OfferCategory
+export interface UploadImage$Params {
+      body?: {
+'file': Blob;
+}
 }
 
-export function createOfferCategory(http: HttpClient, rootUrl: string, params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
-  const rb = new RequestBuilder(rootUrl, createOfferCategory.PATH, 'post');
+export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadImage$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, uploadImage.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferCategory>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-createOfferCategory.PATH = '/api/v1/offer-categories/create';
+uploadImage.PATH = '/api/v1/images/upload';

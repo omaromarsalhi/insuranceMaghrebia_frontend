@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layouts/layout.component';
-import { CategoryComponent } from './insurance/particular/category/category.component';
+import { CategoryComponent } from './insurance/category/category.component';
 
 
 const routes: Routes = [
-  { path: 'category' , component: CategoryComponent },
   { path: 'insurance',component: LayoutComponent , loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
   { path: '',component: LayoutComponent}
 ];

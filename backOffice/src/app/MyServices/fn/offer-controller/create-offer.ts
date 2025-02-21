@@ -8,26 +8,26 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/offer-category';
+import { Offer } from '../../models/offer';
 
-export interface CreateOfferCategory$Params {
-      body: OfferCategory
+export interface CreateOffer$Params {
+      body: Offer
 }
 
-export function createOfferCategory(http: HttpClient, rootUrl: string, params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
-  const rb = new RequestBuilder(rootUrl, createOfferCategory.PATH, 'post');
+export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<Offer>> {
+  const rb = new RequestBuilder(rootUrl, createOffer.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferCategory>;
+      return r as StrictHttpResponse<Offer>;
     })
   );
 }
 
-createOfferCategory.PATH = '/api/v1/offer-categories/create';
+createOffer.PATH = '/api/v1/offers';

@@ -2,9 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { ImageUploadControllerService, OfferCategoryControllerService } from "src/app/core/services";
+import {
+  ImageUploadControllerService,
+  OfferCategoryControllerService,
+} from "src/app/core/services";
 import { OfferCategory } from "src/app/core/models";
-import { parseMarker } from "@fullcalendar/core";
 import { UploadImage$Params } from "src/app/core/fn/image-upload-controller/upload-image";
 
 @Component({
@@ -16,17 +18,19 @@ import { UploadImage$Params } from "src/app/core/fn/image-upload-controller/uplo
  * Ecommerce category component
  */
 export class CategoryComponent implements OnInit {
-  // Bread crumb items
   breadCrumbItems: Array<{}>;
   formData: FormGroup;
   submitted = false;
   categoriesData: OfferCategory[] = [];
-  uploadedImageUrl: string | ArrayBuffer = '';  
+  uploadedImageUrl: string | ArrayBuffer = "";
   selectedFile: File = null;
-
+  fileName: string = "";
+  isDragging = false;
   term: any;
-
-  currentPage: number;
+  isLoading: boolean = false;
+  error: boolean = false;
+  selectedCategory: any = null;
+  deleteCategoryId: string | null = null;
 
   constructor(
     private modalService: NgbModal,
@@ -45,16 +49,12 @@ export class CategoryComponent implements OnInit {
       offerCategoryId: [null],
       name: ["", [Validators.required]],
       description: ["", [Validators.required]],
+      categoryTarget: ["", [Validators.required]],
     });
-
-    this.currentPage = 1;
 
     this._fetchData();
   }
 
-  /**
-   * Fetch categories data
-   */
   private _fetchData() {
     this.categoryService.getAllOfferCategories().subscribe({
       next: (data) => {
@@ -70,54 +70,18 @@ export class CategoryComponent implements OnInit {
     return this.formData.controls;
   }
 
-  /**
-   * Open modal
-   * @param content modal content
-   */
   openModal(content: any) {
     this.formData.reset();
     this.submitted = false;
     this.modalService.open(content, { backdrop: "static", size: "lg" });
   }
 
-  /**
-   * Open modal
-   * @param content modal content
-   */
+
   openUpdateModal(content: any, category: OfferCategory) {
     this.formData.patchValue(category);
     this.submitted = false;
-    this.modalService.open(content, { backdrop: 'static', size: 'lg' });
+    this.modalService.open(content, { backdrop: "static", size: "lg" });
   }
-  
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
-  }
-
-  // uploadImage(): void {
-  //   if (this.selectedFile) {
-  
-  //     const params: UploadImage$Params = {
-  //       body: {
-  //         file: this.selectedFile,
-  //       },
-  //     };
-  
-  //     this.imageUploadService.uploadImage(params).subscribe(
-  //       (response: string) => {
-  //         this.uploadedImageUrl = response;
-  //         console.log('Image uploaded successfully:', response);
-  //         console.log('Image uploaded successfully:', this.uploadedImageUrl );
-  //       },
-  //       (error) => {
-  //         console.error('Error uploading image:', error);
-  //       }
-  //     );
-  //   }
-  // }
 
   uploadImage(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -125,55 +89,62 @@ export class CategoryComponent implements OnInit {
         reject("No file selected");
         return;
       }
-  
+
       const params: UploadImage$Params = {
         body: {
           file: this.selectedFile,
         },
       };
-  
+
       this.imageUploadService.uploadImage(params).subscribe(
         (response: string) => {
           this.uploadedImageUrl = response;
-          console.log('Image uploaded successfully:', response);
+          console.log("Image uploaded successfully:", response);
           resolve(response); // Resolve the promise with the uploaded URL
         },
         (error) => {
-          console.error('Error uploading image:', error);
+          console.error("Error uploading image:", error);
           reject(error); // Reject the promise if there's an error
         }
       );
     });
   }
-  
 
   async saveCategory() {
-    
     this.submitted = true;
 
     if (this.formData.invalid) {
       return;
     }
 
-    await this.uploadImage()
+    await this.uploadImage();
 
     const params = {
       body: this.formData.value,
     };
 
-    console.log(this.uploadedImageUrl)
-    params.body.imageUri=this.uploadedImageUrl
+    console.log(this.uploadedImageUrl);
+    params.body.imageUri = this.uploadedImageUrl;
 
     this.categoryService.createOfferCategory(params).subscribe({
       next: (response) => {
+        console.log(response)
         this.modalService.dismissAll();
+        this.clearImage();
         this._fetchData();
       },
       error: (error) => {
         console.error("Error saving category:", error);
       },
+
     });
   }
+
+
+
+
+
+  
 
   updateCategory(categoryId: string) {
     if (this.formData.invalid) {
@@ -184,10 +155,10 @@ export class CategoryComponent implements OnInit {
       id: categoryId,
       body: this.formData.value,
     };
+    console.log(params);
 
     this.categoryService.updateOfferCategory(params).subscribe({
       next: (response) => {
-        console.log("Category successfully updated:");
         this._fetchData();
         this.modalService.dismissAll();
       },
@@ -208,5 +179,55 @@ export class CategoryComponent implements OnInit {
         },
       });
     }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = false;
+  }
+
+  onFileDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = false;
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleFile(files[0]);
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    this.selectedFile = file;
+    if (file) this.handleFile(file);
+  }
+
+  handleFile(file: File) {
+    this.fileName = file.name;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.uploadedImageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearImage() {
+    this.uploadedImageUrl = null;
+    this.fileName = "";
+    this.selectedFile = null;
+  }
+
+  getTargetBadgeClass(target: string): string {
+    return target == "PARTICULAR"
+      ? "bg-warning text-dark"
+      : "bg-primary text-white";
+  }
+
+  handleImageError(category: any): void {
+    category.imageUri = "assets/images/default-category.png";
   }
 }

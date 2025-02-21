@@ -10,24 +10,22 @@ import { RequestBuilder } from '../../request-builder';
 
 import { OfferCategory } from '../../models/offer-category';
 
-export interface CreateOfferCategory$Params {
-      body: OfferCategory
+export interface GetAllOfferCategories$Params {
 }
 
-export function createOfferCategory(http: HttpClient, rootUrl: string, params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
-  const rb = new RequestBuilder(rootUrl, createOfferCategory.PATH, 'post');
+export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferCategory>>> {
+  const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferCategory>;
+      return r as StrictHttpResponse<Array<OfferCategory>>;
     })
   );
 }
 
-createOfferCategory.PATH = '/api/v1/offer-categories/create';
+getAllOfferCategories.PATH = '/api/v1/offer-categories/getAll';

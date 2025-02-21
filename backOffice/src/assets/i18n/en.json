@@ -112,8 +112,8 @@
       "TEXT": "Insurance",
       "LIST": {
         "CATEGORY": "Categories",
-        "PRODUCTDETAIL": "Product Detail",
-        "ORDERS": "Orders",
+        "OFFER": "Offers",
+        "OFFER-DETAILS": "Offer Details",
         "CUSTOMERS": "Customers",
         "CART": "Cart",
         "CHECKOUT": "Checkout",

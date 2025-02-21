@@ -14,13 +14,19 @@ export const MENU: MenuItem[] = [
             {
                 id: 3,
                 label: 'MENUITEMS.INSURANCE.LIST.CATEGORY',
-                link: 'insurance/particular/category',
+                link: '/insurance/categories',
                 parentId: 2
             },
             {
                 id: 4,
-                label: 'MENUITEMS.INSURANCE.LIST.PRODUCTDETAIL',
-                link: '/INSURANCE/product-detail/1',
+                label: 'MENUITEMS.INSURANCE.LIST.OFFER',
+                link: '/insurance/offers',
+                parentId: 2
+            },
+            {
+                id: 5,
+                label: 'MENUITEMS.INSURANCE.LIST.OFFER-DETAILS',
+                link: '/insurance/offer-details/1',
                 parentId: 2
             },
      

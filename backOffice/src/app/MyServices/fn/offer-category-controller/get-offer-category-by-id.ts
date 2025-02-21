@@ -10,18 +10,18 @@ import { RequestBuilder } from '../../request-builder';
 
 import { OfferCategory } from '../../models/offer-category';
 
-export interface CreateOfferCategory$Params {
-      body: OfferCategory
+export interface GetOfferCategoryById$Params {
+  id: string;
 }
 
-export function createOfferCategory(http: HttpClient, rootUrl: string, params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
-  const rb = new RequestBuilder(rootUrl, createOfferCategory.PATH, 'post');
+export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  const rb = new RequestBuilder(rootUrl, getOfferCategoryById.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -30,4 +30,4 @@ export function createOfferCategory(http: HttpClient, rootUrl: string, params: C
   );
 }
 
-createOfferCategory.PATH = '/api/v1/offer-categories/create';
+getOfferCategoryById.PATH = '/api/v1/offer-categories/getOne/{id}';

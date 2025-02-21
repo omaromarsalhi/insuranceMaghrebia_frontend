@@ -8,26 +8,25 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Offer } from '../../models/offer';
 
-export interface CreateOffer$Params {
-      body: Offer
+export interface DeleteOffer$Params {
+  id: string;
 }
 
-export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<Offer>> {
-  const rb = new RequestBuilder(rootUrl, createOffer.PATH, 'post');
+export function deleteOffer(http: HttpClient, rootUrl: string, params: DeleteOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, deleteOffer.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Offer>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-createOffer.PATH = '/api/v1/offers';
+deleteOffer.PATH = '/api/v1/offers/{id}';
