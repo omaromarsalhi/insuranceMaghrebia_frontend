@@ -11,13 +11,19 @@ import { CheckEmailComponent } from './check-email/check-email.component';
 import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
 import { NgOtpInputModule } from  'ng-otp-input';
 import { LoginComponent } from './login/login.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { Page404Component } from './page404/page404.component';
 
 @NgModule({
   declarations: [
     SignupComponent,
     CheckEmailComponent,
     ConfirmMailComponent,
-    LoginComponent
+    LoginComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent,
+    Page404Component
   ],
   imports: [
     CommonModule,

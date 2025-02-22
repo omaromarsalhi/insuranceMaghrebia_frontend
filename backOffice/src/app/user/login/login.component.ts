@@ -13,7 +13,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   error = '';
-  returnUrl: string;
   backError = '';
 
   year: number = new Date().getFullYear();

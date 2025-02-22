@@ -12,7 +12,6 @@ export class CheckEmailComponent implements OnInit {
   year: number = new Date().getFullYear();
   verify = "verify";
   ngOnInit(): void {
-    console.log("Current path before navigation:", this.route.url); 
      this.verify = this.route.snapshot.queryParamMap.get('verify');
     document.body.classList.remove('auth-body-bg');
   }

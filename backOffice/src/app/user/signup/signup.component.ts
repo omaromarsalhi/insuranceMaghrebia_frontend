@@ -24,11 +24,11 @@ export class SignupComponent implements OnInit {
     { value: 'MALE', label: 'Male' },
     { value: 'FEMALE', label: 'Female' }
   ];
-  userExist=false;
+  userExist = false;
 
-  constructor(    private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private authenticationService: AuthService ,private userService: UserService ) { }
+    private authenticationService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
@@ -36,13 +36,13 @@ export class SignupComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
-      dateOfBirth: ['', [Validators.required,ageValidator(18)]],
-      gender: ['', [Validators.required]], 
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]], 
-      address: ['', [Validators.required, Validators.maxLength(100)]] 
+      dateOfBirth: ['', [Validators.required, ageValidator(18)]],
+      gender: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
+      address: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
-    
+
   get f() { return this.signupForm.controls; }
 
 
@@ -64,18 +64,17 @@ export class SignupComponent implements OnInit {
       address: this.f.address.value
     };
     this.authenticationService.register(registrationRequest)
-    .subscribe(
-      (data) =>
-        {
+      .subscribe(
+        (data) => {
           this.successmsg = true;
           if (this.successmsg) {
             this.router.navigate(['/account/check-mail'], { queryParams: { verify: "verification" } });
-        }
-      },
+          }
+        },
         (error) => {
-        this.signupForm.controls.email.setErrors({notUnique: true});
+          this.signupForm.controls.email.setErrors({ notUnique: true });
         }
-    );
+      );
   }
 
 }

@@ -12,11 +12,14 @@ export class PasswordService {
 
   constructor(private http: HttpClient) { }
 
-  forgetPassword(emailRequest: EmailRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/forget-password`, emailRequest);
+  forgetPassword(emailRequest: EmailRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forget-password`, emailRequest);
   }
 
-  resetPassword(token: string, passwordResetRequest: PasswordResetRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/reset-password?token=${token}`, passwordResetRequest);
+  resetPassword(token: string, passwordResetRequest: PasswordResetRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password?token=${token}`, passwordResetRequest);
+  }
+  verifyToken(token:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}/verify-password-token?token=${token}`);
   }
 }
