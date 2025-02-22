@@ -112,6 +112,7 @@
       "TEXT": "Insurance",
       "LIST": {
         "CATEGORY": "Categories",
+        "ADDOFFER": "Add offer",
         "OFFER": "Offers",
         "OFFER-DETAILS": "Offer Details",
         "CUSTOMERS": "Customers",

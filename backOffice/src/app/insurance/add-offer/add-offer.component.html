@@ -1,1 +1,180 @@
-<p>add-offer works!</p>
+<div class="container-fluid">
+    <!-- start page title -->
+    <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <!-- end page title -->
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4 h2 text-primary">Add Offer</h4>
+
+                    <form [formGroup]="labelsForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-4">
+                            <label for="offerName" class="form-label fw-bold">Offer name</label>
+                            <input type="text" class="form-control form-control-lg" id="offerName" formControlName="offerName">
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="mb-3 h4 text-secondary">Labels</h5>
+                            <div formArrayName="labels">
+                                <div class="card mb-3 border-primary" 
+                                     *ngFor="let label of label().controls; let labelIndex = index"
+                                     [formGroupName]="labelIndex">
+                                    <div class="card-header bg-light text-white d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Label #{{labelIndex + 1}}</h6>
+                                        <button type="button" class="btn btn-danger btn-sm" 
+                                                (click)="deleteLabel(labelIndex)">
+                                            <i class="fas fa-trash me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label for="labelName-{{labelIndex}}" class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="labelName-{{labelIndex}}"
+                                                   formControlName="name">
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h6 class="mb-3 text-muted">Questions</h6>
+                                            <div formArrayName="questions">
+                                                <div class="mb-2" 
+                                                     *ngFor="let question of label.get('questions').controls; let qIndex = index"
+                                                     [formGroupName]="qIndex">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" 
+                                                               formControlName="questionText"
+                                                               placeholder="Enter question...">
+                                                        <button type="button" class="btn btn-outline-danger" 
+                                                                (click)="deleteQuestion(labelIndex, qIndex)">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-success btn-sm" 
+                                                    (click)="addQuestion(labelIndex)">
+                                                <i class="fas fa-plus me-1"></i> Add Question
+                                            </button>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h6 class="mb-3 text-muted">Answers</h6>
+                                            <div formArrayName="answers">
+                                                <div class="mb-2" 
+                                                     *ngFor="let answer of label.get('answers').controls; let aIndex = index; trackBy: trackAnswer"
+                                                     [formGroupName]="aIndex">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" formControlName="value"
+                                                               placeholder="Enter answer...">
+                                                        <select class="form-select" formControlName="questionIndex">
+                                                            <option *ngFor="let q of label.get('questions').controls; let i = index"
+                                                                    [ngValue]="i">Question #{{i + 1}}</option>
+                                                        </select>
+                                                        <button type="button" class="btn btn-outline-danger" 
+                                                                (click)="deleteAnswer(labelIndex, aIndex)">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-success btn-sm" 
+                                                    (click)="addAnswer(labelIndex)">
+                                                <i class="fas fa-plus me-1"></i> Add Answer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary w-20" 
+                                    (click)="addLabel()">
+                                <i class="fas fa-plus-circle me-2"></i> Add Label
+                            </button>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-md btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Offer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4 h2 text-primary">Additional Information</h4>
+                    
+                    <form class="outer-repeater">
+                        <div class="mb-4">
+                            <label for="formname" class="form-label fw-bold">Name</label>
+                            <input type="text" class="form-control form-control-lg" id="formname"
+                                   placeholder="Enter your name...">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="formemail" class="form-label fw-bold">Email</label>
+                            <input type="email" class="form-control form-control-lg" id="formemail"
+                                   placeholder="Enter your email...">
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="mb-3" [formGroup]="phoneData">
+                                <label class="form-label fw-bold">Phone Numbers</label>
+                                <div formArrayName="phoneValue">
+                                    <div class="mb-2" 
+                                         *ngFor="let data1 of phonedata().controls; let i = index"
+                                         [formGroupName]="i">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" 
+                                                   formControlName="phonenumber"
+                                                   placeholder="Enter phone number...">
+                                            <button type="button" class="btn btn-outline-danger" 
+                                                    (click)="deletePhone(i)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success w-100" 
+                                    (click)="addPhone()">
+                                <i class="fas fa-plus me-2"></i> Add Number
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Gender</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" 
+                                           id="male" value="male">
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" 
+                                           id="female" value="female">
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="formmessage" class="form-label fw-bold">Message</label>
+                            <textarea id="formmessage" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-lg btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
