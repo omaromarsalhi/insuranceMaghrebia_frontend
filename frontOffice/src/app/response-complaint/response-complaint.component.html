@@ -1,0 +1,63 @@
+<section class="blog-details-section pt-130 pb-100" style="display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;">
+  <div class="container" style="display: flex; justify-content: center;">
+    <div class="row">
+      <div class="col-xl-8" style="margin: auto;">
+        <div class="blog-details-wrapper">
+          <div class="blog-post mb-20 wow fadeInUp">
+            <div class="post-meta">
+              <span><i class="far fa-calendar-alt"></i>{{ complaint?.createdAt |date }}</span>
+              <span><a href="#">{{ complaint?.complaintType }}</a></span>
+            </div>
+            <div class="main-post">
+              <div class="entry-content">
+                <h3 class="title">{{complaint.title}}</h3>
+              </div>
+              <div class="comments-area mb-50 wow fadeInUp">
+                <h5 class="comments-title mb-40">Responses</h5>
+                <ul class="comments-list " *ngFor="let i of responses">
+                  <li>
+                    <div class="comment">
+                      <div class="comment-avatar">
+                        <img src="assets/images/blog/comment-1.jpg" alt="comment author">
+                      </div>
+                      <div class="comment-wrap">
+                        <div class="comment-author-content">
+                          <span  class="author-name">{{ complaint?.userId !== i.responderId ? 'Admin' : 'You' }}<span class="date"></span></span>
+                          <p>{{ i.responseDescription }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!--===  Comments Form  ===-->
+              <div class="comments-respond mb-30 wow fadeInUp" id="comment-respond">
+                <h3 class="comments-heading">Leave a Response</h3>
+                <p>Send us your valuable feedback about our services</p>
+                <form [formGroup]="responseForm" (ngSubmit)="saveResponse()">
+                  <div class="form-group">
+                      <textarea
+                        formControlName="responseDescription"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Write your response here"
+                      ></textarea>
+                    <div
+                      *ngIf="responseForm.get('responseDescription')?.invalid && responseForm.get('responseDescription')?.touched"
+                      class="text-danger">
+                      This field is required.
+                    </div>
+                  </div>
+                  <button type="submit" class="main-btn secondary-btn test">Submit Response</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

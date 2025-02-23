@@ -4,7 +4,7 @@
     Template Name: Surancy - Insurance Agency Figma Template
     Template URI: site.com
     Description: Surancy is a creative & unique HTML template specifically created for insurance, car insurance, health insurance, life insurance and all insurance company related any business website.
-    Author: WebTend 
+    Author: WebTend
     Author URI: https://webtend.net/
     Version: 1.0
 
@@ -12,7 +12,7 @@
     CSS INDEX
 --------------------------
 
-    01. Common css 
+    01. Common css
     02. Header css
     03. Hero css
     04. About css
@@ -120,13 +120,15 @@ h6 {
 }
 
 /*---========================
-        01. Default css 
+        01. Default css
 =======================----*/
 /* Base CSS */
 html {
   font-size: 100%;
 }
-
+.test{
+  margin-top:10px;
+}
 * {
   margin: 0;
   padding: 0;
@@ -683,6 +685,7 @@ button {
 
 /*===== Nice Select =====*/
 .nice-select {
+  height: 64px;
   padding: 0 10px;
   border: none;
   border-radius: 0px;
@@ -821,10 +824,10 @@ button {
   z-index: 337;
 }
 /*====================
-    End COMMON css 
+    End COMMON css
 ======================*/
 /*---==================
-    02. Header css 
+    02. Header css
 =================----*/
 /* Transparent Header  */
 .transparent-header {
@@ -1275,7 +1278,7 @@ button {
   }
 }
 /*---========================
-        03. Hero css 
+        03. Hero css
 =======================----*/
 /* Hero Content */
 .hero-content span.tag-line {
@@ -1490,7 +1493,7 @@ button {
   margin-right: 13px;
 }
 /*---========================
-        04. About css 
+        04. About css
 =======================----*/
 .about-one_image-box img {
   border-radius: 301px 301.5px 0px 0px;
@@ -1592,7 +1595,7 @@ button {
 }
 
 /*---========================
-        05. Services css 
+        05. Services css
 =======================----*/
 .single-service-item {
   -webkit-box-shadow: 0px 7px 60px rgba(0, 0, 0, 0.1);
@@ -1700,7 +1703,7 @@ button {
 }
 
 /*---========================
-        06. Portfolio css 
+        06. Portfolio css
 =======================----*/
 /* Portfolio Filter */
 .filter-button .filter-btn {
@@ -1921,7 +1924,7 @@ button {
 }
 
 /*---========================
-        07. Elements css 
+        07. Elements css
 =======================----*/
 /* Overlay */
 .overlay {
@@ -2581,7 +2584,7 @@ button {
 }
 
 /*---========================
-        08. Career css 
+        08. Career css
 =======================----*/
 .single-job-item {
   padding-bottom: 37px;
@@ -2754,7 +2757,7 @@ button {
 }
 
 /*---========================
-        09. Team css 
+        09. Team css
 =======================----*/
 .single-team-item:hover .member-img .hover-content {
   visibility: visible;
@@ -2985,7 +2988,7 @@ button {
 }
 
 /*---========================
-    10. Testimonial css 
+    10. Testimonial css
 =======================----*/
 /* Quote Title Box */
 .quote-title-box {
@@ -3162,7 +3165,7 @@ button {
 }
 
 /*---========================
-    11. Faq css 
+    11. Faq css
 =======================----*/
 .accordion-card .accordion-header h6.accordion-title {
   display: -webkit-box;
@@ -3338,7 +3341,7 @@ button {
 }
 
 /*---========================
-    12. Blog css 
+    12. Blog css
 =======================----*/
 .post-meta span {
   font-weight: 500;
@@ -4218,7 +4221,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
 }
 
 /*---========================
-    13. Contact css 
+    13. Contact css
 =======================----*/
 /* Social Link */
 .social-link-two li {
@@ -4398,7 +4401,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
 }
 
 /*---========================
-    14. Footer css 
+    14. Footer css
 =======================----*/
 .footer-one:before {
   position: absolute;
@@ -4582,7 +4585,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   font-weight: 500;
 }
 /*---========================
-    15. Sliders css 
+    15. Sliders css
 =======================----*/
 /* Slider Dots */
 ul.slick-dots li {
@@ -4672,7 +4675,7 @@ ul.slick-dots li.slick-active {
 }
 
 /*---========================
-    16. Wrapper css 
+    16. Wrapper css
 =======================----*/
 /* Counter Wrapper */
 .counter-wrapper {
@@ -4949,7 +4952,7 @@ ul.slick-dots li.slick-active {
 }
 
 /*---========================
-    17. Sections css 
+    17. Sections css
 =======================----*/
 /* About Section */
 .about-section .about-experience-box {

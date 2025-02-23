@@ -15,7 +15,8 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
 
   complaints: Complaint[] = [];
   // complaint!:Complaint;
-  complaintForm !: FormGroup
+  complaintForm !: FormGroup;
+  showPopup: boolean = false;
   complaintTypes = [
     { value: 'SERVICE_QUALITY', label: 'Service Quality' },
     { value: 'DELIVERY', label: 'Delivery' },
@@ -39,9 +40,9 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
 
   ngOnInit(): void {
     this.complaintForm=this.fb.group({
-      // fullName: ['', [Validators.required]],
-      complaintDescription: ['', [Validators.required, Validators.email]],
-      complaintType: ['', Validators.required],
+      title: ['', [Validators.required,Validators.maxLength(100),Validators.minLength(5)]],
+      complaintDescription: ['', [Validators.required, Validators.maxLength(500),Validators.minLength(5)]],
+      complaintType: ['SERVICE_QUALITY', Validators.required],
 
     })
 
@@ -56,13 +57,24 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   }
 
   SaveApart() {
+
+    if (this.complaintForm.invalid) {
+      this.complaintForm.markAllAsTouched(); // Marquer tous les champs comme touchés pour afficher les erreurs
+      return;
+    }
     const complaint:Complaint=this.complaintForm.value;
     console.log(complaint);
-    this.complaintService.addComplaint("1234", complaint).subscribe(
-      ()=>{console.log("eee");
-      this.complaintForm.reset();
+    this.complaintService.addComplaint("67a9157f0a6a1371dce93411", complaint).subscribe(
+      ()=>{
+        this.complaintForm.reset();
+        this.showPopup = true;
+        console.log(this.showPopup);
       }
 
   )
+  }
+
+  closePopup() {
+    this.showPopup = false;
   }
 }

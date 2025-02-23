@@ -19,6 +19,7 @@ import { CamplaintComponent } from './camplaint/camplaint.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ShowComplaintComponent } from './show-complaint/show-complaint.component';
+import { ResponseComplaintComponent } from './response-complaint/response-complaint.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ShowComplaintComponent } from './show-complaint/show-complaint.componen
     CounterComponent,
     CamplaintComponent,
     ShowComplaintComponent,
+    ResponseComplaintComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,9 @@ import { ShowComplaintComponent } from './show-complaint/show-complaint.componen
     AppRoutingModule, // Add the routing module here
     SlickCarouselModule,
     FontAwesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

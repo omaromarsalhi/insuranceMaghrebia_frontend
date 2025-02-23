@@ -11,7 +11,6 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { SharedModule } from './cyptolanding/shared/shared.module';
 
-import { ExtrapagesModule } from './extrapages/extrapages.module';
 
 import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -54,7 +53,6 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
     LayoutsModule,
     AppRoutingModule,
-    ExtrapagesModule,
     CarouselModule,
     NgbAccordionModule,
     NgbNavModule,
