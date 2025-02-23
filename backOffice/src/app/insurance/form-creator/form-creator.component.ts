@@ -168,6 +168,7 @@ export class FormCreatorComponent implements OnInit {
       placeholder: [''],
       description: [''],
       regex: [''],
+      regexErrorMessage: [''],
       rangeStart: [0],
       rangeEnd: [10],
       selectOptions: this.fb.array([])

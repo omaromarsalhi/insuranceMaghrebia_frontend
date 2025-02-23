@@ -15,39 +15,37 @@ import {
   styleUrls: ["./add-offer.component.scss"],
 })
 export class AddOfferComponent implements OnInit {
+
   labelsForm: FormGroup;
   breadCrumbItems: Array<{}>;
   form: FormGroup;
   phoneData: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.labelsForm = this.fb.group({
-      offerName: ["", Validators.required],
-      labels: this.fb.array([]),
-    });
-
-    (this.form = this.fb.group({
-      formlist: this.fb.array([]),
-    })),
-      (this.phoneData = this.fb.group({
-        phoneValue: this.fb.array([]),
-      }));
   }
 
   ngOnInit(): void {
+    this.initForm()
     this.breadCrumbItems = [
       { label: "Forms" },
       { label: "Form Layouts", active: true },
     ];
   }
 
+  private initForm(): void {
+    this.labelsForm = this.fb.group({
+      offerName: ["", Validators.required],
+      labels: this.fb.array([]),
+    });
+  }
+
   get labelsArray(): FormArray {
     return this.labelsForm.get("labels") as FormArray;
   }
 
-  label(): FormArray {
-    return this.labelsForm.get("labels") as FormArray;
-  }
+  // label(): FormArray {
+  //   return this.labelsForm.get("labels") as FormArray;
+  // }
 
   createLabel(): FormGroup {
     return this.fb.group({
@@ -120,37 +118,18 @@ export class AddOfferComponent implements OnInit {
     return this.form.get("formlist") as FormArray;
   }
 
-  phonedata(): FormArray {
-    return this.phoneData.get("phoneValue") as FormArray;
-  }
-
-  phone(): FormGroup {
-    return this.fb.group({
-      phonenumber: "",
-    });
-  }
-
-  field(): FormGroup {
-    return this.fb.group({
-      name: "",
-      email: "",
-      subject: "",
-      file: "",
-      msg: "",
-    });
-  }
-
-  addPhone() {
-    this.phonedata().push(this.phone());
-  }
-
   removeField(i: number) {
     if (confirm("Are you sure you want to delete this element?")) {
       this.formData().removeAt(i);
     }
   }
 
-  deletePhone(i: number) {
-    this.phonedata().removeAt(i);
+
+  resetLabelForm(): void {
+    while (this.labelsArray.length > 0) {
+      this.labelsArray.removeAt(0);
+    }
+    this.initForm();
   }
+  
 }

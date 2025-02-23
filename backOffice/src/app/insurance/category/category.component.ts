@@ -1,31 +1,28 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import {
-  ImageUploadControllerService,
   OfferCategoryControllerService,
 } from "src/app/core/services";
 import { OfferCategory } from "src/app/core/models";
-import { UploadImage$Params } from "src/app/core/fn/image-upload-controller/upload-image";
+import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 
 @Component({
   selector: "app-category",
   templateUrl: "./category.component.html",
   styleUrls: ["./category.component.scss"],
 })
-/**
- * Ecommerce category component
- */
+
+
 export class CategoryComponent implements OnInit {
+
+  @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
+
   breadCrumbItems: Array<{}>;
   formData: FormGroup;
   submitted = false;
   categoriesData: OfferCategory[] = [];
-  uploadedImageUrl: string | ArrayBuffer = "";
-  selectedFile: File = null;
-  fileName: string = "";
-  isDragging = false;
   term: any;
   isLoading: boolean = false;
   error: boolean = false;
@@ -35,8 +32,7 @@ export class CategoryComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private categoryService: OfferCategoryControllerService,
-    private imageUploadService: ImageUploadControllerService
+    private categoryService: OfferCategoryControllerService
   ) {}
 
   ngOnInit() {
@@ -83,32 +79,7 @@ export class CategoryComponent implements OnInit {
     this.modalService.open(content, { backdrop: "static", size: "lg" });
   }
 
-  uploadImage(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (!this.selectedFile) {
-        reject("No file selected");
-        return;
-      }
-
-      const params: UploadImage$Params = {
-        body: {
-          file: this.selectedFile,
-        },
-      };
-
-      this.imageUploadService.uploadImage(params).subscribe(
-        (response: string) => {
-          this.uploadedImageUrl = response;
-          console.log("Image uploaded successfully:", response);
-          resolve(response); // Resolve the promise with the uploaded URL
-        },
-        (error) => {
-          console.error("Error uploading image:", error);
-          reject(error); // Reject the promise if there's an error
-        }
-      );
-    });
-  }
+  
 
   async saveCategory() {
     this.submitted = true;
@@ -117,20 +88,20 @@ export class CategoryComponent implements OnInit {
       return;
     }
 
-    await this.uploadImage();
+    await this.imageUploader.uploadImage();
 
     const params = {
       body: this.formData.value,
     };
 
-    console.log(this.uploadedImageUrl);
-    params.body.imageUri = this.uploadedImageUrl;
+
+    params.body.imageUri = this.imageUploader.getImageUri();
 
     this.categoryService.createOfferCategory(params).subscribe({
       next: (response) => {
         console.log(response)
         this.modalService.dismissAll();
-        this.clearImage();
+        this.imageUploader.clearImage();
         this._fetchData();
       },
       error: (error) => {
@@ -179,45 +150,45 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  onDragOver(event: DragEvent) {
-    event.preventDefault();
-    this.isDragging = true;
-  }
+  // onDragOver(event: DragEvent) {
+  //   event.preventDefault();
+  //   this.isDragging = true;
+  // }
 
-  onDragLeave(event: DragEvent) {
-    event.preventDefault();
-    this.isDragging = false;
-  }
+  // onDragLeave(event: DragEvent) {
+  //   event.preventDefault();
+  //   this.isDragging = false;
+  // }
 
-  onFileDrop(event: DragEvent) {
-    event.preventDefault();
-    this.isDragging = false;
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      this.handleFile(files[0]);
-    }
-  }
+  // onFileDrop(event: DragEvent) {
+  //   event.preventDefault();
+  //   this.isDragging = false;
+  //   const files = event.dataTransfer?.files;
+  //   if (files && files.length > 0) {
+  //     this.handleFile(files[0]);
+  //   }
+  // }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    this.selectedFile = file;
-    if (file) this.handleFile(file);
-  }
+  // onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   this.selectedFile = file;
+  //   if (file) this.handleFile(file);
+  // }
 
-  handleFile(file: File) {
-    this.fileName = file.name;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.uploadedImageUrl = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
+  // handleFile(file: File) {
+  //   this.fileName = file.name;
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.uploadedImageUrl = reader.result as string;
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
 
-  clearImage() {
-    this.uploadedImageUrl = null;
-    this.fileName = "";
-    this.selectedFile = null;
-  }
+  // clearImage() {
+  //   this.uploadedImageUrl = null;
+  //   this.fileName = "";
+  //   this.selectedFile = null;
+  // }
 
   getTargetBadgeClass(target: string): string {
     return target == "PARTICULAR"

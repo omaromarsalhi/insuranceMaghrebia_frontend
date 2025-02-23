@@ -19,12 +19,14 @@
                             <input type="text" class="form-control form-control-lg" id="offerName"
                                 formControlName="offerName">
                         </div>
+                        
+                        <app-image-uploader></app-image-uploader>
 
                         <div class="mb-4">
                             <h5 class="mb-3 h4 text-secondary">Labels</h5>
                             <div formArrayName="labels">
                                 <div class="card mb-3 border-primary"
-                                    *ngFor="let label of label().controls; let labelIndex = index"
+                                    *ngFor="let label of labelsArray.controls; let labelIndex = index"
                                     [formGroupName]="labelIndex">
                                     <div
                                         class="card-header bg-light text-white d-flex justify-content-between align-items-center">
@@ -100,16 +102,11 @@
                             </button>
                         </div>
 
-                        <!-- <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-md btn-primary">
-                                <i class="fas fa-paper-plane me-2"></i> Submit Offer
-                            </button>
-                        </div> -->
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary me-2">
-                              <i class="fas fa-save me-2"></i>Submit Offer
+                                <i class="fas fa-paper-plane me-2"></i>Submit Offer
                             </button>
-                            <button type="button" class="btn btn-outline-secondary" >
+                            <button type="button" class="btn btn-outline-secondary" (click)="resetLabelForm()">
                               <i class="fas fa-undo me-2"></i>Reset
                             </button>
                           </div>

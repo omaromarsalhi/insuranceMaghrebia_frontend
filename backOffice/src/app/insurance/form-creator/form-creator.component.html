@@ -178,7 +178,7 @@
   <!-- Builder Section -->
   <div class="card mb-4">
     <div class="card-header  text-white">
-      <h3 class="mb-0"><i class="fas fa-cog me-2"></i>Field Configuration</h3>
+      <h4 class="mb-0"><i class="fas fa-cog me-2"></i>Field Configuration</h4>
     </div>
     <div class="card-body">
       <form [formGroup]="dynamicForm" (ngSubmit)="submitForm()">
@@ -204,7 +204,7 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Label</label>
-                <input type="text" class="form-control" formControlName="label" required>
+                <input type="text" class="form-control" formControlName="label" placeholder="Put the Label in here" required>
               </div>
 
               <div class="col-md-3">
@@ -240,12 +240,18 @@
               <div *ngIf="['text','email'].includes(field.get('type')?.value)" class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Placeholder</label>
-                  <input type="text" class="form-control" formControlName="placeholder">
+                  <input type="text" class="form-control" formControlName="placeholder" placeholder="Put the placeholder message in here">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Validation Pattern</label>
-                  <input type="text" class="form-control" formControlName="regex">
+                  <input type="text" class="form-control" formControlName="regex" placeholder="Put the regex expression in here">
                 </div>
+              </div>
+               <!-- Custom Error Message Input -->
+               <div *ngIf="['text','email'].includes(field.get('type')?.value)" class="col-md-12 mt-2">
+                <label class="form-label">Custom Error Message</label>
+                <input type="text" class="form-control" formControlName="regexErrorMessage"
+                  placeholder="Displayed when input doesn't match pattern">
               </div>
 
               <!-- Range Settings -->
@@ -287,7 +293,7 @@
         </div>
 
         <div class="mt-4">
-          <button type="submit" class="btn btn-primar me-2">
+          <button type="submit" class="btn btn-primary me-2">
             <i class="fas fa-save me-2"></i>Save Form
           </button>
           <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
@@ -302,94 +308,63 @@
 
 
 <ng-template #content role="document" let-modal>
-  <div class="modal-header border-bottom">
-    <h5 class="modal-title fw-500 text-dark">
-      <i class="fas fa-eye me-2 text-muted"></i>Preview
+  <div class="modal-header bg-light">
+    <h5 class="modal-title">
+      <i class="fas fa-eye me-2"></i>Live Preview
     </h5>
-    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body p-0">
-    <div class="preview-container p-4">
-      <form #previewForm="ngForm">
-        <div *ngFor="let field of sortedFields" class="mb-3">
-          
-          <!-- Section Header -->
-          <div *ngIf="field.get('type')?.value === 'section'" class="section-header mb-4">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <div class="divider-line"></div>
-              <h4 class="text-dark fw-500 mb-0">{{ field.get('label')?.value }}</h4>
-            </div>
-            <p class="text-muted fs-14 mb-0">{{ field.get('description')?.value }}</p>
-          </div>
+  <div class="modal-body">
+    <div class="card">
+   
+      <div class="card-body">
+        <form #previewForm="ngForm">
+          <div *ngFor="let field of sortedFields" class="mb-4">
+            <div class="mb-3" *ngIf="field.get('type')?.value !== 'section'">
+              <label class="form-label">
+                {{ field.get('label')?.value || 'Unlabeled field' }}
+                <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
+              </label>
 
-          <!-- Form Field -->
-          <div *ngIf="field.get('type')?.value !== 'section'" class="field-preview">
-            <label class="d-block mb-2 fs-14 fw-500 text-dark">
-              {{ field.get('label')?.value || 'Untitled field' }}
-              <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
-            </label>
+              <ng-container [ngSwitch]="field.get('type')?.value">
+                <input *ngSwitchCase="'text'" type="text" class="form-control"
+                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value">
 
-            <ng-container [ngSwitch]="field.get('type')?.value">
-              <!-- Text/Email -->
-              <input *ngSwitchCase="'text'" type="text" 
-                     class="form-control form-control-sm border-light"
-                     [placeholder]="field.get('placeholder')?.value"
-                     [required]="field.get('required')?.value">
+                <input *ngSwitchCase="'email'" type="email" class="form-control"
+                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value">
 
-              <input *ngSwitchCase="'email'" type="email" 
-                     class="form-control form-control-sm border-light"
-                     [placeholder]="field.get('placeholder')?.value"
-                     [required]="field.get('required')?.value">
+                <input *ngSwitchCase="'date'" type="date" class="form-control"
+                  [required]="field.get('required')?.value">
 
-              <!-- Date/Time -->
-              <div class="input-group input-group-sm">
-                <input *ngSwitchCase="'date'" type="date" 
-                       class="form-control border-light"
-                       [required]="field.get('required')?.value">
-              </div>
+                <input *ngSwitchCase="'time'" type="time" class="form-control"
+                  [required]="field.get('required')?.value">
 
-              <div class="input-group input-group-sm">
-                <input *ngSwitchCase="'time'" type="time" 
-                       class="form-control border-light"
-                       [required]="field.get('required')?.value">
-              </div>
+                <div *ngSwitchCase="'checkbox'" class="form-check">
+                  <input type="checkbox" class="form-check-input">
+                </div>
 
-              <!-- Checkbox -->
-              <div *ngSwitchCase="'checkbox'" class="form-check">
-                <input type="checkbox" class="form-check-input">
-              </div>
+                <input *ngSwitchCase="'color'" type="color" class="form-control form-control-color">
 
-              <!-- Color -->
-              <div *ngSwitchCase="'color'" class="color-picker">
-                <input type="color" class="form-control form-control-color-sm">
-              </div>
+                <input *ngSwitchCase="'range'" type="range" class="form-range" [min]="field.get('rangeStart')?.value"
+                  [max]="field.get('rangeEnd')?.value">
 
-              <!-- Range -->
-              <div *ngSwitchCase="'range'" class="px-2">
-                <input type="range" class="form-range"
-                       [min]="field.get('rangeStart')?.value"
-                       [max]="field.get('rangeEnd')?.value">
-              </div>
+                <select *ngSwitchCase="'select'" class="form-select">
+                  <option *ngFor="let opt of getSelectOptions(field).value" [value]="opt">
+                    {{ opt }}
+                  </option>
+                </select>
+              </ng-container>
 
-              <!-- Select -->
-              <select *ngSwitchCase="'select'" class="form-select form-select-sm border-light">
-                <option *ngFor="let opt of getSelectOptions(field).value" [value]="opt">
-                  {{ opt || 'Choose option' }}
-                </option>
-              </select>
-            </ng-container>
-
-            <!-- Description -->
-            <div *ngIf="field.get('description')?.value" 
-                 class="text-muted fs-12 mt-1">
-              {{ field.get('description')?.value }}
+              <small *ngIf="field.get('description')?.value" class="form-text text-muted">
+                {{ field.get('description')?.value }}
+              </small>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-  <div class="modal-footer border-top">
-    <button type="button" class="btn btn-sm btn-light" (click)="modal.close()">Close</button>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
   </div>
 </ng-template>
