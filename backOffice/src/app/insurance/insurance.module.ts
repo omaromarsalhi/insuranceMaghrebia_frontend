@@ -9,6 +9,7 @@ import {
   NgbTooltipModule,
   NgbCollapseModule,
   NgbPaginationModule,
+  NgbAccordionModule,
 } from "@ng-bootstrap/ng-bootstrap";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { Ng2SearchPipeModule } from "ng2-search-filter";
@@ -16,6 +17,7 @@ import { FullCalendarModule } from "@fullcalendar/angular";
 import { SimplebarAngularModule } from "simplebar-angular";
 import { LightboxModule } from "ngx-lightbox";
 import { UIModule } from "src/app/shared/ui/ui.module";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InsuranceRoutingModule } from "./insurance-routing.module";
 import { CategoryComponent } from "./category/category.component";
@@ -23,10 +25,12 @@ import { OfferComponent } from './offer/offer.component';
 import { Ng5SliderModule } from "ng5-slider";
 import { OfferDetailsComponent } from './offer-details/offer-details.component';
 import { AddOfferComponent } from './add-offer/add-offer.component';
+import { FormCreatorComponent } from './form-creator/form-creator.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 
 @NgModule({
-  declarations: [CategoryComponent, OfferComponent, OfferDetailsComponent, AddOfferComponent],
+  declarations: [CategoryComponent, OfferComponent, OfferDetailsComponent, AddOfferComponent, FormCreatorComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,
@@ -45,6 +49,9 @@ import { AddOfferComponent } from './add-offer/add-offer.component';
     UIModule,
     NgbPaginationModule,
     Ng5SliderModule,
+    DragDropModule,
+    NgbAccordionModule,
+    NgbModule
   ],
 })
 export class InsuranceModule {}
