@@ -21,16 +21,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InsuranceRoutingModule } from "./insurance-routing.module";
 import { CategoryComponent } from "./category/category.component";
-import { OfferComponent } from './offer/offer.component';
 import { Ng5SliderModule } from "ng5-slider";
-import { OfferDetailsComponent } from './offer-details/offer-details.component';
-import { AddOfferComponent } from './add-offer/add-offer.component';
+import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
 import { FormCreatorComponent } from './form-creator/form-creator.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { OfferManagerComponent } from './offer-manager/offer-manager.component';
 
 
 @NgModule({
-  declarations: [CategoryComponent, OfferComponent, OfferDetailsComponent, AddOfferComponent, FormCreatorComponent],
+  declarations: [CategoryComponent, OfferCreatorComponent, FormCreatorComponent, OfferManagerComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,

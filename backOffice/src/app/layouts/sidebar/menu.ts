@@ -20,7 +20,7 @@ export const MENU: MenuItem[] = [
             {
                 id: 4,
                 label: 'MENUITEMS.INSURANCE.LIST.ADDOFFER',
-                link: '/insurance/add-offer',
+                link: '/insurance/offer-manager',
                 parentId: 2
             },
             {

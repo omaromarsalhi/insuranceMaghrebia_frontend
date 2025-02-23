@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output,EventEmitter } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -9,17 +9,22 @@ import {
 } from "@angular/forms";
 
 
-@Component({
-  selector: "app-add-offer",
-  templateUrl: "./add-offer.component.html",
-  styleUrls: ["./add-offer.component.scss"],
-})
-export class AddOfferComponent implements OnInit {
 
+@Component({
+  selector: "app-offer-creator",
+  templateUrl: "./offer-creator.component.html",
+  styleUrls: ["./offer-creator.component.scss"],
+})
+export class OfferCreatorComponent implements OnInit {
+
+  @Output() offerCreationEvent = new EventEmitter<{ name: string, age: number }>();
+
+  
   labelsForm: FormGroup;
   breadCrumbItems: Array<{}>;
   form: FormGroup;
-  phoneData: FormGroup;
+
+
 
   constructor(private fb: FormBuilder) {
   }
@@ -28,8 +33,14 @@ export class AddOfferComponent implements OnInit {
     this.initForm()
     this.breadCrumbItems = [
       { label: "Forms" },
-      { label: "Form Layouts", active: true },
+      { label: "OFFER", active: true },
     ];
+  }
+
+  send2OfferManager() {
+    console.log("sending")
+    const user = { name: 'John', age: 30 };
+    this.offerCreationEvent.emit(user); // Emit an object
   }
 
   private initForm(): void {
@@ -43,9 +54,6 @@ export class AddOfferComponent implements OnInit {
     return this.labelsForm.get("labels") as FormArray;
   }
 
-  // label(): FormArray {
-  //   return this.labelsForm.get("labels") as FormArray;
-  // }
 
   createLabel(): FormGroup {
     return this.fb.group({
@@ -113,6 +121,7 @@ export class AddOfferComponent implements OnInit {
       console.log(formValue);
     }
   }
+
 
   formData(): FormArray {
     return this.form.get("formlist") as FormArray;

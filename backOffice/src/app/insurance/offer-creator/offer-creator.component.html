@@ -1,0 +1,108 @@
+
+
+<div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">
+            <i class="fas fa-plus me-2"></i>Add Offer
+        </h2>
+    </div>
+
+    <form [formGroup]="labelsForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label for="offerName" class="form-label fw-bold">Offer name</label>
+            <input type="text" class="form-control form-control-lg" id="offerName"
+                formControlName="offerName">
+        </div>
+        
+        <app-image-uploader></app-image-uploader>
+
+        <div class="mb-4">
+            <h5 class="mb-3 h4 text-secondary">Labels</h5>
+            <div formArrayName="labels">
+                <div class="card mb-3 border-primary"
+                    *ngFor="let label of labelsArray.controls; let labelIndex = index"
+                    [formGroupName]="labelIndex">
+                    <div
+                        class="card-header bg-light text-white d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Label #{{labelIndex + 1}}</h6>
+                        <button type="button" class="btn btn-danger btn-sm"
+                            (click)="deleteLabel(labelIndex)">
+                            <i class="fas fa-trash me-1"></i> Delete
+                        </button>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label for="labelName-{{labelIndex}}" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="labelName-{{labelIndex}}"
+                                formControlName="name">
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-muted">Questions</h6>
+                            <div formArrayName="questions">
+                                <div class="mb-2"
+                                    *ngFor="let question of label.get('questions').controls; let qIndex = index"
+                                    [formGroupName]="qIndex">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"
+                                            formControlName="questionText"
+                                            placeholder="Enter question...">
+                                        <button type="button" class="btn btn-outline-danger"
+                                            (click)="deleteQuestion(labelIndex, qIndex)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm"
+                                (click)="addQuestion(labelIndex)">
+                                <i class="fas fa-plus me-1"></i> Add Question
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-muted">Answers</h6>
+                            <div formArrayName="answers">
+                                <div class="mb-2"
+                                    *ngFor="let answer of label.get('answers').controls; let aIndex = index; trackBy: trackAnswer"
+                                    [formGroupName]="aIndex">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control"
+                                            formControlName="value"
+                                            placeholder="Enter answer..."></textarea>
+                                        <select class="form-select" formControlName="questionIndex">
+                                            <option
+                                                *ngFor="let q of label.get('questions').controls; let i = index"
+                                                [ngValue]="i">Question #{{i + 1}}</option>
+                                        </select>
+                                        <button type="button" class="btn btn-outline-danger"
+                                            (click)="deleteAnswer(labelIndex, aIndex)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm"
+                                (click)="addAnswer(labelIndex)">
+                                <i class="fas fa-plus me-1"></i> Add Answer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-dark w-20" (click)="addLabel()">
+                <i class="fas fa-plus-circle me-2"></i> Add Label
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-2"  (click)="send2OfferManager()">
+                <i class="fas fa-paper-plane me-2"></i>Submit Offer
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="resetLabelForm()">
+              <i class="fas fa-undo me-2"></i>Reset
+            </button>
+          </div>
+    </form>
+</div>

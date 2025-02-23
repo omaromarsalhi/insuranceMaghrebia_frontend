@@ -29,4 +29,14 @@
   opacity: 1;
 }
 
+/* Works for Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
 
+/* Optional: Maintain scrolling */
+html {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-y: scroll; /* Maintain scroll behavior */
+}

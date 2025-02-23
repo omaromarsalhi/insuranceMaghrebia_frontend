@@ -1,126 +1,5 @@
-// import { Component, OnInit } from "@angular/core";
-// import {
-//   AbstractControl,
-//   FormArray,
-//   FormBuilder,
-//   FormGroup,
-//   Validators,
-// } from "@angular/forms";
-// import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
-// @Component({
-//   selector: "app-form-creator",
-//   templateUrl: "./form-creator.component.html",
-//   styleUrls: ["./form-creator.component.scss"],
-// })
-// export class FormCreatorComponent implements OnInit {
-//   dynamicForm!: FormGroup;
-//   availableFieldTypes = [
-//     "text",
-//     "email",
-//     "date",
-//     "time",
-//     "checkbox",
-//     "color",
-//     "range",
-//     "select",
-//     "section",
-//   ];
-
-//   constructor(private fb: FormBuilder) {}
-
-//   ngOnInit(): void {
-//     this.dynamicForm = this.fb.group({
-//       fields: this.fb.array([]),
-//     });
-//     this.addField();
-//   }
-
-//   get fields(): FormArray {
-//     return this.dynamicForm.get("fields") as FormArray;
-//   }
-
-//   createField(order: number): FormGroup {
-//     return this.fb.group({
-//       label: ["", Validators.required],
-//       type: ["text", Validators.required],
-//       order: [order],
-//       regex: [""], 
-//       locked: [false],
-//       required: [false],
-//       placeholder: [""],
-//       description: [""],
-//       value: [""],
-//       selectOptions: this.fb.array([]),
-//       rangeStart: [0],
-//       rangeEnd: [10],
-//     });
-//   }
-
-
-//   addField() {
-//     const order = this.fields.length + 1;
-//     this.fields.push(this.createField(order));
-//   }
-
-//   removeField(index: number) {
-//     this.fields.removeAt(index);
-//   }
-
-//   drop(event: CdkDragDrop<FormGroup[]>) {
-//     const arr = this.fields.controls;
-//     moveItemInArray(arr, event.previousIndex, event.currentIndex);
-//     arr.forEach((control, index) => {
-//       control.get("order")!.setValue(index + 1);
-//     });
-//   }
-
-//   getSelectOptions(field: FormGroup): FormArray {
-//     return field.get("selectOptions") as FormArray;
-//   }
-
-//   addSelectOption(field: FormGroup) {
-//     this.getSelectOptions(field).push(this.fb.control(""));
-//   }
-
-//   removeSelectOption(field: FormGroup, index: number) {
-//     this.getSelectOptions(field).removeAt(index);
-//   }
-
-//   submitForm() {
-//     console.log("Form Value:", this.dynamicForm.value);
-//   }
-
-//   swapOrder(currentField: FormGroup, newOrder: string | number) {
-//     newOrder = +newOrder; // Convert to number
-//     const currentOrder = +currentField.get("order")!.value;
-//     if (currentOrder === newOrder) {
-//       return;
-//     }
-//     const otherField = this.fields.controls.find(
-//       (field) =>
-//         field !== currentField && +field.get("order")!.value === newOrder
-//     );
-//     if (otherField) {
-//       otherField.get("order")!.setValue(currentOrder);
-//       currentField.get("order")!.setValue(newOrder);
-//     } else {
-//       currentField.get("order")!.setValue(newOrder);
-//     }
-//   }
-
-//   getOrderOptions(): number[] {
-//     return Array.from({ length: this.fields.length }, (_, i) => i + 1);
-//   }
-
-//   get sortedFields(): AbstractControl[] {
-//     return this.fields.controls.slice().sort((a, b) => {
-//       return +a.get("order")!.value - +b.get("order")!.value;
-//     });
-//   }
-// }
-// form-creator.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter,Output } from '@angular/core';
 import { 
   FormArray, 
   FormBuilder, 
@@ -136,6 +15,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./form-creator.component.scss']
 })
 export class FormCreatorComponent implements OnInit {
+
+  @Output() offerFormCreationEvent = new EventEmitter<{ name: string, age: number }>();
   dynamicForm!: FormGroup;
   availableFieldTypes = [
     'text', 'email', 'date', 'time', 
@@ -146,6 +27,12 @@ export class FormCreatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  send2OfferManager() {
+    console.log("sending")
+    const user = { name: 'John', age: 30 };
+    this.offerFormCreationEvent.emit(user); // Emit an object
   }
 
   private initForm(): void {
