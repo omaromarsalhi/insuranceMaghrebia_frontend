@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormCreatorComponent } from '../form-creator/form-creator.component';
-import { OfferCreatorComponent } from '../offer-creator/offer-creator.component';
+import { OfferCategoryControllerService } from 'src/app/core/services';
+import { OfferCategory } from 'src/app/core/models';
+import { OfferData } from 'src/app/core/models/insurance/offer-data.interface';
+import { OfferFormData } from 'src/app/core/models/insurance/offer-form-data.interface';
 
 @Component({
   selector: 'app-offer-manager',
@@ -10,21 +12,39 @@ import { OfferCreatorComponent } from '../offer-creator/offer-creator.component'
 export class OfferManagerComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
-  userData: { name: string, age: number } = { name: '', age: 0 };
+  newOfferData :OfferData;
+  newOfferFormData :OfferFormData[]= [];
+  categoriesData: OfferCategory[] = [];
 
-  constructor() { }
+  constructor(private categoryService: OfferCategoryControllerService) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: "offer" },
       { label: "create offer", active: true },
     ];
+
+    this._fetchCategoryData()
+  }
+
+  recieveOfferData(data: OfferData) {
+    this.newOfferData = data;
+    console.log(this.newOfferData)
+  }
+
+  recieveOfferFormData(data: OfferFormData[]) {
+    this.newOfferFormData = data;
+    console.log(this.newOfferFormData)
+  }
+
+  private _fetchCategoryData() {
+    this.categoryService.getAllOfferCategories().subscribe({
+      next: (data) => {
+        this.categoriesData = data;
+      }
+    });
   }
 
 
-  recieve(data: { name: string, age: number }) {
-    this.userData = data;
-    console.log(this.userData)
-  }
 
 }

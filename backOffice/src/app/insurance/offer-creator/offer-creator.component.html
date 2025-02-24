@@ -1,5 +1,3 @@
-
-
 <div class="card-body p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary">
@@ -7,35 +5,60 @@
         </h2>
     </div>
 
-    <form [formGroup]="labelsForm" (ngSubmit)="onSubmit()">
-        <div class="mb-4">
-            <label for="offerName" class="form-label fw-bold">Offer name</label>
-            <input type="text" class="form-control form-control-lg" id="offerName"
-                formControlName="offerName">
+    <form [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold" for="offerName">Offer name</label>
+                <input id="offerName" type="text" class="form-control" formControlName="offerName"
+                    placeholder="The offer id name"
+                    [ngClass]="{'is-invalid': submit && f.offerName.errors, 'is-valid': submit && !f.offerName.errors}">
+                <div *ngIf="submit && f.offerName.errors" class="invalid-feedback">
+                    <span *ngIf="f.offerName.errors.required">Please provide a valid offerName.</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Category</label>
+                <select class="form-select" formControlName="category">
+                    <option *ngFor="let category of categoryData |categoryFilter" [value]="category">
+                        {{ category.name }}
+                    </option>
+                </select>
+
+            </div>
         </div>
-        
+
+        <div class="mb-4">
+            <label class="form-label fw-bold" for="offerHeader">Offer header</label>
+            <input id="offerHeader" type="text" class="form-control" formControlName="offerHeader"
+                placeholder="Describe the offer in general"
+                [ngClass]="{'is-invalid': submit && f.offerHeader.errors, 'is-valid': submit && !f.offerHeader.errors}">
+            <div *ngIf="submit && f.offerHeader.errors" class="invalid-feedback">
+                <span *ngIf="f.offerHeader.errors.required">Please provide an offer header.</span>
+            </div>
+        </div>
+
         <app-image-uploader></app-image-uploader>
 
         <div class="mb-4">
             <h5 class="mb-3 h4 text-secondary">Labels</h5>
             <div formArrayName="labels">
-                <div class="card mb-3 border-primary"
-                    *ngFor="let label of labelsArray.controls; let labelIndex = index"
+                <div class="card mb-3 border-primary" *ngFor="let label of labelsArray.controls; let labelIndex = index"
                     [formGroupName]="labelIndex">
-                    <div
-                        class="card-header bg-light text-white d-flex justify-content-between align-items-center">
+                    <div class="card-header bg-light text-white d-flex justify-content-between align-items-center">
                         <h6 class="mb-0">Label #{{labelIndex + 1}}</h6>
-                        <button type="button" class="btn btn-danger btn-sm"
-                            (click)="deleteLabel(labelIndex)">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteLabel(labelIndex)">
                             <i class="fas fa-trash me-1"></i> Delete
                         </button>
                     </div>
 
                     <div class="card-body">
                         <div class="mb-4">
-                            <label for="labelName-{{labelIndex}}" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="labelName-{{labelIndex}}"
-                                formControlName="name">
+                            <label for="labelName-{{labelIndex}}" class="form-label fw-bold">Title</label>
+                            <input type="text" class="form-control" id="labelName-{{labelIndex}}" formControlName="name"
+                                [ngClass]="{'is-invalid': submit && label.get('name').errors, 'is-valid': submit && !label.get('name').errors}">
+                            <div *ngIf="submit && label.get('name').errors" class="invalid-feedback">
+                                <span *ngIf="label.get('name').errors.required">Please provide a label title.</span>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -45,18 +68,21 @@
                                     *ngFor="let question of label.get('questions').controls; let qIndex = index"
                                     [formGroupName]="qIndex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control"
-                                            formControlName="questionText"
-                                            placeholder="Enter question...">
+                                        <input type="text" class="form-control" formControlName="questionText"
+                                            placeholder="Enter question..."
+                                            [ngClass]="{'is-invalid': submit && question.get('questionText').errors, 'is-valid': submit && !question.get('questionText').errors}">
                                         <button type="button" class="btn btn-outline-danger"
                                             (click)="deleteQuestion(labelIndex, qIndex)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
+                                    <div *ngIf="submit && question.get('questionText').errors" class="invalid-feedback">
+                                        <span *ngIf="question.get('questionText').errors.required">Please provide a
+                                            question.</span>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-success btn-sm"
-                                (click)="addQuestion(labelIndex)">
+                            <button type="button" class="btn btn-success btn-sm" (click)="addQuestion(labelIndex)">
                                 <i class="fas fa-plus me-1"></i> Add Question
                             </button>
                         </div>
@@ -68,12 +94,11 @@
                                     *ngFor="let answer of label.get('answers').controls; let aIndex = index; trackBy: trackAnswer"
                                     [formGroupName]="aIndex">
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control"
-                                            formControlName="value"
-                                            placeholder="Enter answer..."></textarea>
+                                        <textarea type="text" class="form-control" formControlName="value"
+                                            placeholder="Enter answer..."
+                                            [ngClass]="{'is-invalid': submit && answer.get('value').errors, 'is-valid': submit && !answer.get('value').errors}"></textarea>
                                         <select class="form-select" formControlName="questionIndex">
-                                            <option
-                                                *ngFor="let q of label.get('questions').controls; let i = index"
+                                            <option *ngFor="let q of label.get('questions').controls; let i = index"
                                                 [ngValue]="i">Question #{{i + 1}}</option>
                                         </select>
                                         <button type="button" class="btn btn-outline-danger"
@@ -81,10 +106,13 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
+                                    <div *ngIf="submit && answer.get('value').errors" class="invalid-feedback">
+                                        <span *ngIf="answer.get('value').errors.required">Please provide an
+                                            answer.</span>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-success btn-sm"
-                                (click)="addAnswer(labelIndex)">
+                            <button type="button" class="btn btn-success btn-sm" (click)="addAnswer(labelIndex)">
                                 <i class="fas fa-plus me-1"></i> Add Answer
                             </button>
                         </div>
@@ -97,12 +125,14 @@
         </div>
 
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary me-2"  (click)="send2OfferManager()">
+            <button type="submit" class="btn btn-primary me-2" (click)="send2OfferManager()">
                 <i class="fas fa-paper-plane me-2"></i>Submit Offer
             </button>
             <button type="button" class="btn btn-outline-secondary" (click)="resetLabelForm()">
-              <i class="fas fa-undo me-2"></i>Reset
+                <i class="fas fa-undo me-2"></i>Reset
             </button>
-          </div>
+        </div>
     </form>
+
+
 </div>

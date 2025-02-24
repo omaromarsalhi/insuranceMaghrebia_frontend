@@ -1,4 +1,3 @@
-
 <!-- form-creator.component.html -->
 <div class="container mt-4">
   <!-- Header -->
@@ -13,15 +12,14 @@
 
   <!-- Builder Section -->
   <div class="card mb-4">
-    <div class="card-header  text-white">
+    <div class="card-header text-white">
       <h4 class="mb-0"><i class="fas fa-cog me-2"></i>Field Configuration</h4>
     </div>
     <div class="card-body">
-      <form [formGroup]="dynamicForm" (ngSubmit)="submitForm()">
+      <form [formGroup]="dynamicForm" (ngSubmit)="send2OfferManager()">
         <div formArrayName="fields" cdkDropList (cdkDropListDropped)="drop($event)">
           <div *ngFor="let field of sortedFields; let i = index" [formGroupName]="i" class="mb-3 border p-3 rounded"
             cdkDrag>
-
             <!-- Field Header -->
             <div class="d-flex align-items-center mb-3">
               <div class="drag-handle me-3" cdkDragHandle>
@@ -31,39 +29,47 @@
                 <i class="fas fa-trash"></i>
               </button>
               <div class="form-check form-switch me-3">
-                <input class="form-check-input" type="checkbox" formControlName="required" id="required{{i}}">
-                <label class="form-check-label" for="required{{i}}">Required</label>
+                <input class="form-check-input" type="checkbox" formControlName="required" id="required{{ i }}" />
+                <label class="form-check-label" for="required{{ i }}">Required</label>
               </div>
             </div>
 
             <!-- Main Configuration -->
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label">Label</label>
-                <input type="text" class="form-control" formControlName="label" placeholder="Put the Label in here" required>
+                <label class="form-label fw-bold">Label</label>
+                <input type="text" class="form-control" formControlName="label" placeholder="Field label" [ngClass]="{
+                    'is-invalid': submit && getFieldControl(i, 'label').errors,
+                    'is-valid': submit && !getFieldControl(i, 'label').errors
+                  }" />
+                <div *ngIf="submit && getFieldControl(i, 'label').errors" class="invalid-feedback">
+                  <span *ngIf="getFieldControl(i, 'label').errors?.required">Label is required</span>
+                </div>
               </div>
 
               <div class="col-md-3">
-                <label class="form-label">Type</label>
-                <select class="form-select" formControlName="type">
+                <label class="form-label fw-bold">Type</label>
+                <select class="form-select" formControlName="type" >
                   <option *ngFor="let type of availableFieldTypes" [value]="type">
                     {{ type }}
                   </option>
                 </select>
+  
               </div>
 
               <div class="col-md-3">
-                <label class="form-label">Position</label>
+                <label class="form-label fw-bold">Position</label>
                 <div class="input-group">
-                  <button class="btn btn-outline-secondary" type="button"
-                    (click)="updateOrder(field, field.get('order')?.value - 1)">
+                  <button class="btn btn-outline-secondary" type="button" (click)="
+                      updateOrder(field, getFieldControl(i, 'order').value - 1)
+                    ">
                     <i class="fas fa-chevron-up"></i>
                   </button>
                   <input readonly type="number" class="form-control px-1 fs-6 text-center"
-                    [formControl]="field.get('order')" min="1" [max]="fields.length">
-
-                  <button class="btn btn-outline-secondary" type="button"
-                    (click)="updateOrder(field, field.get('order')?.value + 1)">
+                    [formControl]="getFieldControl(i, 'order')" min="1" [max]="fields.length" />
+                  <button class="btn btn-outline-secondary" type="button" (click)="
+                      updateOrder(field, getFieldControl(i, 'order').value + 1)
+                    ">
                     <i class="fas fa-chevron-down"></i>
                   </button>
                 </div>
@@ -73,44 +79,107 @@
             <!-- Dynamic Settings -->
             <div class="mt-3">
               <!-- Text-based Fields -->
-              <div *ngIf="['text','email'].includes(field.get('type')?.value)" class="row g-3">
+              <div *ngIf="
+                  [
+                    'text',
+                    'email',
+                    'date',
+                    'time',
+                    'checkbox',
+                    'color'
+                  ].includes(getFieldControl(i, 'type').value)
+                " class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label">Placeholder</label>
-                  <input type="text" class="form-control" formControlName="placeholder" placeholder="Put the placeholder message in here">
+                  <label class="form-label fw-bold">Placeholder</label>
+                  <input type="text" class="form-control" formControlName="placeholder" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'placeholder').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'placeholder').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'placeholder').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'placeholder').errors?.required">Placeholder is required</span>
+                  </div>
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label">Validation Pattern</label>
-                  <input type="text" class="form-control" formControlName="regex" placeholder="Put the regex expression in here">
+                  <label class="form-label fw-bold">Validation Pattern</label>
+                  <input type="text" class="form-control" formControlName="regex" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'regex').errors,
+                      'is-valid': submit && !getFieldControl(i, 'regex').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'regex').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'regex').errors?.required">Regex pattern is required</span>
+                  </div>
                 </div>
-              </div>
-               <!-- Custom Error Message Input -->
-               <div *ngIf="['text','email'].includes(field.get('type')?.value)" class="col-md-12 mt-2">
-                <label class="form-label">Custom Error Message</label>
-                <input type="text" class="form-control" formControlName="regexErrorMessage"
-                  placeholder="Displayed when input doesn't match pattern">
+
+                <div class="col-12">
+                  <label class="form-label fw-bold">Error Message</label>
+                  <input type="text" class="form-control" formControlName="regexErrorMessage" [ngClass]="{
+                      'is-invalid':
+                        submit &&
+                        getFieldControl(i, 'regexErrorMessage').errors,
+                      'is-valid':
+                        submit &&
+                        !getFieldControl(i, 'regexErrorMessage').errors
+                    }" />
+                  <div *ngIf="
+                      submit && getFieldControl(i, 'regexErrorMessage').errors
+                    " class="invalid-feedback">
+                    <span *ngIf="
+                        getFieldControl(i, 'regexErrorMessage').errors?.required
+                      ">Error message is required</span>
+                  </div>
+                </div>
               </div>
 
               <!-- Range Settings -->
-              <div *ngIf="field.get('type')?.value === 'range'" class="row g-3">
+              <div *ngIf="getFieldControl(i, 'type').value === 'range'" class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label">Minimum</label>
-                  <input type="number" class="form-control" formControlName="rangeStart">
+                  <label class="form-label fw-bold">Minimum</label>
+                  <input type="number" class="form-control" formControlName="rangeStart" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'rangeStart').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'rangeStart').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'rangeStart').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'rangeStart').errors?.required">Minimum value is required</span>
+                  </div>
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label">Maximum</label>
-                  <input type="number" class="form-control" formControlName="rangeEnd">
+                  <label class="form-label fw-bold">Maximum</label>
+                  <input type="number" class="form-control" formControlName="rangeEnd" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'rangeEnd').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'rangeEnd').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'rangeEnd').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'rangeEnd').errors?.required">Maximum value is required</span>
+                  </div>
                 </div>
               </div>
 
               <!-- Select Options -->
-              <div *ngIf="field.get('type')?.value === 'select'" class="mt-3">
-                <label class="form-label">Options</label>
+              <div *ngIf="getFieldControl(i, 'type').value === 'select'" class="mt-3">
+                <label class="form-label fw-bold">Options</label>
                 <div formArrayName="selectOptions">
-                  <div *ngFor="let opt of getSelectOptions(field).controls; let j = index" class="input-group mb-2">
-                    <input type="text" class="form-control" [formControlName]="j">
+                  <div *ngFor="
+                      let opt of getSelectOptions(field).controls;
+                      let j = index
+                    " class="input-group mb-2">
+                    <input type="text" class="form-control" [formControlName]="j" [ngClass]="{
+                        'is-invalid': (submit || opt.touched) && opt.errors
+                      }" />
                     <button type="button" class="btn btn-outline-danger" (click)="removeSelectOption(field, j)">
                       <i class="fas fa-times"></i>
                     </button>
+                    <div *ngIf="(submit || opt.touched) && opt.errors" class="invalid-feedback">
+                      <span *ngIf="opt.errors?.required">Option is required</span>
+                    </div>
                   </div>
                 </div>
                 <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="addSelectOption(field)">
@@ -121,15 +190,14 @@
           </div>
         </div>
 
-
-        <div class="d-flex gap-2 mb-2 ">
+        <div class="d-flex gap-2 mb-2">
           <button type="button" class="btn btn-outline-dark" (click)="addField()">
             <i class="fas fa-plus me-2"></i>Add New Field
           </button>
         </div>
 
         <div class="mt-4">
-          <button type="submit" class="btn btn-primary me-2" (click)="send2OfferManager()">
+          <button type="submit" class="btn btn-primary me-2">
             <i class="fas fa-save me-2"></i>Save Form
           </button>
           <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
@@ -139,50 +207,45 @@
       </form>
     </div>
   </div>
-
 </div>
-
 
 <ng-template #content role="document" let-modal>
   <div class="modal-header bg-light">
-    <h5 class="modal-title">
-      <i class="fas fa-eye me-2"></i>Live Preview
-    </h5>
+    <h5 class="modal-title"><i class="fas fa-eye me-2"></i>Live Preview</h5>
     <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <div class="card">
-   
       <div class="card-body">
         <form #previewForm="ngForm">
           <div *ngFor="let field of sortedFields" class="mb-4">
             <div class="mb-3" *ngIf="field.get('type')?.value !== 'section'">
-              <label class="form-label">
-                {{ field.get('label')?.value || 'Unlabeled field' }}
+              <label class="form-label fw-bold">
+                {{ field.get("label")?.value || "Unlabeled field" }}
                 <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
               </label>
 
               <ng-container [ngSwitch]="field.get('type')?.value">
                 <input *ngSwitchCase="'text'" type="text" class="form-control"
-                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value">
+                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value" />
 
                 <input *ngSwitchCase="'email'" type="email" class="form-control"
-                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value">
+                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value" />
 
                 <input *ngSwitchCase="'date'" type="date" class="form-control"
-                  [required]="field.get('required')?.value">
+                  [required]="field.get('required')?.value" />
 
                 <input *ngSwitchCase="'time'" type="time" class="form-control"
-                  [required]="field.get('required')?.value">
+                  [required]="field.get('required')?.value" />
 
                 <div *ngSwitchCase="'checkbox'" class="form-check">
-                  <input type="checkbox" class="form-check-input">
+                  <input type="checkbox" class="form-check-input" />
                 </div>
 
-                <input *ngSwitchCase="'color'" type="color" class="form-control form-control-color">
+                <input *ngSwitchCase="'color'" type="color" class="form-control form-control-color" />
 
                 <input *ngSwitchCase="'range'" type="range" class="form-range" [min]="field.get('rangeStart')?.value"
-                  [max]="field.get('rangeEnd')?.value">
+                  [max]="field.get('rangeEnd')?.value" />
 
                 <select *ngSwitchCase="'select'" class="form-select">
                   <option *ngFor="let opt of getSelectOptions(field).value" [value]="opt">
@@ -192,7 +255,7 @@
               </ng-container>
 
               <small *ngIf="field.get('description')?.value" class="form-text text-muted">
-                {{ field.get('description')?.value }}
+                {{ field.get("description")?.value }}
               </small>
             </div>
           </div>
@@ -201,6 +264,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">
+      Close
+    </button>
   </div>
 </ng-template>

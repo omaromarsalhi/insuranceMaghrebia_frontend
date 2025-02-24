@@ -6,14 +6,16 @@
     <div class="row g-4">
         <div class="col-lg-5">
             <div class="card shadow-lg border-0">
-                <app-offer-creator  (offerCreationEvent)="recieve($event)"></app-offer-creator>
+                <app-offer-creator  (offerCreationEvent)="recieveOfferData($event)" [categoryData]="categoriesData"></app-offer-creator>
             </div>
         </div>
 
         <div class="col-lg-7">
             <div class="card shadow-lg border-0">
-                <app-form-creator (offerFormCreationEvent)="recieve($event)"></app-form-creator>
+                <app-form-creator (offerFormCreationEvent)="recieveOfferFormData($event)" ></app-form-creator>
             </div>
         </div>
     </div>
 </div>
+
+<!-- (offerFormCreationEvent)="recieve($event)" -->

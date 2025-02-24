@@ -22,6 +22,7 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { InsuranceModule } from './insurance/insurance.module';
 
+
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
 } else {
@@ -66,5 +67,6 @@ export function createTranslateLoader(http: HttpClient): any {
     // LoaderService,
     // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
   ],
+
 })
 export class AppModule { }

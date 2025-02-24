@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/offer-category';
+import { OfferCategory } from '../../models/insurance/offer-category';
 
 export interface GetAllOfferCategories$Params {
 }

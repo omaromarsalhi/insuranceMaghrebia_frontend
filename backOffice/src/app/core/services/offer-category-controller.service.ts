@@ -19,7 +19,7 @@ import { getAllOfferCategories } from '../fn/offer-category-controller/get-all-o
 import { GetAllOfferCategories$Params } from '../fn/offer-category-controller/get-all-offer-categories';
 import { getOfferCategoryById } from '../fn/offer-category-controller/get-offer-category-by-id';
 import { GetOfferCategoryById$Params } from '../fn/offer-category-controller/get-offer-category-by-id';
-import { OfferCategory } from '../models/offer-category';
+import { OfferCategory } from '../models/insurance/offer-category';
 import { updateOfferCategory } from '../fn/offer-category-controller/update-offer-category';
 import { UpdateOfferCategory$Params } from '../fn/offer-category-controller/update-offer-category';
 

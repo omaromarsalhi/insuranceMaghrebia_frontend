@@ -19,7 +19,7 @@ import { getAllOffers } from '../fn/offer-controller/get-all-offers';
 import { GetAllOffers$Params } from '../fn/offer-controller/get-all-offers';
 import { getOfferById } from '../fn/offer-controller/get-offer-by-id';
 import { GetOfferById$Params } from '../fn/offer-controller/get-offer-by-id';
-import { Offer } from '../models/offer';
+import { Offer } from '../models/insurance/offer';
 import { updateOffer } from '../fn/offer-controller/update-offer';
 import { UpdateOffer$Params } from '../fn/offer-controller/update-offer';
 

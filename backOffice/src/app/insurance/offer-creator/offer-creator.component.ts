@@ -1,5 +1,12 @@
-
-import { Component, OnInit, Output,EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -7,53 +14,67 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-
-
+import { OfferCategory } from "src/app/core/models";
+import { OfferData } from "src/app/core/models/insurance/offer-data.interface";
 
 @Component({
   selector: "app-offer-creator",
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit {
+export class OfferCreatorComponent implements OnInit, OnChanges {
 
-  @Output() offerCreationEvent = new EventEmitter<{ name: string, age: number }>();
+  @Output() offerCreationEvent = new EventEmitter<OfferData>();
+  @Input() categoryData: OfferCategory[] = [];
 
-  
   labelsForm: FormGroup;
   breadCrumbItems: Array<{}>;
   form: FormGroup;
+  submit = false;
 
-
-
-  constructor(private fb: FormBuilder) {
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.initForm()
+    this.initForm();
     this.breadCrumbItems = [
       { label: "Forms" },
       { label: "OFFER", active: true },
     ];
   }
 
-  send2OfferManager() {
-    console.log("sending")
-    const user = { name: 'John', age: 30 };
-    this.offerCreationEvent.emit(user); // Emit an object
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes["categoryData"] &&
+      changes["categoryData"].currentValue?.length > 0
+    ) {
+      this.labelsForm.get("category")?.setValue(this.categoryData[0]);
+    }
   }
+
+  send2OfferManager() {
+    this.submit=true
+    if (this.labelsForm.valid) {
+      const formValue:OfferData = this.labelsForm.value;
+      this.offerCreationEvent.emit(formValue);
+    }
+  }
+
+  get f() { return this.labelsForm.controls; }
+
 
   private initForm(): void {
     this.labelsForm = this.fb.group({
-      offerName: ["", Validators.required],
+      offerName: ["", [Validators.required, Validators.pattern('[a-zA-Z]+')]],
+      offerHeader: ["", Validators.required],
+      category: ["", Validators.required],
+      imageUri: ["", Validators.required],
       labels: this.fb.array([]),
     });
   }
 
   get labelsArray(): FormArray {
     return this.labelsForm.get("labels") as FormArray;
-  }
-
+  }qIndex
 
   createLabel(): FormGroup {
     return this.fb.group({
@@ -115,13 +136,12 @@ export class OfferCreatorComponent implements OnInit {
     this.getAnswers(labelIndex).removeAt(answerIndex);
   }
 
-  onSubmit(): void {
+  onsubmit(): void {
     if (this.labelsForm.valid) {
       const formValue = this.labelsForm.value;
-      console.log(formValue);
+      console.log(this.labelsForm.value);
     }
   }
-
 
   formData(): FormArray {
     return this.form.get("formlist") as FormArray;
@@ -133,12 +153,12 @@ export class OfferCreatorComponent implements OnInit {
     }
   }
 
-
   resetLabelForm(): void {
     while (this.labelsArray.length > 0) {
       this.labelsArray.removeAt(0);
     }
     this.initForm();
   }
+
   
 }

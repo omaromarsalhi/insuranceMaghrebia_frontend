@@ -26,6 +26,9 @@ import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
 import { FormCreatorComponent } from './form-creator/form-creator.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { OfferManagerComponent } from './offer-manager/offer-manager.component';
+import { CategoryFilterPipe } from "../pipes/category-filter.pipe";
+import { PipesModule } from "../pipes/pipes.module";
+
 
 
 @NgModule({
@@ -50,7 +53,8 @@ import { OfferManagerComponent } from './offer-manager/offer-manager.component';
     Ng5SliderModule,
     DragDropModule,
     NgbAccordionModule,
-    NgbModule
+    NgbModule,
+    PipesModule
   ],
 })
 export class InsuranceModule {}
