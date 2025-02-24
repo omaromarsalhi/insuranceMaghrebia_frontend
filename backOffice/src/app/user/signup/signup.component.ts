@@ -31,6 +31,9 @@ export class SignupComponent implements OnInit {
     private authenticationService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
+    if (this.authenticationService.getCurrentUserEmail()) {
+      this.authenticationService.redirectFromLogin();
+    }
     this.signupForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],

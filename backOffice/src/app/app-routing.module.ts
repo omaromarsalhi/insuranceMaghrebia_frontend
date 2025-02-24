@@ -5,7 +5,7 @@ import { LayoutComponent } from './layouts/layout.component';
 
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-  { path: '',component: LayoutComponent}
+  { path: 'dashboard',component: LayoutComponent}
 ];
 
 @NgModule({

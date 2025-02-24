@@ -12,7 +12,7 @@ export class CheckEmailComponent implements OnInit {
   year: number = new Date().getFullYear();
   verify = "verify";
   ngOnInit(): void {
-     this.verify = this.route.snapshot.queryParamMap.get('verify');
+    this.verify = this.route.snapshot.queryParamMap.get('verify');
     document.body.classList.remove('auth-body-bg');
   }
 

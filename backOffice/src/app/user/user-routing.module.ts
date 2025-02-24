@@ -7,14 +7,15 @@ import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { Page404Component } from './page404/page404.component';
+import { AuthRedirectGuard } from '../core/guards/auth-redirect.guard';
 
 const routes: Routes = [
-  {path: 'signup',component: SignupComponent},
-  {path: 'check-mail',component: CheckEmailComponent},
-  {path: 'activate-account',component: ConfirmMailComponent},
-  {path: 'signin',component: LoginComponent},
-  {path: 'forget-password',component: ForgetPasswordComponent},
-  {path: 'reset-password',component: ResetPasswordComponent},
+  { path: 'signup', component: SignupComponent, canActivate: [AuthRedirectGuard] },
+  { path: 'check-mail', component: CheckEmailComponent, canActivate: [AuthRedirectGuard] },
+  { path: 'activate-account', component: ConfirmMailComponent, canActivate: [AuthRedirectGuard] },
+  { path: 'signin', component: LoginComponent, canActivate: [AuthRedirectGuard] },
+  { path: 'forget-password', component: ForgetPasswordComponent, canActivate: [AuthRedirectGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthRedirectGuard] },
   {path: 'page404',component: Page404Component},
 ];
 

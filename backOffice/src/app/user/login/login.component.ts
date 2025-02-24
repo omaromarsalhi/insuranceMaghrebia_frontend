@@ -12,16 +12,19 @@ import { AuthService } from 'src/app/core/services/user/auth.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
-  error = '';
   backError = '';
 
   year: number = new Date().getFullYear();
   constructor(private formBuilder: FormBuilder, private router: Router, private authenticationService: AuthService) { }
 
   ngOnInit(): void {
+    if (this.authenticationService.getCurrentUserEmail()) {
+      this.authenticationService.redirectFromLogin();
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+      rememberMe: [false]
     });
   }
   get f() { return this.loginForm.controls; }
@@ -35,10 +38,10 @@ export class LoginComponent implements OnInit {
     const authRequest: AuthenticationRequest = {
       email: this.f.email.value,
       password: this.f.password.value,
+      rememberMe: this.f.rememberMe.value
     };
     this.authenticationService.login(authRequest).subscribe(
       (data) => {
-        console.log(data);
       },
       (error) => {
         this.backError = error.error.businessErrorDescription;

@@ -21,6 +21,8 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { UserModule } from './user/user.module';
+import { AuthInterceptor } from './auth.interceptor';
+import { UIModule } from "./shared/ui/ui.module";
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -42,11 +44,11 @@ export function createTranslateLoader(http: HttpClient): any {
     BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
+        loader: {
+            provide: TranslateLoader,
+            useFactory: createTranslateLoader,
+            deps: [HttpClient]
+        }
     }),
     LayoutsModule,
     AppRoutingModule,
@@ -56,8 +58,9 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbTooltipModule,
     ScrollToModule.forRoot(),
     NgbModule,
-    UserModule
-  ],
+    UserModule,
+    UIModule
+],
   bootstrap: [AppComponent],
   providers: [
     //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -65,6 +68,7 @@ export function createTranslateLoader(http: HttpClient): any {
    // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
     // LoaderService,
     // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
 })
 export class AppModule { }

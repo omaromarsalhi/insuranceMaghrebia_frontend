@@ -1,3 +1,4 @@
 export class AuthenticationResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
