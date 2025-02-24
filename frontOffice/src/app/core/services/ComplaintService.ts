@@ -41,4 +41,16 @@ export class ComplaintService {
   deleteComplaint(complaint: Complaint): Observable<any> {
     return this.http.delete(`${this.baseUrl}`, { body: complaint });
   }
+  // getSuggestedTitle(description: string): Observable<string> {
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //   const body = { description };
+  //
+  //   return this.http.post<string>(`${this.baseUrl}/getTitle`, body, { headers });
+  // }
+  getSuggestedTitle(description: string): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/getTitle`, { description }, { responseType: 'text' as 'json' });
+  }
+
+
+
 }

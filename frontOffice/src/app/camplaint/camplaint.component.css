@@ -104,3 +104,89 @@
 .error-message i.fa-exclamation-circle {
   margin-right: 0.5rem; /* Espacement entre l'icône et le texte */
 }
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ai-generate-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  right: 10px;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.ai-generate-button:hover {
+  color: #007bff;
+}
+
+.form_control {
+  padding-right: 40px;
+  width: 100%;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: -40px;
+  margin-left: 8px;
+  font-size: 18px;
+  color: #007bff;
+}
+
+.icon-btn:hover {
+  color: #0056b3;
+}
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #007bff;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  color: #0056b3;
+}
+
+.ms-2 {
+  margin-left: 8px;
+  /*margin-top: -4px!* Espacement entre le champ et le bouton *!*/
+}
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #193B1E;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  color: #FFB966;
+}
+
+.ms-2 {
+  margin-left: 8px;
+}
+
+.fa-spinner {
+  font-size: 20px;
+}
+

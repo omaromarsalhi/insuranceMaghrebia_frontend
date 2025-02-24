@@ -1,5 +1,6 @@
 <app-preloader></app-preloader>
-<section class="page-banner overlay pt-165 pb-170 bg_cover" style="background-image: url(assets/images/bg/page-bg.jpg);">
+<section class="page-banner overlay pt-165 pb-170 bg_cover"
+         style="background-image: url(assets/images/bg/page-bg.jpg);">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
@@ -19,8 +20,8 @@
 <!-- Popup HTML -->
 <div *ngIf="showPopup" class="popup-overlay">
   <div class="popup-content">
-    <h2>Complaint Sent Successfully</h2>
-    <p>Your complaint has been successfully submitted. We will get back to you soon.</p>
+    <h2>{{popupTitle}}</h2>
+    <p>{{popupMessage}}</p>
     <button class="close-btn" (click)="closePopup()">Close</button>
   </div>
 </div>
@@ -41,9 +42,16 @@
           <div class="tab-content">
             <div class="tab-pane active show fade" id="cat1">
               <form class="contact-form" [formGroup]="complaintForm" (ngSubmit)="SaveApart()">
-                <div class="form_group">
+                <div class="form_group position-relative">
                   <label>Title</label>
-                  <input type="text" class="form_control" placeholder="Enter your title" formControlName="title">
+<!--                  <div class="input-group">-->
+                  <div class="d-flex align-items-center">
+                    <input type="text" class="form_control" placeholder="Enter your title" formControlName="title">
+                    <button type="button" class="icon-btn ms-2" (click)="generateTitle()" title="Generate Title" [disabled]="loading">
+                      <i *ngIf="!loading" class="fa fa-magic"></i>
+                      <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+                    </button>
+                  </div>
                   <div *ngIf="complaintForm.get('title')?.invalid && complaintForm.get('title')?.touched" class="error-message">
                     <i class="fa fa-exclamation-circle"></i>
                     <small *ngIf="complaintForm.get('title')?.errors?.['required']">Title is required.</small>
@@ -51,6 +59,7 @@
                     <small *ngIf="complaintForm.get('title')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
                   </div>
                 </div>
+
                 <div class="form_group">
                   <label>Complaint Type</label>
                   <select class="wide" formControlName="complaintType">
@@ -61,16 +70,23 @@
                 </div>
                 <div class="form_group">
                   <label>Description</label>
-                  <textarea class="form_control" placeholder="Write Message" rows="6" formControlName="complaintDescription"></textarea>
-                  <div *ngIf="complaintForm.get('complaintDescription')?.invalid && complaintForm.get('complaintDescription')?.touched" class="error-message">
+                  <textarea class="form_control" placeholder="Write Message" rows="6"
+                            formControlName="complaintDescription"></textarea>
+                  <div
+                    *ngIf="complaintForm.get('complaintDescription')?.invalid && complaintForm.get('complaintDescription')?.touched"
+                    class="error-message">
                     <i class="fa fa-exclamation-circle"></i>
-                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['required']">Description is required.</small>
-                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['minlength']">Minimum 5 characters required.</small>
-                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['maxlength']">Maximum 500 characters allowed.</small>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['required']">Description is
+                      required.</small>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['minlength']">Minimum 5 characters
+                      required.</small>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['maxlength']">Maximum 500
+                      characters allowed.</small>
                   </div>
                 </div>
                 <div class="form_group">
-                  <button class="main-btn primary-btn" type="submit" [disabled]="complaintForm.invalid">Send<i class="fa fa-arrow-right"></i></button>
+                  <button class="main-btn primary-btn" type="submit" [disabled]="complaintForm.invalid">Send<i
+                    class="fa fa-arrow-right"></i></button>
                 </div>
               </form>
             </div>
@@ -87,9 +103,6 @@
   </div>
 </section>
 
-<!-- Autres sections (Contact Info, Map, etc.) -->
-<!--====== End Contact Form Section ======-->
-<!--====== Start Contact Info Section ======-->
 <section class="contact-info-section pt-130 pb-80">
   <div class="container">
     <div class="row">
@@ -102,7 +115,8 @@
             <h2>Find an Insurance Agent Or Looking for
               Insurance Agent ?</h2>
           </div>
-          <p>Sed ut perspiciatis unde omnis iste natus error voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae</p>
+          <p>Sed ut perspiciatis unde omnis iste natus error voluptatem accusantium doloremque laudantium, totam rem
+            aperiam, eaque ipsa quae</p>
         </div>
       </div>
       <div class="col-lg-6">
@@ -159,14 +173,15 @@
       </div>
     </div>
   </div>
-</section><!--====== End Contact Info Section ======-->
-<!--====== Start Contact Map Section ======-->
+</section>
+
 <section class="contact-map-page pb-90 wow fadeInUp">
-  <!--=== Map Box ===-->
+
   <div class="map-box wow fadeInUp">
-    <iframe src="https://maps.google.com/maps?q=new%20york&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
+    <iframe
+      src="https://maps.google.com/maps?q=new%20york&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
   </div>
-</section><!--====== End Contact Map Section ======-->
+</section>
 
 
 
