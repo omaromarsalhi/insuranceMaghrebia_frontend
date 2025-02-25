@@ -12,19 +12,7 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OfferFormData } from "src/app/core/models/insurance/offer-form-data.interface";
 
-// // Remove generic FormControl types
-// interface FieldGroup {
-//   label: FormControl;
-//   type: FormControl;
-//   required: FormControl;
-//   order: FormControl;
-//   placeholder: FormControl;
-//   regex: FormControl;
-//   regexErrorMessage: FormControl;
-//   rangeStart: FormControl;
-//   rangeEnd: FormControl;
-//   selectOptions: FormArray;
-// }
+
 
 @Component({
   selector: "app-form-creator",
@@ -46,7 +34,7 @@ export class FormCreatorComponent implements OnInit {
   ];
   submit = false;
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -74,23 +62,6 @@ export class FormCreatorComponent implements OnInit {
     ) as AbstractControl;
   }
 
-  // createField(order: number): FormGroup {
-  //   return this.fb.group({
-  //     label: ["", Validators.required],
-  //     type: ["text", Validators.required],
-  //     order: [order, [Validators.required, Validators.min(1)]],
-  //     required: [false],
-  //     placeholder: ["",Validators.required],
-  //     description: ["",Validators.required],
-  //     regex: ["",Validators.required],
-  //     regexErrorMessage: [""],
-  //     rangeStart: [0],
-  //     rangeEnd: [10],
-  //     selectOptions: this.fb.array([])
-  //   });
-  // }
-
-  // Custom Validators
 
   validRegex(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
@@ -158,7 +129,10 @@ export class FormCreatorComponent implements OnInit {
         regex: ["", [Validators.required, this.validRegex]],
         regexErrorMessage: [
           "",
-          [Validators.required,Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/)],
+          [
+            Validators.required,
+            Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
+          ],
         ],
         rangeStart: [0, [Validators.pattern(/^-?\d+$/)]],
         rangeEnd: [10, [Validators.pattern(/^-?\d+$/)]],
@@ -195,11 +169,11 @@ export class FormCreatorComponent implements OnInit {
 
   // Submit method
   send2OfferManager() {
-    this.submit = true;
-    if (this.dynamicForm.valid) {
+    // this.submit = true;
+    // if (this.dynamicForm.valid) {
       const formData: OfferFormData[] = this.dynamicForm.value.fields;
       this.offerFormCreationEvent.emit(formData);
-    }
+    // }
   }
 
   addField(): void {
@@ -258,17 +232,13 @@ export class FormCreatorComponent implements OnInit {
   }
 
   resetForm(): void {
+    this.submit = false
     while (this.fields.length > 0) {
       this.fields.removeAt(0);
     }
     this.initForm();
   }
 
-  // submitForm(): void {
-  //   console.log('Form submitted:', this.dynamicForm.value);
-  // }
-
-  // Add this to your component class
   submitPreview() {
     // Handle preview form submission if needed
     console.log("Preview submitted");

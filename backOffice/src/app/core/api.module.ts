@@ -6,8 +6,8 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { OfferControllerService } from './services/offer-controller.service';
 import { OfferCategoryControllerService } from './services/offer-category-controller.service';
+import { OfferControllerService } from './services/offer-controller.service';
 import { ImageUploadControllerService } from './services/image-upload-controller.service';
 
 /**
@@ -18,8 +18,8 @@ import { ImageUploadControllerService } from './services/image-upload-controller
   exports: [],
   declarations: [],
   providers: [
-    OfferControllerService,
     OfferCategoryControllerService,
+    OfferControllerService,
     ImageUploadControllerService,
     ApiConfiguration
   ],

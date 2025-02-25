@@ -8,13 +8,13 @@
     <form [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
         <div class="row g-3 mb-4">
             <div class="col-md-6">
-                <label class="form-label fw-bold" for="offerName">Offer name</label>
-                <input id="offerName" type="text" class="form-control" formControlName="offerName"
+                <label class="form-label fw-bold" for="name">Offer name</label>
+                <input id="name" type="text" class="form-control" formControlName="name"
                     placeholder="The offer id name"
-                    [ngClass]="{'is-invalid': submit && f.offerName.errors, 'is-valid': submit && !f.offerName.errors}">
-                <div *ngIf="submit && f.offerName.errors" class="invalid-feedback">
-                    <span *ngIf="f.offerName.errors.required">Please provide a valid offerName.</span>
-                    <span *ngIf="f.offerName?.hasError('pattern')">
+                    [ngClass]="{'is-invalid': submit && f.name.errors, 'is-valid': submit && !f.name.errors}">
+                <div *ngIf="submit && f.name.errors" class="invalid-feedback">
+                    <span *ngIf="f.name.errors.required">Please provide a valid name.</span>
+                    <span *ngIf="f.name?.hasError('pattern')">
                         Name must contain only letters, numbers, and basic punctuation
                     </span>
                 </div>
@@ -31,13 +31,13 @@
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-bold" for="offerHeader">Offer header</label>
-            <input id="offerHeader" type="text" class="form-control" formControlName="offerHeader"
+            <label class="form-label fw-bold" for="header">Offer header</label>
+            <input id="header" type="text" class="form-control" formControlName="header"
                 placeholder="Describe the offer in general"
-                [ngClass]="{'is-invalid': submit && f.offerHeader.errors, 'is-valid': submit && !f.offerHeader.errors}">
-            <div *ngIf="submit && f.offerHeader.errors" class="invalid-feedback">
-                <span *ngIf="f.offerHeader.errors.required">Please provide an offer header.</span>
-                <span *ngIf="f.offerHeader?.hasError('pattern')">
+                [ngClass]="{'is-invalid': submit && f.header.errors, 'is-valid': submit && !f.header.errors}">
+            <div *ngIf="submit && f.header.errors" class="invalid-feedback">
+                <span *ngIf="f.header.errors.required">Please provide an offer header.</span>
+                <span *ngIf="f.header?.hasError('pattern')">
                     Header must contain only letters, numbers, and basic punctuation
                 </span>
             </div>
@@ -106,9 +106,9 @@
                                     *ngFor="let answer of label.get('answers').controls; let aIndex = index; trackBy: trackAnswer"
                                     [formGroupName]="aIndex">
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control" formControlName="value"
+                                        <textarea type="text" class="form-control" formControlName="answerText"
                                             placeholder="Enter answer..."
-                                            [ngClass]="{'is-invalid': submit && answer.get('value').errors, 'is-valid': submit && !answer.get('value').errors}"></textarea>
+                                            [ngClass]="{'is-invalid': submit && answer.get('answerText').errors, 'is-valid': submit && !answer.get('answerText').errors}"></textarea>
                                         <select class="form-select" formControlName="questionIndex">
                                             <option *ngFor="let q of label.get('questions').controls; let i = index"
                                                 [ngValue]="i">Question #{{i + 1}}</option>
@@ -118,8 +118,8 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
-                                    <div *ngIf="submit && answer.get('value').errors" class="invalid-feedback">
-                                        <span *ngIf="answer.get('value').errors.required">Please provide an
+                                    <div *ngIf="submit && answer.get('answerText').errors" class="invalid-feedback">
+                                        <span *ngIf="answer.get('answerText').errors.required">Please provide an
                                             answer.</span>
                                         <span *ngIf="answer.get('answerText')?.hasError('pattern')">
                                             Invalid answer format
@@ -140,7 +140,7 @@
         </div>
 
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary me-2" (click)="send2OfferManager()">
+            <button type="submit" class="btn btn-primary me-2">
                 <i class="fas fa-paper-plane me-2"></i>Submit Offer
             </button>
             <button type="button" class="btn btn-outline-secondary" (click)="resetLabelForm()">

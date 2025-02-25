@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/insurance/offer-category';
+import { OfferCategory } from '../../models/offer-category';
 
 export interface UpdateOfferCategory$Params {
   id: string;
@@ -23,7 +23,7 @@ export function updateOfferCategory(http: HttpClient, rootUrl: string, params: U
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {

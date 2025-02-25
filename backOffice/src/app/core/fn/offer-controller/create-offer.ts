@@ -8,10 +8,11 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Offer } from '../../models/insurance/offer';
+import { Offer } from '../../models/offer';
+import { OfferRequest } from '../../models/offer-request';
 
 export interface CreateOffer$Params {
-      body: Offer
+      body: OfferRequest
 }
 
 export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<Offer>> {
@@ -21,7 +22,7 @@ export function createOffer(http: HttpClient, rootUrl: string, params: CreateOff
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {

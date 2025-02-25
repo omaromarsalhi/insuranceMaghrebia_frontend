@@ -12,7 +12,8 @@ import {
   FormGroup,
   FormArray,
   Validators,
-  AbstractControl, ValidationErrors
+  AbstractControl,
+  ValidationErrors,
 } from "@angular/forms";
 import { OfferCategory } from "src/app/core/models";
 import { OfferData } from "src/app/core/models/insurance/offer-data.interface";
@@ -23,7 +24,6 @@ import { OfferData } from "src/app/core/models/insurance/offer-data.interface";
   styleUrls: ["./offer-creator.component.scss"],
 })
 export class OfferCreatorComponent implements OnInit, OnChanges {
-
   @Output() offerCreationEvent = new EventEmitter<OfferData>();
   @Input() categoryData: OfferCategory[] = [];
 
@@ -52,78 +52,67 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   }
 
   send2OfferManager() {
-    this.submit=true
-    if (this.labelsForm.valid) {
-      const formValue:OfferData = this.labelsForm.value;
-      this.offerCreationEvent.emit(formValue);
-    }
+    // this.submit=true
+    // if (this.labelsForm.valid) {
+    const formValue: OfferData = this.labelsForm.value;
+    this.offerCreationEvent.emit(formValue);
+    // }
   }
 
-  get f() { return this.labelsForm.controls; }
+  get f() {
+    return this.labelsForm.controls;
+  }
 
-
-  // private initForm(): void {
-  //   this.labelsForm = this.fb.group({
-  //     offerName: ["", [Validators.required, Validators.pattern('[a-zA-Z]+')]],
-  //     offerHeader: ["", Validators.required],
-  //     category: ["", Validators.required],
-  //     imageUri: ["", Validators.required],
-  //     labels: this.fb.array([]),
-  //   });
-  // }
-
-  // createLabel(): FormGroup {
-  //   return this.fb.group({
-  //     name: ["", Validators.required],
-  //     questions: this.fb.array([]),
-  //     answers: this.fb.array([]),
-  //   });
-  // }
-
-  
   validateLabelQuestionsAnswers(group: FormGroup): ValidationErrors | null {
-    const questions = group.get('questions') as FormArray;
-    const answers = group.get('answers') as FormArray;
-    
+    const questions = group.get("questions") as FormArray;
+    const answers = group.get("answers") as FormArray;
+
     if (questions.length !== answers.length) {
       return { questionAnswerMismatch: true };
     }
     return null;
   }
-  
+
   // Updated initForm
   private initForm(): void {
     this.labelsForm = this.fb.group({
-      offerName: ["", [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z\s\-.,']{1,100}$/)
-      ]],
-      offerHeader: ["", [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/)
-      ]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z\s\-.,']{1,100}$/)],
+      ],
+      header: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/),
+        ],
+      ],
       category: [""],
-      imageUri: ["", Validators.required ],
-      labels: this.fb.array([], Validators.required)
+      imageUri: ["", Validators.required],
+      labels: this.fb.array([], Validators.required),
     });
   }
-  
+
   // Updated createLabel with validations
   createLabel(): FormGroup {
-    return this.fb.group({
-      name: ["", [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z\s\-]{1,50}$/)
-      ]],
-      questions: this.fb.array([], Validators.required),
-      answers: this.fb.array([], Validators.required)
-    }, { validators:this.validateLabelQuestionsAnswers });
+    return this.fb.group(
+      {
+        name: [
+          "",
+          [Validators.required, Validators.pattern(/^[a-zA-Z\s\-]{1,50}$/)],
+        ],
+        questions: this.fb.array([], Validators.required),
+        answers: this.fb.array([], Validators.required),
+      },
+      { validators: this.validateLabelQuestionsAnswers }
+    );
   }
 
   get labelsArray(): FormArray {
     return this.labelsForm.get("labels") as FormArray;
-  }qIndex
-  
+  }
+  qIndex;
+
   addLabel(): void {
     this.labelsArray.push(this.createLabel());
   }
@@ -135,6 +124,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   getQuestions(labelIndex: number): FormArray {
     return this.labelsArray.at(labelIndex).get("questions") as FormArray;
   }
+
 
   addQuestion(labelIndex: number): void {
     const question = this.fb.group({
@@ -169,10 +159,14 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
 
   addAnswer(labelIndex: number): void {
     const answer = this.fb.group({
-      answerText: ["", [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9\s\-.,']{1,200}$/)
-      ]]
+      questionIndex: [0],
+      answerText: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,']{1,200}$/),
+        ],
+      ],
     });
     this.getAnswers(labelIndex).push(answer);
   }
@@ -199,10 +193,10 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   }
 
   resetLabelForm(): void {
+    this.submit = false;
     while (this.labelsArray.length > 0) {
       this.labelsArray.removeAt(0);
     }
     this.initForm();
   }
-
 }
