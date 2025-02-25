@@ -14,6 +14,9 @@
                     [ngClass]="{'is-invalid': submit && f.offerName.errors, 'is-valid': submit && !f.offerName.errors}">
                 <div *ngIf="submit && f.offerName.errors" class="invalid-feedback">
                     <span *ngIf="f.offerName.errors.required">Please provide a valid offerName.</span>
+                    <span *ngIf="f.offerName?.hasError('pattern')">
+                        Name must contain only letters, numbers, and basic punctuation
+                    </span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -34,6 +37,9 @@
                 [ngClass]="{'is-invalid': submit && f.offerHeader.errors, 'is-valid': submit && !f.offerHeader.errors}">
             <div *ngIf="submit && f.offerHeader.errors" class="invalid-feedback">
                 <span *ngIf="f.offerHeader.errors.required">Please provide an offer header.</span>
+                <span *ngIf="f.offerHeader?.hasError('pattern')">
+                    Header must contain only letters, numbers, and basic punctuation
+                </span>
             </div>
         </div>
 
@@ -58,6 +64,9 @@
                                 [ngClass]="{'is-invalid': submit && label.get('name').errors, 'is-valid': submit && !label.get('name').errors}">
                             <div *ngIf="submit && label.get('name').errors" class="invalid-feedback">
                                 <span *ngIf="label.get('name').errors.required">Please provide a label title.</span>
+                                <span *ngIf="label.get('name')?.hasError('pattern')">
+                                    Label name must contain only letters, numbers, and hyphens
+                                </span>
                             </div>
                         </div>
 
@@ -79,6 +88,9 @@
                                     <div *ngIf="submit && question.get('questionText').errors" class="invalid-feedback">
                                         <span *ngIf="question.get('questionText').errors.required">Please provide a
                                             question.</span>
+                                        <span *ngIf="question.get('questionText')?.hasError('pattern')">
+                                            Invalid question format
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -109,6 +121,9 @@
                                     <div *ngIf="submit && answer.get('value').errors" class="invalid-feedback">
                                         <span *ngIf="answer.get('value').errors.required">Please provide an
                                             answer.</span>
+                                        <span *ngIf="answer.get('answerText')?.hasError('pattern')">
+                                            Invalid answer format
+                                        </span>
                                     </div>
                                 </div>
                             </div>
