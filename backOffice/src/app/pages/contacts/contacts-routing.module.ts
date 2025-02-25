@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { UserlistComponent } from './userlist/userlist.component';
-import { UsergridComponent } from './usergrid/usergrid.component';
-import { ProfileComponent } from './profile/profile.component';
+import {UserlistComponent} from './userlist/userlist.component';
+import {UsergridComponent} from './usergrid/usergrid.component';
+import {ProfileComponent} from './profile/profile.component';
 
 const routes: Routes = [
     {
@@ -24,4 +24,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ContactsRoutingModule { }
+export class ContactsRoutingModule {
+}

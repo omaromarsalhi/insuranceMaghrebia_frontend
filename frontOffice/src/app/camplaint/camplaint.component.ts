@@ -39,6 +39,7 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
     }
   }
   ngOnInit(): void {
+    console.log("hiii");
     this.complaintForm=this.fb.group({
       title: ['', [Validators.required,Validators.maxLength(100),Validators.minLength(5)]],
       complaintDescription: ['', [Validators.required, Validators.maxLength(500),Validators.minLength(5)]],
@@ -60,7 +61,6 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
         console.log(response);
         this.complaintForm.get('title')?.setValue(response);
         this.loading=false;
-
       },
       error: (err) => {
         console.error('Error fetching title:', err);

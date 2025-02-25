@@ -2,7 +2,6 @@
     <!-- start page title -->
     <app-page-title title="Users Grid" [breadcrumbItems]="breadCrumbItems"></app-page-title>
     <!-- end page title -->
-
     <div class="row">
         <ng-template #content role="document" let-modal>
             <div class="modal-body">
@@ -11,19 +10,20 @@
                         <div class="col-12">
                             <!-- Affichage de la description de la réclamation -->
                             <div class="mb-3 p-3 bg-light border rounded">
-                                <label class="fw-bold text-primary">Complaint Description:</label>
+                                <label class="fw-bold">Complaint Description:</label>
                                 <p class="text-muted">{{ selectedComplaint?.complaintDescription }}</p>
                             </div>
 
                             <!-- Affichage de la conversation existante -->
                             <div *ngIf="reponses?.length" class="mb-3">
-                                <label class="fw-bold text-primary">Conversation:</label>
+                                <label class="fw-bold ">Conversation:</label>
                                 <div class="conversation-container p-3 bg-light border rounded">
                                     <div *ngFor="let response of reponses" class="message mb-3">
                                         <!-- Message de l'utilisateur ou de l'admin -->
                                         <div [ngClass]="{'user-message': response.responderId === selectedComplaint.userId, 'admin-message': response.responderId !== selectedComplaint.userId}">
                                             <p class="mb-0">
-                                                <strong>{{ response.responderId === selectedComplaint.userId ? 'Client' : 'You' }}:</strong>
+                                                <strong>{{ response.responderId === selectedComplaint.userId ? 'Client' : 'You' }}
+                                                    :</strong>
                                                 {{ response.responseDescription }}
                                             </p>
                                             <small class="text-muted">{{ response.createdAt | date:'short' }}</small>
@@ -38,29 +38,48 @@
                                 <textarea class="form-control" rows="4" placeholder="Enter your response"
                                           formControlName="responseDescription"
                                           [ngClass]="{'is-invalid': submitted && responseForm.controls.responseDescription.invalid}">
-                </textarea>
+                        </textarea>
                                 <div *ngIf="submitted && responseForm.controls.responseDescription.invalid"
                                      class="invalid-feedback">
                                     <span *ngIf="responseForm.controls.responseDescription.errors?.required">Response is required.</span>
                                 </div>
-                                <div *ngIf="responseForm.get('responseDescription')?.invalid && responseForm.get('responseDescription')?.touched" class="error-message">
+                                <div *ngIf="responseForm.get('responseDescription')?.invalid && responseForm.get('responseDescription')?.touched"
+                                     class="error-message">
                                     <i class="fa fa-exclamation-circle"></i>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['required']">Description is required.</small>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['minlength']">Minimum 5 characters required.</small>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['required']">Description
+                                        is required.</small>
+                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['minlength']">Minimum
+                                        5 characters required.</small>
+                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['maxlength']">Maximum
+                                        100 characters allowed.</small>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success">
-                        Submit Response
+
+                    <button type="submit" class="latifa" style="
+    background-color: #FFB966;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 20px auto 0;
+">
+                        <i *ngIf="isSubmitting" class="bx bx-loader-alt bx-spin"></i>
+                        {{ isSubmitting ? 'Submitting...' : 'Submit Response' }}
                     </button>
+
                 </form>
             </div>
         </ng-template>
 
-        <!-- Liste des réclamations -->
+
         <div class="col-xl-3 col-sm-6" *ngFor="let i of complaints;">
             <div class="card custom-card">
         <span *ngIf="hasUnseenResponse(i.complaintId)" class="new-message-badge">
@@ -87,7 +106,6 @@
                     </p>
                 </div>
                 <div class="card-footer">
-
                     <span class="badge">{{ i.complaintStatus }}</span>
 
 

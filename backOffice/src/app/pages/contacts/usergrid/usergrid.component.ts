@@ -1,15 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ComplaintService} from 'src/app/core/services/complaintService';
 import {Complaint} from 'src/app/core/models/complaint';
 import {ComplaintResponseService} from 'src/app/core/services/ComplaintResponseService';
 import {ResponseComplaint} from 'src/app/core/models/responseComplaint';
 
+
 @Component({
     selector: 'app-usergrid',
     templateUrl: './usergrid.component.html',
-    styleUrls: ['./usergrid.component.scss']
+    styleUrls: ['./usergrid.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class UsergridComponent implements OnInit {
     breadCrumbItems: Array<{}>;
@@ -21,10 +23,10 @@ export class UsergridComponent implements OnInit {
     items: FormArray;
     reponses: ResponseComplaint[] = [];
     test: ResponseComplaint[] = [];
+    isSubmitting = false;
 
     constructor(
         private modalService: NgbModal,
-        private formBuilder: FormBuilder,
         private complaintService: ComplaintService,
         private complaintResponseService: ComplaintResponseService) {
     }
@@ -57,35 +59,74 @@ export class UsergridComponent implements OnInit {
         this.modalService.open(content);
     }
 
+    // async saveResponse() {
+    //     if (this.responseForm.invalid) {
+    //         this.responseForm.markAllAsTouched();
+    //         return;
+    //     }
+    //     this.isSubmitting=true;
+    //     const response: ResponseComplaint = this.responseForm.value;
+    //     try {
+    //         const res = await this.complaintResponseService
+    //             .addResponse(response, '1234', this.selectedComplaint.complaintId)
+    //             .toPromise();
+    //         console.log('Response submitted:', res);
+    //         await this.loadResponses();
+    //         this.modalService.dismissAll();
+    //         this.selectedComplaint.complaintStatus = 'OPEN';
+    //         for (const r of this.reponses) {
+    //             if (!r.isSeen && r.responderId === this.selectedComplaint.userId) {
+    //                 this.markResponseAsSeen(r.responseId);
+    //                 const responseToUpdate = this.reponses.find(resp => resp.responseId === r.responseId);
+    //                 if (responseToUpdate) {
+    //                     responseToUpdate.isSeen = true;
+    //                 }
+    //             }
+    //         }
+    //         this.isSubmitting=true;
+    //     } catch (err) {
+    //         this.isSubmitting = false;
+    //         console.error('Error submitting response', err);
+    //         console.log(this.responseForm.get('responseDescription').value);
+    //     }
+    //
+    //
+    //
+    // }
     async saveResponse() {
         if (this.responseForm.invalid) {
             this.responseForm.markAllAsTouched();
             return;
         }
+        this.isSubmitting = true;
+        setTimeout(async () => {
+            const response: ResponseComplaint = this.responseForm.value;
 
-        const response: ResponseComplaint = this.responseForm.value;
-        try {
-            const res = await this.complaintResponseService
-                .addResponse(response, '1234', this.selectedComplaint.complaintId)
-                .toPromise();
-            console.log('Response submitted:', res);
-            await this.loadResponses();
-            this.modalService.dismissAll();
-            this.selectedComplaint.complaintStatus = 'OPEN';
-            for (const r of this.reponses) {
-                if (!r.isSeen && r.responderId === this.selectedComplaint.userId) {
-                    this.markResponseAsSeen(r.responseId);
-                    const responseToUpdate = this.reponses.find(resp => resp.responseId === r.responseId);
-                    if (responseToUpdate) {
-                        responseToUpdate.isSeen = true;
+            try {
+                const res = await this.complaintResponseService
+                    .addResponse(response, '1234', this.selectedComplaint.complaintId)
+                    .toPromise();
+                console.log('Response submitted:', res);
+                await this.loadResponses();
+                this.modalService.dismissAll();
+                this.selectedComplaint.complaintStatus = 'OPEN';
+                for (const r of this.reponses) {
+                    if (!r.isSeen && r.responderId === this.selectedComplaint.userId) {
+                        this.markResponseAsSeen(r.responseId);
+                        const responseToUpdate = this.reponses.find(resp => resp.responseId === r.responseId);
+                        if (responseToUpdate) {
+                            responseToUpdate.isSeen = true;
+                        }
                     }
                 }
-            }
 
-        } catch (err) {
-            console.error('Error submitting response', err);
-            console.log(this.responseForm.get('responseDescription').value);
-        }
+
+            } catch (err) {
+                console.error('Error submitting response', err);
+            } finally {
+                this.isSubmitting = false;
+            }
+        }, 500);
     }
 
 
@@ -140,6 +181,5 @@ export class UsergridComponent implements OnInit {
             console.error('Error loading responses:', error);
         }
     }
-
 
 }
