@@ -12,7 +12,7 @@ import {
   FormGroup,
   FormArray,
   Validators,
-  AbstractControl,
+  AbstractControl, ValidationErrors
 } from "@angular/forms";
 import { OfferCategory } from "src/app/core/models";
 import { OfferData } from "src/app/core/models/insurance/offer-data.interface";
@@ -62,28 +62,68 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   get f() { return this.labelsForm.controls; }
 
 
+  // private initForm(): void {
+  //   this.labelsForm = this.fb.group({
+  //     offerName: ["", [Validators.required, Validators.pattern('[a-zA-Z]+')]],
+  //     offerHeader: ["", Validators.required],
+  //     category: ["", Validators.required],
+  //     imageUri: ["", Validators.required],
+  //     labels: this.fb.array([]),
+  //   });
+  // }
+
+  // createLabel(): FormGroup {
+  //   return this.fb.group({
+  //     name: ["", Validators.required],
+  //     questions: this.fb.array([]),
+  //     answers: this.fb.array([]),
+  //   });
+  // }
+
+  
+  validateLabelQuestionsAnswers(group: FormGroup): ValidationErrors | null {
+    const questions = group.get('questions') as FormArray;
+    const answers = group.get('answers') as FormArray;
+    
+    if (questions.length !== answers.length) {
+      return { questionAnswerMismatch: true };
+    }
+    return null;
+  }
+  
+  // Updated initForm
   private initForm(): void {
     this.labelsForm = this.fb.group({
-      offerName: ["", [Validators.required, Validators.pattern('[a-zA-Z]+')]],
-      offerHeader: ["", Validators.required],
-      category: ["", Validators.required],
-      imageUri: ["", Validators.required],
-      labels: this.fb.array([]),
+      offerName: ["", [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z\s\-.,']{1,100}$/)
+      ]],
+      offerHeader: ["", [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/)
+      ]],
+      category: [""],
+      imageUri: ["", Validators.required ],
+      labels: this.fb.array([], Validators.required)
     });
+  }
+  
+  // Updated createLabel with validations
+  createLabel(): FormGroup {
+    return this.fb.group({
+      name: ["", [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z\s\-]{1,50}$/)
+      ]],
+      questions: this.fb.array([], Validators.required),
+      answers: this.fb.array([], Validators.required)
+    }, { validators:this.validateLabelQuestionsAnswers });
   }
 
   get labelsArray(): FormArray {
     return this.labelsForm.get("labels") as FormArray;
   }qIndex
-
-  createLabel(): FormGroup {
-    return this.fb.group({
-      name: ["", Validators.required],
-      questions: this.fb.array([]),
-      answers: this.fb.array([]),
-    });
-  }
-
+  
   addLabel(): void {
     this.labelsArray.push(this.createLabel());
   }
@@ -98,7 +138,10 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
 
   addQuestion(labelIndex: number): void {
     const question = this.fb.group({
-      questionText: ["", Validators.required],
+      questionText: ["", [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9\s\-?.,']{1,200}$/)
+      ]]
     });
     this.getQuestions(labelIndex).push(question);
   }
@@ -126,8 +169,10 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
 
   addAnswer(labelIndex: number): void {
     const answer = this.fb.group({
-      value: ["", Validators.required],
-      questionIndex: [0, Validators.required],
+      answerText: ["", [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9\s\-.,']{1,200}$/)
+      ]]
     });
     this.getAnswers(labelIndex).push(answer);
   }
@@ -160,5 +205,4 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  
 }

@@ -41,20 +41,23 @@
                 <input type="text" class="form-control" formControlName="label" placeholder="Field label" [ngClass]="{
                     'is-invalid': submit && getFieldControl(i, 'label').errors,
                     'is-valid': submit && !getFieldControl(i, 'label').errors
-                  }" />
+                  }" placeholder="Put the Label in here" />
                 <div *ngIf="submit && getFieldControl(i, 'label').errors" class="invalid-feedback">
                   <span *ngIf="getFieldControl(i, 'label').errors?.required">Label is required</span>
+                  <span *ngIf="getFieldControl(i, 'label')?.hasError('pattern')">
+                    Label must contain only letters, numbers, spaces, hyphens, or basic punctuation.
+                  </span>
                 </div>
               </div>
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Type</label>
-                <select class="form-select" formControlName="type" >
+                <select class="form-select" formControlName="type">
                   <option *ngFor="let type of availableFieldTypes" [value]="type">
                     {{ type }}
                   </option>
                 </select>
-  
+
               </div>
 
               <div class="col-md-3">
@@ -89,16 +92,23 @@
                     'color'
                   ].includes(getFieldControl(i, 'type').value)
                 " class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="
+                  [
+                    'text',
+                    'email'
+                  ].includes(getFieldControl(i, 'type').value)">
                   <label class="form-label fw-bold">Placeholder</label>
                   <input type="text" class="form-control" formControlName="placeholder" [ngClass]="{
                       'is-invalid':
                         submit && getFieldControl(i, 'placeholder').errors,
                       'is-valid':
                         submit && !getFieldControl(i, 'placeholder').errors
-                    }" />
+                    }" placeholder="Put the placeholder message in here" />
                   <div *ngIf="submit && getFieldControl(i, 'placeholder').errors" class="invalid-feedback">
                     <span *ngIf="getFieldControl(i, 'placeholder').errors?.required">Placeholder is required</span>
+                    <span *ngIf="getFieldControl(i, 'placeholder')?.hasError('pattern')">
+                      Placeholder must contain only letters, numbers, spaces, or basic punctuation.
+                    </span>
                   </div>
                 </div>
 
@@ -108,13 +118,20 @@
                       'is-invalid':
                         submit && getFieldControl(i, 'regex').errors,
                       'is-valid': submit && !getFieldControl(i, 'regex').errors
-                    }" />
+                    }" placeholder="Put the regex expression in here" />
                   <div *ngIf="submit && getFieldControl(i, 'regex').errors" class="invalid-feedback">
                     <span *ngIf="getFieldControl(i, 'regex').errors?.required">Regex pattern is required</span>
+                    <span *ngIf="getFieldControl(i, 'regex')?.hasError('invalidRegex')">Invalid regular
+                      expression.</span>
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div [ngClass]="{'col-12': ['email','text'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
+                  'email',
+                  'date',
+                  'time',
+                  'checkbox',
+                  'color'].includes(getFieldControl(i, 'type').value)}">
                   <label class="form-label fw-bold">Error Message</label>
                   <input type="text" class="form-control" formControlName="regexErrorMessage" [ngClass]="{
                       'is-invalid':
@@ -123,13 +140,16 @@
                       'is-valid':
                         submit &&
                         !getFieldControl(i, 'regexErrorMessage').errors
-                    }" />
+                    }" placeholder="Displayed when input doesn't match pattern" />
                   <div *ngIf="
                       submit && getFieldControl(i, 'regexErrorMessage').errors
                     " class="invalid-feedback">
                     <span *ngIf="
                         getFieldControl(i, 'regexErrorMessage').errors?.required
                       ">Error message is required</span>
+                    <span *ngIf="getFieldControl(i, 'regexErrorMessage')?.hasError('pattern')">
+                      Error message must contain only letters, numbers, spaces, or basic punctuation.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -146,6 +166,8 @@
                     }" />
                   <div *ngIf="submit && getFieldControl(i, 'rangeStart').errors" class="invalid-feedback">
                     <span *ngIf="getFieldControl(i, 'rangeStart').errors?.required">Minimum value is required</span>
+                    <span *ngIf="getFieldControl(i, 'rangeStart')?.hasError('pattern')">Range start must be a
+                      number.</span>
                   </div>
                 </div>
 
@@ -159,6 +181,7 @@
                     }" />
                   <div *ngIf="submit && getFieldControl(i, 'rangeEnd').errors" class="invalid-feedback">
                     <span *ngIf="getFieldControl(i, 'rangeEnd').errors?.required">Maximum value is required</span>
+                    <span *ngIf="getFieldControl(i, 'rangeEnd')?.hasError('pattern')">Range end must be a number.</span>
                   </div>
                 </div>
               </div>
