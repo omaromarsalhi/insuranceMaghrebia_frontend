@@ -9,7 +9,7 @@ import { ImageUploadControllerService } from 'src/app/core/services';
 })
 export class ImageUploaderComponent implements OnInit {
 
-    uploadedImageUrl: string | ArrayBuffer = "";
+    uploadedImageUrl: string;
     selectedFile: File = null;
     fileName: string = "";
     isDragging = false;
@@ -28,7 +28,6 @@ export class ImageUploaderComponent implements OnInit {
         reject("No file selected");
         return;
       }
-
       const params: UploadImage$Params = {
         body: {
           file: this.selectedFile,
@@ -38,9 +37,9 @@ export class ImageUploaderComponent implements OnInit {
       this.imageUploadService.uploadImage(params).subscribe(
         (response: string) => {
           this.uploadedImageUrl = response;
-          console.log("Image uploaded successfully:", response);
           resolve(response); 
-        },
+        }
+        ,
         (error) => {
           console.error("Error uploading image:", error);
           reject(error);

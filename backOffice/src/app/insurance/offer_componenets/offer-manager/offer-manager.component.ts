@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit ,ViewChild} from "@angular/core";
 import { OfferCategoryControllerService, OfferControllerService } from "src/app/core/services";
-import { OfferCategory, OfferRequest } from "src/app/core/models";
-import { OfferFormData } from "src/app/core/models/insurance/offer-form-data.interface";
+import { FilteredCategoryDto, OfferCategory, OfferRequest } from "src/app/core/models";
 import { BehaviorSubject, of } from 'rxjs';
+import { OfferFormData } from "src/app/core/models/offer-form-data.interface";
+import { FilteredCategory } from "src/app/core/models/filtered-category";
 
 @Component({
   selector: "app-offer-manager",
@@ -10,12 +11,9 @@ import { BehaviorSubject, of } from 'rxjs';
   styleUrls: ["./offer-manager.component.scss"],
 })
 export class OfferManagerComponent implements OnInit {
+
   breadCrumbItems: Array<{}>;
   categoriesData: OfferCategory[] = [];
-  // offer: { data: OfferData; form: OfferFormData[] } = {
-  //   data: null, 
-  //   form: [], 
-  // };
   offer: OfferRequest;
   private waiting2submitSubject = new BehaviorSubject<{
     offerData: boolean;
@@ -46,7 +44,8 @@ export class OfferManagerComponent implements OnInit {
     });
   }
 
-  private addOfferWithItsForm() {
+
+  private async addOfferWithItsForm() {
     console.log("saving ...")
     const parm={
       body: this.offer
@@ -59,12 +58,10 @@ export class OfferManagerComponent implements OnInit {
   }
 
   recieveOfferData(data: OfferRequest) {
-
     this.offer = data;
     let olValue = this.waiting2submitSubject.value;
     olValue.offerData=true
     this.waiting2submitSubject.next(olValue)
-    console.log(this.offer);
   }
 
   recieveOfferFormData(data: OfferFormData[]) {

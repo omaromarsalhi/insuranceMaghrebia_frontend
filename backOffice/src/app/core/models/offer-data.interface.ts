@@ -1,24 +1,13 @@
+import { FilteredCategoryDto } from '../models/filtered-category-dto';
+import { OfferLabelDto } from '../models/offer-label-dto';
+
+
 export interface OfferData {
     offerName: string;
     offerHeader: string;
-    category: FilteredCategory;
+    category: FilteredCategoryDto;
     imageUri?: string;
-    labels?: OfferLabel[];
+    labels?: OfferLabelDto[];
   }
   
-  export interface FilteredCategory {
-    id: number;
-    name: string;
-  }
-  
-  export interface OfferLabel {
-    name: string;
-    questions: string[];
-    answers: AnswersType[];
-  }
-  
-  export interface AnswersType {
-      questionIndex: number;
-      value: string;
-    }
   

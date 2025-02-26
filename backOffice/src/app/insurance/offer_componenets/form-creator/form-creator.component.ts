@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OfferFormData } from "src/app/core/models/insurance/offer-form-data.interface";
+import { OfferFormData } from "src/app/core/models/offer-form-data.interface";
 
 
 

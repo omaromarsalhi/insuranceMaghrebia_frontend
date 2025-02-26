@@ -1,24 +1,21 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import {
-  OfferCategoryControllerService,
-} from "src/app/core/services";
+import { OfferCategoryControllerService } from "src/app/core/services";
 import { OfferCategory } from "src/app/core/models";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
+import { uploadImage } from "../../../core/fn/image-upload-controller/upload-image";
+import { CategoryModalComponent } from "../category-modal/category-modal.component";
 
 @Component({
   selector: "app-category",
   templateUrl: "./category.component.html",
   styleUrls: ["./category.component.scss"],
 })
-
-
 export class CategoryComponent implements OnInit {
 
-  @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
-
+  @ViewChild("imageUploader") imageUploader: ImageUploaderComponent;
   breadCrumbItems: Array<{}>;
   formData: FormGroup;
   submitted = false;
@@ -66,20 +63,49 @@ export class CategoryComponent implements OnInit {
     return this.formData.controls;
   }
 
-  openModal(content: any) {
+  openModal(category?: any) {
+    // this.formData.reset();
+    // this.submitted = false;
+    // const modalRef = this.modalService.open(content, {
+    //   backdrop: "static",
+    //   size: "md",
+    // });
     this.formData.reset();
     this.submitted = false;
-    this.modalService.open(content, { backdrop: "static", size: "lg" });
+    const modalRef = this.modalService.open(CategoryModalComponent, {
+      backdrop: "static",
+      size: "md",
+    });
+
+    // Pass data to the modal
+    modalRef.componentInstance.form = this.formData; 
+    modalRef.componentInstance.isEditMode = !!category; 
+
+    if (category) {
+      this.formData.patchValue(category);
+    }
+
+    modalRef.componentInstance.save.subscribe(() => {
+      if (category) {
+        // this.updateCategory();
+        console.log('save')
+      } else {
+        // this.saveCategory();
+        console.log('update')
+      }
+    });
   }
 
-
-  openUpdateModal(content: any, category: OfferCategory) {
-    this.formData.patchValue(category);
-    this.submitted = false;
-    this.modalService.open(content, { backdrop: "static", size: "lg" });
+  // openUpdateModal(content: any, category: OfferCategory) {
+  //   this.formData.patchValue(category);
+  //   this.submitted = false;
+  //   this.modalService.open(content, { backdrop: "static", size: "md" });
+  // }
+  openUpdateModal(category: OfferCategory) {
+    // this.formData.patchValue(category);
+    // this.submitted = false;
+    // this.modalService.open(content, { backdrop: "static", size: "md" });
   }
-
-  
 
   async saveCategory() {
     this.submitted = true;
@@ -88,18 +114,17 @@ export class CategoryComponent implements OnInit {
       return;
     }
 
-    await this.imageUploader.uploadImage();
 
     const params = {
       body: this.formData.value,
     };
 
-
     params.body.imageUri = this.imageUploader.getImageUri();
+    console.log(params);
 
     this.categoryService.createOfferCategory(params).subscribe({
       next: (response) => {
-        console.log(response)
+        console.log(response);
         this.modalService.dismissAll();
         this.imageUploader.clearImage();
         this._fetchData();
@@ -107,13 +132,8 @@ export class CategoryComponent implements OnInit {
       error: (error) => {
         console.error("Error saving category:", error);
       },
-
     });
   }
-
-
-
-  
 
   updateCategory(categoryId: string) {
     if (this.formData.invalid) {

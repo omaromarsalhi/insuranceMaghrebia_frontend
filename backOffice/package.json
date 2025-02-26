@@ -52,6 +52,7 @@
     "ng-apexcharts": "^1.5.12",
     "ng-chartist": "^4.1.0",
     "ng-click-outside": "^8.0.0",
+    "ng-openapi-gen": "^0.52.0",
     "ng-otp-input": "^1.7.1",
     "ng2-charts": "^2.4.2",
     "ng2-completer": "^9.0.1",

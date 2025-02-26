@@ -4,10 +4,11 @@
 
 import { FilteredCategoryDto } from '../models/filtered-category-dto';
 import { OfferLabelDto } from '../models/offer-label-dto';
-export interface OfferRequest {
-  category: FilteredCategoryDto;
-  header: string;
+export interface OfferResponse {
+  category?: FilteredCategoryDto;
+  header?: string;
   imageUri?: string;
   labels?: Array<OfferLabelDto>;
-  name: string;
+  name?: string;
+  offerId?: string;
 }

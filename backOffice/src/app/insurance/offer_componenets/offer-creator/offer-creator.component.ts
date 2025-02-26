@@ -6,6 +6,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  ViewChild,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -15,15 +16,17 @@ import {
   AbstractControl,
   ValidationErrors,
 } from "@angular/forms";
-import { OfferCategory } from "src/app/core/models";
-import { OfferData } from "src/app/core/models/insurance/offer-data.interface";
+import { FilteredCategoryDto, OfferCategory } from "src/app/core/models";
+import { OfferData } from "src/app/core/models/offer-data.interface";
+import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 
 @Component({
   selector: "app-offer-creator",
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit, OnChanges {
+export class OfferCreatorComponent implements OnInit,OnChanges {
+  @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
   @Output() offerCreationEvent = new EventEmitter<OfferData>();
   @Input() categoryData: OfferCategory[] = [];
 
@@ -32,7 +35,9 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   form: FormGroup;
   submit = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -47,15 +52,40 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
       changes["categoryData"] &&
       changes["categoryData"].currentValue?.length > 0
     ) {
-      this.labelsForm.get("category")?.setValue(this.categoryData[0]);
+      this.labelsForm.get("category")?.setValue(this.categoryData[0].categoryId);
     }
+  }
+
+
+
+  getFilteredCategory(categoryId: string): FilteredCategoryDto | undefined {
+    let fielteredCategory = this.categoryData.find(
+      (category) => category.categoryId === categoryId
+    );
+    return {
+      categoryId: fielteredCategory.categoryId,
+      name: fielteredCategory.name,
+      categoryTarget: fielteredCategory.categoryTarget,
+    } as FilteredCategoryDto;
   }
 
   send2OfferManager() {
     // this.submit=true
     // if (this.labelsForm.valid) {
-    const formValue: OfferData = this.labelsForm.value;
-    this.offerCreationEvent.emit(formValue);
+    let formValue = this.labelsForm.value;
+    formValue.category = this.getFilteredCategory(formValue.category)
+
+    this.imageUploader
+      .uploadImage()
+      .then((imageUrl) => {
+        formValue.imageUri = imageUrl;
+      })
+      .catch((error) => {
+        console.error("Image upload failed:", error);
+      })
+      .finally(() => {
+        this.offerCreationEvent.emit(formValue);
+      });
     // }
   }
 
@@ -125,13 +155,15 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
     return this.labelsArray.at(labelIndex).get("questions") as FormArray;
   }
 
-
   addQuestion(labelIndex: number): void {
     const question = this.fb.group({
-      questionText: ["", [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9\s\-?.,']{1,200}$/)
-      ]]
+      questionText: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-?.,']{1,200}$/),
+        ],
+      ],
     });
     this.getQuestions(labelIndex).push(question);
   }
