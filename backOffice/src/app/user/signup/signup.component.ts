@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ageValidator } from '../ageValidator';
 import { AuthService } from 'src/app/core/services/user/auth.service';
 import { UserService } from 'src/app/core/services/user/user.service';
-import { RegistrationRequest } from 'src/app/core/models/registration-request';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Gender } from 'src/app/core/models/user/gender';
+import { RegistrationRequest } from 'src/app/core/models/user/registration-request';
 
 @Component({
   selector: 'app-signup',
@@ -45,7 +45,11 @@ export class SignupComponent implements OnInit {
       address: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
-
+  Gender=Gender
+  
+  getGenderValues(): string[] {
+    return Object.values(Gender);
+  }
   get f() { return this.signupForm.controls; }
 
 

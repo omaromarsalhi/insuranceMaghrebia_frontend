@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { AuthenticationRequest } from '../../models/authentication-request';
-import { RegistrationRequest } from '../../models/registration-request';
-import { AuthenticationResponse } from '../../models/authentication-response';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
-import { catchError, map, tap } from 'rxjs/operators';
-import { RefreshTokenRequest } from '../../models/refresh-token-request';
 import { Router } from '@angular/router';
-import { RefreshResponse } from '../../models/refresh-response';
-interface DecodedToken {
-  sub: string; // Email of the user
-  authorities: string[]; // User roles (optional, if needed)
-}
+import { RegistrationRequest } from '../../models/user/registration-request';
+import { AuthenticationRequest } from '../../models/user/authentication-request';
+import { AuthenticationResponse } from '../../models/user/authentication-response';
+import { RefreshTokenRequest } from '../../models/user/refresh-token-request';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +15,6 @@ interface DecodedToken {
 
 export class AuthService {
   private apiUrl = "http://localhost:9004/api/v1/auth";
-  private accessTokenSubject = new BehaviorSubject<string | null>(null); // Access token stored in BehaviorSubject
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
 
 
@@ -35,7 +28,7 @@ export class AuthService {
   // Store JWT in Cookies
 
   getAccessToken(): string | null {
-    return this.accessTokenSubject.value;
+    return this.cookieService.get('access_token') || null;
   }
 
   getRefreshToken(): string | null {
@@ -50,16 +43,10 @@ export class AuthService {
   }
 
   login(authenticationRequest: AuthenticationRequest): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.apiUrl}/login`, authenticationRequest, {
-      withCredentials: true
-    }).pipe(
-      tap((response) => {
-        this.accessTokenSubject.next(response.accessToken);
-        this.redirectFromLogin();
-      })
-    );
+    return this.http.post<AuthenticationResponse>(`${this.apiUrl}/login`, authenticationRequest,{
+      withCredentials: true,
+    } );
   }
-
   refreshAccessToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
@@ -73,19 +60,9 @@ export class AuthService {
       email: decodedToken.sub
     };
 
-    return this.http.post<any>(`${this.apiUrl}/refresh-token`, refreshTokenRequest, {
-      withCredentials: true
-    }).pipe(
-      tap((response) => {
-        // Set the new access token in BehaviorSubject
-        this.accessTokenSubject.next(response.accessToken);
-        console.log('Access token refreshed successfully');
-      }),
-      catchError((error) => {
-        this.logout();
-        return throwError(() => error);
-      })
-    );
+    return this.http.post<any>(`${this.apiUrl}/refresh-token`, refreshTokenRequest,{
+      withCredentials: true,
+    });
   }
 
   getCurrentUserEmail(): string | null {
@@ -96,19 +73,29 @@ export class AuthService {
     if (this.getRefreshToken())
       return this.decodeToken(this.getRefreshToken()).authorities || null;
   }
+  getCurrentUserFirstname(): string | null {
+    if (this.getRefreshToken())
+      return this.decodeToken(this.getRefreshToken()).firstname || null;
+  }
+  getCurrentUserId(): string | null {
+    if (this.getRefreshToken())
+      return this.decodeToken(this.getRefreshToken()).id || null;
+  }
   logout() {
     this.cookieService.delete('access_token', '/');
     this.cookieService.delete('refresh_token', '/');
-    this.accessTokenSubject.next(null);
     this.router.navigate(['/account/signin']);
   }
   redirectFromLogin() {
     if (this.getUserRoles().includes("client"))
-      window.location.href = 'http://localhost:4200/user/profile'; // Redirect to frontoffice
+      this.redirectToClient(); // Redirect to frontoffice
     else
-      window.location.href = 'http://localhost:4300/dashboard'; // Redirect to backoffice
+      this.redirectToAdmin(); // Redirect to backoffice
   }
   redirectToClient() {
-    window.location.href = 'http://localhost:4200/user/profile';
+    window.location.href = 'http://localhost:4200';
+  }
+  redirectToAdmin() {
+    window.location.href = 'http://localhost:4300/dashboard';
   }
 }

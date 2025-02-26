@@ -30,7 +30,7 @@ export class TopbarComponent implements OnInit {
     private authFackservice: AuthfakeauthenticationService,
     public languageService: LanguageService,
     public translate: TranslateService,
-    public _cookiesService: CookieService) {
+    public _cookiesService: CookieService,) {
   }
 
   listLang = [
@@ -42,11 +42,12 @@ export class TopbarComponent implements OnInit {
   ];
 
   openMobileMenu: boolean;
-
+  firstname = '';
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
   ngOnInit() {
+    this.firstname = this.authService.getCurrentUserFirstname();
     this.openMobileMenu = false;
     this.element = document.documentElement;
 

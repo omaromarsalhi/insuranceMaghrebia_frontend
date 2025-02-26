@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'signin', component: LoginComponent, canActivate: [AuthRedirectGuard] },
   { path: 'forget-password', component: ForgetPasswordComponent, canActivate: [AuthRedirectGuard] },
   { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthRedirectGuard] },
-  {path: 'page404',component: Page404Component},
+  {path: 'page404',component: Page404Component}
 ];
 
 @NgModule({

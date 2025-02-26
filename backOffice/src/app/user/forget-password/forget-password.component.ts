@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EmailRequest } from 'src/app/core/models/email-request';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { EmailRequest } from 'src/app/core/models/user/email-request';
 import { PasswordService } from 'src/app/core/services/user/password.service';
 
 @Component({

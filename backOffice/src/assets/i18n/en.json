@@ -121,6 +121,13 @@
         "ADDPRODUCT": "Add Product"
       }
     },
+    "USER": {
+      "TEXT": "User",
+      "LIST": {
+          "ROLE": "Role List",
+          "USERS":"User List"
+      }
+    },
     "CRYPTO": {
       "TEXT": "Crypto",
       "LIST": {

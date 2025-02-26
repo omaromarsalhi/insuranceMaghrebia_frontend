@@ -1,7 +1,7 @@
 import { Gender } from "./gender";
 import { Role } from "./role";
 
-export interface User {
+export class User {
   id?: string; 
   firstname: string;
   lastname: string;

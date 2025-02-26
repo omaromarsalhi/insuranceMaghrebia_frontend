@@ -1,0 +1,202 @@
+<div class="container-fluid">
+
+  <app-page-title title="Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card overflow-hidden">
+        <div class="bg-soft bg-primary">
+          <div class="row">
+            <div class="col-7">
+              <div class="text-primary p-3">
+                <h5 class="text-primary">Welcome Back !</h5>
+                <p>It will seem like simplified</p>
+              </div>
+            </div>
+            <div class="col-5 align-self-end">
+              <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="avatar-md profile-user-wid mb-4">
+                <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
+              </div>
+              <h5 class="font-size-15 text-truncate">{{fullName}}</h5>
+              <p class="text-muted mb-0 text-truncate" *ngIf="user && user.roles?.length">{{user.roles[0].name}}</p>
+            </div>
+
+            <div class="col-sm-8">
+              <div class="pt-4">
+
+                <div class="row" *ngIf="user">
+                  <div class="col-6">
+                    <h5 class="font-size-15">Last Login</h5>
+                    <p class="text-muted mb-0">{{user.lastLoginDate | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
+                  </div>
+                  <div class="col-6">
+                    <h5 class="font-size-15">Last Edit</h5>
+                    <p class="text-muted mb-0">{{user.lastModifiedDate | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <a href="javascript: void(0);" class="btn btn-primary btn-sm" (click)="openModal(content)">Edit Profile<i
+                      class="mdi mdi-arrow-right ms-1"></i></a>
+                </div>
+                <ng-template #content role="document" let-modal>
+                  <div class="modal-header">
+                    <h5 class="modal-title mt-0">Edit Profile</h5>
+                    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ngb-alert type="success" *ngIf="successmsg" [dismissible]="false">
+                      Your profile has been updated successfully. Since you changed your email, we will sign you out.  
+                      Please check your email to verify your new email.</ngb-alert>
+                    <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="mb-3">
+                            <label for="firstName" class="control-label">First Name</label>
+                            <input type="text" formControlName="firstName" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" id="firstName"
+                              placeholder="Enter first name" />
+                            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                              <span *ngIf="f.firstName.errors.required">First Name is required</span>
+                              <span *ngIf="f.firstName.errors.minlength">First Name must be at least 2 characters long.</span>
+                              <span *ngIf="f.firstName.errors.maxlength">First Name cannot exceed 50 characters.</span>
+                              <span *ngIf="f.firstName.errors">First Name cannot exceed 50 characters.</span>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="lastName" class="control-label">Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" id="lastName"
+                              placeholder="Enter last name" />
+                            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                              <span *ngIf="f.lastName.errors.required">Last Name is required</span>
+                              <span *ngIf="f.lastName.errors.minlength">Last Name must be at least 2 characters long.</span>
+                              <span *ngIf="f.lastName.errors.maxlength">Last Name cannot exceed 50 characters.</span>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="dateOfBirth" class="control-label">Date of Birth</label>
+                            <input type="date" formControlName="dateOfBirth" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.dateOfBirth.errors }" id="dateOfBirth"
+                              placeholder="Enter your date of birth" />
+                            <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
+                              <span *ngIf="f.dateOfBirth.errors.required">Date of birth is required.</span>
+                              <span *ngIf="f.dateOfBirth.errors.ageInvalid">You must be at least 18 years old.</span>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="phone" class="control-label">Phone Number</label>
+                            <input type="number" formControlName="phone" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" id="phone"
+                              placeholder="Enter phone number (8 digits)" />
+                            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                              <span *ngIf="f.phone.errors.required">Phone number is required.</span>
+                              <span *ngIf="f.phone.errors.pattern">Phone number must be exactly 8 digits.</span>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="address" class="control-label">Address</label>
+                            <input type="text" formControlName="address" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.address.errors }" id="address"
+                              placeholder="Enter your address" />
+                            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                              <span *ngIf="f.address.errors.required">Address is required.</span>
+                              <span *ngIf="f.address.errors.maxlength">Address cannot exceed 100 characters.</span>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label class="d-block mb-3">Gender</label>
+                          
+                            <div *ngFor="let gender of getGenderValues()" class="form-check form-check-inline">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                formControlName="gender"
+                                id="{{ gender }}"
+                                [value]="gender"
+                              />
+                              <label class="form-check-label" for="{{ gender }}">{{ gender }}</label>
+                            </div>
+                          
+                            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback d-block">
+                              <div *ngIf="f.gender.errors.required">Gender is required.</div>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+          
+                            <input type="email" formControlName="email" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="email" placeholder="Email" />
+          
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                              <div *ngIf="f.email.errors.required">Email is required</div>
+                              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                              <div *ngIf="f.email.errors.notUnique">Email is already registred</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-success" id="btn-save-event">
+                        Save
+                      </button>
+                    </form>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card -->
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Personal Information</h4>
+          <div class="table-responsive">
+            <table class="table table-nowrap mb-0" *ngIf="user">
+              <tbody>
+                <tr>
+                  <th scope="row">Full Name :</th>
+                  <td>{{fullName}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mobile :</th>
+                  <td >{{user.phone}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">E-mail :</th>
+                  <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Password :</th>
+                  <td><a routerLink="/account/change-password">change password</a></td>
+                </tr>
+                <tr>
+                  <th scope="row">Birthday :</th>
+                  <td>{{user.dateOfBirth}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Location :</th>
+                  <td>{{user.address}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gender :</th>
+                  <td>{{user.gender}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- end card -->
+    </div>
+
+  </div>
+  <!-- end row -->
+</div>

@@ -12,7 +12,7 @@ export class Page404Component implements OnInit {
   constructor(private route : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.link = 'Sorry, '+  this.route.snapshot.queryParams['token'];
+    this.link = 'Sorry, '+  this.route.snapshot.queryParams['error'];
   }
 
 }

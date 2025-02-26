@@ -94,16 +94,20 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="gender" class="form-label">Gender</label>
-                  <select formControlName="gender" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" id="gender">
-                    <option value="">Select Gender</option>
-                    <option *ngFor="let option of genderOptions" [value]="option.value">
-                      {{ option.label }}
-                    </option>
-                  </select>
-
-                  <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                  <label class="d-block mb-3">Gender</label>
+                
+                  <div *ngFor="let gender of getGenderValues()" class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      formControlName="gender"
+                      id="{{ gender }}"
+                      [value]="gender"
+                    />
+                    <label class="form-check-label" for="{{ gender }}">{{ gender }}</label>
+                  </div>
+                
+                  <div *ngIf="submitted && f.gender.errors" class="invalid-feedback d-block">
                     <div *ngIf="f.gender.errors.required">Gender is required.</div>
                   </div>
                 </div>

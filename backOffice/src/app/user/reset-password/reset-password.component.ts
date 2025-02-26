@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PasswordResetRequest } from 'src/app/core/models/password-reset-request';
+import { PasswordResetRequest } from 'src/app/core/models/user/password-reset-request';
 import { PasswordService } from 'src/app/core/services/user/password.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
         });
       },
       (error) => {
-        this.router.navigate(['/account/page404'], { queryParams: { token: error.error.businessErrorDescription } });
+        this.router.navigate(['/account/page404'], { queryParams: { error: error.error.businessErrorDescription } });
       }
     );
 

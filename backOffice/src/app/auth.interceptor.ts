@@ -1,9 +1,15 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Router } from "@angular/router";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { catchError, filter, switchMap, take } from "rxjs/operators";
-import { AuthService } from "./core/services/user/auth.service";
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AuthService } from './core/services/user/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -13,17 +19,17 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Retrieve the latest access token from the AuthService's BehaviorSubject
+    // Get the access token from the cookie
     const accessToken = this.authService.getAccessToken();
 
-    // If the access token exists, attach it to the request headers
+    // If the access token exists, attach it to the request
     if (accessToken) {
       request = this.addTokenToRequest(request, accessToken);
     }
-    // Continue with the request and catch 401 errors to trigger token refresh
+
+    // Continue with the request and handle 401 errors
     return next.handle(request).pipe(
       catchError((error) => {
-        // If a 401 Unauthorized error occurs, handle the token refresh
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         }
@@ -33,41 +39,48 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    // Clone the request and add the Authorization header with the Bearer token
+    // Clone the request and add the Authorization header
     return request.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Prevent multiple refresh token requests by checking if it's already refreshing
+    // If a token refresh is already in progress, wait for it to complete
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);  // Reset the refresh token subject
+      this.refreshTokenSubject.next(null);
 
-      // Call the refresh token service to refresh the access token
+      // Attempt to refresh the access token
       return this.authService.refreshAccessToken().pipe(
-        switchMap(() => {
+        switchMap((response: any) => {
           this.isRefreshing = false;
-          const newAccessToken = this.authService.getAccessToken();
 
+          // Update the access token in the cookie (if the backend sets it)
+          const newAccessToken = this.authService.getAccessToken();
           this.refreshTokenSubject.next(newAccessToken);
-          return next.handle(this.addTokenToRequest(request, newAccessToken!));
+
+          // Retry the original request with the new access token
+          return next.handle(this.addTokenToRequest(request, newAccessToken));
         }),
         catchError((error) => {
           this.isRefreshing = false;
+
+          // If token refresh fails, log the user out
           this.authService.logout();
           this.router.navigate(['/account/signin']);
           return throwError(error);
         })
       );
     } else {
+      // If a token refresh is already in progress, wait for it to complete
       return this.refreshTokenSubject.pipe(
-        filter(token => token !== null),
+        filter((token) => token !== null),
         take(1),
-        switchMap(token => {
+        switchMap((token) => {
+          // Retry the original request with the new access token
           return next.handle(this.addTokenToRequest(request, token));
         })
       );

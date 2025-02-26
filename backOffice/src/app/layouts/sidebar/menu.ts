@@ -25,6 +25,26 @@ export const MENU: MenuItem[] = [
             },
      
         ]
+    },
+    {
+        id : 3,
+        label : 'MENUITEMS.USER.TEXT',
+        icon: 'bxs-user-rectangle',
+        subItems: [
+            {
+                id: 1,
+                label: 'MENUITEMS.USER.LIST.USERS',
+                link: '/user/list',
+                parentId: 3
+            },
+            {
+                id: 2,
+                label: 'MENUITEMS.USER.LIST.ROLE',
+                link: '/user/roles',
+                parentId: 3
+            },
+
+        ]
     }
 ];
 
