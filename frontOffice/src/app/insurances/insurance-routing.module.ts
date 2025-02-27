@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryComponent } from './category-comaponenets/category/category.component';
+import { OfferDtailsComponent } from './offer-componenets/offer-dtails/offer-dtails.component';
 
 const routes: Routes = [
-  { path: 'particular', loadChildren: () => import('./particular/particular.module').then(m => m.ParticularModule) },
+  { path: 'categories', component: CategoryComponent  },
+  { path: 'offer-details', component: OfferDtailsComponent  },
 ];
 
 

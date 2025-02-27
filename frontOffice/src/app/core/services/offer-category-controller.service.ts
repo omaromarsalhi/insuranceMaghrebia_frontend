@@ -11,21 +11,73 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-
+import { createOfferCategory } from '../fn/offer-category-controller/create-offer-category';
+import { CreateOfferCategory$Params } from '../fn/offer-category-controller/create-offer-category';
+import { deleteOfferCategory } from '../fn/offer-category-controller/delete-offer-category';
+import { DeleteOfferCategory$Params } from '../fn/offer-category-controller/delete-offer-category';
 import { getAllOfferCategories } from '../fn/offer-category-controller/get-all-offer-categories';
 import { GetAllOfferCategories$Params } from '../fn/offer-category-controller/get-all-offer-categories';
 import { getOfferCategoryById } from '../fn/offer-category-controller/get-offer-category-by-id';
 import { GetOfferCategoryById$Params } from '../fn/offer-category-controller/get-offer-category-by-id';
 import { OfferCategory } from '../models/offer-category';
-
+import { updateOfferCategory } from '../fn/offer-category-controller/update-offer-category';
+import { UpdateOfferCategory$Params } from '../fn/offer-category-controller/update-offer-category';
 
 @Injectable({ providedIn: 'root' })
-
 export class OfferCategoryControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
 
+  /** Path part for operation `updateOfferCategory()` */
+  static readonly UpdateOfferCategoryPath = '/api/v1/offer-categories/update/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateOfferCategory()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateOfferCategory$Response(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+    return updateOfferCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateOfferCategory$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateOfferCategory(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<OfferCategory> {
+    return this.updateOfferCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferCategory>): OfferCategory => r.body)
+    );
+  }
+
+  /** Path part for operation `createOfferCategory()` */
+  static readonly CreateOfferCategoryPath = '/api/v1/offer-categories/create';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createOfferCategory()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createOfferCategory$Response(params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+    return createOfferCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `createOfferCategory$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createOfferCategory(params: CreateOfferCategory$Params, context?: HttpContext): Observable<OfferCategory> {
+    return this.createOfferCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferCategory>): OfferCategory => r.body)
+    );
+  }
 
   /** Path part for operation `getOfferCategoryById()` */
   static readonly GetOfferCategoryByIdPath = '/api/v1/offer-categories/getOne/{id}';
@@ -77,6 +129,29 @@ export class OfferCategoryControllerService extends BaseService {
     );
   }
 
+  /** Path part for operation `deleteOfferCategory()` */
+  static readonly DeleteOfferCategoryPath = '/api/v1/offer-categories/{id}';
 
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteOfferCategory()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteOfferCategory$Response(params: DeleteOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteOfferCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteOfferCategory$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteOfferCategory(params: DeleteOfferCategory$Params, context?: HttpContext): Observable<void> {
+    return this.deleteOfferCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
 
 }

@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generate-api": "ng-openapi-gen -i http://localhost:9002/v3/api-docs  --output ./src/app/core"
+    "openapi": "ng-openapi-gen -i http://localhost:9002/v3/api-docs --output ./src/app/core --remove-stale-files=false"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +34,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "magnific-popup": "^1.2.0",
+    "ng-openapi-gen": "^0.52.0",
     "ngx-owl-carousel-o": "^16.0.0",
     "ngx-slick-carousel": "^15.0.0",
     "owl.carousel": "^2.3.4",
