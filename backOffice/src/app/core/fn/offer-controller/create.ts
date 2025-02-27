@@ -8,15 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { OfferRequest } from '../../models/offer-request';
+import { OfferResponse } from '../../models/offer-response';
 
-export interface UploadImage$Params {
-      body?: {
-'file': Blob;
-}
+export interface Create$Params {
+      body: OfferRequest
 }
 
-export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadImage$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, uploadImage.PATH, 'post');
+export function create(http: HttpClient, rootUrl: string, params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+  const rb = new RequestBuilder(rootUrl, create.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -26,9 +26,9 @@ export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadIm
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<OfferResponse>;
     })
   );
 }
 
-uploadImage.PATH = '/api/v1/images/upload';
+create.PATH = '/api/v1/offers/create';

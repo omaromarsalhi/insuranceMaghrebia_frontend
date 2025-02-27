@@ -11,18 +11,20 @@ import { RequestBuilder } from '../../request-builder';
 
 export interface UploadImage$Params {
       body?: {
-'file': Blob;
+'file': File;
 }
 }
 
 export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadImage$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
   const rb = new RequestBuilder(rootUrl, uploadImage.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    const formData = new FormData();
+    formData.append("file", params.body.file);
+    rb.body(formData, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'text', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {

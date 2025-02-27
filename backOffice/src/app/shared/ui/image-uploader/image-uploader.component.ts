@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/upload-image';
-import { ImageUploadControllerService } from 'src/app/core/services';
+import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/my-upload-image';
+import { MyImageUploadControllerService } from '../../../core/services/my-image-upload-controller.service';
+
 
 @Component({
   selector: 'app-image-uploader',
@@ -16,7 +17,7 @@ export class ImageUploaderComponent implements OnInit {
     isLoading: boolean = false;
   
     constructor(
-        private imageUploadService: ImageUploadControllerService
+        private imageUploadService: MyImageUploadControllerService
       ) {}
     
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class ImageUploaderComponent implements OnInit {
         reject("No file selected");
         return;
       }
+      
       const params: UploadImage$Params = {
         body: {
           file: this.selectedFile,

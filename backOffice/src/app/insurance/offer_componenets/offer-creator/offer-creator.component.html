@@ -21,8 +21,8 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-bold">Category</label>
-                <select class="form-select" formControlName="category">
-                    <option *ngFor="let category of categoryData " [value]="category.categoryId">
+                <select class="form-select" formControlName="categoryId">
+                    <option selected *ngFor="let category of categoryData " [value]="category.categoryId">
                         {{ category.name }}
                     </option>
                 </select>

@@ -4,7 +4,10 @@
 
 export { AnswersTypeDto } from './models/answers-type-dto';
 export { FilteredCategoryDto } from './models/filtered-category-dto';
+export { FormFieldDto } from './models/form-field-dto';
 export { OfferCategory } from './models/offer-category';
+export { OfferFormRequest } from './models/offer-form-request';
+export { OfferFormResponse } from './models/offer-form-response';
 export { OfferLabelDto } from './models/offer-label-dto';
 export { OfferRequest } from './models/offer-request';
 export { OfferResponse } from './models/offer-response';

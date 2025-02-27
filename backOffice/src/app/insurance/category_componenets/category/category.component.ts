@@ -88,10 +88,10 @@ export class CategoryComponent implements OnInit {
     modalRef.componentInstance.save.subscribe(() => {
       if (category) {
         // this.updateCategory();
-        console.log('save')
-      } else {
-        // this.saveCategory();
         console.log('update')
+      } else {
+        this.saveCategory();
+        console.log('save')
       }
     });
   }
@@ -119,7 +119,7 @@ export class CategoryComponent implements OnInit {
       body: this.formData.value,
     };
 
-    params.body.imageUri = this.imageUploader.getImageUri();
+    // params.body.imageUri = this.imageUploader.getImageUri();
     console.log(params);
 
     this.categoryService.createOfferCategory(params).subscribe({

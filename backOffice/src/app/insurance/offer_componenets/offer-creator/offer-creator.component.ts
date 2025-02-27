@@ -16,8 +16,13 @@ import {
   AbstractControl,
   ValidationErrors,
 } from "@angular/forms";
-import { FilteredCategoryDto, OfferCategory } from "src/app/core/models";
-import { OfferData } from "src/app/core/models/offer-data.interface";
+import { Subject } from "rxjs";
+import {
+  FilteredCategoryDto,
+  OfferCategory,
+  OfferRequest,
+} from "src/app/core/models";
+import { OfferCategoryControllerService } from "src/app/core/services";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 
 @Component({
@@ -25,38 +30,35 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit,OnChanges {
+export class OfferCreatorComponent implements OnInit {
+
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
-  @Output() offerCreationEvent = new EventEmitter<OfferData>();
-  @Input() categoryData: OfferCategory[] = [];
+  @Output() offerCreationEvent = new EventEmitter<OfferRequest>();
+  @Input() triggerCleanEvent!: Subject<void>;
 
   labelsForm: FormGroup;
   breadCrumbItems: Array<{}>;
   form: FormGroup;
   submit = false;
+  categoryData:  OfferCategory[] = [];
 
-  constructor(
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder,
+    private categoryService: OfferCategoryControllerService
+  ) { }
 
   ngOnInit(): void {
+    this._fetchCategoryData();
+
     this.initForm();
     this.breadCrumbItems = [
       { label: "Forms" },
       { label: "OFFER", active: true },
     ];
+
+    this.triggerCleanEvent.subscribe(() => {
+      this.resetLabelForm();
+    });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["categoryData"] &&
-      changes["categoryData"].currentValue?.length > 0
-    ) {
-      this.labelsForm.get("category")?.setValue(this.categoryData[0].categoryId);
-    }
-  }
-
-
 
   getFilteredCategory(categoryId: string): FilteredCategoryDto | undefined {
     let fielteredCategory = this.categoryData.find(
@@ -73,7 +75,7 @@ export class OfferCreatorComponent implements OnInit,OnChanges {
     // this.submit=true
     // if (this.labelsForm.valid) {
     let formValue = this.labelsForm.value;
-    formValue.category = this.getFilteredCategory(formValue.category)
+    formValue.category = this.getFilteredCategory(formValue.categoryId);
 
     this.imageUploader
       .uploadImage()
@@ -103,7 +105,6 @@ export class OfferCreatorComponent implements OnInit,OnChanges {
     return null;
   }
 
-  // Updated initForm
   private initForm(): void {
     this.labelsForm = this.fb.group({
       name: [
@@ -117,13 +118,13 @@ export class OfferCreatorComponent implements OnInit,OnChanges {
           Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/),
         ],
       ],
-      category: [""],
+      categoryId: [""],
       imageUri: ["", Validators.required],
       labels: this.fb.array([], Validators.required),
     });
   }
 
-  // Updated createLabel with validations
+
   createLabel(): FormGroup {
     return this.fb.group(
       {
@@ -141,7 +142,6 @@ export class OfferCreatorComponent implements OnInit,OnChanges {
   get labelsArray(): FormArray {
     return this.labelsForm.get("labels") as FormArray;
   }
-  qIndex;
 
   addLabel(): void {
     this.labelsArray.push(this.createLabel());
@@ -230,5 +230,13 @@ export class OfferCreatorComponent implements OnInit,OnChanges {
       this.labelsArray.removeAt(0);
     }
     this.initForm();
+  }
+
+  private _fetchCategoryData() {
+    this.categoryService.getAllOfferCategories().subscribe({
+      next: (data) => {
+        this.categoryData = data;
+      },
+    });
   }
 }

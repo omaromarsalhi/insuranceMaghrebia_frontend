@@ -6,6 +6,7 @@ import { FilteredCategoryDto } from '../models/filtered-category-dto';
 import { OfferLabelDto } from '../models/offer-label-dto';
 export interface OfferRequest {
   category: FilteredCategoryDto;
+  formId?: string;
   header: string;
   imageUri?: string;
   labels?: Array<OfferLabelDto>;

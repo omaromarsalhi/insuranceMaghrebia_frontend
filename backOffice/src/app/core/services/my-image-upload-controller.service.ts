@@ -11,38 +11,37 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { create } from '../fn/offer-controller/create';
-import { Create$Params } from '../fn/offer-controller/create';
-import { OfferResponse } from '../models/offer-response';
+import { uploadImage } from '../fn/image-upload-controller/my-upload-image';
+import { UploadImage$Params } from '../fn/image-upload-controller/my-upload-image';
 
 @Injectable({ providedIn: 'root' })
-export class OfferControllerService extends BaseService {
+export class MyImageUploadControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
 
-  /** Path part for operation `create()` */
-  static readonly CreatePath = '/api/v1/offers/create';
+  /** Path part for operation `uploadImage()` */
+  static readonly UploadImagePath = '/api/v1/images/upload';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `create()` instead.
+   * To access only the response body, use `uploadImage()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create$Response(params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-    return create(this.http, this.rootUrl, params, context);
+  uploadImage$Response(params?: UploadImage$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return uploadImage(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `create$Response()` instead.
+   * To access the full response (for headers, for example), `uploadImage$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create(params: Create$Params, context?: HttpContext): Observable<OfferResponse> {
-    return this.create$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+  uploadImage(params?: UploadImage$Params, context?: HttpContext): Observable<string> {
+    return this.uploadImage$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

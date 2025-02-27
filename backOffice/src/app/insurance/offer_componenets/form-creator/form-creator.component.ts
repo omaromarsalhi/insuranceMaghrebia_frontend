@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output,Input } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,10 @@ import {
 } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OfferFormData } from "src/app/core/models/offer-form-data.interface";
+import { OfferFormRequest } from '../../../core/models/offer-form-request';
+import { FormFieldDto } from "src/app/core/models";
+import Swal from 'sweetalert2';
+import { Subject } from "rxjs";
 
 
 
@@ -20,7 +23,8 @@ import { OfferFormData } from "src/app/core/models/offer-form-data.interface";
   styleUrls: ["./form-creator.component.scss"],
 })
 export class FormCreatorComponent implements OnInit {
-  @Output() offerFormCreationEvent = new EventEmitter<OfferFormData[]>();
+  @Output() offerFormCreationEvent = new EventEmitter<FormFieldDto[]>();
+  @Input() triggerCleanEvent!: Subject<void>;
   dynamicForm!: FormGroup;
   availableFieldTypes = [
     "text",
@@ -31,6 +35,7 @@ export class FormCreatorComponent implements OnInit {
     "color",
     "range",
     "select",
+    "radio"
   ];
   submit = false;
 
@@ -38,6 +43,22 @@ export class FormCreatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+
+    this.triggerCleanEvent.subscribe(()=>{
+      this.resetForm()
+    })
+  }
+
+
+
+
+  // Submit method
+  send2OfferManager() {
+    // this.submit = true;
+    // if (this.dynamicForm.valid) {
+      const formData: FormFieldDto[] = this.dynamicForm.value.fields;
+      this.offerFormCreationEvent.emit(formData);
+    // }
   }
 
   private initForm(): void {
@@ -105,7 +126,7 @@ export class FormCreatorComponent implements OnInit {
           [
             Validators.required,
             Validators.pattern(
-              /^(text|email|number|password|date|tel|url|select|checkbox|radio)$/
+              /^(text|email||date|tel|url|select|checkbox|radio)$/
             ),
           ],
         ],
@@ -121,10 +142,6 @@ export class FormCreatorComponent implements OnInit {
         placeholder: [
           "",
           [Validators.required, Validators.pattern(/^[\w\s\-.,'()]{1,100}$/)],
-        ],
-        description: [
-          "",
-          [Validators.required, Validators.pattern(/^[\w\s\-.,'()]{0,500}$/)],
         ],
         regex: ["", [Validators.required, this.validRegex]],
         regexErrorMessage: [
@@ -167,14 +184,7 @@ export class FormCreatorComponent implements OnInit {
     this.getSelectOptions(field).push(this.fb.control(""));
   }
 
-  // Submit method
-  send2OfferManager() {
-    // this.submit = true;
-    // if (this.dynamicForm.valid) {
-      const formData: OfferFormData[] = this.dynamicForm.value.fields;
-      this.offerFormCreationEvent.emit(formData);
-    // }
-  }
+
 
   addField(): void {
     const order = this.fields.length + 1;

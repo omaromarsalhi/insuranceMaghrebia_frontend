@@ -8,6 +8,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { OfferCategoryControllerService } from './services/offer-category-controller.service';
 import { OfferControllerService } from './services/offer-controller.service';
+import { OfferFormControllerService } from './services/offer-form-controller.service';
 import { ImageUploadControllerService } from './services/image-upload-controller.service';
 
 /**
@@ -20,6 +21,7 @@ import { ImageUploadControllerService } from './services/image-upload-controller
   providers: [
     OfferCategoryControllerService,
     OfferControllerService,
+    OfferFormControllerService,
     ImageUploadControllerService,
     ApiConfiguration
   ],

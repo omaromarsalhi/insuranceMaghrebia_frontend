@@ -11,38 +11,38 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { create } from '../fn/offer-controller/create';
-import { Create$Params } from '../fn/offer-controller/create';
-import { OfferResponse } from '../models/offer-response';
+import { create1 } from '../fn/offer-form-controller/create-1';
+import { Create1$Params } from '../fn/offer-form-controller/create-1';
+import { OfferFormResponse } from '../models/offer-form-response';
 
 @Injectable({ providedIn: 'root' })
-export class OfferControllerService extends BaseService {
+export class OfferFormControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
 
-  /** Path part for operation `create()` */
-  static readonly CreatePath = '/api/v1/offers/create';
+  /** Path part for operation `create1()` */
+  static readonly Create1Path = '/api/v1/offer_forms/create';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `create()` instead.
+   * To access only the response body, use `create1()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create$Response(params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-    return create(this.http, this.rootUrl, params, context);
+  create1$Response(params: Create1$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferFormResponse>> {
+    return create1(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `create$Response()` instead.
+   * To access the full response (for headers, for example), `create1$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create(params: Create$Params, context?: HttpContext): Observable<OfferResponse> {
-    return this.create$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+  create1(params: Create1$Params, context?: HttpContext): Observable<OfferFormResponse> {
+    return this.create1$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferFormResponse>): OfferFormResponse => r.body)
     );
   }
 

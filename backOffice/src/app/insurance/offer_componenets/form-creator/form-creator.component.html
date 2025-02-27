@@ -112,7 +112,8 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+
+                <div *ngIf="['email','text'].includes(getFieldControl(i, 'type').value)" class="col-md-6">
                   <label class="form-label fw-bold">Validation Pattern</label>
                   <input type="text" class="form-control" formControlName="regex" [ngClass]="{
                       'is-invalid':
@@ -126,7 +127,7 @@
                   </div>
                 </div>
 
-                <div [ngClass]="{'col-12': ['email','text'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
+                <div *ngIf="['email','text'].includes(getFieldControl(i, 'type').value)" [ngClass]="{'col-12': ['email','text'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
                   'email',
                   'date',
                   'time',
@@ -152,6 +153,7 @@
                     </span>
                   </div>
                 </div>
+
               </div>
 
               <!-- Range Settings -->
@@ -187,7 +189,30 @@
               </div>
 
               <!-- Select Options -->
-              <div *ngIf="getFieldControl(i, 'type').value === 'select'" class="mt-3">
+              <!-- <div *ngIf="getFieldControl(i, 'type').value === 'select'" class="mt-3">
+                <label class="form-label fw-bold">Options</label>
+                <div formArrayName="selectOptions">
+                  <div *ngFor="
+                      let opt of getSelectOptions(field).controls;
+                      let j = index
+                    " class="input-group mb-2">
+                    <input type="text" class="form-control" [formControlName]="j" [ngClass]="{
+                        'is-invalid': (submit || opt.touched) && opt.errors
+                      }" />
+                    <button type="button" class="btn btn-outline-danger" (click)="removeSelectOption(field, j)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    <div *ngIf="(submit || opt.touched) && opt.errors" class="invalid-feedback">
+                      <span *ngIf="opt.errors?.required">Option is required</span>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="addSelectOption(field)">
+                  <i class="fas fa-plus me-2"></i>Add Option
+                </button>
+              </div> -->
+              <div *ngIf="getFieldControl(i, 'type').value === 'select' || getFieldControl(i, 'type').value === 'radio'"
+                class="mt-3">
                 <label class="form-label fw-bold">Options</label>
                 <div formArrayName="selectOptions">
                   <div *ngFor="
@@ -269,6 +294,14 @@
 
                 <input *ngSwitchCase="'range'" type="range" class="form-range" [min]="field.get('rangeStart')?.value"
                   [max]="field.get('rangeEnd')?.value" />
+
+                <div *ngSwitchCase="'radio'" class="form-group">
+                  <div *ngFor="let opt of getSelectOptions(field).value" class="form-check">
+                    <input class="form-check-input" type="radio" [name]="'radio_' + field.get('label')?.value"
+                      [id]="'radio_' + opt">
+                    <label class="form-check-label" [for]="'radio_' + opt">{{ opt }}</label>
+                  </div>
+                </div>
 
                 <select *ngSwitchCase="'select'" class="form-select">
                   <option *ngFor="let opt of getSelectOptions(field).value" [value]="opt">
