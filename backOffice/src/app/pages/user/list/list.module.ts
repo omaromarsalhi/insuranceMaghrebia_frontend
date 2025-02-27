@@ -8,13 +8,17 @@ import { UIModule } from "../../../shared/ui/ui.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgePipe } from 'src/app/core/pipes/age.pipe';
-
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     RolesComponent,
-    AgePipe
+    AgePipe,
+    UserProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,8 @@ import { AgePipe } from 'src/app/core/pipes/age.pipe';
     FormsModule,
     ReactiveFormsModule,
     NgbTooltipModule,
-    NgbAlertModule
+    NgbAlertModule,
+    NgSelectModule
   ]
 })
 export class ListModule { }

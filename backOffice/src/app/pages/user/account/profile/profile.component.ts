@@ -1,15 +1,12 @@
-import { tokenName } from '@angular/compiler';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/core/services/user/auth.service';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ageValidator } from 'src/app/user/ageValidator';
-import { EmailRequest } from 'src/app/core/models/user/email-request';
 import { fullName, User } from 'src/app/core/models/user/user';
 import { UpdateProfileRequest } from 'src/app/core/models/user/update-profile-request';
 import { Gender } from 'src/app/core/models/user/gender';
-
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +14,25 @@ import { Gender } from 'src/app/core/models/user/gender';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild('content', { static: true }) content: TemplateRef<any>;
   userForm: FormGroup;
   submitted = false;
   breadCrumbItems: Array<{}>;
-  constructor(private authService: AuthService, private userService: UserService, private formBuilder: FormBuilder, private modalService: NgbModal, private cdRef: ChangeDetectorRef) { }
   user: User;
   fullName: string;
   successmsg = false;
+
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private cdRef: ChangeDetectorRef
+  ) {}
+
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Account' }, { label: 'Profile', active: true }];
+
     this.userService.getProfile(this.authService.getCurrentUserId()).subscribe(
       (data) => {
         this.user = data;
@@ -38,9 +45,20 @@ export class ProfileComponent implements OnInit {
           phone: [this.user.phone, [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
           address: [this.user.address, [Validators.required, Validators.maxLength(100)]]
         });
+
         this.fullName = fullName(this.user);
+
+        this.userService.getCurrentUserCanContinue(this.authService.getCurrentUserId()).subscribe(
+          (canContinue) => {
+            if (!canContinue) {
+              this.openModal(this.content);
+            }
+          },
+          (error) => console.error(error)
+        );
       },
       (error) => {
+        console.error(error);
       }
     );
   }
@@ -48,9 +66,15 @@ export class ProfileComponent implements OnInit {
   get f() {
     return this.userForm.controls;
   }
+
   openModal(content: any) {
-    this.modalService.open(content);
+    if (this.user?.canContinue) {
+      this.modalService.open(content);
+    } else {
+      this.modalService.open(content, { backdrop: 'static', keyboard: false });
+    }
   }
+  
 
   saveChanges() {
     if (this.userForm.valid) {
@@ -62,11 +86,12 @@ export class ProfileComponent implements OnInit {
         gender: this.f.gender.value,
         phone: this.f.phone.value,
         address: this.f.address.value
-      }
+      };
+
       this.userService.updateUserProfile(this.user.id, updateProfileRequest).subscribe(
         {
           next: (data) => {
-            this.user=data;
+            this.user = data;
             this.userForm.patchValue({
               firstName: this.user.firstname,
               lastName: this.user.lastname,
@@ -81,27 +106,29 @@ export class ProfileComponent implements OnInit {
             this.modalService.dismissAll();
           },
           error: (err) => {
-            if(err.status== 409) {
+            if (err.status === 409) {
               this.userForm.controls.email.setErrors({ notUnique: true });
             }
-            if(err.status == 422){
-              this.successmsg= true;
-               setTimeout(() => {
-                 this.authService.logout();
-                 this.modalService.dismissAll();
-               }, 5000);
+            if (err.status === 422) {
+              this.successmsg = true;
+              setTimeout(() => {
+                this.authService.logout();
+                this.modalService.dismissAll();
+              }, 5000);
             }
           }
         }
       );
-
     }
-    this.submitted = true
+    this.submitted = true;
   }
-  Gender = Gender
+
+  Gender = Gender;
+
   getGenderValues(): string[] {
     return Object.values(Gender);
   }
+
   triggerChangeDetection() {
     this.cdRef.detectChanges();
   }

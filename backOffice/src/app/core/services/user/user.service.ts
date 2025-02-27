@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UpdateProfileRequest } from '../../models/user/update-profile-request';
 import { ChangePasswordRequest } from '../../models/user/change-password-request';
+import { Role } from '../../models/user/role';
+import { EmployeeRegistrationRequest } from '../../models/user/employee-registration-request';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +15,39 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  createUser(employeRegRequest: EmployeeRegistrationRequest,creatorId : string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create?creatorId=${creatorId}`, employeRegRequest, {
+      withCredentials: true,
+    });
+  }
+
   getProfile(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile/` + id, {
+      withCredentials: true,
+    });
+  }
+  getCurrentUserCanContinue(id: string): Observable<boolean> {
+    return this.http.get<{ canContinue: boolean }>(`${this.apiUrl}/canContinue/${id}`, {
+      withCredentials: true,
+    }).pipe(
+      map(response => response.canContinue)
+    );
+  }
+  
+  getUserRoles(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/roles/${id}`, {
       withCredentials: true,
     });
   }
 
   updateUserProfile(id: string, user: UpdateProfileRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/edit-profile/${id}`, user, {
+      withCredentials: true,
+    });
+  }
+
+  updateUserRoles(id: string, roles: Array<Role>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/edit-user-roles/${id}`, roles, {
       withCredentials: true,
     });
   }
@@ -37,7 +65,7 @@ export class UserService {
   }
 
   deleteUser(id: string, deleterId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete/${id}?deleterId=` + deleterId , {
+    return this.http.delete(`${this.apiUrl}/delete/${id}?deleterId=` + deleterId, {
       withCredentials: true,
     });
   }
@@ -53,4 +81,5 @@ export class UserService {
       withCredentials: true,
     });
   }
+
 }

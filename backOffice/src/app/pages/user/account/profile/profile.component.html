@@ -48,7 +48,7 @@
                 <ng-template #content role="document" let-modal>
                   <div class="modal-header">
                     <h5 class="modal-title mt-0">Edit Profile</h5>
-                    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+                    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')" [disabled]="!user.canContinue"></button>
                   </div>
                   <div class="modal-body">
                     <ngb-alert type="success" *ngIf="successmsg" [dismissible]="false">

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+  <!-- start page title -->
+  <app-page-title title="Users List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <!-- end page title -->
+
+  <div class="row">
+    <div class="col-lg-10">
+      <div class="card">
+        <div class="card-body" *ngIf="userId">
+          <h4 class="card-title mb-4">Change password</h4>
+          <ngb-alert type="danger" *ngIf="errormsg" [dismissible]="false">
+            {{errormsg}}</ngb-alert>
+          <form (ngSubmit)="save()" [formGroup]="userForm">
+            <div class="mb-3">
+              <label class="control-label">Roles</label>
+              <ng-select class="form-control" [ngClass]="{ 'is-invalid': submitted && f.roles.errors }" [items]="selectValue" [multiple]="true" formControlName="roles" [(ngModel)]="selected" >
+              </ng-select>
+              <div *ngIf="submitted && f.roles.errors" class="invalid-feedback">
+                <div *ngIf="f.roles.errors.required">Roles required</div>
+              </div>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary w-md">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

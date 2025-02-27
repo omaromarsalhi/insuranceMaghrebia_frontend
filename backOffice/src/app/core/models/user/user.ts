@@ -17,6 +17,7 @@ export class User {
   accountLocked: boolean;
   enabled: boolean;
   roles: Role[]; 
+  canContinue : boolean;
 }
 
 export function fullName(user: User): string {

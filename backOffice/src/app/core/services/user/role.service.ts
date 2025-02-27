@@ -12,6 +12,13 @@ export class RoleService {
   constructor(private http: HttpClient) { }
 
   addRole(role: Role): Observable<Role> {
-    return this.http.post<Role>(`${this.apiUrl}/add`, role);
+    return this.http.post<Role>(`${this.apiUrl}/add`, role, {
+      withCredentials: true
+    });
+  }
+  getAll(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/all`, {
+      withCredentials: true
+    });
   }
 }

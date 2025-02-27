@@ -3,6 +3,72 @@
   <app-page-title title="Users List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
+    <div class="d-flex">
+      <button class="btn btn-success ms-auto mb-2" (click)="openModal(content)">Add user </button>
+    </div>
+    <ng-template #content role="document" let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title mt-0">Add Employee</h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="saveUser()" [formGroup]="userForm">
+          <div class="row">
+            <div class="col-12">
+
+                <div class="mb-3">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" formControlName="firstName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" id="firstName"
+                    placeholder="Enter first name" />
+                  <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    <div *ngIf="f.firstName.errors.minlength">First Name must be at least 2 characters long.</div>
+                    <div *ngIf="f.firstName.errors.maxlength">First Name cannot exceed 50 characters.</div>
+                    <div *ngIf="f.firstName.errors">First Name cannot exceed 50 characters.</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" formControlName="lastName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" id="lastName"
+                    placeholder="Enter last name" />
+                  <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    <div *ngIf="f.lastName.errors.minlength">Last Name must be at least 2 characters long.</div>
+                    <div *ngIf="f.lastName.errors.maxlength">Last Name cannot exceed 50 characters.</div>
+                  </div>
+                </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+
+                <input type="email" formControlName="email" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="email" placeholder="Email" />
+
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                  <div *ngIf="f.email.errors.notUnique">Email is already registred</div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="control-label">Roles</label>
+                <ng-select class="form-control" [ngClass]="{ 'is-invalid': submitted && f.roles.errors }" [items]="selectValue" [multiple]="true" formControlName="roles" [(ngModel)]="selected" >
+                </ng-select>
+                <div *ngIf="submitted && f.roles.errors" class="invalid-feedback">
+                  <div *ngIf="f.roles.errors.required">Roles required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success" id="btn-save-event">
+            Save
+          </button>
+        </form>
+      </div>
+    </ng-template>
+
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
@@ -60,7 +126,10 @@
                     <div>
                       <a href="javascript: void(0);" class="badge badge-soft-warning font-size-12 m-1" *ngIf="!user.enabled else banned">NOT VERIFIED</a>
                       <ng-template #banned>
-                        <a href="javascript: void(0);" class="badge badge-soft-danger font-size-12 m-1" *ngIf="user.accountLocked else active">BANNED</a>
+                        <a href="javascript: void(0);" class="badge badge-soft-danger font-size-12 m-1" *ngIf="user.accountLocked else cantContinue">BANNED</a>
+                      </ng-template>
+                      <ng-template #cantContinue>
+                        <a href="javascript: void(0);" class="badge badge-soft-warning font-size-12 m-1" *ngIf="!user.canContinue else active">Profile Incomplete</a>
                       </ng-template>
                       <ng-template #active>
                         <a href="javascript: void(0);" class="badge badge-soft-success font-size-12 m-1">ACTIVE</a>
@@ -70,10 +139,10 @@
                   <td>
                     <ul class="list-inline font-size-20 contact-links mb-0">
                       <li class="list-inline-item px-2">
-                        <a href="javascript: void(0);" ngbTooltip="Profile"><i class="bx bx-user-circle" ></i></a>
+                        <a href="javascript: void(0);" ngbTooltip="Profile" [routerLink]="['/user/profile']" [queryParams]="{ id: user.id }"><i class="bx bx-user-circle" ></i></a>
                       </li>
                       <li class="list-inline-item px-2">
-                        <a href="javascript: void(0);" ngbTooltip="Edit"><i class="bx bx-edit"></i></a>
+                        <a href="javascript: void(0);" ngbTooltip="Edit" [routerLink]="['/user/edit']" [queryParams]="{ id: user.id }"><i class="bx bx-edit"></i></a>
                       </li>
                       <li class="list-inline-item px-2">
                         <a href="javascript: void(0);" ngbTooltip="Ban" (click)="ban(user.id)" *ngIf="!user.accountLocked else unBan" ><i class="bx bx-lock"></i></a>

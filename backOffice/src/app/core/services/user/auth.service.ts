@@ -69,23 +69,28 @@ export class AuthService {
     if (this.getRefreshToken())
       return this.decodeToken(this.getRefreshToken()).sub || null;
   }
+
   getUserRoles(): string[] {
     if (this.getRefreshToken())
       return this.decodeToken(this.getRefreshToken()).authorities || null;
   }
+
   getCurrentUserFirstname(): string | null {
     if (this.getRefreshToken())
       return this.decodeToken(this.getRefreshToken()).firstname || null;
   }
+
   getCurrentUserId(): string | null {
     if (this.getRefreshToken())
       return this.decodeToken(this.getRefreshToken()).id || null;
   }
+
   logout() {
     this.cookieService.delete('access_token', '/');
     this.cookieService.delete('refresh_token', '/');
     this.router.navigate(['/account/signin']);
   }
+
   redirectFromLogin() {
     if (this.getUserRoles().includes("client"))
       this.redirectToClient(); // Redirect to frontoffice

@@ -39,10 +39,6 @@ export class SignupComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
-      dateOfBirth: ['', [Validators.required, ageValidator(18)]],
-      gender: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
-      address: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
   Gender=Gender
@@ -65,10 +61,6 @@ export class SignupComponent implements OnInit {
       lastName: this.f.lastName.value,
       email: this.f.email.value,
       password: this.f.password.value,
-      dateOfBirth: this.f.dateOfBirth.value,
-      gender: this.f.gender.value,
-      phone: this.f.phone.value,
-      address: this.f.address.value
     };
     this.authenticationService.register(registrationRequest)
       .subscribe(
