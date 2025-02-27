@@ -542,6 +542,7 @@ button {
   top: 15px;
   right: 0;
   color: #fff;
+
 }
 .search-modal .modal-content .form_control {
   padding: 15px 30px 15px 0;
@@ -3928,6 +3929,8 @@ button {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 35px;
+  border-radius: 20px;
+  border:none;
 }
 .comments-area .comment .comment-avatar {
   -webkit-box-flex: 0;
@@ -3969,9 +3972,10 @@ button {
   }
 }
 
-/* Comments Respond */
+
 .comments-respond {
   padding: 45px 50px 50px;
+
   border-radius: 10px;
 }
 @media (max-width: 767px) {
@@ -3984,12 +3988,13 @@ button {
 }
 .comments-respond p {
   margin-bottom: 30px;
+  font-size: 20px;
 }
 
 /* Comment Form */
 form.comment-form .form_control {
   margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(115, 98, 98, 0.1);
   border: 1px solid transparent;
   border-radius: 5px;
   color: #ffff;
@@ -3998,9 +4003,10 @@ form.comment-form .form_control {
   line-height: 24px;
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
+
 }
 form.comment-form .form_control.placeholder {
-  color: #ffff;
+  color: #f5f5f5;
 }
 form.comment-form .form_control:-moz-placeholder {
   color: #ffff;
@@ -4294,6 +4300,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   display: block;
   font: 600 18px "Syne", sans-serif;
   margin-bottom: 17px;
+  font-size: 20px;
 }
 .contact-form .nice-select, .contact-form .form_control {
   padding: 19px 30px;
@@ -4303,6 +4310,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
   margin-bottom: 35px;
+  border-radius: 9px;
 }
 .contact-form .nice-select:focus, .contact-form .form_control:focus {
   border-color: transparent;

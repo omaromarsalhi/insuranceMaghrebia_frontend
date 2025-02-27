@@ -21,7 +21,10 @@
                   <li>
                     <div class="comment">
                       <div class="comment-avatar">
-                        <img src="assets/images/blog/comment-1.jpg" alt="comment author">
+                        <img
+                          [src]="complaint?.userId !== i.responderId  ? 'assets/images/blog/comment-1.jpg' : 'assets/images/blog/comment-2.jpg'"
+                          alt="comment author"
+                        >
                       </div>
                       <div class="comment-wrap">
                         <div class="comment-author-content">
@@ -61,3 +64,4 @@
     </div>
   </div>
 </section>
+

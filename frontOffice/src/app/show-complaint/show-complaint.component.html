@@ -40,14 +40,15 @@
             </div>
 
             <!-- Notification Icon -->
-            <div class="new-response-icon" *ngIf="hasUnseenResponse(i.complaintId)" title="New responses available"   >
-              <i class="fa fa-bell " ></i>
-              <span class="notification-dot"></span>
-            </div>
 
             <div class="action-box" *ngIf="i.complaintStatus=='OPEN'">
               <a [routerLink]="['/showResponse',i.complaintId]" class="main-btn primary-btn" style="width: 200px;
                 justify-content: center;   margin-top:30px ;">Show<i class="fa fa-arrow-right"  ></i></a>
+            </div>
+
+            <div class="new-response-icon" *ngIf="hasUnseenResponse(i.complaintId)" title="New responses available"   >
+              <i class="fa fa-bell " ></i>
+              <span class="notification-dot"></span>
             </div>
           </div>
         </div>

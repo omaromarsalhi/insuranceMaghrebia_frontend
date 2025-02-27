@@ -174,11 +174,9 @@
       }
     },
     "CONTACTS": {
-      "TEXT": "Contacts",
+      "TEXT": "Complaint",
       "LIST": {
-        "USERGRID": "User Grid",
-        "USERLIST": "User List",
-        "PROFILE": "Profile"
+        "USERGRID": "Complaints List"
       }
     },
     "BLOG": {

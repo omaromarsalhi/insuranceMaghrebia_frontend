@@ -39,8 +39,8 @@ import { ResponseComplaintComponent } from './response-complaint/response-compla
   ],
   imports: [
     BrowserModule,
-    RouterModule, // Add RouterModule here
-    AppRoutingModule, // Add the routing module here
+    RouterModule,
+    AppRoutingModule,
     SlickCarouselModule,
     FontAwesomeModule,
     BrowserAnimationsModule,

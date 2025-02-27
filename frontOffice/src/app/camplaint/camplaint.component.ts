@@ -2,6 +2,7 @@ import {Component, AfterViewInit, OnInit} from '@angular/core';
 import {ComplaintService } from "../core/services/ComplaintService";
 import {Complaint} from "../core/models/Complaint";
 import {FormBuilder,Validators, FormGroup} from "@angular/forms";
+import {TrackingService} from "../core/services/TrackingService";
 
 declare var $: any;
 
@@ -18,7 +19,8 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   popupTitle !:string;
   complaintForm !: FormGroup;
   showPopup: boolean = false;
-  loading: boolean = false; // État de chargement
+  loading: boolean = false;
+  isloading: boolean = false;// État de chargement
   complaintTypes = [
     { value: 'SERVICE_QUALITY', label: 'Service Quality' },
     { value: 'DELIVERY', label: 'Delivery' },
@@ -27,8 +29,10 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   ];
 
   constructor(private complaintService: ComplaintService,
-              public fb: FormBuilder)
-  {}
+              public fb: FormBuilder,
+              private trackingService: TrackingService)
+  {
+  }
   ngAfterViewInit() {
     if ($('select').length) {
       $('select').niceSelect();
@@ -39,7 +43,6 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
     }
   }
   ngOnInit(): void {
-    console.log("hiii");
     this.complaintForm=this.fb.group({
       title: ['', [Validators.required,Validators.maxLength(100),Validators.minLength(5)]],
       complaintDescription: ['', [Validators.required, Validators.maxLength(500),Validators.minLength(5)]],
@@ -52,15 +55,19 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
     const descriptionControl = this.complaintForm.get('complaintDescription');
     if (!descriptionControl || !descriptionControl.value) {
       this.errorMessage = 'Please enter a description.';
+      this.popupMessage='testt'
+      this.showPopup = true;
       return;
     }
     this.loading = true;
     const desc: string = descriptionControl.value;
     this.complaintService.getSuggestedTitle(desc).subscribe({
       next: (response) => {
-        console.log(response);
-        this.complaintForm.get('title')?.setValue(response);
-        this.loading=false;
+        setTimeout(() => {
+          console.log(response);
+          this.complaintForm.get('title')?.setValue(response);
+          this.loading = false;
+        }, 700);
       },
       error: (err) => {
         console.error('Error fetching title:', err);
@@ -70,28 +77,6 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   }
 
 
-
-    // Début du chargement
-  //   // Simuler un délai de génération
-  //   setTimeout(() => {
-  //     const titles = [
-  //       "Urgent Assistance Needed",
-  //       "Service Issue Report",
-  //       "Request for Investigation",
-  //       "Complaint Regarding Policy",
-  //       "Insurance Claim Problem"
-  //     ];
-  //     const randomIndex = Math.floor(Math.random() * titles.length);
-  //     this.complaintForm.get('title')?.setValue(titles[randomIndex]);
-  //
-  //     this.loading = false; // Fin du chargement
-  //   }, 2000); // Simulation de 2 secondes de chargement
-  // }
-
-
-
-
-
   getComplaints(): void {
     this.complaintService.getAllComplaints().subscribe((data) => {
       this.complaints = data;
@@ -99,49 +84,45 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
     });
   }
 
-  // SaveApart() {
-  //
-  //   if (this.complaintForm.invalid) {
-  //     this.complaintForm.markAllAsTouched(); // Marquer tous les champs comme touchés pour afficher les erreurs
-  //     return;
-  //   }
-  //   const complaint:Complaint=this.complaintForm.value;
-  //   console.log(complaint);
-  //   this.complaintService.addComplaint("67a9157f0a6a1371dce93411", complaint).subscribe(
-  //     ()=>{
-  //       this.complaintForm.reset();
-  //       this.showPopup = true;
-  //       console.log(this.showPopup);
-  //     }
-  //
-  // )
-  // }
   SaveApart() {
+    this.trackingService.trackEvent("click_button", "save Complaint");
+
     if (this.complaintForm.invalid) {
       this.complaintForm.markAllAsTouched();
       return;
     }
 
-    const complaint: Complaint = this.complaintForm.value;
-    this.complaintService.addComplaint("67a9157f0a6a1371dce93411", complaint).subscribe({
-      next: () => {
-        this.complaintForm.reset();
-        this.showPopup = true;
-      },
-      error: (err) => {
-        console.error("Error submitting complaint:", err);
+    this.isloading = true;
 
-        if (err.error && err.error.error) {
-          this.errorMessage = err.error.error;
-          this.popupTitle="errorrrr";
-          this.popupMessage=this.errorMessage;
-          this.showPopup=true;
-        } else {
-          this.errorMessage = "An unexpected error occurred. Please try again later.";
+    setTimeout(() => {
+      const complaint: Complaint = this.complaintForm.value;
+
+      this.complaintService.addComplaint("67a9157f0a6a1371dce93411", complaint).subscribe({
+        next: () => {
+          this.complaintForm.reset();
+          this.showPopup = true;
+          this.popupTitle = "✅ Complaint Received";
+          this.popupMessage = "Thank you! We have received your complaint and will get back to you soon.";
+        },
+        error: (err) => {
+          console.error("Error submitting complaint:", err);
+
+          if (err.error && err.error.error) {
+            this.errorMessage = err.error.error;
+            this.popupTitle = "Invalid Complaint Submission";
+            this.popupMessage = this.errorMessage;
+            this.showPopup = true;
+          } else {
+            this.errorMessage = "An unexpected error occurred. Please try again later.";
+          }
+        },
+        complete: () => {
+          this.isloading = false;
         }
-      }
-    });
+      });
+    }, 5000);
   }
+
   closePopup() {
     this.showPopup = false;
   }

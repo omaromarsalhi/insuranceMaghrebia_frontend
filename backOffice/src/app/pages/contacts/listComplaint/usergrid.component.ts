@@ -8,7 +8,7 @@ import {ResponseComplaint} from 'src/app/core/models/responseComplaint';
 
 
 @Component({
-    selector: 'app-usergrid',
+    selector: 'app-listComplaint',
     templateUrl: './usergrid.component.html',
     styleUrls: ['./usergrid.component.scss'],
     encapsulation: ViewEncapsulation.None
@@ -108,7 +108,7 @@ export class UsergridComponent implements OnInit {
                     .toPromise();
                 console.log('Response submitted:', res);
                 await this.loadResponses();
-                this.modalService.dismissAll();
+                // this.modalService.dismissAll();
                 this.selectedComplaint.complaintStatus = 'OPEN';
                 for (const r of this.reponses) {
                     if (!r.isSeen && r.responderId === this.selectedComplaint.userId) {

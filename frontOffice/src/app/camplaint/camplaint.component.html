@@ -6,10 +6,10 @@
       <div class="col-lg-10">
         <!--=== Page Banner Content ===-->
         <div class="page-banner-content text-center text-white">
-          <h1 class="page-title">Contact</h1>
+          <h1 class="page-title">Complaint</h1>
           <ul class="breadcrumb-link text-white">
             <li><a href="index.html">Home</a></li>
-            <li class="active">Contact</li>
+            <li class="active">Set Complaint</li>
           </ul>
         </div>
       </div>
@@ -20,8 +20,8 @@
 <!-- Popup HTML -->
 <div *ngIf="showPopup" class="popup-overlay">
   <div class="popup-content">
-    <h2>{{popupTitle}}</h2>
-    <p>{{popupMessage}}</p>
+    <h2>{{ popupTitle }}</h2>
+    <p>{{ popupMessage }}</p>
     <button class="close-btn" (click)="closePopup()">Close</button>
   </div>
 </div>
@@ -42,21 +42,32 @@
           <div class="tab-content">
             <div class="tab-pane active show fade" id="cat1">
               <form class="contact-form" [formGroup]="complaintForm" (ngSubmit)="SaveApart()">
+                <div *ngIf="isloading" class="loader-overlay">
+                  <div class="loader"></div>
+                </div>
                 <div class="form_group position-relative">
                   <label>Title</label>
-<!--                  <div class="input-group">-->
+                  <!--                  <div class="input-group">-->
                   <div class="d-flex align-items-center">
-                    <input type="text" class="form_control" placeholder="Enter your title" formControlName="title">
-                    <button type="button" class="icon-btn ms-2" (click)="generateTitle()" title="Generate Title" [disabled]="loading">
+                    <input type="text" class="form_control" placeholder="Enter your title" formControlName="title"
+                           style="  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;">
+
+                    <button type="button" class="icon-btn " (click)="generateTitle()" title="Generate Title"
+                            [disabled]="loading">
                       <i *ngIf="!loading" class="fa fa-magic"></i>
                       <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
                     </button>
+
                   </div>
-                  <div *ngIf="complaintForm.get('title')?.invalid && complaintForm.get('title')?.touched" class="error-message">
+                  <div *ngIf="complaintForm.get('title')?.invalid && complaintForm.get('title')?.touched"
+                       class="error-message">
                     <i class="fa fa-exclamation-circle"></i>
                     <small *ngIf="complaintForm.get('title')?.errors?.['required']">Title is required.</small>
-                    <small *ngIf="complaintForm.get('title')?.errors?.['minlength']">Minimum 5 characters required.</small>
-                    <small *ngIf="complaintForm.get('title')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+                    <small *ngIf="complaintForm.get('title')?.errors?.['minlength']">Minimum 5 characters
+                      required.</small>
+                    <small *ngIf="complaintForm.get('title')?.errors?.['maxlength']">Maximum 100 characters
+                      allowed.</small>
                   </div>
                 </div>
 
@@ -177,10 +188,6 @@
 
 <section class="contact-map-page pb-90 wow fadeInUp">
 
-  <div class="map-box wow fadeInUp">
-    <iframe
-      src="https://maps.google.com/maps?q=new%20york&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
-  </div>
 </section>
 
 

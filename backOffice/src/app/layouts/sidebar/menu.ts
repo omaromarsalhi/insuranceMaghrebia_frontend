@@ -1,4 +1,4 @@
-import { MenuItem } from './menu.model';
+import {MenuItem} from './menu.model';
 
 export const MENU: MenuItem[] = [
 
@@ -13,20 +13,8 @@ export const MENU: MenuItem[] = [
                 link: '/contacts/grid',
                 parentId: 48
             },
-            {
-                id: 50,
-                label: 'MENUITEMS.CONTACTS.LIST.USERLIST',
-                link: '/contacts/list',
-                parentId: 48
-            },
-            {
-                id: 51,
-                label: 'MENUITEMS.CONTACTS.LIST.PROFILE',
-                link: '/contacts/profile',
-                parentId: 48
-            }
         ]
     },
-    
+
 ];
 
