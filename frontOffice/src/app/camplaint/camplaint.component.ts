@@ -33,6 +33,7 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
               private trackingService: TrackingService)
   {
   }
+
   ngAfterViewInit() {
     if ($('select').length) {
       $('select').niceSelect();
@@ -111,6 +112,7 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
             this.errorMessage = err.error.error;
             this.popupTitle = "Invalid Complaint Submission";
             this.popupMessage = this.errorMessage;
+            this.isloading = false;
             this.showPopup = true;
           } else {
             this.errorMessage = "An unexpected error occurred. Please try again later.";
