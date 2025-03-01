@@ -1,0 +1,91 @@
+<div class="contact-form-area">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="contact-form">
+          <h2 class="text-center mb-4">Edit Profile</h2>
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <!-- First Name -->
+            <div class="form_group">
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" formControlName="firstName" class="form_control" />
+              <div *ngIf="f?.['firstName']?.invalid && (f?.['firstName']?.dirty || f?.['firstName']?.touched)" class="error-message">
+                <div *ngIf="f?.['firstName']?.errors?.['required']">First Name is required.</div>
+                <div *ngIf="f?.['firstName']?.errors?.['minlength']">First Name must be at least 2 characters long.</div>
+                <div *ngIf="f?.['firstName']?.errors?.['maxlength']">First Name cannot exceed 50 characters.</div>
+              </div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form_group">
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" formControlName="lastName" class="form_control" />
+              <div *ngIf="f?.['lastName']?.invalid && (f?.['lastName']?.dirty || f?.['lastName']?.touched)" class="error-message">
+                <div *ngIf="f?.['lastName']?.errors?.['required']">Last Name is required.</div>
+                <div *ngIf="f?.['lastName']?.errors?.['minlength']">Last Name must be at least 2 characters long.</div>
+                <div *ngIf="f?.['lastName']?.errors?.['maxlength']">Last Name cannot exceed 50 characters.</div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form_group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" formControlName="email" class="form_control" />
+              <div *ngIf="f?.['email']?.invalid && (f?.['email']?.dirty || f?.['email']?.touched)" class="error-message">
+                <div *ngIf="f?.['email']?.errors?.['required']">Email is required.</div>
+                <div *ngIf="f?.['email']?.errors?.['email']">Please enter a valid email address.</div>
+                <div *ngIf="f?.['email']?.errors?.['notUnique']">This email is already registered.</div>
+              </div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form_group">
+              <label for="dateOfBirth">Date of Birth:</label>
+              <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="form_control" />
+              <div *ngIf="f?.['dateOfBirth']?.invalid && (f?.['dateOfBirth']?.dirty || f?.['dateOfBirth']?.touched)" class="error-message">
+                <div *ngIf="f?.['dateOfBirth']?.errors?.['required']">Date of Birth is required.</div>
+                <div *ngIf="f?.['dateOfBirth']?.errors?.['ageValidator']">You must be at least 18 years old.</div>
+              </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="form_group">
+              <label for="gender">Gender:</label>
+              <select id="gender" formControlName="gender" class="form_control">
+                <option *ngFor="let gender of genderOptions" [value]="gender">{{ gender }}</option>
+              </select>
+              <div *ngIf="f?.['gender']?.invalid && (f?.['gender']?.dirty || f?.['gender']?.touched)" class="error-message">
+                <div *ngIf="f?.['gender']?.errors?.['required']">Gender is required.</div>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="form_group">
+              <label for="phone">Phone:</label>
+              <input type="tel" id="phone" formControlName="phone" class="form_control" />
+              <div *ngIf="f?.['phone']?.invalid && (f?.['phone']?.dirty || f?.['phone']?.touched)" class="error-message">
+                <div *ngIf="f?.['phone']?.errors?.['required']">Phone is required.</div>
+                <div *ngIf="f?.['phone']?.errors?.['pattern']">Phone must be exactly 8 digits.</div>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form_group">
+              <label for="address">Address:</label>
+              <textarea id="address" formControlName="address" class="form_control"></textarea>
+              <div *ngIf="f?.['address']?.invalid && (f?.['address']?.dirty || f?.['address']?.touched)" class="error-message">
+                <div *ngIf="f?.['address']?.errors?.['required']">Address is required.</div>
+                <div *ngIf="f?.['address']?.errors?.['maxlength']">Address cannot exceed 100 characters.</div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form_group text-center">
+              <button type="submit" class="main-btn primary-btn" [disabled]="userForm.invalid">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

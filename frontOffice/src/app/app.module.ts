@@ -15,6 +15,14 @@ import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.componen
 import { CounterComponent } from './shared/ui/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './core/helpers/auth.interceptor';
+import { ProfileComponent } from './user/profile/profile.component';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EmailChangeDialogComponent } from './user/email-change-dialog/email-change-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +35,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NiceSelectDirective,
     AnimationDirective,
     BackToTopComponent,
-    CounterComponent
+    CounterComponent,
+    ProfileComponent,
+    EditProfileComponent,
+    EmailChangeDialogComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +47,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule, // Add the routing module here
     SlickCarouselModule,
     FontAwesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ import {
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AuthService } from './core/services/user/auth.service';
+import { AuthService } from '../services/user/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         }
-        return throwError(error);
+        return throwError(()=>error);
       })
     );
   }
@@ -44,6 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
@@ -55,14 +56,13 @@ export class AuthInterceptor implements HttpInterceptor {
           const newAccessToken = this.authService.getAccessToken();
           this.refreshTokenSubject.next(newAccessToken);
 
-          return next.handle(this.addTokenToRequest(request, newAccessToken));
+          return next.handle(this.addTokenToRequest(request, newAccessToken!));
         }),
         catchError((error) => {
           this.isRefreshing = false;
 
           this.authService.logout();
-          this.router.navigate(['/account/signin']);
-          return throwError(error);
+          return throwError(()=> error);
         })
       );
     } else {

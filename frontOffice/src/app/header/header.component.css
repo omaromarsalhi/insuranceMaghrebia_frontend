@@ -376,3 +376,35 @@
 .menu-item.has-children.active > a::after {
     transform: rotate(180deg); 
 }
+.user-dropdown {
+    position: relative;
+    margin-left: 20px;
+}
+
+.user-dropdown .user-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: #0F0F2D;
+}
+
+.user-dropdown .dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.user-dropdown .dropdown-item {
+    padding: 10px 20px;
+    color: #0F0F2D;
+    text-decoration: none;
+    display: block;
+}
+
+.user-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+}

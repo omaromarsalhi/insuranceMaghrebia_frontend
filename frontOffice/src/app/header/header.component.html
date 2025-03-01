@@ -127,6 +127,18 @@
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
                         <i class="fas fa-search"></i>
                     </div>
+                    <!--=== User Dropdown ===-->
+                    <div class="user-dropdown">
+                        <div class="user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToLogin()" *ngIf="!userLogged">Login</a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToRegister()" *ngIf="!userLogged">Register</a></li>
+                            <li><a class="dropdown-item" routerLink="account/profile" *ngIf="userLogged">Profile</a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="logout()" *ngIf="userLogged">Logout</a></li>
+                        </ul>
+                    </div>
                     <div class="menu-button d-xl-block d-none">
                         <a href="contact.html" class="main-btn primary-btn">
                             Get a Quote
@@ -147,4 +159,3 @@
     </div>
     
 </header>
-
