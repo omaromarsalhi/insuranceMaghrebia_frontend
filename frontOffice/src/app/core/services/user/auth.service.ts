@@ -14,7 +14,7 @@ import { RefreshTokenRequest } from '../../models/user/refresh-token-request';
 })
 
 export class AuthService {
-  private apiUrl = "http://localhost:9004/api/v1/auth";
+  private apiUrl = "http://localhost:8888/api/v1/auth";
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
 
 

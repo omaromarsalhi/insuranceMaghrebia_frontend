@@ -7,7 +7,7 @@ import { EmailRequest } from '../../models/user/email-request';
   providedIn: 'root'
 })
 export class PasswordService {
-  private apiUrl = "http://localhost:9004/api/v1/password";
+  private apiUrl = "http://localhost:8888/api/v1/password";
 
   constructor(private http: HttpClient) { }
 

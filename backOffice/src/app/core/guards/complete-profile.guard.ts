@@ -1,27 +1,38 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { UserService } from '../services/user/user.service';
 import { AuthService } from '../services/user/auth.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompleteProfileGuard implements CanActivate {
+export class CompleteProfileGuard {
+  private canContinue: boolean | null = null;
+
   constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
+    if (this.canContinue !== null) {
+      return this.checkCanContinue();
+    }
+
     return this.userService.getCurrentUserCanContinue(this.authService.getCurrentUserId()).pipe(
-      map(canContinue => {
-        if (!canContinue) {
-          return this.router.createUrlTree(['/account/profile']); 
-        }
-        return true;
+      switchMap(canContinue => {
+        this.canContinue = canContinue;
+        return this.checkCanContinue();
       })
     );
+  }
+
+  private checkCanContinue(): Observable<boolean | UrlTree> {
+    if (!this.canContinue) {
+      return of(this.router.createUrlTree(['/account/profile']));
+    }
+    return of(true);
   }
 }

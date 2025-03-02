@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = "http://localhost:9004/api/v1/user";
+  private apiUrl = "http://localhost:8888/api/v1/user";
 
   constructor(private http: HttpClient) { }
 
