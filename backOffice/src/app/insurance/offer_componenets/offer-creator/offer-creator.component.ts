@@ -74,7 +74,7 @@ export class OfferCreatorComponent implements OnInit {
   send2OfferManager() {
     console.log(this.labelsForm.value);
     this.submit = true;
-    if (this.labelsForm.valid) {
+    // if (this.labelsForm.valid) {
       let formValue = this.labelsForm.value;
       formValue.category = this.getFilteredCategory(formValue.categoryId);
 
@@ -89,7 +89,7 @@ export class OfferCreatorComponent implements OnInit {
         .finally(() => {
           this.offerCreationEvent.emit(formValue);
         });
-    }
+    // }
   }
 
   get f() {
@@ -121,65 +121,55 @@ export class OfferCreatorComponent implements OnInit {
       ],
       categoryId: [""],
       imageUri: ["", Validators.required],
-      benefits: this.fb.array([this.createBenefit()], [Validators.required]),
+      benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
-      packages: this.fb.array([], Validators.required)
+      packages: this.fb.array([], Validators.required),
     });
   }
   get packagesArray() {
-    return this.labelsForm.get('packages') as FormArray;
+    return this.labelsForm.get("packages") as FormArray;
   }
-  
+
   getPackageFeatures(packageIndex: number) {
-    return this.packagesArray.at(packageIndex).get('features') as FormArray;
+    return this.packagesArray.at(packageIndex).get("features") as FormArray;
   }
-  
-  // addPackage() {
-  //   const packageGroup = this.fb.group({
-  //     title: ['', [Validators.required]],
-  //     price: ['', [Validators.required, Validators.min(0)]],
-  //     duration: ['', [Validators.required]],
-  //     features: this.fb.array([
-  //       this.fb.control('', Validators.required)
-  //     ], [Validators.minLength(1), Validators.maxLength(5)])
-  //   });
-  //   this.packagesArray.push(packageGroup);
-  // }
+
   addPackage() {
     const packageGroup = this.fb.group({
-      title: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      duration: ['', [Validators.required]],
-      customDuration: ['', []], // Add this line
-      features: this.fb.array([
-        this.fb.control('', Validators.required)
-      ], [Validators.minLength(1), Validators.maxLength(5)])
+      title: ["", [Validators.required]],
+      price: ["", [Validators.required, Validators.min(0)]],
+      duration: ["", [Validators.required]],
+      customDuration: ["", []], // Add this line
+      features: this.fb.array(
+        [this.fb.control("", Validators.required)],
+        [Validators.minLength(1), Validators.maxLength(5)]
+      ),
     });
-  
+
     // Add conditional validation
-    packageGroup.get('duration').valueChanges.subscribe(value => {
-      if (value === 'custom') {
-        packageGroup.get('customDuration').setValidators([Validators.required]);
+    packageGroup.get("duration").valueChanges.subscribe((value) => {
+      if (value === "custom") {
+        packageGroup.get("customDuration").setValidators([Validators.required]);
       } else {
-        packageGroup.get('customDuration').clearValidators();
+        packageGroup.get("customDuration").clearValidators();
       }
-      packageGroup.get('customDuration').updateValueAndValidity();
+      packageGroup.get("customDuration").updateValueAndValidity();
     });
-  
+
     this.packagesArray.push(packageGroup);
   }
 
   deletePackage(index: number) {
     this.packagesArray.removeAt(index);
   }
-  
+
   addFeature(packageIndex: number) {
     const features = this.getPackageFeatures(packageIndex);
     if (features.length < 5) {
-      features.push(this.fb.control('', Validators.required));
+      features.push(this.fb.control("", Validators.required));
     }
   }
-  
+
   deleteFeature(packageIndex: number, featureIndex: number) {
     const features = this.getPackageFeatures(packageIndex);
     features.removeAt(featureIndex);
@@ -203,12 +193,9 @@ export class OfferCreatorComponent implements OnInit {
     });
   }
 
-  // Add lock validation for first 3 benefits
   canDeleteBenefit(index: number): boolean {
     return index >= 1; // Lock first 3 benefits
   }
-
-
 
   addBenefit() {
     this.benefitsArray.push(this.createBenefit());

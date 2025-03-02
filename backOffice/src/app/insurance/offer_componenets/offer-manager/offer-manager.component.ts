@@ -64,6 +64,10 @@ export class OfferManagerComponent implements OnInit {
         this.cleanThevariables();
       } else if (value.offerData) {
         this.popup("You need to create a Form", false);
+        this.waiting2submitSubject.next({
+          offerData: false,
+          offerFormData: false,
+        });
       }
       // if (value.offerFormData) {
       //   const formParms = {

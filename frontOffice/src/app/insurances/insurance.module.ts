@@ -7,17 +7,21 @@ import { CategoryComponent } from './category-comaponenets/category/category.com
 import { OfferDtailsComponent } from './offer-componenets/offer-dtails/offer-dtails.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/purshased-offer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent],
+  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent],
   imports: [
     CommonModule,
     InsuranceRoutingModule,
     SharedModule,
     SlickCarouselModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class InsuranceModule { }

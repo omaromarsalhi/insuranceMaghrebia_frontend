@@ -39,53 +39,15 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="row justify-content-center mt-2">
-            <ngx-slick-carousel class="compact-slider" [config]="testimonialItemsSliderConfig">
-                <div ngxSlickItem *ngFor="let label of offerDetails.labels" class="col-lg-4 col-md-6 col-sm-12 mb-4 px-2">
-                
-                    <div class="single-features-item-three h-100 wow fadeInUp rounded">
-                        <div class="icon">
-                            <i class="flaticon-insurance-policy"></i>
-                        </div>
-                        <div class="content">
-                            <h4 class="title">{{label.name}}</h4>
-                            <p>{{label.questions![0].questionText}}</p>
-                            <a href="#" class="btn-link">Learn More<i class="far fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </ngx-slick-carousel>
-        </div> -->
-        <!-- <div class="row justify-content-center mt-2">
-            <ngx-slick-carousel class="compact-slider" [config]="testimonialItemsSliderConfig">
-                <div ngxSlickItem *ngFor="let label of offerDetails.labels" class="col-lg-2 col-md-2 col-sm-12 mb-4 px-2 d-flex">
-    
-                    <div class="single-features-item-three h-100 w-100 d-flex flex-column wow fadeInUp rounded">
-                        <div class="icon bg-primary-gradient">
-                            <i class="flaticon-insurance-policy"></i>
-                        </div>
-                        
-                        <div  class="content flex-grow-1">
-                            <h4 class="title">{{ label.name }}</h4>
-                            <p class="description">{{ label.questions![0].questionText }}</p>
-                        </div>
-                
-                        <div class="action-btn">
-                            <a href="#" class="btn-link">Learn More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </ngx-slick-carousel>
-        </div> -->
-        <div class="row justify-content-center mt-2">
-            <ngx-slick-carousel class="compact-slider" [config]="testimonialItemsSliderConfig">
-                <div ngxSlickItem *ngFor="let label of offerDetails.labels"
-                    class="col-lg-2 col-md-2 col-sm-12 mb-4 px-2 d-flex">
-                    <div class="single-features-item-three h-100 w-100 d-flex flex-column wow fadeInUp rounded">
-                        <div class="icon bg-primary-gradient">
-                            <i class="flaticon-insurance-policy"></i>
-                        </div>
 
+        <div class="row justify-content-center mt-2">
+            <ngx-slick-carousel class="compact-slider col-lg-9 col-md-8 col-sm-12"
+                [config]="testimonialItemsSliderConfig">
+                <div ngxSlickItem *ngFor="let label of offerDetails.labels" class="mb-4 d-flex mx-4">
+                    <div class="single-features-item-three h-100 w-100 d-flex flex-column wow fadeInUp rounded">
+                        <div class="icon bg-primary-gradient">
+                            <i class="flaticon-insurance-policy"></i>
+                        </div>
                         <div class="content flex-grow-1">
                             <h4 class="title">{{ label.name }}</h4>
                             <ngx-slick-carousel class="question-slider" [config]="questionSliderConfig">
@@ -95,19 +57,15 @@
                             </ngx-slick-carousel>
                         </div>
                         <div class="action-btn">
-                            <a href="#" class="btn-link">Learn More <i class="fa fa-arrow-right ms-2"></i></a>
+                            <a class="btn-link">Learn More <i class="fa fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
             </ngx-slick-carousel>
         </div>
-
-
     </div>
-
-</section><!--====== End What We Section ======-->
-
-
+</section>
+<!--====== End What We Section ======-->
 
 
 <section *ngFor="let label of offerDetails.labels; let lIndex = index" class="faq-section pt-70 pb-100">
@@ -122,8 +80,8 @@
 
             <!-- FAQ Content -->
             <div class="col-lg-6">
-                <div 
-                [ngClass]="{'faq-content-box pl-lg-70 mb-20 wow fadeInLeft':lIndex % 2 === 1,'faq-content-box pr-lg-70 mb-20 wow fadeInRight':lIndex % 2 === 0}">
+                <div
+                    [ngClass]="{'faq-content-box pl-lg-70 mb-20 wow fadeInLeft':lIndex % 2 === 1,'faq-content-box pr-lg-70 mb-20 wow fadeInRight':lIndex % 2 === 0}">
                     <!--=== Section Title ===-->
                     <div class="section-title mb-40">
                         <span class="sub-title">What We offer ?</span>
@@ -161,7 +119,6 @@
     </div>
 </section>
 
-
 <!--====== Start Benefit Section ======-->
 <section class="benefit_area-one pb-80">
     <div class="container">
@@ -178,11 +135,9 @@
                     <p class="mb-35">We denounce with righteous indignation and dislike men who are beguiled and
                         demoralized by the charms of pleasure of the moment</p>
                     <ul class="check-list">
-                        <li><i class="fa fa-check-circle"></i>Room Entitlement & Annual Limits.</li>
-                        <li><i class="fa fa-check-circle"></i>In-patient Hospitalization.</li>
-                        <li><i class="fa fa-check-circle"></i>Day Care Treatment.</li>
-                        <li><i class="fa fa-check-circle"></i>Specialized Investigations.</li>
-                        <li><i class="fa fa-check-circle"></i>Pre-Post Hospitalization.</li>
+                        <li *ngFor="let benefit of offerDetails.benefits "><i
+                                class="fa fa-check-circle"></i>{{benefit.benefitText}}.</li>
+
                     </ul>
                 </div>
             </div>
@@ -196,85 +151,46 @@
     </div>
 </section><!--====== End Benefit Section ======-->
 <!--====== Start Pricing Section ======-->
-<section class="pricing-section pt-120 pb-90 gray-bg">
+<section class="pricing-section pt-120 pb-90 gray-bg pricing-scale">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-9">
                 <!--=== Section Title ===-->
                 <div class="section-title text-center mb-55 wow fadeInDown">
                     <span class="sub-title">Pricing Plan</span>
-                    <h2>Amazing Insurance Product
-                        Pricing Package</h2>
+                    <h2>Amazing Insurance Product Pricing Package</h2>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <!--=== Single Pricing Item  ===-->
-                <div class="single-pricing-item mb-40 wow fadeInUp">
+            <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let package of offerDetails.packages">
+                <div class="single-pricing-item mb-40 wow fadeInUp d-flex flex-column h-100">
                     <div class="pricing-head">
-                        <h3 class="title">Regular Package</h3>
-                        <p class="price"><span class="currencxy">$</span>19.85 <span class="duration">/per month</span>
+                        <h3 class="title">{{package.title}}</h3>
+                        <p class="price">
+                            <span class="currency">$</span>{{package.price}}
+                            <span class="duration">/{{package.duration || package.customDuration}}</span>
                         </p>
                     </div>
-                    <div class="pricing-body">
-                        <a href="#" class="main-btn primary-btn">Choose Package<i class="fa fa-arrow-right"></i></a>
-                        <p>Save 25% For All Insurance Services</p>
+                    <div class="pricing-body flex-grow-1">
                         <ul class="pricing-check">
-                            <li class="check"><i class="flaticon-check"></i>Invoices/Estimates</li>
-                            <li class="check"><i class="flaticon-check"></i>Online Payments</li>
-                            <li class="check"><i class="flaticon-check"></i>Projects Time Sheet</li>
-                            <li class="uncheck"><i class="flaticon-cross"></i>Recurring Transactions</li>
-                            <li class="uncheck"><i class="flaticon-cross"></i>Client Portal</li>
+                            <li *ngFor="let feature of package.features" class="check">
+                                <i class="flaticon-check"></i>{{feature}}
+                            </li>
                         </ul>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <!--=== Single Pricing Item  ===-->
-                <div class="single-pricing-item mb-40 wow fadeInUp">
-                    <div class="pricing-head">
-                        <h3 class="title">Standard Package</h3>
-                        <p class="price"><span class="currencxy">$</span>19.85 <span class="duration">/per month</span>
-                        </p>
-                    </div>
-                    <div class="pricing-body">
-                        <a href="#" class="main-btn primary-btn">Choose Package<i class="fa fa-arrow-right"></i></a>
-                        <p>Save 25% For All Insurance Services</p>
-                        <ul class="pricing-check">
-                            <li class="check"><i class="flaticon-check"></i>Invoices/Estimates</li>
-                            <li class="check"><i class="flaticon-check"></i>Online Payments</li>
-                            <li class="check"><i class="flaticon-check"></i>Projects Time Sheet</li>
-                            <li class="check"><i class="flaticon-check"></i>Recurring Transactions</li>
-                            <li class="uncheck"><i class="flaticon-cross"></i>Client Portal</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <!--=== Single Pricing Item  ===-->
-                <div class="single-pricing-item mb-40 wow fadeInUp">
-                    <div class="pricing-head">
-                        <h3 class="title">Premium Package</h3>
-                        <p class="price"><span class="currencxy">$</span>19.85 <span class="duration">/per month</span>
-                        </p>
-                    </div>
-                    <div class="pricing-body">
-                        <a href="#" class="main-btn primary-btn">Choose Package<i class="fa fa-arrow-right"></i></a>
-                        <p>Save 25% For All Insurance Services</p>
-                        <ul class="pricing-check">
-                            <li class="check"><i class="flaticon-check"></i>Invoices/Estimates</li>
-                            <li class="check"><i class="flaticon-check"></i>Online Payments</li>
-                            <li class="check"><i class="flaticon-check"></i>Projects Time Sheet</li>
-                            <li class="check"><i class="flaticon-check"></i>Recurring Transactions</li>
-                            <li class="check"><i class="flaticon-check"></i>Client Portal</li>
-                        </ul>
+                    <div class="d-flex justify-content-center align-items-center mt-auto">
+                        <a routerLink="/insurance/offer-pushasing"  class="main-btn primary-btn mt-2">
+                            Choose Package <i class="fa fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section><!--====== End Pricing Section ======-->
+</section>
+
+<!--====== End Pricing Section ======-->
 <!--====== Start Intro Section ======-->
 <section class="intro-section overlay pt-200 pb-200 bg_cover wow fadeInUp"
     style="background-image: url(../../../assets/images/bg/intro-bg-2.jpg);">

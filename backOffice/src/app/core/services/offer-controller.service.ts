@@ -13,6 +13,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { create } from '../fn/offer-controller/create';
 import { Create$Params } from '../fn/offer-controller/create';
+import { getOne } from '../fn/offer-controller/get-one';
+import { GetOne$Params } from '../fn/offer-controller/get-one';
 import { OfferResponse } from '../models/offer-response';
 
 @Injectable({ providedIn: 'root' })
@@ -42,6 +44,31 @@ export class OfferControllerService extends BaseService {
    */
   create(params: Create$Params, context?: HttpContext): Observable<OfferResponse> {
     return this.create$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getOne()` */
+  static readonly GetOnePath = '/api/v1/offers/one';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getOne()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOne$Response(params?: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+    return getOne(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getOne$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOne(params?: GetOne$Params, context?: HttpContext): Observable<OfferResponse> {
+    return this.getOne$Response(params, context).pipe(
       map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
     );
   }

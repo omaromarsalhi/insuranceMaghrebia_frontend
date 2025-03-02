@@ -159,3 +159,15 @@
     margin: 0 -8px !important;
   }
 }
+.pricing-scale {
+  /* Adjust the scale value as needed (0.9 means 90% of the original size) */
+  transform: scale(0.9);
+  transform-origin: top center;
+}
+
+/* Optionally, you can add a media query if you want the scaling to apply only on larger screens */
+@media (max-width: 1600px) {
+  .pricing-scale {
+    transform: scale(0.85);
+  }
+}

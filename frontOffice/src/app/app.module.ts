@@ -30,7 +30,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     AnimationDirective,
     BackToTopComponent,
     CounterComponent,
-    HomeFooterComponent
+    HomeFooterComponent,
   ],
   imports: [
     BrowserModule,

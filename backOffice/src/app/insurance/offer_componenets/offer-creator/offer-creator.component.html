@@ -51,7 +51,7 @@
 
             <label class="form-label fw-bold">Offer Benefits (Minimum 1 Required)</label>
             <div formArrayName="benefits">
-                <div *ngFor="let benefit of benefitsArray.controls; let i = index" class="mb-3">
+                <div *ngFor="let benefit of benefitsArray.controls; let i = index"  [formGroupName]="i" class="mb-3">
                     <div class="input-group">
                         <input type="text" class="form-control" formControlName="benefitText"
                             placeholder="Enter benefit {{ i + 1 }}" [ngClass]="{
