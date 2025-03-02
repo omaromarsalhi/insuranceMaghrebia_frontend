@@ -693,9 +693,9 @@ button {
 .nice-select:after {
   position: absolute;
   right: 0;
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
 }
 .nice-select ul.list {
   border-radius: 0;
@@ -1483,9 +1483,9 @@ button {
 }
 .page-banner .page-banner-content ul.breadcrumb-link li:not(:last-child):after {
   display: inline-block;
-  content: "";
-  font-weight: 400;
-  font-family: "Font Awesome 5 Pro";
+  content: "\f054";
+  font-weight: 900;
+  font-family: "Font Awesome 6 Free";
   margin-left: 20px;
   margin-right: 13px;
 }
@@ -3190,19 +3190,20 @@ button {
 .accordion-card .accordion-header h6.accordion-title span.number {
   margin-right: 5px;
 }
+
 .accordion-card .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
-  -webkit-transition: all 0.4s ease-out 0s;
-  transition: all 0.4s ease-out 0s;
+  -webkit-transition: all 10s ease-out 0s !important;
+  transition: all .4s ease-out 0s !important
 }
 .accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
@@ -3240,9 +3241,9 @@ button {
   margin-right: 5px;
 }
 .accordion-card-two .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
@@ -3255,7 +3256,7 @@ button {
   border-color: #0F0F2D;
 }
 .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f054";
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
@@ -3281,9 +3282,9 @@ button {
   border-bottom: 1px solid transparent;
 }
 .accordion-card-three .accordion-header .accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transition: all 0.4s ease-out 0s;
@@ -4594,17 +4595,21 @@ ul.slick-dots li {
 }
 ul.slick-dots li:after {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 51%;
+  top: 51%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background-color: #193B1E;
+
+
 }
 ul.slick-dots li.slick-active {
   border-color: #FFB966;
+  
 }
 
 .slider-active-5-item,

@@ -5,6 +5,8 @@ import { InsuranceRoutingModule } from './insurance-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { CategoryComponent } from './category-comaponenets/category/category.component';
 import { OfferDtailsComponent } from './offer-componenets/offer-dtails/offer-dtails.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -13,7 +15,9 @@ import { OfferDtailsComponent } from './offer-componenets/offer-dtails/offer-dta
   imports: [
     CommonModule,
     InsuranceRoutingModule,
-    SharedModule
+    SharedModule,
+    SlickCarouselModule,
+    FontAwesomeModule
   ]
 })
 export class InsuranceModule { }

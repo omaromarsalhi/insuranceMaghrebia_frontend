@@ -31,7 +31,6 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
   styleUrls: ["./offer-creator.component.scss"],
 })
 export class OfferCreatorComponent implements OnInit {
-
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
   @Output() offerCreationEvent = new EventEmitter<OfferRequest>();
   @Input() triggerCleanEvent!: Subject<void>;
@@ -40,11 +39,12 @@ export class OfferCreatorComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   form: FormGroup;
   submit = false;
-  categoryData:  OfferCategory[] = [];
+  categoryData: OfferCategory[] = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private categoryService: OfferCategoryControllerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this._fetchCategoryData();
@@ -72,23 +72,24 @@ export class OfferCreatorComponent implements OnInit {
   }
 
   send2OfferManager() {
-    // this.submit=true
-    // if (this.labelsForm.valid) {
-    let formValue = this.labelsForm.value;
-    formValue.category = this.getFilteredCategory(formValue.categoryId);
+    console.log(this.labelsForm.value);
+    this.submit = true;
+    if (this.labelsForm.valid) {
+      let formValue = this.labelsForm.value;
+      formValue.category = this.getFilteredCategory(formValue.categoryId);
 
-    this.imageUploader
-      .uploadImage()
-      .then((imageUrl) => {
-        formValue.imageUri = imageUrl;
-      })
-      .catch((error) => {
-        console.error("Image upload failed:", error);
-      })
-      .finally(() => {
-        this.offerCreationEvent.emit(formValue);
-      });
-    // }
+      this.imageUploader
+        .uploadImage()
+        .then((imageUrl) => {
+          formValue.imageUri = imageUrl;
+        })
+        .catch((error) => {
+          console.error("Image upload failed:", error);
+        })
+        .finally(() => {
+          this.offerCreationEvent.emit(formValue);
+        });
+    }
   }
 
   get f() {
@@ -120,10 +121,102 @@ export class OfferCreatorComponent implements OnInit {
       ],
       categoryId: [""],
       imageUri: ["", Validators.required],
+      benefits: this.fb.array([this.createBenefit()], [Validators.required]),
       labels: this.fb.array([], Validators.required),
+      packages: this.fb.array([], Validators.required)
+    });
+  }
+  get packagesArray() {
+    return this.labelsForm.get('packages') as FormArray;
+  }
+  
+  getPackageFeatures(packageIndex: number) {
+    return this.packagesArray.at(packageIndex).get('features') as FormArray;
+  }
+  
+  // addPackage() {
+  //   const packageGroup = this.fb.group({
+  //     title: ['', [Validators.required]],
+  //     price: ['', [Validators.required, Validators.min(0)]],
+  //     duration: ['', [Validators.required]],
+  //     features: this.fb.array([
+  //       this.fb.control('', Validators.required)
+  //     ], [Validators.minLength(1), Validators.maxLength(5)])
+  //   });
+  //   this.packagesArray.push(packageGroup);
+  // }
+  addPackage() {
+    const packageGroup = this.fb.group({
+      title: ['', [Validators.required]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      duration: ['', [Validators.required]],
+      customDuration: ['', []], // Add this line
+      features: this.fb.array([
+        this.fb.control('', Validators.required)
+      ], [Validators.minLength(1), Validators.maxLength(5)])
+    });
+  
+    // Add conditional validation
+    packageGroup.get('duration').valueChanges.subscribe(value => {
+      if (value === 'custom') {
+        packageGroup.get('customDuration').setValidators([Validators.required]);
+      } else {
+        packageGroup.get('customDuration').clearValidators();
+      }
+      packageGroup.get('customDuration').updateValueAndValidity();
+    });
+  
+    this.packagesArray.push(packageGroup);
+  }
+
+  deletePackage(index: number) {
+    this.packagesArray.removeAt(index);
+  }
+  
+  addFeature(packageIndex: number) {
+    const features = this.getPackageFeatures(packageIndex);
+    if (features.length < 5) {
+      features.push(this.fb.control('', Validators.required));
+    }
+  }
+  
+  deleteFeature(packageIndex: number, featureIndex: number) {
+    const features = this.getPackageFeatures(packageIndex);
+    features.removeAt(featureIndex);
+  }
+
+  get benefitsArray() {
+    return this.labelsForm.get("benefits") as FormArray;
+  }
+
+  createBenefit(): FormGroup {
+    return this.fb.group({
+      benefitText: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(150),
+          Validators.pattern(/^[a-zA-Z0-9 .,!?@%&*()-]+$/),
+        ],
+      ],
     });
   }
 
+  // Add lock validation for first 3 benefits
+  canDeleteBenefit(index: number): boolean {
+    return index >= 1; // Lock first 3 benefits
+  }
+
+
+
+  addBenefit() {
+    this.benefitsArray.push(this.createBenefit());
+  }
+
+  deleteBenefit(index: number) {
+    this.benefitsArray.removeAt(index);
+  }
 
   createLabel(): FormGroup {
     return this.fb.group(
