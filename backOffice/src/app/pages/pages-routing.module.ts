@@ -21,7 +21,7 @@ const routes: Routes = [
 
     {path: 'pages', loadChildren: () => import('./utility/utility.module').then(m => m.UtilityModule)},
     {path: 'ui', loadChildren: () => import('./ui/ui.module').then(m => m.UiModule)},
-
+    { path: 'tables', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) },
 
     {path: 'charts', loadChildren: () => import('./chart/chart.module').then(m => m.ChartModule)},
 

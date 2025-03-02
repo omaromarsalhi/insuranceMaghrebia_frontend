@@ -1,0 +1,394 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="fr">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Dashboard Admin - Analyse Utilisateur</title>-->
+<!--  <style>-->
+<!--    :root {-->
+<!--      &#45;&#45;primary-color: #2196F3;-->
+<!--      &#45;&#45;success-color: #4CAF50;-->
+<!--      &#45;&#45;warning-color: #FFC107;-->
+<!--      &#45;&#45;danger-color: #dc3545;-->
+<!--      &#45;&#45;bg-color: #f8f9fa;-->
+<!--      &#45;&#45;card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);-->
+<!--    }-->
+
+<!--    body {-->
+<!--      font-family: 'Segoe UI', system-ui, sans-serif;-->
+<!--      margin: 2rem;-->
+<!--      background: var(&#45;&#45;bg-color);-->
+<!--      color: #333;-->
+<!--    }-->
+
+<!--    .container {-->
+<!--      max-width: 1200px;-->
+<!--      margin: 0 auto;-->
+<!--    }-->
+<!--    .dashboard-header {-->
+<!--      display: flex;-->
+<!--      justify-content: space-between;-->
+<!--      align-items: center;-->
+<!--      margin-bottom: 2rem;-->
+<!--      padding: 1rem;-->
+<!--      background: white;-->
+<!--      border-radius: 12px;-->
+<!--      box-shadow: var(&#45;&#45;card-shadow);-->
+<!--    }-->
+<!--    .analysis-controls {-->
+<!--      display: grid;-->
+<!--      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));-->
+<!--      gap: 1rem;-->
+<!--      background: white;-->
+<!--      padding: 1.5rem;-->
+<!--      border-radius: 12px;-->
+<!--      box-shadow: var(&#45;&#45;card-shadow);-->
+<!--      margin-bottom: 2rem;-->
+<!--    }-->
+<!--    .date-picker {-->
+<!--      display: flex;-->
+<!--      gap: 0.5rem;-->
+<!--      align-items: center;-->
+<!--    }-->
+<!--    input[type="date"] {-->
+<!--      padding: 0.5rem;-->
+<!--      border: 1px solid #ddd;-->
+<!--      border-radius: 8px;-->
+<!--      font-family: inherit;-->
+<!--    }-->
+<!--    .reload-button {-->
+<!--      padding: 0.75rem 1.5rem;-->
+<!--      background: var(&#45;&#45;primary-color);-->
+<!--      color: white;-->
+<!--      border: none;-->
+<!--      border-radius: 8px;-->
+<!--      cursor: pointer;-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      gap: 0.5rem;-->
+<!--      transition: transform 0.2s, opacity 0.2s;-->
+<!--    }-->
+
+<!--    .reload-button:hover {-->
+<!--      opacity: 0.9;-->
+<!--      transform: translateY(-1px);-->
+<!--    }-->
+<!--    .analysis-grid {-->
+<!--      display: grid;-->
+<!--      grid-template-columns: 2fr 1fr;-->
+<!--      gap: 2rem;-->
+<!--    }-->
+
+<!--    .analysis-card {-->
+<!--      background: white;-->
+<!--      padding: 1.5rem;-->
+<!--      border-radius: 12px;-->
+<!--      box-shadow: var(&#45;&#45;card-shadow);-->
+<!--    }-->
+<!--    .classification-tags {-->
+<!--      display: flex;-->
+<!--      gap: 0.5rem;-->
+<!--      margin: 1rem 0;-->
+<!--    }-->
+
+<!--    .classification-badge {-->
+<!--      padding: 0.5rem 1rem;-->
+<!--      border-radius: 20px;-->
+<!--      font-size: 0.9em;-->
+<!--      font-weight: 500;-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      gap: 0.5rem;-->
+<!--    }-->
+
+<!--    .classification-badge::before {-->
+<!--      content: '';-->
+<!--      width: 10px;-->
+<!--      height: 10px;-->
+<!--      border-radius: 50%;-->
+<!--    }-->
+
+<!--    .interested { background: #e8f5e9; color: #2e7d32; }-->
+<!--    .interested::before { background: #2e7d32; }-->
+
+<!--    .dissatisfied { background: #ffebee; color: #c62828; }-->
+<!--    .dissatisfied::before { background: #c62828; }-->
+
+<!--    .hesitant { background: #fff8e1; color: #f9a825; }-->
+<!--    .hesitant::before { background: #f9a825; }-->
+
+<!--    .analysis-text {-->
+<!--      background: #f8f9fa;-->
+<!--      padding: 1rem;-->
+<!--      border-radius: 8px;-->
+<!--      line-height: 1.6;-->
+<!--      margin: 1rem 0;-->
+<!--    }-->
+
+<!--    .action-category {-->
+<!--      margin: 1.5rem 0;-->
+<!--      padding: 1rem;-->
+<!--      border-left: 4px solid;-->
+<!--      border-radius: 8px;-->
+<!--      background: white;-->
+<!--      box-shadow: var(&#45;&#45;card-shadow);-->
+<!--    }-->
+
+<!--    .action-item {-->
+<!--      display: flex;-->
+<!--      gap: 1rem;-->
+<!--      padding: 1rem;-->
+<!--      margin: 1rem 0;-->
+<!--      background: var(&#45;&#45;bg-color);-->
+<!--      border-radius: 8px;-->
+<!--      transition: transform 0.2s;-->
+<!--    }-->
+
+<!--    .action-item:hover {-->
+<!--      transform: translateX(5px);-->
+<!--    }-->
+<!--    .action-number {-->
+<!--      width: 30px;-->
+<!--      height: 30px;-->
+<!--      border-radius: 50%;-->
+<!--      background: var(&#45;&#45;primary-color);-->
+<!--      color: white;-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      justify-content: center;-->
+<!--      flex-shrink: 0;-->
+<!--    }-->
+<!--    .loading {-->
+<!--      display: none;-->
+<!--      align-items: center;-->
+<!--      gap: 1rem;-->
+<!--      color: #666;-->
+<!--    }-->
+
+<!--    .loader {-->
+<!--      width: 24px;-->
+<!--      height: 24px;-->
+<!--      border: 3px solid #f3f3f3;-->
+<!--      border-top-color: var(&#45;&#45;primary-color);-->
+<!--      border-radius: 50%;-->
+<!--      animation: spin 1s linear infinite;-->
+<!--    }-->
+
+<!--    .detailed-stats {-->
+<!--      display: grid;-->
+<!--      grid-template-columns: repeat(4, 1fr);-->
+<!--      gap: 1rem;-->
+<!--      margin-top: 1rem;-->
+<!--    }-->
+
+<!--    .stat-box {-->
+<!--      padding: 1.5rem;-->
+<!--      border-radius: 12px;-->
+<!--      background: white;-->
+<!--      box-shadow: var(&#45;&#45;card-shadow);-->
+<!--      text-align: center;-->
+<!--    }-->
+
+<!--    .stat-value {-->
+<!--      font-size: 2rem;-->
+<!--      font-weight: 700;-->
+<!--      margin: 0.5rem 0;-->
+<!--    }-->
+
+<!--    .stat-label {-->
+<!--      color: #666;-->
+<!--      font-size: 0.9em;-->
+<!--    }-->
+
+<!--    .stat-trend {-->
+<!--      font-size: 0.9em;-->
+<!--      margin-top: 0.5rem;-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      justify-content: center;-->
+<!--      gap: 0.3rem;-->
+<!--    }-->
+
+<!--    .trend-up { color: var(&#45;&#45;success-color); }-->
+<!--    .trend-down { color: var(&#45;&#45;danger-color); }-->
+
+<!--    @keyframes spin {-->
+<!--      to { transform: rotate(360deg); }-->
+<!--    }-->
+
+<!--    @media (max-width: 768px) {-->
+<!--      .analysis-grid {-->
+<!--        grid-template-columns: 1fr;-->
+<!--      }-->
+
+<!--      .analysis-controls {-->
+<!--        grid-template-columns: 1fr;-->
+<!--      }-->
+
+<!--      .detailed-stats {-->
+<!--        grid-template-columns: repeat(2, 1fr);-->
+<!--      }-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--  <header class="dashboard-header">-->
+<!--    <h1>📊 Analyse Comportementale - Utilisateur #1234</h1>-->
+<!--    <div class="last-analysis" id="lastAnalysisTime">-->
+<!--      Dernière mise à jour: 20/03/2024 14:30-->
+<!--    </div>-->
+<!--  </header>-->
+
+<!--  <div class="analysis-controls">-->
+<!--    <div class="date-picker">-->
+<!--      <input type="date" id="startDate" value="2024-03-01">-->
+<!--      <span>à</span>-->
+<!--      <input type="date" id="endDate" value="2024-03-20">-->
+<!--    </div>-->
+<!--    <button class="reload-button" onclick="startNewAnalysis()">-->
+<!--      🔄 Relancer l'analyse-->
+<!--    </button>-->
+<!--    <div class="loading" id="loadingStatus">-->
+<!--      <div class="loader"></div>-->
+<!--      <span>Analyse en cours...</span>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="analysis-grid">-->
+<!--    <div class="analysis-card">-->
+<!--      <h2>Synthèse de l'Analyse</h2>-->
+<!--      <div class="classification-tags">-->
+<!--        <span class="classification-badge interested">Intéressé</span>-->
+<!--        <span class="classification-badge dissatisfied">Mécontent</span>-->
+<!--        <span class="classification-badge hesitant">Hésitant</span>-->
+<!--      </div>-->
+<!--      <div class="analysis-text" id="analysisText">-->
+<!--        <ul>-->
+<!--          <li>🟢 Intérêt initial pour les offres d'assurance auto</li>-->
+<!--          <li>⚠️ 2 réclamations soumises sur la page dédiée</li>-->
+<!--          <li>⏱ Temps moyen sur la page de réclamation : 8min 42s</li>-->
+<!--          <li>📉 Taux d'abandon du simulateur : 65%</li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="analysis-card">-->
+<!--      <h2>Statistiques détaillées</h2>-->
+<!--      <div class="detailed-stats">-->
+<!--        <div class="stat-box">-->
+<!--          <div class="stat-label">Pages vues</div>-->
+<!--          <div class="stat-value">148</div>-->
+<!--          <div class="stat-trend trend-up">↑ 12%</div>-->
+<!--        </div>-->
+<!--        <div class="stat-box">-->
+<!--          <div class="stat-label">Temps moyen</div>-->
+<!--          <div class="stat-value">5m 42s</div>-->
+<!--          <div class="stat-trend trend-down">↓ 3%</div>-->
+<!--        </div>-->
+<!--        <div class="stat-box">-->
+<!--          <div class="stat-label">Taux de conversion</div>-->
+<!--          <div class="stat-value">18%</div>-->
+<!--          <div class="stat-trend trend-up">↑ 8%</div>-->
+<!--        </div>-->
+<!--        <div class="stat-box">-->
+<!--          <div class="stat-label">Satisfaction</div>-->
+<!--          <div class="stat-value">4.2</div>-->
+<!--          <div class="stat-trend trend-up">↑ 0.4</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="action-strategies">-->
+<!--    <div class="action-category dissatisfied">-->
+<!--      <h3>🚨 Gestion des Mécontents</h3>-->
+<!--      <div class="action-item">-->
+<!--        <div class="action-number">1</div>-->
+<!--        <div>-->
+<!--          <strong>Contact immédiat :</strong><br>-->
+<!--          Appel téléphonique sous 24h avec proposition de solution personnalisée-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="action-item">-->
+<!--        <div class="action-number">2</div>-->
+<!--        <div>-->
+<!--          <strong>Plan de résolution :</strong><br>-->
+<!--          Consultation individuelle avec un expert métier-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="action-category hesitant">-->
+<!--      <h3>🤔 Conversion des Hésitants</h3>-->
+<!--      <div class="action-item">-->
+<!--        <div class="action-number">1</div>-->
+<!--        <div>-->
+<!--          <strong>Email personnalisé :</strong><br>-->
+<!--          Envoi sous 48h avec rappel des avantages clés-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="action-item">-->
+<!--        <div class="action-number">2</div>-->
+<!--        <div>-->
+<!--          <strong>Assistance en direct :</strong><br>-->
+<!--          Proposition de RDV téléphonique ou chat en direct-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--  function startNewAnalysis() {-->
+<!--    const loading = document.getElementById('loadingStatus');-->
+<!--    const reloadBtn = document.querySelector('.reload-button');-->
+<!--    const lastAnalysis = document.getElementById('lastAnalysisTime');-->
+
+<!--    loading.style.display = 'flex';-->
+<!--    reloadBtn.disabled = true;-->
+<!--    setTimeout(() => {-->
+<!--      loading.style.display = 'none';-->
+<!--      reloadBtn.disabled = false;-->
+<!--      lastAnalysis.textContent = `Dernière mise à jour: ${new Date().toLocaleString('fr-FR')}`;-->
+
+<!--      // Mise à jour du texte d'analyse-->
+<!--      document.getElementById('analysisText').innerHTML = `-->
+<!--        <ul>-->
+<!--          <li>🟢 Nouvelle visite sur la page des offres</li>-->
+<!--          <li>⚠️ Temps passé sur les CGU augmenté de 40%</li>-->
+<!--          <li>⏱ Durée moyenne de session : 12min 15s</li>-->
+<!--          <li>📈 1 nouvelle tentative de simulation</li>-->
+<!--        </ul>-->
+<!--      `;-->
+
+<!--      // Mise à jour des statistiques-->
+<!--      const stats = document.querySelectorAll('.stat-value');-->
+<!--      const trends = document.querySelectorAll('.stat-trend');-->
+
+<!--      stats.forEach(stat => {-->
+<!--        const isPercentage = stat.textContent.includes('%');-->
+<!--        const isTime = stat.textContent.includes('m');-->
+<!--        let randomValue;-->
+
+<!--        if(isTime) {-->
+<!--          const minutes = Math.floor(Math.random() * 15);-->
+<!--          const seconds = Math.floor(Math.random() * 60);-->
+<!--          randomValue = `${minutes}m ${seconds.toString().padStart(2, '0')}s`;-->
+<!--        } else if(isPercentage) {-->
+<!--          randomValue = (Math.random() * 100).toFixed(1) + '%';-->
+<!--        } else {-->
+<!--          randomValue = (Math.random() * 5 + 3).toFixed(1);-->
+<!--        }-->
+
+<!--        stat.textContent = randomValue;-->
+<!--      });-->
+
+<!--      trends.forEach(trend => {-->
+<!--        const randomTrend = (Math.random() * 20 - 10).toFixed(1);-->
+<!--        trend.innerHTML = `${randomTrend > 0 ? '↑' : '↓'} ${Math.abs(randomTrend)}%`;-->
+<!--        trend.className = `stat-trend ${randomTrend > 0 ? 'trend-up' : 'trend-down'}`;-->
+<!--      });-->
+<!--    }, 2000);-->
+<!--  }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

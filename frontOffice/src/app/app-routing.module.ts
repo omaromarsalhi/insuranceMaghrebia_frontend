@@ -4,13 +4,15 @@ import { HomeComponent } from './home/home.component';
 import {CamplaintComponent} from "./camplaint/camplaint.component";
 import {ShowComplaintComponent} from "./show-complaint/show-complaint.component";
 import {ResponseComplaintComponent} from "./response-complaint/response-complaint.component";
+import {TestComponent} from "./test/test.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route for the home page
   { path: 'home', component: HomeComponent },
   { path: 'camplaint', component: CamplaintComponent },
   { path: 'show', component: ShowComplaintComponent },
-  { path: 'showResponse/:id', component:  ResponseComplaintComponent }
+  { path: 'showResponse/:id', component:  ResponseComplaintComponent },
+  { path: 'test', component:  TestComponent }
 ];
 
 @NgModule({
