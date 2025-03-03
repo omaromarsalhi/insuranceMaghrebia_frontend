@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
 import { earningLineChart, salesAnalyticsDonutChart, ChatData } from './data';
 import { ChartType, ChatMessage } from './saas.model';
 import { ConfigService } from '../../../core/services/config.service';
@@ -56,15 +55,11 @@ export class SaasComponent implements OnInit, AfterViewInit {
     
     });
   }
-
-  /**
-   * Save the message in chat
-   */
   messageSave() {
     const message = this.formData.get('message').value;
     const currentDate = new Date();
     if (this.formData.valid && message) {
-      // Message Push in Chat
+
       this.ChatData.push({
         align: 'right',
         name: 'Henry Wells',
@@ -72,7 +67,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
         time: currentDate.getHours() + ':' + currentDate.getMinutes()
       });
       this.onListScroll();
-      // Set Form Data Reset
       this.formData = this.formBuilder.group({
         message: null
       });
@@ -80,17 +74,14 @@ export class SaasComponent implements OnInit, AfterViewInit {
 
     this.chatSubmit = true;
   }
-
   private _fetchData() {
     this.earningLineChart = earningLineChart;
     this.salesAnalyticsDonutChart = salesAnalyticsDonutChart;
     this.ChatData = ChatData;
   }
-
   ngAfterViewInit() {
     this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
   }
-
   onListScroll() {
     if (this.scrollRef !== undefined) {
       setTimeout(() => {
@@ -99,7 +90,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
       }, 500);
     }
   }
-
   selectMonth(value) {
     switch (value) {
       case "january":
@@ -172,157 +162,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
               },
             ],
           },
-        ];
-        break;
-    }
-  }
-
-  sellingProduct(event) {
-    let month = event.target.value;
-    switch (month) {
-      case "january":
-        this.sassTopSelling = [
-          {
-            title: "Product B",
-            amount: "$ 7842",
-            revenue: "0.4",
-            list: [
-              {
-                name: "Product D",
-                text: "Neque quis est",
-                sales: 41,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product E",
-                text: "Quis autem iure",
-                sales: 14,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product F",
-                text: "Sed aliquam mauris.",
-                sales: 85,
-                chartVariant: "#f46a6a"
-              },
-            ],
-          },
-        ];
-        break;
-      case "december":
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#f46a6a"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#34c38f"
-              },
-            ],
-          },
-        ];
-        break;
-      case "november":
-        this.sassTopSelling = [
-          {
-            title: "Product C",
-            amount: "$ 4745",
-            revenue: "0.8",
-            list: [
-              {
-                name: "Product G",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product H",
-                text: "Quis autem iure",
-                sales: 42,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product I",
-                text: "Sed aliquam mauris.",
-                sales: 63,
-                chartVariant: "#f46a6a"
-              },
-            ],
-          },
-        ];
-        break;
-      case "october":
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#f46a6a"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#34c38f"
-              },
-            ],
-          },
-        ];
-        break;
-      default:
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#f46a6a"
-              }
-            ]
-          }
         ];
         break;
     }

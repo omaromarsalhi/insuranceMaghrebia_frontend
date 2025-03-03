@@ -63,8 +63,9 @@
                                             <div class="mb-3">
                                                 <div class="d-flex gap-2" *ngIf="user.showAnalysisForm">
                                                     <input type="date"
-                                                           class="form-control form-control-sm w-auto custom-date-input"
-                                                           [(ngModel)]="analysisDate">
+                                                           class="form-control form-control-sm w-auto custom-date-input">
+                                                    <input type="date"
+                                                           class="form-control form-control-sm w-auto custom-date-input">
                                                     <button class="btn btn-sm custom-btn-generate"
                                                             (click)="generateAIAnalysis(i)">
                                                         Générer
@@ -80,19 +81,19 @@
                                                         Aucune analyse disponible
                                                     </div>
 
-                                                    <div *ngFor="let rapport of user.reports"
+                                                    <div *ngFor="let rapport of reports"
                                                          class="custom-history-item">
                                                         <div class="d-flex align-items-center justify-content-between">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="mdi mdi-file-document-outline text-primary me-2"></i>
                                                                 <div>
-                                                                    <div class="small text-dark">Analyse du {{ rapport.date | date:'dd/MM/yyyy' }}</div>
-                                                                    <div class="text-muted extra-small">Générée à 14:30</div>
+                                                                    <div class="small text-dark">Analyse du {{ rapport.createdAt | date:'dd/MM/yyyy' }}</div>
+                                                                    <div class="text-muted extra-small">{{ rapport.createdAt | date:'HH:mm' }}</div>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex gap-2">
                                                                 <button class="btn btn-sm btn-icon"
-                                                                        (click)="openReportDetails(rapport)">
+                                                                        routerLink="/dashboards/saas">
                                                                     <i class="mdi mdi-eye-outline text-primary"></i>
                                                                 </button>
                                                                 <button class="btn btn-sm btn-icon">

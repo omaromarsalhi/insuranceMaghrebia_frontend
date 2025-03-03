@@ -29,12 +29,12 @@ const earningLineChart: ChartType = {
 };
 
 const salesAnalyticsDonutChart: ChartType = {
-    series: [56, 38, 26],
+    series: [70, 20, 30],
     chart: {
         type: 'donut',
         height: 240,
     },
-    labels: ['Series A', 'Series B', 'Series C'],
+    labels: ['Satisfied ', 'Dissatisfied ', 'Hesitant'],
     colors: ['#556ee6', '#34c38f', '#f46a6a'],
     legend: {
         show: false,

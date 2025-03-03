@@ -6,6 +6,8 @@ import {editableTable, tableData} from './data';
 import {AdvancedService} from './advanced.service';
 import {AdvancedSortableDirective, SortEvent} from './advanced-sortable.directive';
 import {NgForm} from '@angular/forms';
+import {ReportService} from '../../../core/services/ReportService';
+import {ReportResponse} from '../../../core/models/ReportResponse';
 
 @Component({
     selector: 'app-advancedtable',
@@ -23,27 +25,25 @@ export class AdvancedtableComponent implements OnInit {
     total$: Observable<number>;
     editableTable: any;
     selectedReport: any = null;
-    // Nouvelle propriété
-    isReportOpen: boolean[] = [false, false];
-
-    // Gestion des rapports
     newReport: any = {
         date: new Date().toISOString().split('T')[0],
         status: 'Nouveau',
         details: ''
     };
     analysisDate: string = new Date().toISOString().split('T')[0];
-
+    reports: ReportResponse[] = [];
     @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
     public isCollapsed = true;
 
-    constructor(public service: AdvancedService) {
+    constructor(public service: AdvancedService,
+                private reportService: ReportService) {
         this.tables$ = service.tables$;
         this.total$ = service.total$;
     }
+
     users = [
         {
-            name: 'Marie Dubois',
+            name: 'Latifa Ben Zaied',
             Email: 'Latifa.benzaied@esprit.tn',
             Gender: 'Male',
             age: 32,
@@ -79,11 +79,13 @@ export class AdvancedtableComponent implements OnInit {
         }
     ];
 
-    ngOnInit() {
+    async ngOnInit() {
         this.breadCrumbItems = [{label: 'Tables'}, {label: 'Advanced Table', active: true}];
         this._fetchData();
-    }
+        await this.getReports('67a9157f0a6a1371dce93411');
+        console.log(this.reports);
 
+    }
     openReportDetails(report: any): void {
         this.selectedReport = report;
     }
@@ -135,7 +137,6 @@ export class AdvancedtableComponent implements OnInit {
         };
     }
 
-    // Méthodes existantes
     changeValue(i) {
         this.hideme[i] = !this.hideme[i];
     }
@@ -157,4 +158,18 @@ export class AdvancedtableComponent implements OnInit {
         this.service.sortColumn = column;
         this.service.sortDirection = direction;
     }
+
+
+
+    async getReports(userid: string): Promise<void> {
+        try {
+            const r = await this.reportService.getReportsByUserId(userid).toPromise();
+            if (r) {
+                this.reports = r;
+            }
+        } catch (error) {
+            console.error('Error fetching complaint:', error);
+        }
+    }
+
 }
