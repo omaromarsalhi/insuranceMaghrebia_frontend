@@ -463,7 +463,7 @@ h4,
 h5,
 h6 {
   margin: 0px;
-  font-family: "Syne", sans-serif;
+  font-family: "Syne", sans-serif !important;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
@@ -1944,9 +1944,9 @@ button {
 
 .page-banner .page-banner-content ul.breadcrumb-link li:not(:last-child):after {
   display: inline-block;
-  content: "";
-  font-weight: 400;
-  font-family: "Font Awesome 5 Pro";
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   margin-left: 20px;
   margin-right: 13px;
 }
@@ -6114,38 +6114,4 @@ ul.slick-dots li.slick-active {
 .cta_area-three.overlay:after {
   background-color: rgba(9, 8, 8, 0.65);
   mix-blend-mode: multiply;
-}
-
-/* Global styles for dialogs */
-.cdk-overlay-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-.cdk-overlay-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.096);
-  z-index: 1000;
-  pointer-events: auto;
-}
-
-.mat-dialog-container {
-  position: relative;
-  z-index: 1004 !important;
-  border-radius: 8px;
-  padding: 24px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

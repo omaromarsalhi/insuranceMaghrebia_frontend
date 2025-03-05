@@ -1,0 +1,182 @@
+<div class="container-fluid">
+  <!-- start page title -->
+  <app-page-title title="Job Overview" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <!-- end page title -->
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body" *ngIf="job">
+          <div class="media">
+            <img src="assets/images/companies/img-1.png" alt="" class="avatar-sm me-4">
+            <div class="media-body overflow-hidden">
+              <h5 class="text-truncate font-size-15">{{ job.title }}</h5>
+              <p class="text-muted">{{ job.location }}</p>
+            </div>
+          </div>
+    
+          <h5 class="font-size-15 mt-4">Job Details :</h5>
+          <p class="text-muted">{{ job.description }}</p>
+    
+          <div class="text-muted mt-4">
+            <h5 class="font-size-15">Required Skills:</h5>
+            <p *ngFor="let skill of job.skillsRequired">
+              <i class="mdi mdi-chevron-right text-primary me-1"></i> {{ skill }}
+            </p>
+          </div>
+    
+          <div class="row task-dates">
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-calendar me-1 text-primary"></i> Posted Date</h5>
+                <p class="text-muted mb-0">{{ job.postedDate | date: "dd MMM, yyyy" }}</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-briefcase me-1 text-primary"></i> Job Type</h5>
+                <p class="text-muted mb-0" *ngIf="job.jobType=='FULL_TIME'">FULL TIME</p>
+                <p class="text-muted mb-0" *ngIf="job.jobType=='PART_TIME'">PART TIME</p>
+                <p class="text-muted mb-0" *ngIf="job.jobType=='CONTRACT'">CONTRAT</p>
+                <p class="text-muted mb-0" *ngIf="job.jobType=='INTERNSHIP'">INTERNSHIP</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-user me-1 text-primary"></i> Number of Openings</h5>
+                <p class="text-muted mb-0">{{ job.numberOfOpenings ?? 'Not specified' }}</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-time me-1 text-primary"></i> Experience Required</h5>
+                <p class="text-muted mb-0" *ngIf="job.minimumYearsOfExperience">{{ job.minimumYearsOfExperience }}+ years</p>
+                <p class="text-muted mb-0" *ngIf="job.minimumYearsOfExperience==null">- years</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-dollar me-1 text-primary"></i> Salary</h5>
+                <p class="text-muted mb-0">{{ job.salaryAmount/1000 }}K DT / {{ job.salaryType }}</p>
+                <p class="text-muted mb-0" *ngIf="job.salaryType=='HOURLY'">{{ job.salaryAmount }} DT / {{ job.salaryType }}</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-sun me-1 text-primary"></i> Vacation Days</h5>
+                <p class="text-muted mb-0">{{ job.numberOfVacations ?? '-' }} weeks</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-time-five me-1 text-primary"></i> Working Hours</h5>
+                <p class="text-muted mb-0">{{ formatTime(job.startWorkingHour) }} - {{ formatTime(job.endWorkingHour) }}</p>
+              </div>
+            </div>
+    
+            <div class="col-sm-6 col-6">
+              <div class="mt-4">
+                <h5 class="font-size-14"><i class="bx bx-calendar-check me-1 text-primary"></i> Working Days per Week</h5>
+                <p class="text-muted mb-0">{{ job.workingDaysPerWeek }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Attached Files</h4>
+          <div class="table-responsive">
+            <table class="table table-nowrap align-middle table-hover mb-0">
+              <tbody>
+                <tr>
+                  <td style="width: 45px;">
+                    <div class="avatar-sm">
+                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                        <i class="bx bxs-file-pdf"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Landing.Zip</a></h5>
+                    <small>Size : 3.25 MB</small>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="avatar-sm">
+                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                        <i class="bx bxs-file-doc"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Admin.Zip</a></h5>
+                    <small>Size : 3.15 MB</small>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="avatar-sm">
+                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                        <i class="bx bxs-file-doc"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Logo.Zip</a></h5>
+                    <small>Size : 2.02 MB</small>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="avatar-sm">
+                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                        <i class="bx bxs-file-doc"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <h5 class="font-size-14"><a href="javascript: void(0);" class="text-dark">Veltrix admin.Zip</a></h5>
+                    <small>Size : 2.25 MB</small>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</div>

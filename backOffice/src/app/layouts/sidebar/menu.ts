@@ -45,6 +45,26 @@ export const MENU: MenuItem[] = [
             },
 
         ]
+    },
+    {
+        id : 3,
+        label : 'MENUITEMS.HR.TEXT',
+        icon: 'bx bxs-briefcase',
+        subItems: [
+            {
+                id: 1,
+                label: 'MENUITEMS.HR.LIST.JOBS',
+                link: '/hr/jobs',
+                parentId: 3
+            },
+            {
+                id: 2,
+                label: 'MENUITEMS.HR.LIST.CANDIDATES',
+                link: '/hr/candidates',
+                parentId: 3
+            },
+
+        ]
     }
 ];
 

@@ -23,7 +23,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmailChangeDialogComponent } from './user/email-change-dialog/email-change-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
-
+import { JobsComponent } from './hr/jobs/jobs.component';
+import { JobComponent } from './hr/job/job.component';
+import { CandidateComponent } from './hr/candidate/candidate.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,10 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
     ProfileComponent,
     EditProfileComponent,
     EmailChangeDialogComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    JobsComponent,
+    JobComponent,
+    CandidateComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +57,8 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxFileDropModule
   ],
   providers: [
 

@@ -1,0 +1,103 @@
+<!--====== Start Contact Form Section ======-->
+<section class="contact-form-section gray-bg pt-175 pb-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-xl-7 order-2 order-xl-1">
+        <!--=== Contact Form Area ===-->
+        <div class="contact-form-area mb-50 p-r z-1 wow fadeInLeft">
+          <!--=== Section Title ===-->
+          <div class="section-title mb-40">
+            <span class="sub-title">Job Services</span>
+            <h2>Apply to the job now!</h2>
+          </div>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active show fade" id="cat1">
+              <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="contact-form">
+                <!-- First Name -->
+                <div class="form_group">
+                  <label>First Name</label>
+                  <input type="text" formControlName="firstname" class="form_control"
+                    placeholder="Enter your first name">
+                  <div *ngIf="candidateForm.get('firstname')?.invalid && submitted" class="text-danger">
+                    First name is required.
+                  </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form_group">
+                  <label>Last Name</label>
+                  <input type="text" formControlName="lastname" class="form_control" placeholder="Enter your last name">
+                  <div *ngIf="candidateForm.get('lastname')?.invalid && submitted" class="text-danger">
+                    Last name is required.
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form_group">
+                  <label>Email Address</label>
+                  <input type="email" formControlName="email" class="form_control" placeholder="Enter your email">
+                  <div *ngIf="candidateForm.get('email')?.invalid && submitted" class="text-danger">
+                    Please enter a valid email.
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <label>Cover Letter (PDF only)</label>
+                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'" (onFileDrop)="onFileSelect($event, 'coverLetter')">
+                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                      <div style="height: 100%; width: 100%; cursor: pointer; text-align: center;" (click)="openFileSelector()">
+                        <p>Drop PDF file here or click to upload</p>
+                      </div>
+                    </ng-template>
+                  </ngx-file-drop>
+                  
+                  <!-- Show file name -->
+                  <p *ngIf="coverLetterName" class="mt-2">Uploaded: {{ coverLetterName }} 
+                    <button (click)="removeFile('coverLetter')" class="btn btn-danger btn-sm">Remove</button>
+                  </p>
+                
+                  <!-- Show error message -->
+                  <p *ngIf="coverLetterError" class="text-danger">{{ coverLetterError }}</p>
+                </div>
+                
+                <div class="form_group">
+                  <label>Resume (PDF only)</label>
+                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'" (onFileDrop)="onFileSelect($event, 'resume')">
+                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                      <div style="height: 100%; width: 100%; cursor: pointer; text-align: center;" (click)="openFileSelector()">
+                        <p>Drop PDF file here or click to upload</p>
+                      </div>
+                    </ng-template>
+                  </ngx-file-drop>
+                
+                  <!-- Show file name -->
+                  <p *ngIf="resumeName" class="mt-2">Uploaded: {{ resumeName }} 
+                    <button (click)="removeFile('resume')" class="btn btn-danger btn-sm">Remove</button>
+                  </p>
+                
+                  <!-- Show error message -->
+                  <p *ngIf="resumeError" class="text-danger">{{ resumeError }}</p>
+                </div>
+                
+
+                <!-- Submit Button -->
+                <div class="form_group">
+                  <button type="submit" class="main-btn primary-btn">
+                    Submit Application <i class="fa fa-arrow-right"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 order-1 order-xl-2">
+        <!--=== Contact Image Box ===-->
+        <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
+          <img src="assets/images/gallery/contact-1.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--====== End Contact Form Section ======-->

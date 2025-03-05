@@ -10,8 +10,8 @@ export const completeProfileGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const currentPath = state.url;
-  const allowedPaths = ['/home'];
+  const currentPath = new URL(state.url, window.location.origin).pathname;
+  const allowedPaths = ['/home','/jobs','/job','/job/apply'];
 
   let canContinue: boolean | null = null;
 
@@ -23,7 +23,12 @@ export const completeProfileGuard: CanActivateFn = (route, state) => {
       return of(true);
     }
   }
-
+  if(authService.getCurrentUserEmail()){
+    if(currentPath=='/jobs' || currentPath=='/job')
+    {
+      router.navigate(['/home']);
+    }
+  }
   if (canContinue !== null) {
     return of(checkCanContinue(canContinue)); 
   }

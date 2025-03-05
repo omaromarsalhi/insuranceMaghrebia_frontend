@@ -1,0 +1,6 @@
+export enum CandidateStatus {
+  PENDING = 'PENDING',
+  INTERVIEW_SCHEDULED = 'INTERVIEW_SCHEDULED',
+  HIRED = 'HIRED',
+  REJECTED = 'REJECTED'
+}

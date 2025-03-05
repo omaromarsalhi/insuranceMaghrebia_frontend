@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) , canActivate: [BlockEntryGuard,CompleteProfileGuard]},
   { path: 'account', loadChildren: () => import('./user/account/account.module').then(m => m.AccountModule) , canActivate: [BlockEntryGuard] },
   { path: 'user', loadChildren: () => import('./user/list/list.module').then(m => m.ListModule) , canActivate: [BlockEntryGuard,CompleteProfileGuard] },
+  { path: 'hr', loadChildren: () => import('./hr/hr.module').then(m => m.HrModule) , canActivate: [BlockEntryGuard,CompleteProfileGuard] },
 ];
 
 @NgModule({

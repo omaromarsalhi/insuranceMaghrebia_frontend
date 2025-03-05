@@ -1,0 +1,83 @@
+<!--====== Start job Details Section ======-->
+<section class="job-details-section pt-90">
+  <div class="container">
+    <!--=== Job Details Wrapper ===-->
+    <div class="job-details-wrapper" *ngIf="job">
+      <!--=== Job Content ===-->
+      <div class="job-content mb-30 wow fadeInUp">
+        <h3 class="title">{{job.title}}</h3>
+        <ul>
+          <li>
+            <div class="info-box">
+              <span>Location</span>
+              <h4>{{job.location}}</h4>
+            </div>
+          </li>
+          <li>
+            <div class="info-box">
+              <span>Date</span>
+              <h4>{{job.postedDate | date:'MMMM dd,YYYY'}}</h4>
+            </div>
+          </li>
+          <li>
+            <div class="info-box">
+              <span>Job Type</span>
+              <h4 *ngIf="job.jobType=='FULL_TIME'">FULL TIME</h4>
+              <h4 *ngIf="job.jobType=='PART_TIME'">PART TIME</h4>
+              <h4 *ngIf="job.jobType=='CONTRACT'">CONTRACT</h4>
+              <h4 *ngIf="job.jobType=='INTERNSHIP'">INTERNSHIP</h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--=== Block Image ===-->
+      <div class="block-image mb-75 wow fadeInUp">
+        <img src="assets/images/gallery/career-1.jpg" alt="Career Image">
+      </div>
+      <div class="row">
+        <div class="col-xl-8">
+          <!--=== Job Content Box ===-->
+          <div class="job-content-box mb-30 wow fadeInUp">
+            <h3>Job Details</h3>
+            <p>{{job.description}}</p>
+          </div>
+          <!--=== Job Content Box ===-->
+          <div class="job-content-box mb-30 wow fadeInUp">
+            <h3>Skill & Experience</h3>
+            <ul class="check-list mb-20">
+              <li *ngFor="let skill of job.skillsRequired"><i class="fas fa-angle-right"></i>{{skill}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <!--=== Sidebar Widget Area ===-->
+          <div class="sidebar-widget-area pl-lg-70 wow fadeInUp">
+            <div class="sidebar-widget job-info-widget gray-bg">
+              <ul class="info-list">
+                <li>
+                  <span class="title">Experience</span>
+                  <h6 *ngIf="job.minimumYearsOfExperience">{{job.minimumYearsOfExperience}}+ Years Experience</h6>
+                  <h6 *ngIf="!job.minimumYearsOfExperience">- Years Experience</h6>
+                </li>
+                <li>
+                  <span class="title">Working Hour</span>
+                  <h6>{{ formatWorkingHours(job.startWorkingHour, job.endWorkingHour, job.workingDaysPerWeek) }}</h6>
+                </li>
+                <li>
+                  <span class="title">Salary</span>
+                  <h6>{{job.salaryAmount/1000}}k DT ({{job.salaryType}})</h6>
+                </li>
+                <li>
+                  <span class="title">Vacancy</span>
+                  <h6>{{job.numberOfVacations ?? '-'}} weeks</h6>
+                </li>
+              </ul>
+              <a routerLink="/job/apply" [queryParams]="{id : job.id}" class="main-btn primary-btn">Apply Job <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--====== End job Details Section ======-->
