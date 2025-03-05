@@ -1,43 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  insuranceType: string;
-}
+
+
 
 @Component({
   selector: 'app-purshased-offer',
   templateUrl: './purshased-offer.component.html',
   styleUrls: ['./purshased-offer.component.css']
 })
-export class PurshasedOfferComponent {
-  activeTab: string = 'cat1';
-
-  // Separate form data for each tab
-  formData: { [key: string]: FormData } = {
-    cat1: { name: '', email: '', phone: '', insuranceType: 'House Insurance' },
-    cat2: { name: '', email: '', phone: '', insuranceType: 'Car Insurance' },
-    cat3: { name: '', email: '', phone: '', insuranceType: 'Study Insurance' },
-    cat4: { name: '', email: '', phone: '', insuranceType: 'Travel Insurance' }
-  };
-
-  // Define form fields
+export class PurshasedOfferComponent  {
+  insuranceForm: FormGroup;
   formFields = [
-    { label: 'Full Name', type: 'text', name: 'name', placeholder: 'Jeremy C. Jefferson' },
-    { label: 'Email Address', type: 'email', name: 'email', placeholder: 'support@gmail.com' },
-    { label: 'Phone No', type: 'text', name: 'phone', placeholder: '+000 (123) 456 887' }
+    // Example form fields
+    { label: 'name', type: 'text', placeholder: 'Enter your name' },
+    { label: 'email', type: 'email', placeholder: 'Enter your email' },
+    { label: 'phone', type: 'tel', placeholder: 'Enter your phone number' },
+    { label: 'gender', type: 'select', selectOptions: ['Male', 'Female', 'Other'] },
+    { label: 'age', type: 'range', rangeStart: 18, rangeEnd: 100 },
+    { label: 'interests', type: 'checkbox', selectOptions: ['Sports', 'Music', 'Travel'] }
   ];
 
-  insuranceTypes = ['House Insurance', 'Car Insurance', 'Study Insurance', 'Travel Insurance'];
-
-  setActiveTab(tabId: string): void {
-    this.activeTab = tabId;
+  constructor(private fb: FormBuilder) {
+    this.insuranceForm = this.fb.group({
+      name: new FormControl(''),
+      email: new FormControl(''),
+      phone: new FormControl(''),
+      gender: new FormControl(''),
+      age: new FormControl(18),
+      interests: new FormControl([])
+    });
   }
 
-  submitForm(): void {
-    const currentData = this.formData[this.activeTab];
-    console.log(`Form for ${this.activeTab} submitted:`, currentData);
+
+
+  
+  trackByFn(index: number, item: any): any {
+    return index;
+  }
+
+  get formControls() {
+    return this.insuranceForm.controls;
   }
 }

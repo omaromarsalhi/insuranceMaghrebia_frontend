@@ -1,168 +1,129 @@
 <section class="contact-form-section gray-bg pt-175 pb-100">
     <div class="container">
-      <div class="row align-items-center">
-        <!-- Left Column: Contact Form Area -->
-        <div class="col-xl-6 order-2 order-xl-1 ">
-            <!--=== Contact Form Area ===-->
-            <div class="contact-form-area mb-50 p-r z-1 wow fadeInLeft formSection">
-    
-                <!--=== Section Title ===-->
-                <div class="section-title mb-20">
-                    <span class="sub-title">Insurance Services</span>
-                    <h2>Get Start Insurance</h2>
-                </div>
-    
-                <div class="tab-content">
-                    <div class="tab-pane active show fade" id="cat1">
-                        <form class="contact-form">
-                            <div class="form_group">
-                                <label>Full Name</label>
-                                <input type="text" class="form_control" placeholder="Jeremy C. Jefferson" name="name" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Email Address</label>
-                                <input type="email" class="form_control" placeholder="support@gmail.com" name="email" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Phone No</label>
-                                <input type="text" class="form_control" placeholder="+000 (123) 456 887" name="phone" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Insurance Type</label>
-                                <select class="wide">
-                                    <option value="01">House Insurance</option>
-                                    <option value="02">Car Insurance</option>
-                                    <option value="03">Study Insurance</option>
-                                    <option value="04">Travel Insurance</option>
-                                </select>
-                            </div>
-                            <div class="form_group">
-                                <button class="main-btn primary-btn">Get A Quote<i class="far fa-arrow-right"></i></button>
-                            </div>
-                        </form>
+        <div class="row align-items-center">
+            <!-- Left Column: Contact Form Area -->
+            <div class="col-xl-6 order-2 order-xl-1">
+                <!--=== Dynamic Form Area ===-->
+                <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
+                    <!--=== Section Title ===-->
+                    <div class="section-title mb-10">
+                        <h2>Get Start Insurance</h2>
                     </div>
-                    <div class="tab-pane fade" id="cat2">
-                        <form class="contact-form">
-                            <div class="form_group">
-                                <label>Full Name</label>
-                                <input type="text" class="form_control" placeholder="Jeremy C. Jefferson" name="name" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Email Address</label>
-                                <input type="email" class="form_control" placeholder="support@gmail.com" name="email" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Phone No</label>
-                                <input type="text" class="form_control" placeholder="+000 (123) 456 887" name="phone" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Insurance Type</label>
-                                <select class="wide">
-                                    <option value="01">House Insurance</option>
-                                    <option value="02">Car Insurance</option>
-                                    <option value="03">Study Insurance</option>
-                                    <option value="04">Travel Insurance</option>
-                                </select>
-                            </div>
-                            <div class="form_group">
-                                <button class="main-btn primary-btn">Get A Quote<i class="far fa-arrow-right"></i></button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane fade" id="cat3">
-                        <form class="contact-form">
-                            <div class="form_group">
-                                <label>Full Name</label>
-                                <input type="text" class="form_control" placeholder="Jeremy C. Jefferson" name="name" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Email Address</label>
-                                <input type="email" class="form_control" placeholder="support@gmail.com" name="email" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Phone No</label>
-                                <input type="text" class="form_control" placeholder="+000 (123) 456 887" name="phone" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Insurance Type</label>
-                                <select class="wide">
-                                    <option value="01">House Insurance</option>
-                                    <option value="02">Car Insurance</option>
-                                    <option value="03">Study Insurance</option>
-                                    <option value="04">Travel Insurance</option>
-                                </select>
-                            </div>
-                            <div class="form_group">
-                                <button class="main-btn primary-btn">Get A Quote<i class="far fa-arrow-right"></i></button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane fade" id="cat4">
-                        <form class="contact-form">
-                            <div class="form_group">
-                                <label>Full Name</label>
-                                <input type="text" class="form_control" placeholder="Jeremy C. Jefferson" name="name" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Email Address</label>
-                                <input type="email" class="form_control" placeholder="support@gmail.com" name="email" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Phone No</label>
-                                <input type="text" class="form_control" placeholder="+000 (123) 456 887" name="phone" required>
-                            </div>
-                            <div class="form_group">
-                                <label>Insurance Type</label>
-                                <select class="wide">
-                                    <option value="01">House Insurance</option>
-                                    <option value="02">Car Insurance</option>
-                                    <option value="03">Study Insurance</option>
-                                    <option value="04">Travel Insurance</option>
-                                </select>
-                            </div>
-                            <div class="form_group">
-                                <button class="main-btn primary-btn">Get A Quote<i class="far fa-arrow-right"></i></button>
-                            </div>
-                        </form>
+
+                    <!-- Dynamic Form Container -->
+                    <!-- Dynamic Form Container -->
+                    <div class="tab-content">
+                        <div class="tab-pane active show fade" id="dynamicForm">
+                            <form class="contact-form" [formGroup]="insuranceForm">
+                                <!-- Dynamic Fields -->
+                                <ng-container *ngFor="let field of formFields; trackBy: trackByFn">
+                                    <div class="form_group" [ngSwitch]="field.type">
+                                        <!-- Label -->
+                                        <label [attr.for]="field.label">{{ field.label }}</label>
+
+                                        <!-- Text Inputs -->
+                                        <input *ngSwitchCase="'text'" [id]="field.label" class="form_control"
+                                            [placeholder]="field.placeholder || ''" [formControlName]="field.label"
+                                            [type]="field.type">
+
+                                        <!-- Email -->
+                                        <input *ngSwitchCase="'email'" class="form_control"
+                                            [placeholder]="field.placeholder || 'example@domain.com'"
+                                            [formControlName]="field.label" type="email">
+
+                                        <!-- Phone -->
+                                        <input *ngSwitchCase="'tel'" class="form_control"
+                                            [placeholder]="field.placeholder || '+000 (123) 456 887'"
+                                            [formControlName]="field.label" pattern="[+]?[0-9]+" type="tel">
+
+                                        <!-- Select Dropdown -->
+                                        <div *ngSwitchCase="'select'" class="nice-select">
+                                            <select class="wide" [formControlName]="field.label">
+                                                <option *ngFor="let option of field.selectOptions" [value]="option">
+                                                    {{ option }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Range Input -->
+                                        <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
+                                            <input type="range" class="form_control" [min]="field.rangeStart"
+                                                [max]="field.rangeEnd" [formControlName]="field.label">
+                                            <div class="range-values check-list">
+                                                <span>{{ field.rangeStart }}</span>
+                                                <span>{{ field.rangeEnd }}</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Checkbox -->
+                                        <div *ngSwitchCase="'checkbox'" class="check-list">
+                                            <label *ngFor="let option of field.selectOptions" class="single-check-item">
+                                                <input type="checkbox" [value]="option" [formControlName]="field.label">
+                                                <i class="fas fa-check"></i> {{ option }}
+                                            </label>
+                                        </div>
+
+                                        <!-- Validation Messages -->
+                                        <div *ngIf="formControls[field.label]?.errors"
+                                            class="validation-error text-danger">
+                                            <span *ngIf="formControls[field.label]?.errors?.['required']">
+                                                This field is required
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <!-- Submit Button -->
+                                <div class="form_group">
+                                    <button type="submit" class="main-btn primary-btn"
+                                        [disabled]="!insuranceForm.valid">
+                                        Get A Quote <i class="far fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Right Column: Consultation Info -->
+            <div class="col-xl-6 order-1 order-xl-2 green-bg sideSection">
+                <div class="heading-section mb-4">
+                    <div class="sub-title-wrapper mb-2">
+                        <!-- <div class="icon"><i class="fas fa-circle"></i></div>
+              <h3 class="sub-title">Consultations</h3> -->
+                        <div class="section-title mb-1">
+                            <span class="sub-title" style="color: white;">Consultations</span>
+                        </div>
+                    </div>
+                    <h2 class="title text-white mb-3">Learn Insurance Solutions With Our Professionals</h2>
+                    <p class="text-white opacity-85 px-lg-5 mt-3 mb-4">
+                        At vero eos et accusamus et iusto odio dignissimos ducimus blanditiis praesentium voluptatum
+                        deleniti atque
+                    </p>
+                </div>
+                <div class="progress-section w-100 mb-2 prog-bar-font">
+                    <div class="d-flex justify-content-between mb-4">
+                        <p class="progress-title text-white mb-0">Client Satisfactions</p>
+                        <span class="progress-percentage text-white">95%</span>
+                    </div>
+                    <div class="single-progress-bar progress-style-one">
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="single-phone-item mb-4">
+                    <div class="icon"><i class="fa-solid fa-phone-flip"></i></div>
+                    <div class="info-content">
+                        <div class="info-label text-white">Emergency Call</div>
+                        <a href="tel:+1234567890" class="info-number text-white">+1 (234) 567-890</a>
+                    </div>
+                </div>
+                <!-- Contact Image Box -->
+                <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
+                    <img src="assets/images/service/Money_Pig.png" alt="">
+                </div>
+            </div>
         </div>
-        <!-- Right Column: Consultation Info -->
-        <div class="col-xl-6 order-1 order-xl-2 green-bg sideSection">
-          <div class="heading-section mb-4">
-            <div class="sub-title-wrapper mb-3">
-              <div class="icon"><i class="fas fa-circle"></i></div>
-              <h3 class="sub-title">Consultations</h3>
-            </div>
-            <h2 class="title text-white mb-3">Learn Insurance Solutions With Our Professionals</h2>
-            <p class="text-white opacity-85 px-lg-5">
-              At vero eos et accusamus et iusto odio dignissimos ducimus blanditiis praesentium voluptatum deleniti atque
-            </p>
-          </div>
-          <div class="progress-section w-100 mb-4">
-            <div class="d-flex justify-content-between mb-2">
-              <p class="progress-title text-white mb-0">Client Satisfactions</p>
-              <span class="progress-percentage text-white">95%</span>
-            </div>
-            <div class="single-progress-bar progress-style-one">
-              <div class="progress">
-                <div class="progress-bar" style="width: 95%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="single-phone-item mb-4">
-            <div class="icon"><i class="fas fa-phone"></i></div>
-            <div class="info-content">
-              <div class="info-label text-white">Emergency Call</div>
-              <a href="tel:+1234567890" class="info-number text-white">+1 (234) 567-890</a>
-            </div>
-          </div>
-          <!-- Contact Image Box -->
-          <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
-            <img src="assets/images/service/Money_Pig.png" alt="">
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>

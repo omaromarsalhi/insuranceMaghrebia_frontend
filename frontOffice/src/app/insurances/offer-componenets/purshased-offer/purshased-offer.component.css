@@ -1,190 +1,261 @@
-/* Retaining original class names and styles */
-.contact-form-section {
-    padding-top: 175px;
-    padding-bottom: 100px;
-  }
-  .gray-bg {
-    background-color: #f9f9f9;
-  }
-  .container {
-    max-width: 1140px;
-    margin: 0 auto;
-  }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .col-xl-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-  .order-1 {
-    order: 1;
-  }
-  .order-2 {
-    order: 2;
-  }
-  .order-xl-1 {
-    order: 1;
-  }
-  .order-xl-2 {
-    order: 2;
-  }
-  .contact-form-area {
-    position: relative;
-    z-index: 1;
-  }
-  .wow {
-    visibility: visible; /* Assuming animations have been triggered */
-  }
-  .fadeInLeft {
-    animation: fadeInLeft 1s;
-  }
-  @keyframes fadeInLeft {
-    from {
-      opacity: 0;
-      transform: translate3d(-100px, 0, 0);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-  .nav-tabs {
-    display: flex;
-    justify-content: space-around;
-    border-bottom: none;
-    padding: 0;
-    margin-bottom: 20px;
-  }
-  .nav-item {
-    list-style: none;
-  }
-  .nav-link {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .nav-link.active {
-    background: #ffb966;
-    color: #fff;
-  }
-  .form_group {
-    margin-bottom: 15px;
-  }
-  .form_group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  .form_control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  .wide {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  .main-btn.primary-btn {
-    background: #ffb966;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s;
-  }
-  .main-btn.primary-btn:hover {
-    background: #e0a75e;
-  }
-  .green-bg {
-    background-color: #193B1E;
-    color: #fff;
-    padding: 40px;
-  }
-  .heading-section {
-    margin-bottom: 40px;
-  }
-  .sub-title-wrapper {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  .sub-title-wrapper .icon {
-    margin-right: 10px;
-    font-size: 14px;
-  }
-  .sub-title {
-    font-size: 20px;
-    margin: 0;
-  }
-  .title {
-    font-size: 32px;
-    margin: 0 0 15px 0;
-  }
-  .text-white {
-    color: #fff;
-  }
-  .opacity-85 {
-    opacity: 0.85;
-  }
-  .progress-section {
-    margin-bottom: 40px;
-  }
-  .progress {
-    background: #ddd;
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .progress-bar {
-    height: 8px;
-    background: #fff;
-  }
-  .single-progress-bar {
-    margin-bottom: 20px;
-  }
-  .single-phone-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .single-phone-item .icon {
-    font-size: 24px;
-    margin-right: 15px;
-  }
-  .info-content .info-label {
-    font-size: 14px;
-  }
-  .info-content .info-number {
-    font-size: 16px;
-    text-decoration: none;
-    color: inherit;
-  }
-  .contact-image-box {
-    text-align: center;
-  }
-  @media (max-width: 767px) {
-    .col-xl-6 {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-    .order-1, .order-2, .order-xl-1, .order-xl-2 {
-      order: initial;
-    }
-  }
 
-.formSection .sideSection{
-    padding: 0 !important;
-    margin: 0 !important;
+.contact-form-section .row {
+  align-items: stretch; 
 }
+
+.contact-form-section .col-xl-6 {
+  display: flex;
+  flex-direction: column;
+  min-height: 650px; 
+}
+
+
+.formSection {
+  padding: 60px 70px !important;
+  margin: 0 0 0 4% !important;
+  background: #fff;
+  box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sideSection {
+  padding: 60px 70px !important;
+  margin: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.heading-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+@media (max-width: 1199px) {
+  .formSection,
+  .sideSection {
+      padding: 40px 50px !important;
+      min-height: 550px;
+  }
+}
+
+@media (max-width: 991px) {
+  .contact-form-section .col-xl-6 {
+      min-height: auto;
+  }
   
+  .formSection,
+  .sideSection {
+      padding: 40px 30px !important;
+      min-height: 500px;
+  }
+}
+
+@media (max-width: 767px) {
+  .formSection,
+  .sideSection {
+      padding: 30px 20px !important;
+      min-height: auto;
+  }
+  
+  .contact-form-section .row {
+      gap: 30px;
+  }
+}
+
+
+.contact-form-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.green-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
+}
+
+
+.form_group {
+  margin-bottom: 25px;
+}
+
+.form_control {
+  height: 55px;
+  border-radius: 8px !important;
+}
+
+
+.progress-section {
+  margin-top: auto;
+  padding-bottom: 30px;
+}
+
+
+.single-phone-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: auto;
+}
+
+/* Using template's button style if needed */
+.info-number {
+  font: 700 20px "Syne", sans-serif;
+  transition: all 0.3s ease-out;
+}
+
+.info-number:hover {
+  color: #FFB966 !important;
+}
+
+.section-title h2 {
+  font: 700 40px/42px "Syne", sans-serif;
+  letter-spacing: -0.02em;
+  margin-bottom: 25px;
+}
+
+.single-progress-bar.progress-style-one .progress {
+  height: 7px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3.5px;
+  
+}
+
+.single-progress-bar.progress-style-one .progress-bar {
+  background: #FFB966;
+  height: 100%;
+ 
+}
+
+.prog-bar-font{
+  font: 700 20px 'Syne', sans-serif;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 700;
+  top: -50px;
+}
+
+.single-phone-item {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  padding: 20px 25px;
+  border-radius: 50px;
+  width: fit-content;
+}
+
+.single-phone-item .icon {
+  width: 70px;
+  height: 70px;
+  background: #FFB966;
+  margin-right: 20px;
+}
+
+
+/* Add to existing CSS */
+.sideSection .text-white.opacity-85 {
+  position: relative;
+  padding-left: 35px;
+  margin-left: 15px;
+  border-left: 5px solid #FFB966; /* Using template's secondary color */
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Optional hover effect matching template's interactions */
+.sideSection .text-white.opacity-85:hover {
+  border-left-color: #fff;
+  transition: all 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/* For responsive adjustment */
+@media (max-width: 991px) {
+  .sideSection .text-white.opacity-85 {
+      padding-left: 25px;
+      margin-left: 10px;
+      border-width: 2px;
+  }
+}
+
+/* nice-select-custom.css */
+.nice-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 40px 12px 16px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.nice-select:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+/* Dropdown arrow */
+.nice-select::after {
+  content: "▼";
+  font-size: 10px;
+  color: #666;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Dropdown list */
+.nice-select .list {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* Dropdown items */
+.nice-select .list .option {
+  padding: 12px 16px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.nice-select .list .option:hover,
+.nice-select .list .option.focus {
+  background-color: #f8f9fa;
+}
+
+.nice-select .list .option.selected {
+  background-color: #007bff;
+  color: white;
+  font-weight: normal;
+}
+
+/* Disabled state */
+.nice-select.disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
