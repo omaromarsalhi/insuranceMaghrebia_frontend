@@ -5,6 +5,7 @@ import {ComplaintService} from 'src/app/core/services/complaintService';
 import {Complaint} from 'src/app/core/models/complaint';
 import {ComplaintResponseService} from 'src/app/core/services/ComplaintResponseService';
 import {ResponseComplaint} from 'src/app/core/models/responseComplaint';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -24,11 +25,13 @@ export class UsergridComponent implements OnInit {
     reponses: ResponseComplaint[] = [];
     test: ResponseComplaint[] = [];
     isSubmitting = false;
+    selectedDescription: string;
 
     constructor(
         private modalService: NgbModal,
         private complaintService: ComplaintService,
-        private complaintResponseService: ComplaintResponseService) {
+        private complaintResponseService: ComplaintResponseService,
+        private router: Router) {
     }
 
     async ngOnInit() {
@@ -50,49 +53,15 @@ export class UsergridComponent implements OnInit {
      * @param content modal content
      */
 
-    openModal(content: any, complaint: any) {
-        this.selectedComplaint = complaint;
-        // this.hasUnseenResponse(this.selectedComplaint.complaintId);
-        if (this.responseofSelectCmplaint) {
-            this.responseForm.get('responseDescription').setValue(this.responseofSelectCmplaint.responseDescription);
-        }
-        this.modalService.open(content);
-    }
-
-    // async saveResponse() {
-    //     if (this.responseForm.invalid) {
-    //         this.responseForm.markAllAsTouched();
-    //         return;
+    // openModal(content: any, complaint: any) {
+    //     this.selectedComplaint = complaint;
+    //     // this.hasUnseenResponse(this.selectedComplaint.complaintId);
+    //     if (this.responseofSelectCmplaint) {
+    //         this.responseForm.get('responseDescription').setValue(this.responseofSelectCmplaint.responseDescription);
     //     }
-    //     this.isSubmitting=true;
-    //     const response: ResponseComplaint = this.responseForm.value;
-    //     try {
-    //         const res = await this.complaintResponseService
-    //             .addResponse(response, '1234', this.selectedComplaint.complaintId)
-    //             .toPromise();
-    //         console.log('Response submitted:', res);
-    //         await this.loadResponses();
-    //         this.modalService.dismissAll();
-    //         this.selectedComplaint.complaintStatus = 'OPEN';
-    //         for (const r of this.reponses) {
-    //             if (!r.isSeen && r.responderId === this.selectedComplaint.userId) {
-    //                 this.markResponseAsSeen(r.responseId);
-    //                 const responseToUpdate = this.reponses.find(resp => resp.responseId === r.responseId);
-    //                 if (responseToUpdate) {
-    //                     responseToUpdate.isSeen = true;
-    //                 }
-    //             }
-    //         }
-    //         this.isSubmitting=true;
-    //     } catch (err) {
-    //         this.isSubmitting = false;
-    //         console.error('Error submitting response', err);
-    //         console.log(this.responseForm.get('responseDescription').value);
-    //     }
-    //
-    //
-    //
+    //     this.modalService.open(content);
     // }
+
     async saveResponse() {
         if (this.responseForm.invalid) {
             this.responseForm.markAllAsTouched();
@@ -180,6 +149,14 @@ export class UsergridComponent implements OnInit {
         } catch (error) {
             console.error('Error loading responses:', error);
         }
+    }
+
+    showComponent(complaint: Complaint) {
+        this.router.navigate(['/projects/overview'], {state: {data: complaint}});
+    }
+
+    openModal(content: any) {
+        this.modalService.open(content);
     }
 
 }

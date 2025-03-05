@@ -17,14 +17,12 @@
   </div>
 </section>
 
-<!-- Popup HTML -->
-<div *ngIf="showPopup" class="popup-overlay">
-  <div class="popup-content">
-    <h2>{{ popupTitle }}</h2>
-    <p>{{ popupMessage }}</p>
-    <button class="close-btn" (click)="closePopup()">Close</button>
-  </div>
-</div>
+<app-popup
+  [title]="popupTitle"
+  [message]="popupMessage"
+  [showPopup]="showPopup"
+  (close)="onPopupClose()">
+</app-popup>
 
 <!--====== Start Contact Form Section ======-->
 <section class="contact-form-section gray-bg pt-175 pb-100">

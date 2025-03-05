@@ -31,7 +31,9 @@ export class ComplaintService {
   getComplaintsByUserId(userId: string): Observable<Complaint[]> {
     return this.http.get<Complaint[]>(`${this.baseUrl}/${userId}`);
   }
-
+  updateStatus(idComplaint: string, status: string): Observable<string> {
+    return this.http.put(`${this.baseUrl}/${idComplaint}/${status}`, null, { responseType: 'text' });
+  }
 
   getComplaintsByType(type: string): Observable<Complaint[]> {
     return this.http.get<Complaint[]>(`${this.baseUrl}/getType/${type}`);

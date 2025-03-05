@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 import {CamplaintComponent} from "./camplaint/camplaint.component";
 import {ShowComplaintComponent} from "./show-complaint/show-complaint.component";
 import {ResponseComplaintComponent} from "./response-complaint/response-complaint.component";
-import {TestComponent} from "./test/test.component";
+import {PopupComponent} from "./popup/popup.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route for the home page
@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'camplaint', component: CamplaintComponent },
   { path: 'show', component: ShowComplaintComponent },
   { path: 'showResponse/:id', component:  ResponseComplaintComponent },
-  { path: 'test', component:  TestComponent }
+  { path: 'test', component:  PopupComponent }
 ];
 
 @NgModule({

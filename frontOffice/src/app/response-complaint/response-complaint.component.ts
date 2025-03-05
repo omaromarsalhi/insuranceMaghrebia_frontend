@@ -12,10 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./response-complaint.component.css']
 })
 export class ResponseComplaintComponent implements OnInit {
+  showPopup:boolean=false;
   responses: ResponseComplaint[] = []; // Initialisation par défaut
   complaint: Complaint = {} as Complaint; // Initialisation par défaut
   complaintId!: string;
   responseForm!: FormGroup;
+  popupTitle: string = 'Complaint Resolved';
+  popupMessage: string = 'You cannot submit a response because the status is Resolved';
 
   constructor(
     private fb: FormBuilder,
@@ -32,8 +35,14 @@ export class ResponseComplaintComponent implements OnInit {
         responseDescription: ['', [Validators.required, Validators.maxLength(500), Validators.minLength(5)]]
       });
 
+
       if (this.complaintId) {
         await this.getComplaintbyId(this.complaintId);
+        if (this.complaint.complaintStatus === 'RESOLVED') {
+          setTimeout(() => {
+            this.showPopup = true;
+          }, 1000);
+        }
         await this.getResponsesByComplaint(this.complaintId);
       } else {
         console.error('Complaint ID is undefined');
@@ -107,5 +116,17 @@ export class ResponseComplaintComponent implements OnInit {
     } else {
       console.error('Response ID is undefined');
     }
+  }
+
+
+
+  openPopup(title: string, message: string) {
+    this.popupTitle = title;
+    this.popupMessage = message;
+    this.showPopup = true;
+  }
+
+  onPopupClose() {
+    this.showPopup = false;
   }
 }

@@ -15,10 +15,10 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   complaints: Complaint[] = [];
   // complaint!:Complaint;
   errorMessage !:string;
-  popupMessage !:string;
-  popupTitle !:string;
   complaintForm !: FormGroup;
-  showPopup: boolean = false;
+  showPopup:boolean=false;
+  popupTitle: string = '';
+  popupMessage: string = '';
   loading: boolean = false;
   isloading: boolean = false;// État de chargement
   complaintTypes = [
@@ -54,10 +54,15 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
   }
   generateTitle() {
     const descriptionControl = this.complaintForm.get('complaintDescription');
+    descriptionControl?.markAsTouched();
+    descriptionControl?.markAsDirty();
+    // this.loading = true;
     if (!descriptionControl || !descriptionControl.value) {
-      this.errorMessage = 'Please enter a description.';
-      this.popupMessage='testt'
-      this.showPopup = true;
+      // this.errorMessage = 'Please enter a description.';
+      // this.popupMessage='testt'
+      // this.popupTitle = "Error";
+      // this.popupMessage = "Please enter a description.";
+      // this.showPopup = true;
       return;
     }
     this.loading = true;
@@ -74,14 +79,6 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
         console.error('Error fetching title:', err);
         this.errorMessage = 'Failed to generate a title. Try again.';
       }
-    });
-  }
-
-
-  getComplaints(): void {
-    this.complaintService.getAllComplaints().subscribe((data) => {
-      this.complaints = data;
-      console.log(data);
     });
   }
 
@@ -124,8 +121,7 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
       });
     }, 5000);
   }
-
-  closePopup() {
+  onPopupClose() {
     this.showPopup = false;
   }
 }

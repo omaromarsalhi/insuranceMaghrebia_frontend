@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ShowComplaintComponent } from './show-complaint/show-complaint.component';
 import { ResponseComplaintComponent } from './response-complaint/response-complaint.component';
-import { TestComponent } from './test/test.component';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { TestComponent } from './test/test.component';
     CamplaintComponent,
     ShowComplaintComponent,
     ResponseComplaintComponent,
-    TestComponent,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,

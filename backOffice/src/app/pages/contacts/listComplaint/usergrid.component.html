@@ -1,119 +1,99 @@
 <div class="container-fluid">
-    <!-- start page title -->
+
     <app-page-title title="Users Grid" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-    <!-- end page title -->
     <div class="row">
-        <ng-template #content role="document" let-modal>
-            <div class="modal-body">
-                <form (ngSubmit)="saveResponse()" [formGroup]="responseForm">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Affichage de la description de la réclamation -->
-                            <div class="mb-3 p-3 bg-light border rounded">
-                                <label class="fw-bold">Complaint Description:</label>
-                                <p class="text-muted">{{ selectedComplaint?.complaintDescription }}</p>
-                            </div>
-
-                            <!-- Affichage de la conversation existante -->
-                            <div *ngIf="reponses?.length" class="mb-3">
-                                <label class="fw-bold ">Conversation:</label>
-                                <div class="conversation-container p-3 bg-light border rounded">
-                                    <div *ngFor="let response of reponses" class="message mb-3">
-                                        <!-- Message de l'utilisateur ou de l'admin -->
-                                        <div [ngClass]="{'user-message': response.responderId === selectedComplaint.userId, 'admin-message': response.responderId !== selectedComplaint.userId}">
-                                            <p class="mb-0">
-                                                <strong>{{ response.responderId === selectedComplaint.userId ? 'Client' : 'You' }}
-                                                    :</strong>
-                                                {{ response.responseDescription }}
-                                            </p>
-                                            <small class="text-muted">{{ response.createdAt | date:'short' }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Champ Textarea pour la réponse -->
-                            <div class="mb-3">
-                                <label class="control-label fw-bold">Your Response</label>
-                                <textarea class="form-control" rows="4" placeholder="Enter your response"
-                                          formControlName="responseDescription"
-                                          [ngClass]="{'is-invalid': submitted && responseForm.controls.responseDescription.invalid}">
-                        </textarea>
-                                <div *ngIf="submitted && responseForm.controls.responseDescription.invalid"
-                                     class="invalid-feedback">
-                                    <span *ngIf="responseForm.controls.responseDescription.errors?.required">Response is required.</span>
-                                </div>
-                                <div *ngIf="responseForm.get('responseDescription')?.invalid && responseForm.get('responseDescription')?.touched"
-                                     class="error-message">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['required']">Description
-                                        is required.</small>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['minlength']">Minimum
-                                        5 characters required.</small>
-                                    <small *ngIf="responseForm.get('responseDescription')?.errors?.['maxlength']">Maximum
-                                        100 characters allowed.</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <button type="submit" class="latifa" style="
-    background-color: #FFB966;
-    color: #fff;
-    border: none;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 12px 25px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: block;
-    margin: 20px auto 0;
-">
-                        <i *ngIf="isSubmitting" class="bx bx-loader-alt bx-spin"></i>
-                        {{ isSubmitting ? 'Submitting...' : 'Submit Response' }}
-                    </button>
-
-                </form>
-            </div>
-        </ng-template>
-
-
-        <div class="col-xl-3 col-sm-6" *ngFor="let i of complaints;">
-            <div class="card custom-card">
-        <span *ngIf="hasUnseenResponse(i.complaintId)" class="new-message-badge">
-          <i class="bx bx-bell"></i> New
-        </span>
-                <div class="card-header">
-                    <i class="bx bx-error-circle icon-large"></i>
-                    <h5 class="card-title">{{ i.complaintType }}</h5>
+        <div class="col-xl-3 col-sm-6 mb-3" *ngFor="let i of complaints;">
+            <div class="card border-0 shadow-sm position-relative">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-primary">{{ i.complaintType }}</h6>
+                    <span class="badge"
+                          [ngClass]="{
+        'bg-warning text-dark': i.complaintStatus === 'OPEN',
+        'bg-success text-white': i.complaintStatus === 'RESOLVED',
+        'bg-danger text-white': i.complaintStatus === 'IN_PROGRESS'
+      }">
+    {{ i.complaintStatus }}
+</span>
                 </div>
-                <div class="card-body">
-                    <!-- Title -->
-                    <h6 class="card-subtitle">{{ i.title }}</h6>
 
-                    <!-- Description -->
-                    <p class="card-text">
-                        <i class="bx bx-file icon-small"></i>
+                <div class="card-body">
+                    <h6 class="card-title">{{ i.title }}</h6>
+                    <p class="card-text small text-muted mb-4">
                         {{ i.complaintDescription }}
                     </p>
-
-                    <!-- Date -->
-                    <p class="card-date">
-                        <i class="bx bx-calendar icon-small"></i>
-                        {{ i.createdAt | date }}
-                    </p>
                 </div>
-                <div class="card-footer">
-                    <span class="badge">{{ i.complaintStatus }}</span>
-
-
-                    <button class="btn-action" (click)="openModal(content, i)" ngbTooltip="Answer">
+                <div class="card-footer fixed-footer">
+            <span>
+                <i class="bx bx-calendar"></i>
+                {{ i.createdAt | date }}
+            </span>
+                    <button class="btn btn-link p-0" (click)="showComponent(i)">
                         <i class="bx bx-message-square-dots"></i>
                     </button>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+<!--<div class="container-fluid">-->
+<!--    <div class="row g-4">-->
+<!--        <div class="col-12 col-md-6 col-xl-4" *ngFor="let complaint of complaints">-->
+<!--            <span *ngIf="hasUnseenResponse(complaint.complaintId)" class="new-message-badge">-->
+<!--          <i class="bx bx-bell"></i> New-->
+<!--        </span>-->
+<!--            <div class="card complaint-card border-0 shadow-sm h-100 hover-effect">-->
+<!--                <div class="card-header bg-light-subtle d-flex justify-content-between align-items-center py-3">-->
+<!--                    <div class="d-flex align-items-center gap-2">-->
+<!--                        <i class="bx bx-error-circle text-primary fs-5"></i>-->
+<!--                        <span class="badge bg-opacity-10 bg-primary text-primary text-uppercase fw-medium rounded-pill">-->
+<!--                            {{ complaint.complaintType }}-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <span class="text-muted small">{{ complaint.createdAt | date:'dd/MM/yy' }}</span>-->
+<!--                </div>-->
+
+<!--                <div class="card-body p-3 d-flex flex-column">-->
+<!--                    <h6 class="card-title mb-2 text-truncate fw-semibold">{{ complaint.title }}</h6>-->
+<!--                    <div class="card-text text-muted complaint-description flex-grow-1">-->
+<!--                        <div class="truncate-text">-->
+<!--                            {{ complaint.complaintDescription }}-->
+<!--                        </div>-->
+<!--                        <a  class="text-primary small fw-medium"-->
+<!--                            (click)="showComponent(complaint)"-->
+<!--                           *ngIf="complaint.complaintDescription.length > 150">-->
+<!--                            Lire plus-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center py-2 px-3 border-top">-->
+<!--                    <span class="status-badge badge rounded-pill"-->
+<!--                        >-->
+<!--                        {{ complaint.complaintStatus }}-->
+<!--                    </span>-->
+<!--                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" (click)="showComponent(complaint)">-->
+<!--                        <i class="bx bx-comment me-1"></i>Répondre-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="modal fade" id="descriptionModal" tabindex="-1">-->
+<!--        <div class="modal-dialog modal-dialog-centered">-->
+<!--            <div class="modal-content border-0 shadow">-->
+<!--                <div class="modal-header bg-light-subtle">-->
+<!--                    <h5 class="modal-title text-primary">Description complète</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <p class="text-muted mb-0">{{ selectedDescription }}</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
