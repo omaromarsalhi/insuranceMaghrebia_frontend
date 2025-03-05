@@ -2,43 +2,74 @@
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Column: Contact Form Area -->
-            <div class="col-xl-6 order-2 order-xl-1">
-                <!--=== Dynamic Form Area ===-->
+            <div class="col-xl-6 order-2 order-xl-1 mt-4 mb-4">
                 <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
-                    <!--=== Section Title ===-->
                     <div class="section-title mb-10">
                         <h2>Get Start Insurance</h2>
                     </div>
 
-                    <!-- Dynamic Form Container -->
-                    <!-- Dynamic Form Container -->
                     <div class="tab-content">
                         <div class="tab-pane active show fade" id="dynamicForm">
                             <form class="contact-form" [formGroup]="insuranceForm">
-                                <!-- Dynamic Fields -->
-                                <ng-container *ngFor="let field of formFields; trackBy: trackByFn">
-                                    <div class="form_group" [ngSwitch]="field.type">
-                                        <!-- Label -->
-                                        <label [attr.for]="field.label">{{ field.label }}</label>
+                                <ng-container *ngFor="
+                    let field of formFields;
+                    let i = index;
+                    trackBy: trackByFn
+                  ">
+                                    <div class="form_group mb-3 " [ngSwitch]="field.type" >
+                                        <div *ngIf="
+                        field.type !== 'checkbox' && field.type !== 'header'">
+                                            <label [attr.for]="field.label">{{ field.label }}</label>
+                                        </div>
 
-                                        <!-- Text Inputs -->
-                                        <input *ngSwitchCase="'text'" [id]="field.label" class="form_control"
-                                            [placeholder]="field.placeholder || ''" [formControlName]="field.label"
-                                            [type]="field.type">
+                                        <!-- Number Input -->
+                                        <input *ngSwitchCase="'number'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="number" />
 
-                                        <!-- Email -->
-                                        <input *ngSwitchCase="'email'" class="form_control"
+                                        <!-- Text Input -->
+                                        <input *ngSwitchCase="'text'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="text" />
+
+                                        <!-- Textarea Input -->
+                                        <textarea *ngSwitchCase="'textarea'" class="form_control sideLine"
+                                            style="min-height: 60px" [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)"></textarea>
+
+                                        <!-- Email Input -->
+                                        <input *ngSwitchCase="'email'" class="form_control sideLine"
                                             [placeholder]="field.placeholder || 'example@domain.com'"
-                                            [formControlName]="field.label" type="email">
+                                            [formControlName]="getFormControlName(field, i)" type="email" />
 
-                                        <!-- Phone -->
-                                        <input *ngSwitchCase="'tel'" class="form_control"
+                                        <!-- Telephone Input -->
+                                        <input *ngSwitchCase="'tel'" class="form_control sideLine"
                                             [placeholder]="field.placeholder || '+000 (123) 456 887'"
-                                            [formControlName]="field.label" pattern="[+]?[0-9]+" type="tel">
+                                            [formControlName]="getFormControlName(field, i)" pattern="[+]?[0-9]+"
+                                            type="tel" />
+
+                                        <!-- Date Input -->
+                                        <input *ngSwitchCase="'date'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="date" />
+
+                                        <!-- Time Input -->
+                                        <input *ngSwitchCase="'time'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="time" />
+
+                                        <!-- Color Input -->
+                                        <input *ngSwitchCase="'color'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="color" />
 
                                         <!-- Select Dropdown -->
-                                        <div *ngSwitchCase="'select'" class="nice-select">
-                                            <select class="wide" [formControlName]="field.label">
+                                        <div *ngSwitchCase="'select'" style="margin-bottom: 8px " >
+                                            <select class="wide nice-select " style="margin-bottom: 20px"
+                                                [formControlName]="getFormControlName(field, i)">
+                                                <option value="" disabled selected>
+                                                    Select Settlement Plan
+                                                </option>
                                                 <option *ngFor="let option of field.selectOptions" [value]="option">
                                                     {{ option }}
                                                 </option>
@@ -48,57 +79,88 @@
                                         <!-- Range Input -->
                                         <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
                                             <input type="range" class="form_control" [min]="field.rangeStart"
-                                                [max]="field.rangeEnd" [formControlName]="field.label">
+                                                [max]="field.rangeEnd"
+                                                [formControlName]="getFormControlName(field, i)" />
                                             <div class="range-values check-list">
                                                 <span>{{ field.rangeStart }}</span>
                                                 <span>{{ field.rangeEnd }}</span>
                                             </div>
                                         </div>
 
-                                        <!-- Checkbox -->
-                                        <div *ngSwitchCase="'checkbox'" class="check-list">
-                                            <label *ngFor="let option of field.selectOptions" class="single-check-item">
-                                                <input type="checkbox" [value]="option" [formControlName]="field.label">
-                                                <i class="fas fa-check"></i> {{ option }}
+                                        <!-- Checkbox Group -->
+
+                                        <div *ngSwitchCase="'checkbox'" class="check-list flex items-center gap-2">
+                                            <input type="checkbox" [formControlName]="getFormControlName(field, i)"
+                                                class="w-4 h-4" />
+                                            <label class="text-sm">{{ field.label }}</label>
+                                        </div>
+
+                                        <!-- Radio Buttons -->
+                                        <div *ngSwitchCase="'radio'" class="radio-group">
+                                            <label *ngFor="let option of field.selectOptions" class="radio-label">
+                                                <input type="radio" [formControlName]="getFormControlName(field, i)"
+                                                    [value]="option" />
+                                                <span>{{ option }}</span>
                                             </label>
                                         </div>
 
-                                        <!-- Validation Messages -->
-                                        <div *ngIf="formControls[field.label]?.errors"
-                                            class="validation-error text-danger">
-                                            <span *ngIf="formControls[field.label]?.errors?.['required']">
+                                        <!-- Validation Errors -->
+                                        <div *ngIf="
+                        insuranceForm.controls[getFormControlName(field, i)]
+                          .invalid &&
+                        (insuranceForm.controls[getFormControlName(field, i)]
+                          .touched ||
+                          insuranceForm.controls[getFormControlName(field, i)]
+                            .dirty)
+                      " class="validation-error text-danger">
+                                            <span
+                                                *ngIf="insuranceForm.controls[getFormControlName(field, i)].errors?.['required']">
                                                 This field is required
+                                            </span>
+                                            <span
+                                                *ngIf="insuranceForm.controls[getFormControlName(field, i)].errors?.['pattern']">
+                                                {{ field.regexErrorMessage }}
                                             </span>
                                         </div>
                                     </div>
                                 </ng-container>
 
-                                <!-- Submit Button -->
                                 <div class="form_group">
-                                    <button type="submit" class="main-btn primary-btn"
-                                        [disabled]="!insuranceForm.valid">
-                                        Get A Quote <i class="far fa-arrow-right"></i>
+                                    <button type="submit" class="main-btn primary-btn" [disabled]="isLoading"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="!isLoading">Submit <i class="fa fa-arrow-right"></i></span>
+                                        <span *ngIf="isLoading">
+                                            <i class="fa fa-spinner fa-spin"></i> Loading...
+                                        </span>
                                     </button>
+                                    <div *ngIf="!insuranceForm.valid && notValid"
+                                        class="validation-error text-danger ms-1 mt-2">
+                                        <span style="font-size: 18px">
+                                            One or more fields have an error. Please check and try
+                                            again.
+                                        </span>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- Right Column: Consultation Info -->
             <div class="col-xl-6 order-1 order-xl-2 green-bg sideSection">
                 <div class="heading-section mb-4">
                     <div class="sub-title-wrapper mb-2">
-                        <!-- <div class="icon"><i class="fas fa-circle"></i></div>
-              <h3 class="sub-title">Consultations</h3> -->
                         <div class="section-title mb-1">
-                            <span class="sub-title" style="color: white;">Consultations</span>
+                            <span class="sub-title" style="color: white">Consultations</span>
                         </div>
                     </div>
-                    <h2 class="title text-white mb-3">Learn Insurance Solutions With Our Professionals</h2>
+                    <h2 class="title text-white mb-3">
+                        Learn Insurance Solutions With Our Professionals
+                    </h2>
                     <p class="text-white opacity-85 px-lg-5 mt-3 mb-4">
-                        At vero eos et accusamus et iusto odio dignissimos ducimus blanditiis praesentium voluptatum
-                        deleniti atque
+                        At vero eos et accusamus et iusto odio dignissimos ducimus
+                        blanditiis praesentium voluptatum deleniti atque
                     </p>
                 </div>
                 <div class="progress-section w-100 mb-2 prog-bar-font">
@@ -108,7 +170,7 @@
                     </div>
                     <div class="single-progress-bar progress-style-one">
                         <div class="progress">
-                            <div class="progress-bar" style="width: 95%;"></div>
+                            <div class="progress-bar" style="width: 95%"></div>
                         </div>
                     </div>
                 </div>
@@ -121,7 +183,7 @@
                 </div>
                 <!-- Contact Image Box -->
                 <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
-                    <img src="assets/images/service/Money_Pig.png" alt="">
+                    <img src="assets/images/service/Money_Pig.png" alt="" />
                 </div>
             </div>
         </div>

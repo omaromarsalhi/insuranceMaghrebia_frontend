@@ -27,6 +27,7 @@ export class FormCreatorComponent implements OnInit {
   @Input() triggerCleanEvent!: Subject<void>;
   dynamicForm!: FormGroup;
   availableFieldTypes = [
+    "number",
     "text",
     "email",
     "date",
