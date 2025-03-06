@@ -49,7 +49,7 @@ export class OfferControllerService extends BaseService {
   }
 
   /** Path part for operation `getOne()` */
-  static readonly GetOnePath = '/api/v1/offers/one';
+  static readonly GetOnePath = '/api/v1/offers/one/{categoryId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -57,7 +57,7 @@ export class OfferControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOne$Response(params?: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+  getOne$Response(params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
     return getOne(this.http, this.rootUrl, params, context);
   }
 
@@ -67,7 +67,7 @@ export class OfferControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOne(params?: GetOne$Params, context?: HttpContext): Observable<OfferResponse> {
+  getOne(params: GetOne$Params, context?: HttpContext): Observable<OfferResponse> {
     return this.getOne$Response(params, context).pipe(
       map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
     );

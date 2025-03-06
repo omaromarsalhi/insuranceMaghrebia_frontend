@@ -8,16 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CategoryResponse } from '../../models/category-response';
+import { OfferFormResponse } from '../../models/offer-form-response';
 
-export interface GetOfferCategoryById$Params {
-  id: string;
+export interface Get$Params {
+  formId: string;
 }
 
-export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
-  const rb = new RequestBuilder(rootUrl, getOfferCategoryById.PATH, 'get');
+export function get(http: HttpClient, rootUrl: string, params: Get$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferFormResponse>> {
+  const rb = new RequestBuilder(rootUrl, get.PATH, 'get');
   if (params) {
-    rb.path('id', params.id, {});
+    rb.path('formId', params.formId, {});
   }
 
   return http.request(
@@ -25,9 +25,9 @@ export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: 
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<CategoryResponse>;
+      return r as StrictHttpResponse<OfferFormResponse>;
     })
   );
 }
 
-getOfferCategoryById.PATH = '/api/v1/offer-categories/getOne/{id}';
+get.PATH = '/api/v1/offer_forms/{formId}';

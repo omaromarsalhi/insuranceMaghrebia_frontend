@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
+import Swal from "sweetalert2";
 import { OfferCategoryControllerService } from "src/app/core/services";
-import { OfferCategory } from "src/app/core/models";
+import { CategoryResponse, OfferCategory } from "src/app/core/models";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 import { uploadImage } from "../../../core/fn/image-upload-controller/upload-image";
 import { CategoryModalComponent } from "../category-modal/category-modal.component";
@@ -14,12 +14,11 @@ import { CategoryModalComponent } from "../category-modal/category-modal.compone
   styleUrls: ["./category.component.scss"],
 })
 export class CategoryComponent implements OnInit {
-
   @ViewChild("imageUploader") imageUploader: ImageUploaderComponent;
   breadCrumbItems: Array<{}>;
   formData: FormGroup;
   submitted = false;
-  categoriesData: OfferCategory[] = [];
+  categoriesData: CategoryResponse[] = [];
   term: any;
   isLoading: boolean = false;
   error: boolean = false;
@@ -64,12 +63,6 @@ export class CategoryComponent implements OnInit {
   }
 
   openModal(category?: any) {
-    // this.formData.reset();
-    // this.submitted = false;
-    // const modalRef = this.modalService.open(content, {
-    //   backdrop: "static",
-    //   size: "md",
-    // });
     this.formData.reset();
     this.submitted = false;
     const modalRef = this.modalService.open(CategoryModalComponent, {
@@ -78,55 +71,69 @@ export class CategoryComponent implements OnInit {
     });
 
     // Pass data to the modal
-    modalRef.componentInstance.form = this.formData; 
-    modalRef.componentInstance.isEditMode = !!category; 
+    modalRef.componentInstance.form = this.formData;
+    modalRef.componentInstance.isEditMode = !!category;
 
     if (category) {
       this.formData.patchValue(category);
     }
 
-    modalRef.componentInstance.save.subscribe(() => {
+    modalRef.componentInstance.save.subscribe((imageUri: string) => {
       if (category) {
+        console.log("update");
         // this.updateCategory();
-        console.log('update')
       } else {
-        this.saveCategory();
-        console.log('save')
+        this.submitOffer(imageUri);
       }
     });
   }
 
-  // openUpdateModal(content: any, category: OfferCategory) {
-  //   this.formData.patchValue(category);
-  //   this.submitted = false;
-  //   this.modalService.open(content, { backdrop: "static", size: "md" });
-  // }
-  openUpdateModal(category: OfferCategory) {
-    // this.formData.patchValue(category);
-    // this.submitted = false;
-    // this.modalService.open(content, { backdrop: "static", size: "md" });
-  }
+  submitOffer = async (imageUri: string) => {
+    Swal.fire({
+      title: "Category is being added!",
+      timer: 2000,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
-  async saveCategory() {
+    try {
+      this.saveCategory(imageUri);
+      Swal.fire({
+        icon: "success",
+        title: "Category added successfully!",
+        timer: 2000,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to add Category",
+        text: error.message,
+        timer: 2000,
+      });
+    }
+  };
+
+  openUpdateModal(category: OfferCategory) {}
+
+  saveCategory(imageUri: string) {
     this.submitted = true;
 
     if (this.formData.invalid) {
       return;
     }
 
-
     const params = {
       body: this.formData.value,
     };
 
-    // params.body.imageUri = this.imageUploader.getImageUri();
+    params.body.imageUri = imageUri;
     console.log(params);
 
     this.categoryService.createOfferCategory(params).subscribe({
       next: (response) => {
         console.log(response);
         this.modalService.dismissAll();
-        this.imageUploader.clearImage();
         this._fetchData();
       },
       error: (error) => {
@@ -158,57 +165,49 @@ export class CategoryComponent implements OnInit {
   }
 
   deleteCategory(categoryId: string) {
-    if (confirm("Are you sure you want to delete this category?")) {
-      this.categoryService.deleteOfferCategory({ id: categoryId }).subscribe({
-        next: () => {
-          this._fetchData();
-        },
-        error: (error) => {
-          console.error("Error deleting category:", error);
-        },
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger ms-2",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        showCancelButton: true,
+      })
+      .then((result) => {
+        if (result.value) {
+
+          this.categoryService.deleteOfferCategory({ id: categoryId }).subscribe({
+            next: () => {
+              this._fetchData();
+            },
+            error: (error) => {
+              console.error("Error deleting category:", error);
+            },
+          });
+
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Category has been deleted.",
+            "success"
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Category is safe :)",
+            "error"
+          );
+        }
       });
-    }
   }
-
-  // onDragOver(event: DragEvent) {
-  //   event.preventDefault();
-  //   this.isDragging = true;
-  // }
-
-  // onDragLeave(event: DragEvent) {
-  //   event.preventDefault();
-  //   this.isDragging = false;
-  // }
-
-  // onFileDrop(event: DragEvent) {
-  //   event.preventDefault();
-  //   this.isDragging = false;
-  //   const files = event.dataTransfer?.files;
-  //   if (files && files.length > 0) {
-  //     this.handleFile(files[0]);
-  //   }
-  // }
-
-  // onFileSelected(event: any) {
-  //   const file = event.target.files[0];
-  //   this.selectedFile = file;
-  //   if (file) this.handleFile(file);
-  // }
-
-  // handleFile(file: File) {
-  //   this.fileName = file.name;
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     this.uploadedImageUrl = reader.result as string;
-  //   };
-  //   reader.readAsDataURL(file);
-  // }
-
-  // clearImage() {
-  //   this.uploadedImageUrl = null;
-  //   this.fileName = "";
-  //   this.selectedFile = null;
-  // }
 
   getTargetBadgeClass(target: string): string {
     return target == "PARTICULAR"

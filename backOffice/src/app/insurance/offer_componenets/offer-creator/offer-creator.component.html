@@ -169,10 +169,11 @@
                         'is-valid': submit && !answer.get('answerText').errors
                       }"></textarea>
                                         <select class="form-select" formControlName="questionIndex">
+                                            
                                             <option *ngFor="
-                          let q of label.get('questions').controls;
-                          let i = index
-                        " [ngValue]="i">
+                                                    let q of label.get('questions').controls;
+                                                    let i = index
+                                                    " [ngValue]="i">
                                                 Question #{{ i + 1 }}
                                             </option>
                                         </select>
@@ -207,7 +208,7 @@
             <h5 class="mb-4 h4 text-secondary">Pricing Plans</h5>
             <div formArrayName="packages">
                 <div class="row g-3" >
-                    <div  [ngClass]="{'col-md-12':packagesArray.length === 1,'col-md-6':packagesArray.length !== 1}"  *ngFor="let package of packagesArray.controls; let i = index"
+                    <div class="col-md-12"  *ngFor="let package of packagesArray.controls; let i = index"
                         [formGroupName]="i">
                         <div class="card mb-3 border-primary">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">

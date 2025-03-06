@@ -15,6 +15,7 @@ import {
   Validators,
   AbstractControl,
   ValidationErrors,
+  FormControl,
 } from "@angular/forms";
 import { Subject } from "rxjs";
 import {
@@ -50,6 +51,8 @@ export class OfferCreatorComponent implements OnInit {
     this._fetchCategoryData();
 
     this.initForm();
+
+
     this.breadCrumbItems = [
       { label: "Forms" },
       { label: "OFFER", active: true },
@@ -126,6 +129,7 @@ export class OfferCreatorComponent implements OnInit {
       packages: this.fb.array([], Validators.required),
     });
   }
+
   get packagesArray() {
     return this.labelsForm.get("packages") as FormArray;
   }
@@ -316,6 +320,11 @@ export class OfferCreatorComponent implements OnInit {
     this.categoryService.getAllOfferCategories().subscribe({
       next: (data) => {
         this.categoryData = data;
+        if (this.categoryData.length > 0) {
+          this.labelsForm.patchValue({
+            categoryId: this.categoryData[0].categoryId,
+          });
+        }
       },
     });
   }

@@ -8,12 +8,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/offer-category';
+import { CategoryResponse } from '../../models/category-response';
 
 export interface GetAllOfferCategories$Params {
 }
 
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferCategory>>> {
+export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
   const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
   if (params) {
   }
@@ -23,7 +23,7 @@ export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<OfferCategory>>;
+      return r as StrictHttpResponse<Array<CategoryResponse>>;
     })
   );
 }

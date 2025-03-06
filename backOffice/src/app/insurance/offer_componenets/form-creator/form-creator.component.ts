@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output,Input } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -7,15 +7,14 @@ import {
   Validators,
   AbstractControl,
   ValidationErrors,
+  ValidatorFn,
 } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OfferFormRequest } from '../../../core/models/offer-form-request';
+import { OfferFormRequest } from "../../../core/models/offer-form-request";
 import { FormFieldDto } from "src/app/core/models";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { Subject } from "rxjs";
-
-
 
 @Component({
   selector: "app-form-creator",
@@ -28,6 +27,7 @@ export class FormCreatorComponent implements OnInit {
   dynamicForm!: FormGroup;
   availableFieldTypes = [
     "number",
+    "textarea",
     "text",
     "email",
     "date",
@@ -36,30 +36,31 @@ export class FormCreatorComponent implements OnInit {
     "color",
     "range",
     "select",
-    "radio"
+    "radio",
   ];
   submit = false;
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) { }
+  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.initForm();
 
-    this.triggerCleanEvent.subscribe(()=>{
-      this.resetForm()
-    })
+    this.triggerCleanEvent.subscribe(() => {
+      this.resetForm();
+    });
   }
-
-
-
 
   // Submit method
   send2OfferManager() {
-    // this.submit = true;
-    // if (this.dynamicForm.valid) {
+    this.submit = true;
+    if (this.dynamicForm.value && this.f.fields.valid) {
+      this.popup("Form added successfuly", true);
       const formData: FormFieldDto[] = this.dynamicForm.value.fields;
       this.offerFormCreationEvent.emit(formData);
-    // }
+    } else {
+      console.log(this.f);
+      this.popup("Your form is not valid ", false);
+    }
   }
 
   private initForm(): void {
@@ -77,13 +78,11 @@ export class FormCreatorComponent implements OnInit {
     return this.dynamicForm.controls as { fields: FormArray };
   }
 
-  // Type-safe field control accessor
   getFieldControl(index: number, controlName: string): AbstractControl {
     return (this.fields.at(index) as FormGroup).get(
       controlName
     ) as AbstractControl;
   }
-
 
   validRegex(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
@@ -112,8 +111,58 @@ export class FormCreatorComponent implements OnInit {
   }
 
   // Updated createField function
+  // createField(order: number): FormGroup {
+  //   return this.fb.group(
+  //     {
+  //       label: [
+  //         "",
+  //         [
+  //           Validators.required,
+  //           Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,100}$/),
+  //         ],
+  //       ],
+  //       type: [
+  //         "text",
+  //         [
+  //           Validators.required,
+  //           Validators.pattern(
+  //             /^(text|email||date|tel|url|select|checkbox|radio)$/
+  //           ),
+  //         ],
+  //       ],
+  //       order: [
+  //         order,
+  //         [
+  //           Validators.required,
+  //           Validators.min(1),
+  //           Validators.pattern(/^[1-9]\d*$/),
+  //         ],
+  //       ],
+  //       required: [false],
+  //       placeholder: [
+  //         "",
+  //         [Validators.required, Validators.pattern(/^[\w\s\-.,'()]{1,100}$/)],
+  //       ],
+  //       regex: ["", [Validators.required, this.validRegex]],
+  //       regexErrorMessage: [
+  //         "",
+  //         [
+  //           Validators.required,
+  //           Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
+  //         ],
+  //       ],
+  //       rangeStart: [0, [Validators.pattern(/^-?\d+$/)]],
+  //       rangeEnd: [10, [Validators.pattern(/^-?\d+$/)]],
+  //       selectOptions: this.fb.array([]),
+  //     },
+  //     {
+  //       validators: [this.validateRange, this.validateSelectOptions],
+  //     }
+  //   );
+  // }
+
   createField(order: number): FormGroup {
-    return this.fb.group(
+    const formGroup = this.fb.group(
       {
         label: [
           "",
@@ -122,36 +171,12 @@ export class FormCreatorComponent implements OnInit {
             Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,100}$/),
           ],
         ],
-        type: [
-          "text",
-          [
-            Validators.required,
-            Validators.pattern(
-              /^(text|email||date|tel|url|select|checkbox|radio)$/
-            ),
-          ],
-        ],
-        order: [
-          order,
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.pattern(/^[1-9]\d*$/),
-          ],
-        ],
+        type: ["text"],
+        order: [order],
         required: [false],
-        placeholder: [
-          "",
-          [Validators.required, Validators.pattern(/^[\w\s\-.,'()]{1,100}$/)],
-        ],
-        regex: ["", [Validators.required, this.validRegex]],
-        regexErrorMessage: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
-          ],
-        ],
+        placeholder: [""],
+        regex: [""], // Validators set dynamically
+        regexErrorMessage: [""],
         rangeStart: [0, [Validators.pattern(/^-?\d+$/)]],
         rangeEnd: [10, [Validators.pattern(/^-?\d+$/)]],
         selectOptions: this.fb.array([]),
@@ -160,6 +185,65 @@ export class FormCreatorComponent implements OnInit {
         validators: [this.validateRange, this.validateSelectOptions],
       }
     );
+
+    const placeholder = formGroup.get("placeholder");
+    const typeControl = formGroup.get("type");
+    const regexControl = formGroup.get("regex");
+    const regexErrorControl = formGroup.get("regexErrorMessage");
+    const rangeStart = formGroup.get("rangeStart");
+    const rangeEnd = formGroup.get("rangeEnd");
+    const selectOptions = formGroup.get("selectOptions");
+
+    // Define which types require regex validation
+    const updateRegexValidators = (currentType: string) => {
+      const requiresRegex = ["text", "email", "number", "textarea"].includes(
+        currentType
+      );
+      const isOptionsType = ["select", "radio"].includes(currentType);
+
+      const cleaner = () => {
+        placeholder.setValidators(null);
+        regexControl.setValidators(null);
+        regexErrorControl.setValidators(null);
+        rangeStart.setValidators(null);
+        rangeEnd.setValidators(null);
+        selectOptions.setValidators(null);
+      };
+
+      cleaner();
+
+      if (requiresRegex) {
+        regexControl.setValidators([Validators.required, this.validRegex]);
+        regexErrorControl.setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
+        ]);
+        placeholder.setValidators([
+          Validators.required,
+          Validators.pattern(/^[\w\s\-.,'()]{1,100}$/),
+        ]);
+      }
+
+      if (isOptionsType) {
+        selectOptions.setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-]{1,50}$/),
+        ]);
+      }
+
+      regexControl.updateValueAndValidity();
+      regexErrorControl.updateValueAndValidity();
+      placeholder.updateValueAndValidity();
+      rangeStart.updateValueAndValidity();
+      rangeEnd.updateValueAndValidity();
+      selectOptions.updateValueAndValidity();
+    };
+
+    updateRegexValidators(typeControl.value);
+
+    typeControl.valueChanges.subscribe(updateRegexValidators);
+
+    return formGroup;
   }
 
   // Select Options FormArray (add this to your component)
@@ -184,8 +268,6 @@ export class FormCreatorComponent implements OnInit {
   addSelectOption(field: FormGroup): void {
     this.getSelectOptions(field).push(this.fb.control(""));
   }
-
-
 
   addField(): void {
     const order = this.fields.length + 1;
@@ -243,7 +325,7 @@ export class FormCreatorComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.submit = false
+    this.submit = false;
     while (this.fields.length > 0) {
       this.fields.removeAt(0);
     }
@@ -257,5 +339,43 @@ export class FormCreatorComponent implements OnInit {
 
   openModal(content: any) {
     this.modalService.open(content, { backdrop: "static", size: "md" });
+  }
+
+  private popup(msg: string, status: boolean) {
+    Swal.fire({
+      icon: status ? "success" : "error",
+      title: msg,
+      confirmButtonColor: "#556ee6",
+    });
+  }
+
+  activeSection = 0;
+  rangeValues: number[] = [];
+  colorPreviews: string[] = [];
+
+  getFieldTypeIcon(type: string): string {
+    const icons = {
+      text: "fa-align-left",
+      email: "fa-envelope",
+      date: "fa-calendar-day",
+      range: "fa-slider",
+      color: "fa-palette",
+      radio: "fa-circle-dot",
+      checkbox: "fa-square-check",
+      select: "fa-list",
+    };
+    return icons[type] || "fa-question-circle";
+  }
+
+  setActiveSection(index: number): void {
+    this.activeSection = index;
+  }
+
+  updateRangeValue(event: any, index: number): void {
+    this.rangeValues[index] = event.target.value;
+  }
+
+  updateColorPreview(event: any, index: number): void {
+    this.colorPreviews[index] = event.target.value;
   }
 }

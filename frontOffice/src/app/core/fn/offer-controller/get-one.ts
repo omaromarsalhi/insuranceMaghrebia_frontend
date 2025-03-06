@@ -11,11 +11,13 @@ import { RequestBuilder } from '../../request-builder';
 import { OfferResponse } from '../../models/offer-response';
 
 export interface GetOne$Params {
+  categoryId: string;
 }
 
-export function getOne(http: HttpClient, rootUrl: string, params?: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
   const rb = new RequestBuilder(rootUrl, getOne.PATH, 'get');
   if (params) {
+    rb.path('categoryId', params.categoryId, {});
   }
 
   return http.request(
@@ -28,4 +30,4 @@ export function getOne(http: HttpClient, rootUrl: string, params?: GetOne$Params
   );
 }
 
-getOne.PATH = '/api/v1/offers/one';
+getOne.PATH = '/api/v1/offers/one/{categoryId}';

@@ -5,6 +5,7 @@ import {
   QueryList,
   OnInit,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { OfferResponse } from 'src/app/core/models';
 import { OfferControllerService } from 'src/app/core/services';
 
@@ -15,11 +16,17 @@ import { OfferControllerService } from 'src/app/core/services';
 })
 export class OfferDtailsComponent implements OnInit {
   offerDetails!: OfferResponse;
+  categoryId!: string;
   @ViewChildren('featureItem') featureItems!: QueryList<ElementRef>;
 
-  constructor(private offerService: OfferControllerService) {}
+  constructor(
+    private offerService: OfferControllerService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    this.categoryId = this.route.snapshot.paramMap.get('categoryId') || 'null';
+    console.log('Form ID:', this.categoryId);
     this._loadOffers();
   }
 
@@ -31,10 +38,10 @@ export class OfferDtailsComponent implements OnInit {
     arrows: true,
     dots: true,
     infinite: true,
-    centerMode: false, 
+    centerMode: false,
     responsive: [
       {
-        breakpoint: 1024, 
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
         },
@@ -50,7 +57,7 @@ export class OfferDtailsComponent implements OnInit {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-    vertical: true, 
+    vertical: true,
     verticalSwiping: true,
     responsive: [
       {
@@ -62,9 +69,12 @@ export class OfferDtailsComponent implements OnInit {
       },
     ],
   };
-  
+
   private _loadOffers() {
-    this.offerService.getOne().subscribe((offer) => {
+    const param={
+      categoryId:this.categoryId
+    }
+    this.offerService.getOne(param).subscribe((offer) => {
       this.offerDetails = offer;
       console.log(this.offerDetails);
     });

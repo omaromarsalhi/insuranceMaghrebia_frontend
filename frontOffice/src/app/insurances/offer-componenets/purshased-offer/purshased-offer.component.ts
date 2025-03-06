@@ -21,6 +21,7 @@ export class PurshasedOfferComponent implements OnInit {
   formFields: Array<FormFieldDto> = [];
   isLoading: boolean = false;
   notValid: boolean = false;
+  selectedValue: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -70,13 +71,27 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   onSubmit() {
-    
+    this.isLoading = true;
     if (this.insuranceForm.valid) {
+      console.log(this.insuranceForm.value)
+
       this.isLoading = true;
-      console.log('omar');
-      return
+      return;
     }
-    this.notValid=true
+    this.notValid = true;
+  }
+
+  // Method to get the current value of the range input
+  getCurrentValue(field: FormFieldDto, index: number): number {
+    const controlName = this.getFormControlName(field, index);
+    return this.insuranceForm.get(controlName)?.value || field.rangeStart;
+  }
+
+  // Method to update the current value when the range input changes
+  updateRangeValue(field: FormFieldDto, index: number, event: Event): void {
+    const controlName = this.getFormControlName(field, index);
+    const value = (event.target as HTMLInputElement).value;
+    this.insuranceForm.get(controlName)?.setValue(value);
   }
 
   private _fetchData(callback: () => void): void {

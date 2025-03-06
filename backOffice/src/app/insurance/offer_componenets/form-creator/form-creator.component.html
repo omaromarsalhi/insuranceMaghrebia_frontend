@@ -84,6 +84,8 @@
               <!-- Text-based Fields -->
               <div *ngIf="
                   [
+                  'number', 
+                  'textarea',
                     'text',
                     'email',
                     'date',
@@ -94,6 +96,8 @@
                 " class="row g-3">
                 <div class="col-md-6" *ngIf="
                   [
+                  'number', 
+                  'textarea',
                     'text',
                     'email'
                   ].includes(getFieldControl(i, 'type').value)">
@@ -113,7 +117,7 @@
                 </div>
 
 
-                <div *ngIf="['email','text'].includes(getFieldControl(i, 'type').value)" class="col-md-6">
+                <div *ngIf="['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value)" class="col-md-6">
                   <label class="form-label fw-bold">Validation Pattern</label>
                   <input type="text" class="form-control" formControlName="regex" [ngClass]="{
                       'is-invalid':
@@ -127,11 +131,11 @@
                   </div>
                 </div>
 
-                <div *ngIf="['email','text'].includes(getFieldControl(i, 'type').value)" [ngClass]="{'col-12': ['email','text'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
+                <div *ngIf="['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value)" [ngClass]="{'col-12': ['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
                   'email',
                   'date',
                   'time',
-                  'checkbox',
+                  'checkbox','number', 'textarea',
                   'color'].includes(getFieldControl(i, 'type').value)}">
                   <label class="form-label fw-bold">Error Message</label>
                   <input type="text" class="form-control" formControlName="regexErrorMessage" [ngClass]="{
@@ -188,29 +192,7 @@
                 </div>
               </div>
 
-              <!-- Select Options -->
-              <!-- <div *ngIf="getFieldControl(i, 'type').value === 'select'" class="mt-3">
-                <label class="form-label fw-bold">Options</label>
-                <div formArrayName="selectOptions">
-                  <div *ngFor="
-                      let opt of getSelectOptions(field).controls;
-                      let j = index
-                    " class="input-group mb-2">
-                    <input type="text" class="form-control" [formControlName]="j" [ngClass]="{
-                        'is-invalid': (submit || opt.touched) && opt.errors
-                      }" />
-                    <button type="button" class="btn btn-outline-danger" (click)="removeSelectOption(field, j)">
-                      <i class="fas fa-times"></i>
-                    </button>
-                    <div *ngIf="(submit || opt.touched) && opt.errors" class="invalid-feedback">
-                      <span *ngIf="opt.errors?.required">Option is required</span>
-                    </div>
-                  </div>
-                </div>
-                <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="addSelectOption(field)">
-                  <i class="fas fa-plus me-2"></i>Add Option
-                </button>
-              </div> -->
+
               <div *ngIf="getFieldControl(i, 'type').value === 'select' || getFieldControl(i, 'type').value === 'radio'"
                 class="mt-3">
                 <label class="form-label fw-bold">Options</label>
@@ -258,70 +240,105 @@
 </div>
 
 <ng-template #content role="document" let-modal>
-  <div class="modal-header bg-light">
-    <h5 class="modal-title"><i class="fas fa-eye me-2"></i>Live Preview</h5>
-    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+  <div class="modal-header bg-light border-bottom">
+    <h5 class="modal-title text-dark">
+      <i class="bi bi-eye me-2"></i>Form Preview
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" 
+            (click)="modal.dismiss()"></button>
   </div>
-  <div class="modal-body">
-    <div class="card">
-      <div class="card-body">
-        <form #previewForm="ngForm">
-          <div *ngFor="let field of sortedFields" class="mb-4">
-            <div class="mb-3" *ngIf="field.get('type')?.value !== 'section'">
-              <label class="form-label fw-bold">
-                {{ field.get("label")?.value || "Unlabeled field" }}
-                <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
-              </label>
+  
+  <div class="modal-body p-4">
+    <div class="preview-container bg-white rounded-3 shadow-sm">
+      <form #previewForm="ngForm">
+        <div *ngFor="let field of sortedFields" class="preview-field mb-4">
+          <div class="field-container" *ngIf="field.get('type')?.value !== 'section'">
+            <label class="form-label d-block fw-medium text-dark mb-2">
+              {{ field.get("label")?.value || 'Untitled Field' }}
+              <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
+            </label>
 
+            <div class="input-wrapper">
               <ng-container [ngSwitch]="field.get('type')?.value">
-                <input *ngSwitchCase="'text'" type="text" class="form-control"
-                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value" />
+                <!-- Text Input -->
+                <input *ngSwitchCase="'text'" type="text"
+                      class="form-control"
+                      [placeholder]="field.get('placeholder')?.value"
+                      [required]="field.get('required')?.value">
 
-                <input *ngSwitchCase="'email'" type="email" class="form-control"
-                  [placeholder]="field.get('placeholder')?.value" [required]="field.get('required')?.value" />
+                <!-- Email Input -->
+                <input *ngSwitchCase="'email'" type="email"
+                      class="form-control"
+                      [placeholder]="field.get('placeholder')?.value"
+                      [required]="field.get('required')?.value">
 
-                <input *ngSwitchCase="'date'" type="date" class="form-control"
-                  [required]="field.get('required')?.value" />
+                <!-- Textarea -->
+                <textarea *ngSwitchCase="'textarea'"
+                        class="form-control" rows="3"
+                        [placeholder]="field.get('placeholder')?.value"
+                        [required]="field.get('required')?.value"></textarea>
 
-                <input *ngSwitchCase="'time'" type="time" class="form-control"
-                  [required]="field.get('required')?.value" />
-
-                <div *ngSwitchCase="'checkbox'" class="form-check">
-                  <input type="checkbox" class="form-check-input" />
+                <!-- Date Input -->
+                <div *ngSwitchCase="'date'" class="position-relative">
+                  <input type="date" class="form-control"
+                        [required]="field.get('required')?.value">
+                  <i class="bi bi-calendar input-icon"></i>
                 </div>
 
-                <input *ngSwitchCase="'color'" type="color" class="form-control form-control-color" />
+                <!-- Select Dropdown -->
+                <select *ngSwitchCase="'select'" class="form-select">
+                  <option value="" disabled selected>Select an option</option>
+                  <option *ngFor="let opt of getSelectOptions(field).value" 
+                          [value]="opt">{{ opt }}</option>
+                </select>
 
-                <input *ngSwitchCase="'range'" type="range" class="form-range" [min]="field.get('rangeStart')?.value"
-                  [max]="field.get('rangeEnd')?.value" />
+                <!-- Checkbox -->
+                <div *ngSwitchCase="'checkbox'" class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <label class="form-check-label">
+                    {{ field.get('placeholder')?.value || 'Check this option' }}
+                  </label>
+                </div>
 
-                <div *ngSwitchCase="'radio'" class="form-group">
-                  <div *ngFor="let opt of getSelectOptions(field).value" class="form-check">
-                    <input class="form-check-input" type="radio" [name]="'radio_' + field.get('label')?.value"
-                      [id]="'radio_' + opt">
-                    <label class="form-check-label" [for]="'radio_' + opt">{{ opt }}</label>
+                <!-- Radio Group -->
+                <div *ngSwitchCase="'radio'" class="radio-group">
+                  <div *ngFor="let opt of getSelectOptions(field).value" 
+                      class="form-check">
+                    <input class="form-check-input" type="radio" 
+                          [name]="'radioGroup' + field.get('order')?.value">
+                    <label class="form-check-label">{{ opt }}</label>
                   </div>
                 </div>
 
-                <select *ngSwitchCase="'select'" class="form-select">
-                  <option *ngFor="let opt of getSelectOptions(field).value" [value]="opt">
-                    {{ opt }}
-                  </option>
-                </select>
-              </ng-container>
+                <!-- Range Slider -->
+                <div *ngSwitchCase="'range'">
+                  <input type="range" class="form-range"
+                        [min]="field.get('rangeStart')?.value"
+                        [max]="field.get('rangeEnd')?.value">
+                  <div class="d-flex justify-content-between small text-muted">
+                    <span>{{ field.get('rangeStart')?.value }}</span>
+                    <span>{{ field.get('rangeEnd')?.value }}</span>
+                  </div>
+                </div>
 
-              <small *ngIf="field.get('description')?.value" class="form-text text-muted">
-                {{ field.get("description")?.value }}
-              </small>
+              </ng-container>
+            </div>
+
+            <!-- Helper Text -->
+            <div *ngIf="field.get('description')?.value" 
+                class="form-text text-muted mt-1 small">
+              {{ field.get("description")?.value }}
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close()">
-      Close
+
+  <div class="modal-footer bg-light border-top">
+    <button type="button" class="btn btn-outline-secondary" 
+            (click)="modal.close()">
+      Close Preview
     </button>
   </div>
 </ng-template>

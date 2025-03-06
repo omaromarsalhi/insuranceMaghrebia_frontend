@@ -12,7 +12,7 @@ export class CategoryModalComponent {
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
   @Input() form!: FormGroup;
   @Input() isEditMode: boolean = false;
-  @Output() save = new EventEmitter<void>();
+  @Output() save = new EventEmitter<string>();
 
   submitted: boolean = false;
 
@@ -25,7 +25,7 @@ export class CategoryModalComponent {
       // Upload image first (if needed)
       this.imageUploader.uploadImage().then((imageUri) => {
         console.log('image : '+imageUri)
-        this.save.emit(); // Notify parent to save
+        this.save.emit(imageUri);
         this.activeModal.close();
       });
     }

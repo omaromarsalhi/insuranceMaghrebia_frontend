@@ -5,4 +5,5 @@
 import { FormFieldDto } from '../models/form-field-dto';
 export interface OfferFormResponse {
   fields?: Array<FormFieldDto>;
+  formId?: string;
 }

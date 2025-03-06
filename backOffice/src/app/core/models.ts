@@ -4,6 +4,8 @@
 
 export { AnswersTypeDto } from './models/answers-type-dto';
 export { BenefitTypeDto } from './models/benefit-type-dto';
+export { CategoryRequest } from './models/category-request';
+export { CategoryResponse } from './models/category-response';
 export { FilteredCategoryDto } from './models/filtered-category-dto';
 export { FormFieldDto } from './models/form-field-dto';
 export { OfferCategory } from './models/offer-category';
