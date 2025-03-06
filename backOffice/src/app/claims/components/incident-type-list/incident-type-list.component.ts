@@ -60,6 +60,7 @@ onSubmit() {
       var incidentType: IncidentType = this.incidentForm.value
       this.incidentTypeService.addIncidentType(incidentType).subscribe(data=> {
         this.loadIncidentTypes();
+        this.modalService.dismissAll();
       })
     } else {
       this.submitted = true;
@@ -70,5 +71,11 @@ onSubmit() {
     this.incidentTypeService.deleteIncidentType(id).subscribe(data => {
       this.loadIncidentTypes();
     });
+  }
+
+  toggleStatus(incidentType: IncidentType){
+    this.incidentTypeService.toggleStatus(incidentType.id, !incidentType.active).subscribe(data=>
+      incidentType.active = !incidentType.active
+    );
   }
 }

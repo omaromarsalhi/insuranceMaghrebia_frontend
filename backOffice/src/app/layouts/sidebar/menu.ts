@@ -8,16 +8,17 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 2,
-                label: 'Create Incident Type',
-                link: '/claims/incident-type/create',
+                label: 'Incident Types',
+                link: '/claims/incident-type/list',
                 parentId: 3
             },
             {
                 id: 4,
-                label: 'Incident Type List',
-                link: '/invoices/detail',
+                label: 'Claims',
+                link: '/claims',
                 parentId: 5
             },
+            
         ]
     },
 ];

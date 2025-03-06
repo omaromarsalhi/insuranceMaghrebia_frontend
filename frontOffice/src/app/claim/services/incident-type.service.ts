@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IncidentTypeMapper } from '../transfer/mappers/IncidentTypeMapper';
 import { IncidentType } from '../models/IncidentType';
@@ -17,6 +17,12 @@ export class IncidentTypeService {
 
   findAllIncidentTypes():Observable<IncidentType[]>{
     return this.httpClient.get<IncidentType[]>(this.path);
+  }
+  findIncidentTypes(status: boolean):Observable<IncidentType[]>{
+    const params = new HttpParams()
+          .set('active', status)
+          
+    return this.httpClient.get<IncidentType[]>(this.path, {params});
   }
 
   deleteIncidentType(id: string){

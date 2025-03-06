@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IncidentTypeMapper } from '../transfer/mappers/IncidentTypeMapper';
 import { IncidentType } from '../models/IncidentType';
@@ -20,7 +20,13 @@ export class IncidentTypeService {
   }
 
   deleteIncidentType(id: string){
-    return this.httpClient.delete(this.path + "/" + id.toString())
+    return this.httpClient.delete(this.path + "/" + id)
   }
 
+  toggleStatus(id: string, status: boolean){
+    const params = new HttpParams()
+          .set('status', status)
+          
+    return this.httpClient.patch(this.path + "/" + id, null, {params})
+  }
 }

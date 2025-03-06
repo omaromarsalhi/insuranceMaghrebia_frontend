@@ -86,7 +86,11 @@
                               rows="6"
                               style="height: 150px"
                               formControlName="response"
+                              [ngClass]="response?.touched && response?.invalid ? 'field_invalid' : ''"
                             ></textarea>
+                            <div class="error" *ngIf="response?.touched && response?.hasError('minlength')">Description Is Too Short</div>
+                            <div class="error" *ngIf="response?.touched && response?.hasError('required')">Response Content Is Required</div>
+
                           </div>
                         </div>
                         <div class="col-lg-12">
@@ -111,7 +115,7 @@
               <ul class="info-list">
                 <li>
                   <span class="title">Submitted At:</span>
-                  <h6>{{ claim.submitDate }}</h6>
+                  <h6>{{ claim.submitDate | date: 'dd-MM-YYYY HH:MM'}}</h6>
                 </li>
                 <li>
                   <span class="title">Last Reply:</span>

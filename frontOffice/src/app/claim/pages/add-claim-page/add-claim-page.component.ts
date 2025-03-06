@@ -15,6 +15,7 @@ import { ClaimService } from '../../services/claim.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { timeNotInFutureValidator } from '../../validators/TimeValidator';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -33,7 +34,8 @@ export class AddClaimPageComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private incidentService: IncidentTypeService,
-    private claimService: ClaimService
+    private claimService: ClaimService,
+    private router: Router
   ) {}
   ngAfterViewInit(): void {
     if ($ && $.fn.niceSelect) {
@@ -46,7 +48,7 @@ export class AddClaimPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.incidentService.findAllIncidentTypes().subscribe((data) => {
+    this.incidentService.findIncidentTypes(true).subscribe((data) => {
       this.incidentTypes = data;
       setTimeout(() => this.initNiceSelect(), 0);
     });
@@ -128,7 +130,10 @@ export class AddClaimPageComponent implements OnInit, AfterViewInit {
     
     this.claimService
             .addClaim(dto)
-            .subscribe((data) => console.log('Claim added!'));
+            .subscribe((data) => {
+              this.router.navigate(['/claims'])
+            });
+
   }
 
   

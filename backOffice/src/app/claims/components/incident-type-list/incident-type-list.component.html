@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <app-page-title title="Projects List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
   <div class="d-flex">
-    <button class="btn btn-success ms-auto mb-2" (click)="openModal(content, 'new')">Add user </button>
+    <button class="btn btn-success ms-auto mb-2" (click)="openModal(content, 'new')">Add Incident Type </button>
   </div>
   <ng-template #content role="document" let-modal>
     <div class="modal-header">
@@ -72,24 +72,16 @@
                 </td>
                 <td>{{incidentType.description}}</td>
                 <td>
-                  <span class="badge" [ngClass]="{'bg-success': incidentType.active, 
-                                                  'bg-danger': !incidentType.active }">{{incidentType.active ? 'ACTIVE' : 'INAVTIVE'}}</span>
+                  <span class="badge" (dblclick)="toggleStatus(incidentType)" [ngClass]="{'bg-success': incidentType.active, 
+                                                  'bg-danger': !incidentType.active }" style="cursor:pointer">{{incidentType.active ? 'ACTIVE' : 'INAVTIVE'}}</span>
                 </td>
                 <td>
                   {{incidentType.created | date:'dd-MM-yyyy HH:mm:ss'}}
                 </td>
                 
                 <td>
-                  <div class="dropdown" ngbDropdown placement="bottom-right">
-                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" ngbDropdownToggle>
-                      <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                      <a class="dropdown-item"  (click)="deleteIncidentType(incidentType.id)">Delete</a>
-                      <a class="dropdown-item" href="javascript: void(0);">Another action</a>
-                      <a class="dropdown-item" href="javascript: void(0);">Something else here</a>
-                    </div>
-                  </div>
+                  <a class="dropdown-item"  (click)="deleteIncidentType(incidentType.id)" style="cursor:pointer">Delete</a>
+
                 </td>
               </tr>
             </tbody>
@@ -100,15 +92,6 @@
   </div>
   <!-- end row -->
 
-  <div class="row">
-    <div class="col-12">
-      <div class="text-center my-3">
-        <a href="javascript:void(0);" class="text-success">
-          <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more
-        </a>
-      </div>
-    </div>
-    <!-- end col-->
-  </div>
+  
   <!-- end row -->
 </div>

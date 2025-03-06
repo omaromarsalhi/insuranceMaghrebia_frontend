@@ -59,6 +59,7 @@ export class ClaimDetailsPageComponent implements OnInit {
         r.user = user;
         this.claim.responses.push(r);
         this.response?.setValue("");
+        this.response?.markAsUntouched();
       });
     }
   }

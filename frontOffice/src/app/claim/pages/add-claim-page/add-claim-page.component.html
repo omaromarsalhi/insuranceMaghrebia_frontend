@@ -126,7 +126,7 @@
                       data-bs-toggle="tab"
                       data-bs-target="#cat1"
                     >
-                      <i class="far fa-home"></i>House
+                    Claim Details
                     </button>
                   </li>
                   <li class="nav-item">
@@ -136,29 +136,11 @@
                       data-bs-toggle="tab"
                       data-bs-target="#cat2"
                     >
-                      <i class="far fa-car"></i>Car
+                      Images
                     </button>
                   </li>
-                  <li class="nav-item">
-                    <button
-                      class="nav-link"
-                      id="messages-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#cat3"
-                    >
-                      <i class="far fa-book"></i>Study
-                    </button>
-                  </li>
-                  <li class="nav-item">
-                    <button
-                      class="nav-link"
-                      id="settings-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#cat4"
-                    >
-                      <i class="far fa-ship"></i>Travel
-                    </button>
-                  </li>
+                  
+                  
                 </ul>
               </div>
               <!-- Tab panes -->
@@ -193,7 +175,7 @@
                         [ngClass]="location?.touched && location?.invalid ? 'field_invalid' : ''"
 
                       />
-                      <div class="error" *ngIf="location?.touched">Please Select A Location From The Map</div>
+                      <div class="error" *ngIf="location?.touched && location?.hasError('required')">Please Select A Location From The Map</div>
 
                     </div>
                     <div class="form_group">
@@ -245,7 +227,7 @@
                     </div>
                     <div class="form_group">
                       <button
-                        type="submit"
+                        type="button"
                         class="main-btn primary-btn"
                         (click)="nextFormPage()"
                       >
@@ -288,7 +270,7 @@
                         class="main-btn primary-btn"
                         style="margin-top: 15px"
                       >
-                        Get A Quote<i class="far fa-arrow-right"></i>
+                        File a Claim<i class="far fa-arrow-right" style="margin-bottom:10px"></i>
                       </button>
                       <app-image-slider #imageSlider></app-image-slider>
                     </div>
