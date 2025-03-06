@@ -1,0 +1,587 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Blog Grid"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-xl-9 col-lg-8">
+      <div class="card">
+        <!-- Nav tabs -->
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [activeId]="1"
+          class="nav-tabs nav-tabs-custom justify-content-center pt-2"
+        >
+          <li [ngbNavItem]="1">
+            <a ngbNavLink> Claim </a>
+            <ng-template ngbNavContent>
+              <div>
+                <div class="row justify-content-center">
+                  <div class="col-xl-8">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="pt-3">
+                              <div class="row justify-content-center">
+                                <div class="col-xl-8">
+                                  <div>
+                                    <div class="text-center">
+                                      <div class="mb-4"></div>
+                                      <h4>{{ claim.title }}</h4>
+                                      <p class="text-muted mb-4">
+                                        <i class="mdi mdi-calendar me-1"></i>
+                                        {{ claim.submitDate | date : "medium" }}
+                                      </p>
+                                    </div>
+
+                                    <hr />
+                                    <div class="text-center">
+                                      <div class="row">
+                                        <div class="col-sm-4">
+                                          <div>
+                                            <p class="text-muted mb-2">
+                                              Incident Type
+                                            </p>
+                                            <h5 class="font-size-15">
+                                              {{ claim.incidentType.name }}
+                                            </h5>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="mt-4 mt-sm-0">
+                                            <p class="text-muted mb-2">
+                                              Incident Date
+                                            </p>
+                                            <h5 class="font-size-15">
+                                              {{ claim.incidentDate }}
+                                            </h5>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="mt-4 mt-sm-0">
+                                            <p class="text-muted mb-2">
+                                              Client Name
+                                            </p>
+                                            <h5 class="font-size-15">
+                                              {{ claim.user.firstName }}
+                                              {{ claim.user.lastName }}
+                                            </h5>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <hr />
+
+                                    <div class="mt-4">
+                                      <div class="text-muted font-size-14">
+                                        <p>
+                                          {{ claim.description }}
+                                        </p>
+
+                                        <!--<blockquote
+                                          class="p-4 border-light border rounded mb-4"
+                                        >
+                                          <div class="d-flex">
+                                            <div class="me-3">
+                                              <i
+                                                class="bx bxs-quote-alt-left text-dark font-size-24"
+                                              ></i>
+                                            </div>
+                                            <div>
+                                              <p class="mb-0">
+                                                At vero eos et accusamus et
+                                                iusto odio dignissimos ducimus
+                                                qui blanditiis praesentium
+                                                deleniti atque corrupti quos
+                                                dolores et quas molestias
+                                                excepturi sint quidem rerum
+                                                facilis est
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </blockquote>
+
+                                        <p>
+                                          Itaque earum rerum hic tenetur a
+                                          sapiente delectus, ut aut reiciendis
+                                          voluptatibus maiores alias consequatur
+                                          aut perferendis doloribus asperiores
+                                          repellat. Sed ut perspiciatis unde
+                                          omnis iste natus error sit
+                                        </p>
+
+                                        <div class="mt-4">
+                                          <h5 class="mb-3">Title:</h5>
+
+                                          <div>
+                                            <div class="row">
+                                              <div class="col-lg-4 col-sm-6">
+                                                <div>
+                                                  <ul class="ps-4">
+                                                    <li class="py-1">
+                                                      Donec sodales sagittis
+                                                    </li>
+                                                    <li class="py-1">
+                                                      Sed consequat leo eget
+                                                    </li>
+                                                    <li class="py-1">
+                                                      Aliquam lorem ante
+                                                    </li>
+                                                  </ul>
+                                                </div>
+                                              </div>
+                                              <div class="col-lg-4 col-sm-6">
+                                                <div>
+                                                  <ul class="ps-4">
+                                                    <li class="py-1">
+                                                      Aenean ligula eget
+                                                    </li>
+                                                    <li class="py-1">
+                                                      Cum sociis natoque
+                                                    </li>
+                                                  </ul>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      --></div>
+
+                                      <hr />
+
+                                      <div class="mt-5">
+                                        <h5 class="font-size-15">
+                                          <i
+                                            class="bx bx-message-dots text-muted align-middle me-1"
+                                          ></i>
+                                          Replies :
+                                        </h5>
+
+                                        <div>
+                                          <div
+                                            *ngFor="
+                                              let response of claim.responses
+                                            "
+                                            class="media py-3 border-top"
+                                          >
+                                            <div class="avatar-xs me-3">
+                                              <img
+                                                src="assets/images/users/avatar-2.jpg"
+                                                alt=""
+                                                class="img-fluid d-block rounded-circle"
+                                              />
+                                            </div>
+                                            <div class="media-body">
+                                              <h5 class="font-size-16 mb-1">
+                                                {{ response.user.firstName }}
+                                                {{ response.user.lastName }}
+                                                <small
+                                                  class="text-muted float-end"
+                                                  style="font-size: 12px"
+                                                  >{{
+                                                    response.respondedAt
+                                                      | date
+                                                        : "dd-MM-YYYY HH:MM"
+                                                  }}</small
+                                                >
+                                              </h5>
+                                              <p class="text-muted">
+                                                {{ response.response }}
+                                              </p>
+
+                                              <!--
+                                              <div class="media pt-3">
+                                                <div class="avatar-xs me-3">
+                                                  <div
+                                                    class="avatar-title rounded-circle bg-light text-primary"
+                                                  >
+                                                    <i class="bx bxs-user"></i>
+                                                  </div>
+                                                </div>
+                                                <div class="media-body">
+                                                  <h5 class="font-size-14 mb-1">
+                                                    Silvia Martinez
+                                                    <small
+                                                      class="text-muted float-end"
+                                                      >2 hrs Ago</small
+                                                    >
+                                                  </h5>
+                                                  <p class="text-muted">
+                                                    To take a trivial example,
+                                                    which of us ever undertakes
+                                                    laborious physical exercise
+                                                  </p>
+                                                  <div>
+                                                    <a
+                                                      href="javascript: void(0);"
+                                                      class="text-success"
+                                                      ><i
+                                                        class="mdi mdi-reply"
+                                                      ></i>
+                                                      Reply</a
+                                                    >
+                                                  </div>
+                                                </div>
+                                              </div> -->
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="mt-4">
+                                        <h5 class="font-size-16 mb-3">
+                                          Leave a Message
+                                        </h5>
+
+                                        <form
+                                          [formGroup]="responseForm"
+                                          (ngSubmit)="onSubmit()"
+                                        >
+                                          <div class="mb-3">
+                                            <label for="commentmessage-input"
+                                              >Message</label
+                                            >
+                                            <textarea
+                                              class="form-control"
+                                              id="commentmessage-input"
+                                              placeholder="Your message..."
+                                              rows="3"
+                                              formControlName="response"
+                                            ></textarea>
+                                          </div>
+
+                                          <div class="text-end">
+                                            <button
+                                              type="submit"
+                                              class="btn btn-success w-sm"
+                                            >
+                                              Submit
+                                            </button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- end card body -->
+                        </div>
+                        <!-- end card -->
+                      </div>
+                      <!-- end col -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink> Photos </a>
+            <ng-template ngbNavContent>
+              <div class="row justify-content-center">
+                <div class="col-xl-8">
+                  <div>
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <div>
+                          <h5 class="mb-0">Images</h5>
+                        </div>
+                      </div>
+
+                      <div class="col-8">
+                        <div class="">
+                          <ul class="nav nav-pills justify-content-end">
+                            <li class="nav-item">
+                              <a
+                                class="nav-link disabled"
+                                href="javascript: void(0);"
+                                tabindex="-1"
+                                aria-disabled="true"
+                                >View :</a
+                              >
+                            </li>
+                            <li
+                              class="nav-item nav-link"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              ngbTooltip="List"
+                              (click)="changeDisplay(2)"
+                              [ngClass]="imageDisplay == 2 ? 'active' : ''"
+                            >
+                              <i class="mdi mdi-format-list-bulleted"></i>
+                            </li>
+                            <li
+                              class="nav-item nav-link"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              ngbTooltip="Grid"
+                              (click)="changeDisplay(1)"
+                              [ngClass]="imageDisplay == 1 ? 'active' : ''"
+                            >
+                              <i class="mdi mdi-view-grid-outline"></i>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end row -->
+
+                    <hr class="mb-4" />
+
+                    <div class="row">
+                      <div
+                        *ngFor="let image of claim.images"
+                        [ngClass]="imageDisplay == 1 ? 'col-sm-6' : 'col-sm-12'"
+                        
+                      >
+                        <div class="card p-1 border shadow-none">
+                          <div class="position-relative">
+                            <img
+                              src="{{ image }}"
+                              alt=""
+                              class="img-thumbnail"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr class="my-4" />
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="p-4"></div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-4">
+      <div class="card">
+        <div class="card-body p-4">
+          <div class="search-box">
+            <p class="text-muted">Search</p>
+            <div class="position-relative">
+              <input
+                type="text"
+                class="form-control rounded bg-light border-light"
+                placeholder="Search..."
+              />
+              <i class="mdi mdi-magnify search-icon"></i>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <div>
+            <p class="text-muted">Categories</p>
+
+            <ul class="list-unstyled fw-medium">
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> Design</a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> Development
+                  <span
+                    class="badge badge-soft-success badge-pill float-end ms-1 font-size-12"
+                    >04</span
+                  ></a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> Business</a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> Project</a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> Travel<span
+                    class="badge badge-soft-success badge-pill ms-1 float-end font-size-12"
+                    >12</span
+                  ></a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <hr class="my-4" />
+
+          <div>
+            <ul class="list-unstyled fw-medium">
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> 2020
+                  <span
+                    class="badge badge-soft-success badge-pill float-end ms-1 font-size-12"
+                    >03</span
+                  ></a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> 2019
+                  <span
+                    class="badge badge-soft-success badge-pill float-end ms-1 font-size-12"
+                    >06</span
+                  ></a
+                >
+              </li>
+              <li>
+                <a href="javascript: void(0);" class="text-muted py-2 d-block"
+                  ><i class="mdi mdi-chevron-right me-1"></i> 2018
+                  <span
+                    class="badge badge-soft-success badge-pill float-end ms-1 font-size-12"
+                    >05</span
+                  ></a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <hr class="my-4" />
+
+          <div>
+            <p class="text-muted mb-2">Popular Posts</p>
+
+            <div class="list-group list-group-flush">
+              <a
+                href="javascript: void(0);"
+                class="list-group-item text-muted py-3 px-2"
+              >
+                <div class="media align-items-center">
+                  <div class="me-3">
+                    <img
+                      src="assets/images/small/img-7.jpg"
+                      alt=""
+                      class="avatar-md h-auto d-block rounded"
+                    />
+                  </div>
+                  <div class="media-body overflow-hidden">
+                    <h5 class="font-size-13 text-truncate">
+                      Beautiful Day with Friends
+                    </h5>
+                    <p class="mb-0 text-truncate">10 Apr, 2020</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="javascript: void(0);"
+                class="list-group-item text-muted py-3 px-2"
+              >
+                <div class="media align-items-center">
+                  <div class="me-3">
+                    <img
+                      src="assets/images/small/img-4.jpg"
+                      alt=""
+                      class="avatar-md h-auto d-block rounded"
+                    />
+                  </div>
+                  <div class="media-body overflow-hidden">
+                    <h5 class="font-size-13 text-truncate">Drawing a sketch</h5>
+                    <p class="mb-0 text-truncate">24 Mar, 2020</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="javascript: void(0);"
+                class="list-group-item text-muted py-3 px-2"
+              >
+                <div class="media align-items-center">
+                  <div class="me-3">
+                    <img
+                      src="assets/images/small/img-6.jpg"
+                      alt=""
+                      class="avatar-md h-auto d-block rounded"
+                    />
+                  </div>
+                  <div class="media-body overflow-hidden">
+                    <h5 class="font-size-13 text-truncate">
+                      Project discussion with team
+                    </h5>
+                    <p class="mb-0 text-truncate">11 Mar, 2020</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <div>
+            <p class="text-muted">Tags</p>
+
+            <div class="d-flex flex-wrap gap-2 widget-tag">
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Design</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Development</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Business</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Project</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Travel</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Lifestyle</a
+                >
+              </div>
+              <div>
+                <a
+                  href="javascript: void(0);"
+                  class="badge bg-light font-size-12"
+                  >Photography</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card -->
+    </div>
+  </div>
+  <!-- end row -->
+</div>

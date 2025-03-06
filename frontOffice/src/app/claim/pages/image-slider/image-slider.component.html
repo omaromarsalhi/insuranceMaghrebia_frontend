@@ -1,0 +1,14 @@
+<div class="slider-container">
+  <button (click)="slideLeft()" [disabled]="currentIndex === 0">&#9665;</button>
+  
+  <div class="slider">
+    <div class="image" *ngFor="let img of images.slice(currentIndex, currentIndex + 3); let i = index">
+      <div class="remove">
+        <i class="fas fa-trash" (click)="removeImage(i)"></i>
+      </div>
+      <img [src]="img" alt="Slider Image">
+    </div>
+  </div>
+
+  <button (click)="slideRight()" [disabled]="currentIndex >= images.length - 3">&#9655;</button>
+</div>

@@ -1,0 +1,143 @@
+<section class="job-details-section pt-90">
+  <div class="container">
+    <!--=== Job Details Wrapper ===-->
+    <div class="job-details-wrapper">
+      <!--=== Job Content ===-->
+      <div class="job-content mb-30 wow fadeInUp">
+        <h3 class="title">{{ claim.title }}</h3>
+        <ul>
+          <li>
+            <div class="info-box">
+              <span>Location</span>
+              <h4>{{ claim.incidentLocation }}</h4>
+            </div>
+          </li>
+          <li>
+            <div class="info-box">
+              <span>Incident Date</span>
+              <h4>{{ claim.incidentDate }}</h4>
+            </div>
+          </li>
+          <li>
+            <div class="info-box">
+              <span>Incident Type</span>
+              <h4>{{ claim.incidentType.name }}</h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--=== Block Image ===-->
+      <app-image-slider-v2 [images]="claim.images"></app-image-slider-v2>
+
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="job-content-box mb-30 wow fadeInUp">
+            <h3>Details</h3>
+            <p>
+              {{ claim.description }}
+            </p>
+          </div>
+          <div class="comments-area mb-50 wow fadeInUp">
+            <h5 class="comments-title mb-40">Replies</h5>
+            <ul class="comments-list">
+              
+              <li *ngFor="let response of claim.responses">
+                <div class="comment">
+                  <div class="comment-avatar">
+                    <img
+                      src="assets/images/blog/comment-3.jpg"
+                      alt="comment author"
+                    />
+                  </div>
+                  <div class="comment-wrap">
+                    <div class="comment-author-content">
+                      <span class="author-name"
+                        >{{response.user.firstName + " " + response.user.lastName}}<span class="date"
+                          >{{response.respondedAt | date:"medium"}}</span
+                        ></span
+                      >
+                      <p>
+                        {{response.response}}
+                      </p>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <section class="contact-section pb-100">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-lg-10">
+                  <div class="contact-area wow fadeInUp">
+                    <form
+                      class="contact-form"
+                      [formGroup]="responseForm"
+                      (ngSubmit)="onSubmit()"
+                    >
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="form_group">
+                            <textarea
+                              name="message"
+                              placeholder="Write Message"
+                              class="form_control"
+                              rows="6"
+                              style="height: 150px"
+                              formControlName="response"
+                            ></textarea>
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                          <div class="form_group text-center">
+                            <button class="main-btn primary-btn">
+                              Send Reply<i class="fas fa-arrow-right"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="col-xl-4">
+          <!--=== Sidebar Widget Area ===-->
+          <div class="sidebar-widget-area pl-lg-70 wow fadeInUp">
+            <div class="sidebar-widget job-info-widget gray-bg">
+              <ul class="info-list">
+                <li>
+                  <span class="title">Submitted At:</span>
+                  <h6>{{ claim.submitDate }}</h6>
+                </li>
+                <li>
+                  <span class="title">Last Reply:</span>
+                  <h6>
+                    {{
+                      claim.responses.length > 0
+                        ? "By " +
+                          claim.responses.at(-1)?.user?.firstName +
+                          " " +
+                          claim.responses.at(-1)?.user?.lastName +
+                          " At " +
+                          (claim.responses.at(-1)?.respondedAt
+                            | date : "dd-MM-YYYY HH:MM")
+                        : "---"
+                    }}
+                  </h6>
+                </li>
+                <li>
+                  <span class="title">Status</span>
+                  <h6>{{ claim.status }}</h6>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

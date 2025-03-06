@@ -1,0 +1,12 @@
+<div class="drawing-container">
+  <input type="color" [(ngModel)]="color">
+  <button (click)="undo()">Undo</button>
+  <button (click)="saveImage()">Save</button>
+
+
+  <canvas #canvas
+  (mousedown)="startDrawing($event)" 
+    (mouseup)="stopDrawing()" 
+    (mousemove)="draw($event)">
+    ></canvas>
+</div>
