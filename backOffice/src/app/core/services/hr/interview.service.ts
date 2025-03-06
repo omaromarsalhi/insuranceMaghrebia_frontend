@@ -23,4 +23,9 @@ export class InterviewService {
   createInterview(candidateId: string, interview: InterviewRequest): Observable<Interview> {
     return this.http.post<Interview>(`${this.apiUrl}/add?candidateId=${candidateId}`, interview);
   }
+
+  cancel(id:string):Observable<Interview> {
+    return this.http.post<Interview>(`${this.apiUrl}/cancel?id=${id}`, id);
+  }
+
 }

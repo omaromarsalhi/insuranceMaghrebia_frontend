@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { error } from 'jquery';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
+import { CandidateRequest } from 'src/app/core/models/hr/candidate-request';
+import { CandidateService } from 'src/app/core/services/hr/candidate.service';
 
 @Component({
   selector: 'app-candidate',
@@ -15,16 +18,17 @@ export class CandidateComponent implements OnInit {
   resumeName: string | null = null;
   coverLetterError: string | null = null;
   resumeError: string | null = null;
-  submitted=false;
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {}
+  submitted = false;
+  successMessage: string | null = null;
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder,private candidateService : CandidateService) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.queryParamMap.get('id');
     this.candidateForm = this.formBuilder.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      coverLetter: [null, [Validators.required]], 
+      coverLetter: [null, [Validators.required]],
       resume: [null, [Validators.required]]
     });
   }
@@ -46,13 +50,20 @@ export class CandidateComponent implements OnInit {
             }
             return;
           }
-
+          if (fileType === 'coverLetter') {
+            this.coverLetterName = null; 
+            this.coverLetterError = null; 
+          } else if (fileType === 'resume') {
+            this.resumeName = null; 
+            this.resumeError = null; 
+          }
+  
           // Ensure only one file is allowed
-          if (fileType === 'coverLetter' && this.coverLetterName) {
+          if (fileType === 'coverLetter' && event.length>1) {
             this.coverLetterError = 'Only one file is allowed.';
             return;
           }
-          if (fileType === 'resume' && this.resumeName) {
+          if (fileType === 'resume' && event.length>1) {
             this.resumeError = 'Only one file is allowed.';
             return;
           }
@@ -83,9 +94,35 @@ export class CandidateComponent implements OnInit {
       this.resumeError = null;
     }
   }
-  
-  onSubmit(){
-    this.submitted=true;
+
+  onSubmit() {
+    this.submitted = true;
     console.log(this.candidateForm.get('coverLetter')?.value);
+    if (!this.coverLetterName) {
+      this.coverLetterError = 'Cover letter is required.';
+    }
+    if (!this.resumeName) {
+      this.resumeError = 'Resume is required.';
+    }
+    if (this.candidateForm.valid && !this.resumeError && !this.coverLetterError) {
+      const candidateRequest: CandidateRequest = {
+        firstname: this.candidateForm.get('firstname')?.value,
+        lastname: this.candidateForm.get('lastname')?.value,
+        email: this.candidateForm.get('email')?.value,
+        resume: this.candidateForm.get('resume')?.value, 
+        coverLetter: this.candidateForm.get('coverLetter')?.value
+      };
+      console.log(candidateRequest);
+      this.candidateService.createCandidate(candidateRequest, this.id!).subscribe(response => {
+        this.successMessage = 'Your application has been submitted successfully! We will contact you for interview scheduling.';
+        setTimeout(() => {
+          this.successMessage = null;
+          this.candidateForm.reset();
+          this.submitted = false;
+          this.coverLetterName = null;
+          this.resumeName = null;
+        }, 5000);
+      });
+    }
   }
 }

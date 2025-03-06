@@ -31,6 +31,7 @@ export class EditProfileComponent implements OnInit {
     this.userService.getProfile(this.authService.getCurrentUserId()).subscribe({
       next: (data) => {
         this.user = data;
+        console.log(this.user);
         this.userForm = this.formBuilder.group({
           firstName: [this.user?.firstname, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
           lastName: [this.user?.lastname, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],

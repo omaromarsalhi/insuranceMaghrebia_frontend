@@ -35,55 +35,68 @@
 
                 <!-- Email -->
                 <div class="form_group">
-                  <label>Email Address</label>
+                  <label>Email Address (We will use this to contact you)</label>
                   <input type="email" formControlName="email" class="form_control" placeholder="Enter your email">
                   <div *ngIf="candidateForm.get('email')?.invalid && submitted" class="text-danger">
                     Please enter a valid email.
                   </div>
                 </div>
 
+                <!--====== Updated File Drop Section ======-->
                 <div class="form_group">
                   <label>Cover Letter (PDF only)</label>
-                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'" (onFileDrop)="onFileSelect($event, 'coverLetter')">
+                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'"
+                    (onFileDrop)="onFileSelect($event, 'coverLetter')">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <div style="height: 100%; width: 100%; cursor: pointer; text-align: center;" (click)="openFileSelector()">
-                        <p>Drop PDF file here or click to upload</p>
+                      <div class="file-drop-container" (click)="openFileSelector()">
+                        <div *ngIf="!coverLetterName" class="drop-instructions">
+                          <p>Drop PDF file here or click to upload</p>
+                        </div>
+                        <div *ngIf="coverLetterName" class="uploaded-file-info">
+                          <span class="file-name">{{ coverLetterName }}</span>
+                          <button (click)="removeFile('coverLetter'); $event.stopPropagation()" class="remove-file-btn">
+                            ✕
+                          </button>
+                        </div>
                       </div>
                     </ng-template>
                   </ngx-file-drop>
-                  
-                  <!-- Show file name -->
-                  <p *ngIf="coverLetterName" class="mt-2">Uploaded: {{ coverLetterName }} 
-                    <button (click)="removeFile('coverLetter')" class="btn btn-danger btn-sm">Remove</button>
-                  </p>
-                
-                  <!-- Show error message -->
-                  <p *ngIf="coverLetterError" class="text-danger">{{ coverLetterError }}</p>
+
+                  <!-- Show error message below the drop zone -->
+                  <p *ngIf="coverLetterError" class="text-danger mt-2">{{ coverLetterError }}</p>
                 </div>
-                
+
                 <div class="form_group">
                   <label>Resume (PDF only)</label>
-                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'" (onFileDrop)="onFileSelect($event, 'resume')">
+                  <ngx-file-drop dropZoneLabel="Drop PDF here" [accept]="'application/pdf'"
+                    (onFileDrop)="onFileSelect($event, 'resume')">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <div style="height: 100%; width: 100%; cursor: pointer; text-align: center;" (click)="openFileSelector()">
-                        <p>Drop PDF file here or click to upload</p>
+                      <div class="file-drop-container" (click)="openFileSelector()">
+                        <div *ngIf="!resumeName" class="drop-instructions">
+                          <p>Drop PDF file here or click to upload</p>
+                        </div>
+                        <div *ngIf="resumeName" class="uploaded-file-info">
+                          <span class="file-name">{{ resumeName }}</span>
+                          <button (click)="removeFile('resume'); $event.stopPropagation()" class="remove-file-btn">
+                            ✕
+                          </button>
+                        </div>
                       </div>
                     </ng-template>
                   </ngx-file-drop>
-                
-                  <!-- Show file name -->
-                  <p *ngIf="resumeName" class="mt-2">Uploaded: {{ resumeName }} 
-                    <button (click)="removeFile('resume')" class="btn btn-danger btn-sm">Remove</button>
-                  </p>
-                
-                  <!-- Show error message -->
-                  <p *ngIf="resumeError" class="text-danger">{{ resumeError }}</p>
+
+                  <!-- Show error message below the drop zone -->
+                  <p *ngIf="resumeError" class="text-danger mt-2">{{ resumeError }}</p>
                 </div>
-                
+
+                <div *ngIf="successMessage" class="alert alert-success mt-4 p-3" role="alert">
+                  <i class="fa fa-check-circle me-2"></i>
+                  {{ successMessage }}
+                </div>
 
                 <!-- Submit Button -->
                 <div class="form_group">
-                  <button type="submit" class="main-btn primary-btn">
+                  <button type="submit" class="main-btn primary-btn" [disabled]="successMessage">
                     Submit Application <i class="fa fa-arrow-right"></i>
                   </button>
                 </div>

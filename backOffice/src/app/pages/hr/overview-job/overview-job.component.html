@@ -1,12 +1,52 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="job">
   <!-- start page title -->
   <app-page-title title="Job Overview" [breadcrumbItems]="breadCrumbItems"></app-page-title>
   <!-- end page title -->
-
+  <ng-template #content role="document" let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">Schedule Date</h5>
+      <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="submitSchedule()" [formGroup]="scheduleForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" formControlName="location" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.location.errors }" id="location"
+                placeholder="Enter Location" />
+              <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors.required">Location is required</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="scheduledDate" class="form-label">Schedule Date Time</label>
+              <div>
+                <input class="form-control" type="datetime-local" id="scheduledDate" formControlName="scheduledDate" [ngClass]="{ 'is-invalid': submitted && f.scheduledDate.errors }" >
+                <div *ngIf="submitted && f.scheduledDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.scheduledDate.errors.required">Schedule Date Time is required</div>
+                  <div *ngIf="f.scheduledDate.errors.pastDate">
+                    Schedule Date cannot be in the past.
+                  </div>
+                  <div *ngIf="f.scheduledDate.errors.minDate">
+                    Schedule Date must be at least 2 days from today.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success" id="btn-save-event">
+          Submit
+        </button>
+      </form>
+    </div>
+  </ng-template>
   <div class="row">
     <div class="col-lg-8">
       <div class="card">
-        <div class="card-body" *ngIf="job">
+        <div class="card-body">
           <div class="media">
             <img src="assets/images/companies/img-1.png" alt="" class="avatar-sm me-4">
             <div class="media-body overflow-hidden">
@@ -14,17 +54,17 @@
               <p class="text-muted">{{ job.location }}</p>
             </div>
           </div>
-    
+
           <h5 class="font-size-15 mt-4">Job Details :</h5>
           <p class="text-muted">{{ job.description }}</p>
-    
+
           <div class="text-muted mt-4">
             <h5 class="font-size-15">Required Skills:</h5>
             <p *ngFor="let skill of job.skillsRequired">
               <i class="mdi mdi-chevron-right text-primary me-1"></i> {{ skill }}
             </p>
           </div>
-    
+
           <div class="row task-dates">
             <div class="col-sm-6 col-6">
               <div class="mt-4">
@@ -32,7 +72,7 @@
                 <p class="text-muted mb-0">{{ job.postedDate | date: "dd MMM, yyyy" }}</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-briefcase me-1 text-primary"></i> Job Type</h5>
@@ -42,47 +82,51 @@
                 <p class="text-muted mb-0" *ngIf="job.jobType=='INTERNSHIP'">INTERNSHIP</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-user me-1 text-primary"></i> Number of Openings</h5>
                 <p class="text-muted mb-0">{{ job.numberOfOpenings ?? 'Not specified' }}</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-time me-1 text-primary"></i> Experience Required</h5>
-                <p class="text-muted mb-0" *ngIf="job.minimumYearsOfExperience">{{ job.minimumYearsOfExperience }}+ years</p>
+                <p class="text-muted mb-0" *ngIf="job.minimumYearsOfExperience">{{ job.minimumYearsOfExperience }}+
+                  years</p>
                 <p class="text-muted mb-0" *ngIf="job.minimumYearsOfExperience==null">- years</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-dollar me-1 text-primary"></i> Salary</h5>
                 <p class="text-muted mb-0">{{ job.salaryAmount/1000 }}K DT / {{ job.salaryType }}</p>
-                <p class="text-muted mb-0" *ngIf="job.salaryType=='HOURLY'">{{ job.salaryAmount }} DT / {{ job.salaryType }}</p>
+                <p class="text-muted mb-0" *ngIf="job.salaryType=='HOURLY'">{{ job.salaryAmount }} DT / {{
+                  job.salaryType }}</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-sun me-1 text-primary"></i> Vacation Days</h5>
                 <p class="text-muted mb-0">{{ job.numberOfVacations ?? '-' }} weeks</p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
                 <h5 class="font-size-14"><i class="bx bx-time-five me-1 text-primary"></i> Working Hours</h5>
-                <p class="text-muted mb-0">{{ formatTime(job.startWorkingHour) }} - {{ formatTime(job.endWorkingHour) }}</p>
+                <p class="text-muted mb-0">{{ formatTime(job.startWorkingHour) }} - {{ formatTime(job.endWorkingHour) }}
+                </p>
               </div>
             </div>
-    
+
             <div class="col-sm-6 col-6">
               <div class="mt-4">
-                <h5 class="font-size-14"><i class="bx bx-calendar-check me-1 text-primary"></i> Working Days per Week</h5>
+                <h5 class="font-size-14"><i class="bx bx-calendar-check me-1 text-primary"></i> Working Days per Week
+                </h5>
                 <p class="text-muted mb-0">{{ job.workingDaysPerWeek }}</p>
               </div>
             </div>
@@ -90,15 +134,15 @@
         </div>
       </div>
     </div>
-    
+
     <div class="col-lg-4">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title mb-4">Attached Files</h4>
           <div class="table-responsive">
-            <table class="table table-nowrap align-middle table-hover mb-0">
+            <table class="table table-nowrap align-middle table-hover mb-0" *ngIf="job.candidates">
               <tbody>
-                <tr>
+                <tr *ngFor="let candidate of job.candidates">
                   <td style="width: 45px;">
                     <div class="avatar-sm">
                       <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
@@ -107,62 +151,9 @@
                     </div>
                   </td>
                   <td>
-                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Landing.Zip</a></h5>
-                    <small>Size : 3.25 MB</small>
-                  </td>
-                  <td>
-                    <div class="text-center">
-                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="avatar-sm">
-                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
-                        <i class="bx bxs-file-doc"></i>
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Admin.Zip</a></h5>
-                    <small>Size : 3.15 MB</small>
-                  </td>
-                  <td>
-                    <div class="text-center">
-                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="avatar-sm">
-                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
-                        <i class="bx bxs-file-doc"></i>
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">Skote Logo.Zip</a></h5>
-                    <small>Size : 2.02 MB</small>
-                  </td>
-                  <td>
-                    <div class="text-center">
-                      <a href="javascript: void(0);" class="text-dark"><i class="bx bx-download h3 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="avatar-sm">
-                      <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
-                        <i class="bx bxs-file-doc"></i>
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <h5 class="font-size-14"><a href="javascript: void(0);" class="text-dark">Veltrix admin.Zip</a></h5>
-                    <small>Size : 2.25 MB</small>
+                    <h5 class="font-size-13 mb-1"><a href="javascript: void(0);" class="text-dark"
+                        (click)="downloadFile(candidate.resume)">{{candidate.firstname
+                        + candidate.lastname}}_resume.pdf</a></h5>
                   </td>
                   <td>
                     <div class="text-center">
@@ -177,6 +168,78 @@
       </div>
     </div>
     <!-- end col -->
+  </div>
+  <!-- end row -->
+  <div class="row" *ngIf="job.candidates">
+
+
+    <div class="col-xl-3 col-sm-5" *ngFor="let candidate of job.candidates">
+      <div class="card text-center">
+        <div class="card-body">
+          <div style="text-align:left">
+            <p class="badge bg-warning font-size-12 m-1" *ngIf="candidate.status=='PENDING'">{{candidate.status}}</p>
+            <p class="badge bg-primary font-size-12 m-1" *ngIf="candidate.status=='INTERVIEW_SCHEDULED'">
+              INTERVIEW SCHEDULED</p>
+            <p class="badge bg-danger font-size-12 m-1" *ngIf="candidate.status=='REJECTED'">{{candidate.status}}</p>
+            <p class="badge bg-success font-size-12 m-1" *ngIf="candidate.status=='HIRED'">{{candidate.status}}</p>
+          </div>
+          <div class="avatar-sm mx-auto mb-4">
+            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+              {{candidate.firstname.charAt(0) | uppercase}}
+            </span>
+          </div>
+          <h5 class="font-size-15 mb-1">{{candidate.firstname + ' '+candidate.lastname}}</h5>
+          <p class="text-muted mb-2" ngbTooltip="Applied Date"><i class="bx bx-calendar me-1 text-muted"></i>20
+            March,2025</p>
+          <div class="table-responsive">
+            <table class="table table-nowrap align-middle table-hover mb-0">
+              <tbody>
+                <tr>
+                  <td>
+                    <h5 class="font-size-13 mb-1"><a href="javascript: void(0);" class="text-dark"
+                        (click)="downloadFile(candidate.coverLetter)">{{candidate.firstname +
+                        candidate.lastname}}_coverLetter.pdf</a></h5>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark" (click)="downloadFile(candidate.coverLetter)"><i
+                          class="bx bx-download h5 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <h5 class="font-size-13 mb-1"><a href="javascript: void(0);" class="text-dark"
+                        (click)="downloadFile(candidate.resume)">{{candidate.firstname
+                        + candidate.lastname}}_resume.pdf</a></h5>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <a href="javascript: void(0);" class="text-dark" (click)="downloadFile(candidate.resume)"><i
+                          class="bx bx-download h5 m-0"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div class="contact-links d-flex font-size-20">
+            <div class="flex-fill" *ngIf="candidate.status=='PENDING'">
+              <a href="javascript: void(0);" ngbTooltip="Schedule Interview"
+                (click)="openModal(content,candidate)"><i class="bx bx-calendar-check"></i></a>
+            </div>
+            <div class="flex-fill" *ngIf="candidate.status=='PENDING' || candidate.status=='INTERVIEW_SCHEDULED'">
+              <a href="javascript: void(0);" ngbTooltip="Reject"(click)="reject(candidate)"><i class="bx bx-x-circle"></i></a>
+            </div>
+            <div class="flex-fill" *ngIf="candidate.status=='INTERVIEW_SCHEDULED'">
+              <a href="javascript: void(0);" ngbTooltip="Hire" (click)="hire(candidate)"><i class="bx bx-user-check"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- end row -->
 </div>

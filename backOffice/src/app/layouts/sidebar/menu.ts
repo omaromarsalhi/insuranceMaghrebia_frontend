@@ -59,8 +59,8 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 2,
-                label: 'MENUITEMS.HR.LIST.CANDIDATES',
-                link: '/hr/candidates',
+                label: 'MENUITEMS.HR.LIST.INTERVIEWS',
+                link: '/hr/interviews',
                 parentId: 3
             },
 

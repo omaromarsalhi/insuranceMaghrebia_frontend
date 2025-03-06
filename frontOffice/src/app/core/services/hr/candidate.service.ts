@@ -12,8 +12,8 @@ export class CandidateService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCandidates(): Observable<Candidate[]> {
-    return this.http.get<Candidate[]>(`${this.apiUrl}/all`);
+  getAllCandidates(id : string): Observable<Candidate[]> {
+    return this.http.get<Candidate[]>(`${this.apiUrl}/all?jobId=${id}`);
   }
 
   getCandidateById(id: string): Observable<Candidate> {
@@ -21,6 +21,12 @@ export class CandidateService {
   }
 
   createCandidate(candidate: CandidateRequest, jobId: string): Observable<Candidate> {
-    return this.http.post<Candidate>(`${this.apiUrl}/add?jobId=${jobId}`, candidate);
+    const formData = new FormData();
+    formData.append("firstname", candidate.firstname);
+    formData.append("lastname", candidate.lastname);
+    formData.append("email", candidate.email);
+    formData.append("resume", candidate.resume, candidate.resume.name); 
+    formData.append("coverLetter", candidate.coverLetter, candidate.coverLetter.name); 
+    return this.http.post<Candidate>(`${this.apiUrl}/add?jobId=${jobId}`, formData);
   }
 }

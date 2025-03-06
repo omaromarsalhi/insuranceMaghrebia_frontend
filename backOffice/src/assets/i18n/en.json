@@ -132,7 +132,7 @@
       "TEXT": "Hr",
       "LIST": {
           "JOBS": "Job List",
-          "CANDIDATES":"Candidate List"
+          "INTERVIEWS":"Interview List"
       }
     },
     "CRYPTO": {

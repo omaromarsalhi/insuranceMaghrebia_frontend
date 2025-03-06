@@ -8,7 +8,7 @@
     <div class="col-lg-10">
       <div class="card">
         <div class="card-body" *ngIf="userId">
-          <h4 class="card-title mb-4">Change password</h4>
+          <h4 class="card-title mb-4">Change User Roles</h4>
           <ngb-alert type="danger" *ngIf="errormsg" [dismissible]="false">
             {{errormsg}}</ngb-alert>
           <form (ngSubmit)="save()" [formGroup]="userForm">

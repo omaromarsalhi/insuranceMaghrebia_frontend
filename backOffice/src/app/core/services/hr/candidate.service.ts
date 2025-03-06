@@ -23,4 +23,10 @@ export class CandidateService {
   createCandidate(candidate: CandidateRequest, jobId: string): Observable<Candidate> {
     return this.http.post<Candidate>(`${this.apiUrl}/add?jobId=${jobId}`, candidate);
   }
+  reject(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reject?id=${id}`, id);
+  }
+  hire(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/hire?id=${id}`, id);
+  }
 }
