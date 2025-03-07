@@ -94,12 +94,11 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
 
     setTimeout(() => {
       const complaint: Complaint = this.complaintForm.value;
-
       this.complaintService.addComplaint("67a9157f0a6a1371dce93411", complaint).subscribe({
         next: () => {
           this.complaintForm.reset();
           this.showPopup = true;
-          this.popupTitle = "✅ Complaint Received";
+          this.popupTitle = "Complaint Received";
           this.popupMessage = "Thank you! We have received your complaint and will get back to you soon.";
         },
         error: (err) => {
@@ -107,8 +106,10 @@ export class CamplaintComponent implements AfterViewInit,OnInit  {
 
           if (err.error && err.error.error) {
             this.errorMessage = err.error.error;
+            const parts = this.errorMessage.split("No. ");
+            this.popupMessage = parts.length > 1 ? parts[1].split(' A more appropriate')[0] : this.errorMessage;
             this.popupTitle = "Invalid Complaint Submission";
-            this.popupMessage = this.errorMessage;
+            // this.popupMessage = this.errorMessage;
             this.isloading = false;
             this.showPopup = true;
           } else {

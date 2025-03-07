@@ -80,13 +80,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "insuranceUi:build:production"
+              "browserTarget": "insuranceUi:build:production",
+
             },
             "development": {
               "browserTarget": "insuranceUi:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4300
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

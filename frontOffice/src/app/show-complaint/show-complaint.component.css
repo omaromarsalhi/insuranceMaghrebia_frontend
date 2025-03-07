@@ -4,7 +4,6 @@
   align-items: baseline;
 }
 
-
 .single-job-item {
   display: flex;
   align-items: flex-start;
@@ -133,14 +132,11 @@
   border: 2px solid white;
   animation: pulse 1.5s infinite;
 }
-
 @keyframes pulse {
   0% { transform: scale(0.95); opacity: 0.9; }
   50% { transform: scale(1.1); opacity: 0.6; }
   100% { transform: scale(0.95); opacity: 0.9; }
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .single-job-item {
     flex-direction: column;
@@ -225,36 +221,26 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
-
-/* Pour le survol */
 .new-message-badge:hover {
   transform: scale(1.2);
   transition: transform 0.3s ease;
 }
+.dot-alert {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  top: -30px;
+  right: -30px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  margin-left: 6px;
+  position: relative;
+  animation: pulse 1.5s infinite;
+}
 
-/*.new-response-icon {*/
-/*  position: relative;*/
+@keyframes pulse {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(0.9); }
+}
 
-/*  font-size: 20px;*/
-/*  color: #ff6b6b; !* Couleur de l'icône (rouge) *!*/
-/*  margin-left: 20px; !* Espace entre le titre et l'icône *!*/
-/*  cursor: pointer;*/
-/*}*/
-
-/*.new-response-icon .notification-dot {*/
-/*  position: absolute;*/
-
-/*  top: -5px;*/
-/*  right: -5px;*/
-/*  width: 10px;*/
-/*  height: 10px;*/
-/*  background-color: #ff4757;*/
-/*  border-radius: 50%;*/
-/*  border: 2px solid white; !* Bordure blanche pour contraster *!*/
-/*  animation: pulse 1.5s infinite; !* Animation de pulsation *!*/
-/*}*/
-
-/*.new-response-icon:hover {*/
-/*  transform: scale(1.1);*/
-/*  color: #ff4757;*/
-/*}*/

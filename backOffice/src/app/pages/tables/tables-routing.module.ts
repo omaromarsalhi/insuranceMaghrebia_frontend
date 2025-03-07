@@ -1,14 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { BasicComponent } from './basic/basic.component';
-import { AdvancedtableComponent } from './advancedtable/advancedtable.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AdvancedtableComponent} from './advancedtable/advancedtable.component';
 
 const routes: Routes = [
-    {
-        path: 'basic',
-        component: BasicComponent
-    },
+
     {
         path: 'advanced',
         component: AdvancedtableComponent
@@ -19,4 +14,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class TablesRoutingModule { }
+export class TablesRoutingModule {
+}

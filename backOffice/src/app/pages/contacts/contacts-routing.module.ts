@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {UsergridComponent} from './listComplaint/usergrid.component';
+import {ListComplaitComponent} from './listComplaint/listComplait.component';
 
 const routes: Routes = [
     {
-        path: 'grid',
-        component: UsergridComponent
+        path: 'list',
+        component: ListComplaitComponent
     }
 
 ];

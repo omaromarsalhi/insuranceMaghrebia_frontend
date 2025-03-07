@@ -15,64 +15,29 @@ import { ConfigService } from '../../../core/services/config.service';
 export class SaasComponent implements OnInit, AfterViewInit {
 
   @ViewChild('scrollRef') scrollRef;
-
-  // bread crumb items
   breadCrumbItems: Array<{}>;
-
   earningLineChart: ChartType;
   salesAnalyticsDonutChart: ChartType;
   ChatData: ChatMessage[];
-
   sassEarning: Array<Object>;
   sassTopSelling: Array<Object>;
-
   formData: FormGroup;
 
-  // Form submit
-  chatSubmit: boolean;
-
   constructor(public formBuilder: FormBuilder, private configService: ConfigService) { }
-
-  /**
-   * Returns form
-   */
   get form() {
     return this.formData.controls;
   }
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Saas', active: true }];
-
     this._fetchData();
-
     this.formData = this.formBuilder.group({
       message: ['', [Validators.required]],
     });
-
     this.configService.getConfig().subscribe(response => {
       this.sassEarning = response.sassEarning;
       this.sassTopSelling = response.sassTopSelling;
-    
     });
-  }
-  messageSave() {
-    const message = this.formData.get('message').value;
-    const currentDate = new Date();
-    if (this.formData.valid && message) {
-
-      this.ChatData.push({
-        align: 'right',
-        name: 'Henry Wells',
-        message,
-        time: currentDate.getHours() + ':' + currentDate.getMinutes()
-      });
-      this.onListScroll();
-      this.formData = this.formBuilder.group({
-        message: null
-      });
-    }
-
-    this.chatSubmit = true;
   }
   private _fetchData() {
     this.earningLineChart = earningLineChart;
@@ -81,14 +46,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
-  }
-  onListScroll() {
-    if (this.scrollRef !== undefined) {
-      setTimeout(() => {
-        this.scrollRef.SimpleBar.getScrollElement().scrollTop =
-          this.scrollRef.SimpleBar.getScrollElement().scrollHeight + 1500;
-      }, 500);
-    }
   }
   selectMonth(value) {
     switch (value) {

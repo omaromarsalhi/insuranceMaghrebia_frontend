@@ -1,4 +1,4 @@
-import { ChartType } from './overview.model';
+import { ChartType } from './showResponses.model';
 
 const overviewBarChart: ChartType = {
     chart: {

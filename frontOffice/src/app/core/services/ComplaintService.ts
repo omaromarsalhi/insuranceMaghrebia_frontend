@@ -16,37 +16,15 @@ export class ComplaintService {
   addComplaint(userId: string, complaint: Complaint): Observable<Complaint> {
     return this.http.post<Complaint>(`${this.baseUrl}/${userId}`, complaint);
   }
-
-
   getAllComplaints(): Observable<Complaint[]> {
     return this.http.get<Complaint[]>(this.baseUrl);
   }
-
-
   getComplaintById(id: string): Observable<Complaint> {
     return this.http.get<Complaint>(`${this.baseUrl}/get/${id}`);
   }
-
-
   getComplaintsByUserId(userId: string): Observable<Complaint[]> {
     return this.http.get<Complaint[]>(`${this.baseUrl}/${userId}`);
   }
-
-
-  getComplaintsByType(type: string): Observable<Complaint[]> {
-    return this.http.get<Complaint[]>(`${this.baseUrl}/getType/${type}`);
-  }
-
-
-  deleteComplaint(complaint: Complaint): Observable<any> {
-    return this.http.delete(`${this.baseUrl}`, { body: complaint });
-  }
-  // getSuggestedTitle(description: string): Observable<string> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   const body = { description };
-  //
-  //   return this.http.post<string>(`${this.baseUrl}/getTitle`, body, { headers });
-  // }
   getSuggestedTitle(description: string): Observable<string> {
     return this.http.post<string>(`${this.baseUrl}/getTitle`, { description }, { responseType: 'text' as 'json' });
   }

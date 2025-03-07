@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Table} from './advanced.model';
 import {editableTable, tableData} from './data';
 import {AdvancedService} from './advanced.service';
-import {AdvancedSortableDirective, SortEvent} from './advanced-sortable.directive';
+import {AdvancedSortableDirective} from './advanced-sortable.directive';
 import {NgForm} from '@angular/forms';
 import {ReportService} from '../../../core/services/ReportService';
 import {ReportResponse} from '../../../core/models/ReportResponse';
@@ -16,7 +16,7 @@ import {ReportResponse} from '../../../core/models/ReportResponse';
     providers: [AdvancedService, DecimalPipe]
 })
 export class AdvancedtableComponent implements OnInit {
-    // Configuration initiale
+
     breadCrumbItems: Array<{}>;
     tableData: Table[];
     public selected: any;
@@ -30,7 +30,7 @@ export class AdvancedtableComponent implements OnInit {
         status: 'Nouveau',
         details: ''
     };
-    analysisDate: string = new Date().toISOString().split('T')[0];
+
     reports: ReportResponse[] = [];
     @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
     public isCollapsed = true;
@@ -86,11 +86,12 @@ export class AdvancedtableComponent implements OnInit {
         console.log(this.reports);
 
     }
+
     openReportDetails(report: any): void {
         this.selectedReport = report;
     }
 
-    // Gestion des rapports
+
     toggleReportForm(userIndex: number): void {
         this.users[userIndex].showReportForm = !this.users[userIndex].showReportForm;
         if (!this.users[userIndex].showReportForm) {
@@ -121,7 +122,7 @@ export class AdvancedtableComponent implements OnInit {
     generateAIAnalysis(userIndex: number): void {
         console.log('Génération du rapport pour:', this.users[userIndex].name);
         console.log('Date sélectionnée:');
-        this.users[userIndex].showAnalysisForm = false; // Cacher le formulaire après génération
+        this.users[userIndex].showAnalysisForm = false;
     }
 
     showAnalysisForm(userIndex: number): void {
@@ -137,10 +138,6 @@ export class AdvancedtableComponent implements OnInit {
         };
     }
 
-    changeValue(i) {
-        this.hideme[i] = !this.hideme[i];
-    }
-
     _fetchData() {
         this.tableData = tableData;
         this.editableTable = editableTable;
@@ -148,17 +145,6 @@ export class AdvancedtableComponent implements OnInit {
             this.hideme.push(true);
         }
     }
-
-    onSort({column, direction}: SortEvent) {
-        this.headers.forEach(header => {
-            if (header.sortable !== column) {
-                header.direction = '';
-            }
-        });
-        this.service.sortColumn = column;
-        this.service.sortDirection = direction;
-    }
-
 
 
     async getReports(userid: string): Promise<void> {

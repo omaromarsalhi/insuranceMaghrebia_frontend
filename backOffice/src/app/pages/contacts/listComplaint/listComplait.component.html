@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-start mb-4">
+    </div>
+    <div class="d-flex justify-content-end gap-3 mb-4 align-items-center">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-3" *ngFor="let i of complaints;">
+                <div class="card border-0 shadow-sm position-relative hover-3d complaint-card">
+                    <div *ngIf="hasUnseenResponse(i.complaintId)"
+                         class="holographic-notification-center">
+                        <div class="hologram-beam-center"></div>
+                        <div class="hologram-pulse-center"></div>
+                        <span class="hologram-text-center">NEW</span>
+                    </div>
+                    <!--                <div *ngIf="hasUnseenResponse(i.complaintId)" class="new-message-ribbon">-->
+                    <!--                    <div class="ribbon-content">-->
+                    <!--                        <i class="fas fa-comment-dots"></i>-->
+                    <!--                        <span class="pulse-dot"></span>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 text-primary">{{ i.complaintType }}</h6>
+                        <span class="badgetest">
+<!--                          [ngClass]="{-->
+                            <!--        'bg-warning text-dark': i.complaintStatus === 'OPEN',-->
+                            <!--        'bg-success text-white': i.complaintStatus === 'RESOLVED',-->
+                            <!--        'bg-danger text-white': i.complaintStatus === 'IN_PROGRESS'}"-->
+
+                            {{ i.complaintStatus }}
+</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">{{ i.title }}</h6>
+                        <p class="card-text small text-muted mb-4">
+                            {{ i.complaintDescription }}
+                        </p>
+                    </div>
+                    <div class="card-footer fixed-footer">
+            <span>
+                <i class="bx bx-calendar"></i>
+                {{ i.createdAt | date }}
+            </span>
+                        <button class="btn btn-link p-0" (click)="showComponent(i)">
+                            <i class="bx bx-message-square-dots"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

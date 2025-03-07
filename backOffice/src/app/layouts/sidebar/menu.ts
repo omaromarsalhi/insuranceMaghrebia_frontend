@@ -10,11 +10,24 @@ export const MENU: MenuItem[] = [
             {
                 id: 49,
                 label: 'MENUITEMS.CONTACTS.LIST.USERGRID',
-                link: '/contacts/grid',
+                link: '/listComplaints/list',
                 parentId: 48
             },
         ]
     },
+    {
+        id: 48,
+        label: 'MENUITEMS.USERACTION.TEXT',
+        icon: 'bxs-user-detail',
+        subItems: [
+            {
+                id: 49,
+                label: 'MENUITEMS.USERACTION.LIST.RAPPORT',
+                link: '/tables/advanced',
+                parentId: 48
+            },
+        ]
+    }
 
 ];
 

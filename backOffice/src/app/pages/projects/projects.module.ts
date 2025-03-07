@@ -9,13 +9,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
-import { ProjectgridComponent } from './projectgrid/projectgrid.component';
-import { ProjectlistComponent } from './projectlist/projectlist.component';
-import { OverviewComponent } from './overview/overview.component';
-import { CreateComponent } from './create/create.component';
+
+import { ShowResponsesComponent } from './overview/showResponses.component';
+
 
 @NgModule({
-  declarations: [ProjectgridComponent, ProjectlistComponent, OverviewComponent, CreateComponent],
+  declarations: [ShowResponsesComponent],
     imports: [
         CommonModule,
         ProjectsRoutingModule,

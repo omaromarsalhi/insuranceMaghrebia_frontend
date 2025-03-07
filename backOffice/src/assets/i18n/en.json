@@ -45,7 +45,8 @@
       "EMAIL": "Email",
       "PROJECTS": "Projects",
       "TASKS": "Tasks",
-      "CONTACTS": "complaint"
+      "CONTACTS": "complaint",
+      "USERACTIONS": "User Action"
     },
     "EXTRA_PAGES": {
       "TITLE": "Extra Pages",
@@ -179,6 +180,13 @@
         "USERGRID": "Complaints List"
       }
     },
+    "USERACTION": {
+      "TEXT": "user Action",
+      "LIST": {
+        "RAPPORT": "Raports"
+      }
+    },
+
     "BLOG": {
       "TEXT": "Blog",
       "BADGE": "New",

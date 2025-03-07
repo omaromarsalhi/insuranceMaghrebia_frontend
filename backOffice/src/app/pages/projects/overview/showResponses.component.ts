@@ -8,18 +8,17 @@ import {ComplaintService} from '../../../core/services/complaintService';
 
 @Component({
     selector: 'app-overview',
-    templateUrl: './overview.component.html',
-    styleUrls: ['./overview.component.scss']
+    templateUrl: './showResponses.component.html',
+    styleUrls: ['./showResponses.component.scss']
 })
 
-/**
- * Overview component
- */
-export class OverviewComponent implements OnInit {
+export class ShowResponsesComponent implements OnInit {
     reponses: ResponseComplaint[] = [];
     breadCrumbItems: Array<{}>;
     responseForm: FormGroup;
     data!: Complaint;
+
+    test = false;
     submitted = false;
 
     constructor(private router: Router,
@@ -27,16 +26,15 @@ export class OverviewComponent implements OnInit {
                 private complaintService: ComplaintService) {
 
         this.data = this.router.getCurrentNavigation()?.extras.state?.['data'];
-        console.log(this.data);
     }
 
     async ngOnInit() {
         await this.loadResponses(this.data.complaintId);
-        console.log(this.reponses);
         this.responseForm = new FormGroup({
             responseDescription: new FormControl('', [Validators.required, Validators.maxLength(500), Validators.minLength(5)])
         });
-        if (this.data.complaintType === 'NEW') {
+        if (this.data.complaintStatus === 'NEW') {
+            this.data.complaintStatus = 'OPEN';
             this.changeStatus(this.data.complaintId, 'OPEN');
         }
     }
@@ -57,8 +55,8 @@ export class OverviewComponent implements OnInit {
         this.submitted = true;
         setTimeout(async () => {
             const response: ResponseComplaint = this.responseForm.value;
-
             try {
+
                 const res = await this.complaintResponseService
                     .addResponse(response, '1234', this.data.complaintId)
                     .toPromise();
@@ -76,13 +74,12 @@ export class OverviewComponent implements OnInit {
                     }
                 }
                 this.responseForm.reset();
-
             } catch (err) {
                 console.error('Error submitting response', err);
             } finally {
                 this.submitted = false;
             }
-        }, 500);
+        }, 200);
     }
 
     markResponseAsSeen(responseId: string) {
@@ -105,10 +102,8 @@ export class OverviewComponent implements OnInit {
                 .subscribe({
                     next: (updatedComplaint) => {
                         this.data.complaintStatus = newStatus;
-                        // this.toastr.success('Statut mis à jour avec succès');
                     },
                     error: (error) => {
-                        // this.toastr.error('Échec de la mise à jour du statut');
                         console.error('Error updating status:', error);
                     }
                 });
@@ -119,11 +114,9 @@ export class OverviewComponent implements OnInit {
         this.complaintService.updateStatus(idComplaint, newStatus).subscribe({
             next: (response) => {
                 console.log('Réponse du serveur:', response);
-                alert('Statut mis à jour avec succès!');
             },
             error: (error) => {
                 console.error('Erreur lors de la mise à jour:', error);
-                alert('Erreur lors de la mise à jour du statut');
             }
         });
     }

@@ -2,15 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgApexchartsModule} from 'ng-apexcharts';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {WidgetModule} from '../../shared/widget/widget.module';
 import {UIModule} from '../../shared/ui/ui.module';
 import {ContactsRoutingModule} from './contacts-routing.module';
-import {UsergridComponent} from './listComplaint/usergrid.component';
+import {ListComplaitComponent} from './listComplaint/listComplait.component';
 
 @NgModule({
-    declarations: [UsergridComponent],
+    declarations: [ListComplaitComponent],
     imports: [
         CommonModule,
         ContactsRoutingModule,
@@ -19,7 +19,9 @@ import {UsergridComponent} from './listComplaint/usergrid.component';
         NgSelectModule,
         NgApexchartsModule,
         FormsModule, ReactiveFormsModule,
-        NgbTooltipModule
+        NgbTooltipModule,
+        NgbNavModule,
+        NgbCollapseModule,
     ]
 })
 export class ContactsModule {
