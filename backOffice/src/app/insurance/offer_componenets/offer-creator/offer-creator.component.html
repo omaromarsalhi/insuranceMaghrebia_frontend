@@ -1,0 +1,324 @@
+<div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-plus me-2"></i>Add Offer</h2>
+    </div>
+
+    <form [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold" for="name">Offer name</label>
+                <input id="name" type="text" class="form-control" formControlName="name" placeholder="The offer id name"
+                    [ngClass]="{
+            'is-invalid': submit && f.name.errors,
+            'is-valid': submit && !f.name.errors
+          }" />
+                <div *ngIf="submit && f.name.errors" class="invalid-feedback">
+                    <span *ngIf="f.name.errors.required">Please provide a valid name.</span>
+                    <span *ngIf="f.name?.hasError('pattern')">
+                        Name must contain only letters, numbers, and basic punctuation
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Category</label>
+                <select class="form-select" formControlName="categoryId">
+                    <option *ngFor="let category of categoryData" [value]="category.categoryId">
+                        {{ category.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-bold" for="header">Offer header</label>
+            <input id="header" type="text" class="form-control" formControlName="header"
+                placeholder="Describe the offer in general" [ngClass]="{
+          'is-invalid': submit && f.header.errors,
+          'is-valid': submit && !f.header.errors
+        }" />
+            <div *ngIf="submit && f.header.errors" class="invalid-feedback">
+                <span *ngIf="f.header.errors.required">Please provide an offer header.</span>
+                <span *ngIf="f.header?.hasError('pattern')">
+                    Header must contain only letters, numbers, and basic punctuation
+                </span>
+            </div>
+        </div>
+
+        <app-image-uploader></app-image-uploader>
+
+        <!-- Benefits Section -->
+        <div class="mb-4">
+
+            <label class="form-label fw-bold">Offer Benefits (Minimum 1 Required)</label>
+            <div formArrayName="benefits">
+                <div *ngFor="let benefit of benefitsArray.controls; let i = index"  [formGroupName]="i" class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="benefitText"
+                            placeholder="Enter benefit {{ i + 1 }}" [ngClass]="{
+                           'is-invalid': (benefit.invalid && (benefit.touched || submit)),
+                           'is-valid': benefit.valid
+                       }">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteBenefit(i)"
+                            [disabled]="i < 1" title="Remove benefit">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <div *ngIf="i < 1" class="input-group-text bg-light">
+                            <i class="fas fa-lock text-muted"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="benefit.invalid && (benefit.touched || submit)" class="invalid-feedback">
+                        <span *ngIf="benefit.get('benefitText')?.errors?.required">
+                            Benefit is required
+                        </span>
+                        <span *ngIf="benefit.get('benefitText')?.errors?.pattern">
+                            Invalid characters (letters, numbers, and basic punctuation only)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="benefitsArray.errors && (benefitsArray.touched || submit)" class="alert alert-danger">
+                <div *ngIf="benefitsArray.errors['minlength']">
+                    At least 3 benefits are required (currently {{ benefitsArray.length }})
+                </div>
+                <div *ngIf="benefitsArray.errors['maxlength']">
+                    Maximum 10 benefits allowed
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success btn-sm" (click)="addBenefit()"
+                [disabled]="benefitsArray.length >= 10">
+                <i class="fas fa-plus me-1"></i> Add Benefit
+                <small class="text-black ms-2">({{ 10 - benefitsArray.length }} remaining)</small>
+            </button>
+        </div>
+        <div class="mb-4">
+            <h5 class="mb-3 h4 text-secondary">Labels</h5>
+            <div formArrayName="labels">
+                <div class="card mb-3 border-primary" *ngFor="let label of labelsArray.controls; let labelIndex = index"
+                    [formGroupName]="labelIndex">
+                    <div class="card-header bg-light text-white d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Label #{{ labelIndex + 1 }}</h6>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteLabel(labelIndex)">
+                            <i class="fas fa-trash me-1"></i> Delete
+                        </button>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label for="labelName-{{ labelIndex }}" class="form-label fw-bold">Title</label>
+                            <input type="text" class="form-control" id="labelName-{{ labelIndex }}"
+                                formControlName="name" [ngClass]="{
+                  'is-invalid': submit && label.get('name').errors,
+                  'is-valid': submit && !label.get('name').errors
+                }" />
+                            <div *ngIf="submit && label.get('name').errors" class="invalid-feedback">
+                                <span *ngIf="label.get('name').errors.required">Please provide a label title.</span>
+                                <span *ngIf="label.get('name')?.hasError('pattern')">
+                                    Label name must contain only letters, numbers, and hyphens
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-muted">Questions</h6>
+                            <div formArrayName="questions">
+                                <div class="mb-2" *ngFor="
+                    let question of label.get('questions').controls;
+                    let qIndex = index
+                  " [formGroupName]="qIndex">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" formControlName="questionText"
+                                            placeholder="Enter question..." [ngClass]="{
+                        'is-invalid':
+                          submit && question.get('questionText').errors,
+                        'is-valid':
+                          submit && !question.get('questionText').errors
+                      }" />
+                                        <button type="button" class="btn btn-outline-danger"
+                                            (click)="deleteQuestion(labelIndex, qIndex)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="submit && question.get('questionText').errors" class="invalid-feedback">
+                                        <span *ngIf="question.get('questionText').errors.required">Please provide a
+                                            question.</span>
+                                        <span *ngIf="question.get('questionText')?.hasError('pattern')">
+                                            Invalid question format
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm" (click)="addQuestion(labelIndex)">
+                                <i class="fas fa-plus me-1"></i> Add Question
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="mb-3 text-muted">Answers</h6>
+                            <div formArrayName="answers">
+                                <div class="mb-2" *ngFor="
+                    let answer of label.get('answers').controls;
+                    let aIndex = index;
+                    trackBy: trackAnswer
+                  " [formGroupName]="aIndex">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control" formControlName="answerText"
+                                            placeholder="Enter answer..." [ngClass]="{
+                        'is-invalid': submit && answer.get('answerText').errors,
+                        'is-valid': submit && !answer.get('answerText').errors
+                      }"></textarea>
+                                        <select class="form-select" formControlName="questionIndex">
+                                            
+                                            <option *ngFor="
+                                                    let q of label.get('questions').controls;
+                                                    let i = index
+                                                    " [ngValue]="i">
+                                                Question #{{ i + 1 }}
+                                            </option>
+                                        </select>
+                                        <button type="button" class="btn btn-outline-danger"
+                                            (click)="deleteAnswer(labelIndex, aIndex)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="submit && answer.get('answerText').errors" class="invalid-feedback">
+                                        <span *ngIf="answer.get('answerText').errors.required">Please provide an
+                                            answer.</span>
+                                        <span *ngIf="answer.get('answerText')?.hasError('pattern')">
+                                            Invalid answer format
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm" (click)="addAnswer(labelIndex)">
+                                <i class="fas fa-plus me-1"></i> Add Answer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-dark w-20" (click)="addLabel()">
+                <i class="fas fa-plus-circle me-2"></i> Add Label
+            </button>
+        </div>
+
+        <!-- Pricing Plans Section -->
+        <div class="mb-4" >
+            <h5 class="mb-4 h4 text-secondary">Pricing Plans</h5>
+            <div formArrayName="packages">
+                <div class="row g-3" >
+                    <div class="col-md-12"  *ngFor="let package of packagesArray.controls; let i = index"
+                        [formGroupName]="i">
+                        <div class="card mb-3 border-primary">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Package #{{ i + 1 }}</h6>
+                                <button type="button" class="btn btn-danger btn-sm" (click)="deletePackage(i)">
+                                    <i class="fas fa-trash me-1"></i> Delete
+                                </button>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Title</label>
+                                    <input type="text" class="form-control" formControlName="title"
+                                        placeholder="Package title" [ngClass]="{'is-invalid': submit && package.get('title')?.errors,
+                                  'is-valid': submit && !package.get('title')?.errors}">
+                                    <div *ngIf="submit && package.get('title')?.errors" class="invalid-feedback">
+                                        <span *ngIf="package.get('title')?.errors.required">Title is required</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Price ($)</label>
+                                        <input type="number" class="form-control" formControlName="price" min="0"
+                                            placeholder="0.00" [ngClass]="{'is-invalid': submit && package.get('price')?.errors,
+                                    'is-valid': submit && !package.get('price')?.errors}">
+                                        <div *ngIf="submit && package.get('price')?.errors" class="invalid-feedback">
+                                            <span *ngIf="package.get('price')?.errors.required">Price is required</span>
+                                            <span *ngIf="package.get('price')?.errors.min">Must be ≥ 0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Duration</label>
+                                        <select class="form-select" formControlName="duration" [ngClass]="{'is-invalid': submit && package.get('duration')?.errors,
+                                                           'is-valid': submit && !package.get('duration')?.errors}">
+                                            <option value="">Select Duration</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="quarterly">Quarterly</option>
+                                            <option value="biannual">Every 6 Months</option>
+                                            <option value="annual">Annual</option>
+                                            <option value="biennial">Every 2 Years</option>
+                                            <option value="custom">Custom</option>
+                                        </select>
+                                        <div *ngIf="submit && package.get('duration')?.errors" class="invalid-feedback">
+                                            <span *ngIf="package.get('duration')?.errors.required">Please select a
+                                                duration</span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div *ngIf="package.get('duration').value === 'custom'" class="mt-2">
+                                        <input type="text" class="form-control" placeholder="Enter custom duration"
+                                            formControlName="customDuration"
+                                            [ngClass]="{'is-invalid': submit && package.get('customDuration')?.errors}">
+                                        <div *ngIf="submit && package.get('customDuration')?.errors"
+                                            class="invalid-feedback">
+                                            Custom duration is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Features (Minimum 1 Required)</label>
+                                    <div formArrayName="features">
+                                        <div *ngFor="let feature of getPackageFeatures(i).controls; let j = index"
+                                            class="mb-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" [formControlName]="j"
+                                                    placeholder="Feature {{ j + 1 }}" [ngClass]="{'is-invalid': (feature.invalid && (feature.touched || submit)),
+                                        'is-valid': feature.valid}">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    (click)="deleteFeature(i, j)" [disabled]="j < 1">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <div *ngIf="j < 1" class="input-group-text bg-light">
+                                                    <i class="fas fa-lock text-muted"></i>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="feature.invalid && (feature.touched || submit)"
+                                                class="invalid-feedback">
+                                                Feature is required
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-success btn-sm mt-2" (click)="addFeature(i)"
+                                        [disabled]="getPackageFeatures(i).length >= 5">
+                                        <i class="fas fa-plus me-1"></i> Add Feature
+                                        <small class="text-black ms-2">({{ 5 - getPackageFeatures(i).length }}
+                                            remaining)</small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-dark" (click)="addPackage()">
+                <i class="fas fa-plus-circle me-2"></i> Add Package
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-2">
+                <i class="fas fa-paper-plane me-2"></i>Submit Offer
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="resetLabelForm()">
+                <i class="fas fa-undo me-2"></i>Reset
+            </button>
+        </div>
+    </form>
+</div>

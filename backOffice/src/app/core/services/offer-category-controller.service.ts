@@ -11,6 +11,7 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { CategoryResponse } from '../models/category-response';
 import { createOfferCategory } from '../fn/offer-category-controller/create-offer-category';
 import { CreateOfferCategory$Params } from '../fn/offer-category-controller/create-offer-category';
 import { deleteOfferCategory } from '../fn/offer-category-controller/delete-offer-category';
@@ -19,7 +20,6 @@ import { getAllOfferCategories } from '../fn/offer-category-controller/get-all-o
 import { GetAllOfferCategories$Params } from '../fn/offer-category-controller/get-all-offer-categories';
 import { getOfferCategoryById } from '../fn/offer-category-controller/get-offer-category-by-id';
 import { GetOfferCategoryById$Params } from '../fn/offer-category-controller/get-offer-category-by-id';
-import { OfferCategory } from '../models/insurance/offer-category';
 import { updateOfferCategory } from '../fn/offer-category-controller/update-offer-category';
 import { UpdateOfferCategory$Params } from '../fn/offer-category-controller/update-offer-category';
 
@@ -38,7 +38,7 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateOfferCategory$Response(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  updateOfferCategory$Response(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
     return updateOfferCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -48,9 +48,9 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateOfferCategory(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<OfferCategory> {
+  updateOfferCategory(params: UpdateOfferCategory$Params, context?: HttpContext): Observable<CategoryResponse> {
     return this.updateOfferCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferCategory>): OfferCategory => r.body)
+      map((r: StrictHttpResponse<CategoryResponse>): CategoryResponse => r.body)
     );
   }
 
@@ -63,7 +63,7 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createOfferCategory$Response(params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  createOfferCategory$Response(params: CreateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
     return createOfferCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -73,9 +73,9 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createOfferCategory(params: CreateOfferCategory$Params, context?: HttpContext): Observable<OfferCategory> {
+  createOfferCategory(params: CreateOfferCategory$Params, context?: HttpContext): Observable<CategoryResponse> {
     return this.createOfferCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferCategory>): OfferCategory => r.body)
+      map((r: StrictHttpResponse<CategoryResponse>): CategoryResponse => r.body)
     );
   }
 
@@ -88,7 +88,7 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOfferCategoryById$Response(params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  getOfferCategoryById$Response(params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
     return getOfferCategoryById(this.http, this.rootUrl, params, context);
   }
 
@@ -98,9 +98,9 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOfferCategoryById(params: GetOfferCategoryById$Params, context?: HttpContext): Observable<OfferCategory> {
+  getOfferCategoryById(params: GetOfferCategoryById$Params, context?: HttpContext): Observable<CategoryResponse> {
     return this.getOfferCategoryById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferCategory>): OfferCategory => r.body)
+      map((r: StrictHttpResponse<CategoryResponse>): CategoryResponse => r.body)
     );
   }
 
@@ -113,7 +113,7 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllOfferCategories$Response(params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferCategory>>> {
+  getAllOfferCategories$Response(params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
     return getAllOfferCategories(this.http, this.rootUrl, params, context);
   }
 
@@ -123,9 +123,9 @@ export class OfferCategoryControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllOfferCategories(params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<Array<OfferCategory>> {
+  getAllOfferCategories(params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<Array<CategoryResponse>> {
     return this.getAllOfferCategories$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<OfferCategory>>): Array<OfferCategory> => r.body)
+      map((r: StrictHttpResponse<Array<CategoryResponse>>): Array<CategoryResponse> => r.body)
     );
   }
 

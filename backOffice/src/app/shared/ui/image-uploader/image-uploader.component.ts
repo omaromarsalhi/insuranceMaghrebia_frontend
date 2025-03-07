@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/upload-image';
-import { ImageUploadControllerService } from 'src/app/core/services';
+import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/my-upload-image';
+import { MyImageUploadControllerService } from '../../../core/services/my-image-upload-controller.service';
+
 
 @Component({
   selector: 'app-image-uploader',
@@ -9,14 +10,14 @@ import { ImageUploadControllerService } from 'src/app/core/services';
 })
 export class ImageUploaderComponent implements OnInit {
 
-    uploadedImageUrl: string | ArrayBuffer = "";
+    uploadedImageUrl: string;
     selectedFile: File = null;
     fileName: string = "";
     isDragging = false;
     isLoading: boolean = false;
   
     constructor(
-        private imageUploadService: ImageUploadControllerService
+        private imageUploadService: MyImageUploadControllerService
       ) {}
     
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class ImageUploaderComponent implements OnInit {
         reject("No file selected");
         return;
       }
-
+      
       const params: UploadImage$Params = {
         body: {
           file: this.selectedFile,
@@ -38,9 +39,9 @@ export class ImageUploaderComponent implements OnInit {
       this.imageUploadService.uploadImage(params).subscribe(
         (response: string) => {
           this.uploadedImageUrl = response;
-          console.log("Image uploaded successfully:", response);
           resolve(response); 
-        },
+        }
+        ,
         (error) => {
           console.error("Error uploading image:", error);
           reject(error);

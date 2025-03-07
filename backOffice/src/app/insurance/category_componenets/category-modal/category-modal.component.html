@@ -1,0 +1,73 @@
+<!-- category-modal.component.html -->
+<div class="modal-header bg-light">
+    <h5 class="modal-title mt-0">
+      {{ isEditMode ? "Update Category" : "Add Category" }}
+    </h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="row">
+        <div class="col-12">
+          <!-- Category Name -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Category Name</label>
+            <input class="form-control" 
+                  placeholder="Enter category name" 
+                  type="text" 
+                  formControlName="name"
+                  [ngClass]="{'is-invalid': submitted && form.get('name').errors}">
+            <div *ngIf="submitted && form.get('name').errors" class="invalid-feedback">
+              <span *ngIf="form.get('name').errors.required">Category name is required.</span>
+            </div>
+          </div>
+  
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Description</label>
+            <textarea class="form-control" 
+                    placeholder="Enter description" 
+                    formControlName="description"
+                    [ngClass]="{'is-invalid': submitted && form.get('description').errors}"
+                    rows="3"></textarea>
+            <div *ngIf="submitted && form.get('description').errors" class="invalid-feedback">
+              <span *ngIf="form.get('description').errors.required">Description is required.</span>
+            </div>
+          </div>
+  
+          <!-- Target -->
+          <div class="mb-4">
+            <label class="form-label fw-bold">Target</label>
+            <div class="d-flex gap-4">
+              <div class="form-check">
+                <input class="form-check-input" 
+                      type="radio" 
+                      id="particular" 
+                      value="PARTICULAR"
+                      formControlName="categoryTarget">
+                <label class="form-check-label" for="particular">PARTICULAR</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" 
+                      type="radio" 
+                      id="company" 
+                      value="COMPANY"
+                      formControlName="categoryTarget">
+                <label class="form-check-label" for="company">COMPANY</label>
+              </div>
+            </div>
+            <div *ngIf="submitted && form.get('categoryTarget').errors" class="invalid-feedback">
+              <span *ngIf="form.get('categoryTarget').errors.required">Target is required.</span>
+            </div>
+          </div>
+          <app-image-uploader></app-image-uploader>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>
+        <button type="submit" class="btn btn-primary">
+          {{ isEditMode ? "Update" : "Save" }}
+        </button>
+      </div>
+    </form>
+  </div>

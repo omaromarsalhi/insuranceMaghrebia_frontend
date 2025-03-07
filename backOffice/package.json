@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod",
-    "generate-api": "ng-openapi-gen -i http://localhost:9002/v3/api-docs  --output ./src/app/MyServices"
+    "openapi": "ng-openapi-gen -i http://localhost:9002/v3/api-docs --output ./src/app/core --remove-stale-files=false"
   },
   "private": true,
   "dependencies": {
@@ -52,6 +52,7 @@
     "ng-apexcharts": "^1.5.12",
     "ng-chartist": "^4.1.0",
     "ng-click-outside": "^8.0.0",
+    "ng-openapi-gen": "^0.52.0",
     "ng-otp-input": "^1.7.1",
     "ng2-charts": "^2.4.2",
     "ng2-completer": "^9.0.1",

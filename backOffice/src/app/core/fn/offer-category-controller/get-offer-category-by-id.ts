@@ -8,24 +8,24 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferCategory } from '../../models/insurance/offer-category';
+import { CategoryResponse } from '../../models/category-response';
 
 export interface GetOfferCategoryById$Params {
   id: string;
 }
 
-export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+export function getOfferCategoryById(http: HttpClient, rootUrl: string, params: GetOfferCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
   const rb = new RequestBuilder(rootUrl, getOfferCategoryById.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferCategory>;
+      return r as StrictHttpResponse<CategoryResponse>;
     })
   );
 }

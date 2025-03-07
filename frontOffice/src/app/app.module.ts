@@ -12,11 +12,12 @@ import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
 import { BackToTopComponent } from './shared/back-to-top/back-to-top.component';
 import { CounterComponent } from './shared/counter/counter.component';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeFooterComponent } from './home-footer/home-footer.component';
-import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
+import { InsuranceModule } from './insurances/insurance.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
@@ -29,17 +30,19 @@ import { HttpClientModule } from '@angular/common/http';
     AnimationDirective,
     BackToTopComponent,
     CounterComponent,
-    HomeFooterComponent
+    HomeFooterComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule, // Add RouterModule here
-    AppRoutingModule, // Add the routing module here
-    SlickCarouselModule,
+    RouterModule,
+    SlickCarouselModule, 
+    AppRoutingModule, 
     FontAwesomeModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     SharedModule,
-    HttpClientModule
+    InsuranceModule
+  
   ],
   providers: [],
   bootstrap: [AppComponent]

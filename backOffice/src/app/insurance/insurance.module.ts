@@ -20,19 +20,20 @@ import { UIModule } from "src/app/shared/ui/ui.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InsuranceRoutingModule } from "./insurance-routing.module";
-import { CategoryComponent } from "./category/category.component";
+import { CategoryComponent } from "./category_componenets/category/category.component";
 import { Ng5SliderModule } from "ng5-slider";
-import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
-import { FormCreatorComponent } from './form-creator/form-creator.component';
+import { OfferCreatorComponent } from './offer_componenets/offer-creator/offer-creator.component';
+import { FormCreatorComponent } from './offer_componenets/form-creator/form-creator.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { OfferManagerComponent } from './offer-manager/offer-manager.component';
-import { CategoryFilterPipe } from "../pipes/category-filter.pipe";
-import { PipesModule } from "../pipes/pipes.module";
+import { OfferManagerComponent } from './offer_componenets/offer-manager/offer-manager.component';
+import { CategoryModalComponent } from './category_componenets/category-modal/category-modal.component';
+
+
 
 
 
 @NgModule({
-  declarations: [CategoryComponent, OfferCreatorComponent, FormCreatorComponent, OfferManagerComponent],
+  declarations: [CategoryComponent, OfferCreatorComponent, FormCreatorComponent, OfferManagerComponent, CategoryModalComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,
@@ -53,8 +54,7 @@ import { PipesModule } from "../pipes/pipes.module";
     Ng5SliderModule,
     DragDropModule,
     NgbAccordionModule,
-    NgbModule,
-    PipesModule
+    NgbModule
   ],
 })
 export class InsuranceModule {}

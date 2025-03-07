@@ -8,24 +8,25 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Offer } from '../../models/insurance/offer';
+import { OfferRequest } from '../../models/offer-request';
+import { OfferResponse } from '../../models/offer-response';
 
 export interface CreateOffer$Params {
-      body: Offer
+      body: OfferRequest
 }
 
-export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<Offer>> {
+export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
   const rb = new RequestBuilder(rootUrl, createOffer.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Offer>;
+      return r as StrictHttpResponse<OfferResponse>;
     })
   );
 }

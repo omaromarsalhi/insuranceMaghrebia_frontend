@@ -1,0 +1,173 @@
+
+
+  /* Icon Styles */
+  .single-features-item-three .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+  }
+  
+  .single-features-item-three .icon i {
+    color: white;
+    font-size: 28px;
+  }
+
+  
+  /* Content Styles */
+  .single-features-item-three .content {
+    overflow: hidden;
+  }
+
+  
+  /* Button Styles */
+  .single-features-item-three .action-btn {
+    margin-top: auto;
+  }
+  
+  .single-features-item-three .btn-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease;
+  }
+  
+  .single-features-item-three .btn-link:hover {
+    color: #0f0f10;
+  }
+  
+
+  
+  /* Rest of your existing CSS remains the same */
+  .single-features-item-three {
+    min-width: 300px;
+    min-height: 300px;
+    border: 1px solid rgba(221, 221, 221, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    transition: all 0.3s ease, background 0.4s ease;
+    background: #193B1E;
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  /* Main Card Styles */
+.single-features-item-three {
+    background: #193B1E; /* Primary deep green */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-left: 4px solid #FFB966; /* Gold accent stripe */
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(255,255,255,0.03) 0%,
+      rgba(255,255,255,0.01) 100%
+    );
+  }
+  
+  /* Hover State */
+  .single-features-item-three:hover {
+    background: #FFFFFF ;
+    color: #1A2A1E;
+    border-left-color: #193B1E;
+  }
+  
+  /* Icon Gradient */
+  .bg-primary-gradient {
+    background: linear-gradient(135deg, #FFB966, #f38f1d 100%); /* Gold gradient */
+  }
+  
+  .single-features-item-three:hover .bg-primary-gradient  {
+    background: linear-gradient(135deg, #193B1E 0%, #2A4D30 100%); /* Green gradient */
+  }
+
+  .single-features-item-three:hover .btn-link  {
+    color: #1A2A1E ;
+  
+  }
+  
+  /* Typography */
+  .single-features-item-three .title {
+    color: inherit;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  
+  .single-features-item-three .description {
+    color: inherit;
+    opacity: 0.85;
+    line-height: 1.7;
+  }
+  
+
+  /* Change all dots color */
+.slick-dots li button {
+  color: #193B1E !important; /* Inactive dot color */
+  background-color: #193B1E;
+}
+
+
+
+
+/* Question Slider Overrides */
+.question-slider {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.question-slider .slick-slide {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 5px !important;
+}
+
+.question-slider .slick-list {
+  margin: 0 -5px !important;
+}
+
+.question-slider .slick-track {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.question-slider .description {
+  width: 100% !important;
+  padding: 0 10px !important;
+  margin: 0 !important;
+}
+
+/* Reset partner slider inheritance */
+.question-slider {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Mobile fixes */
+@media (max-width: 767px) {
+  .question-slider .slick-slide {
+    padding: 0 8px !important;
+  }
+  .question-slider .slick-list {
+    margin: 0 -8px !important;
+  }
+}
+.pricing-scale {
+  /* Adjust the scale value as needed (0.9 means 90% of the original size) */
+  transform: scale(0.9);
+  transform-origin: top center;
+}
+
+/* Optionally, you can add a media query if you want the scaling to apply only on larger screens */
+@media (max-width: 1600px) {
+  .pricing-scale {
+    transform: scale(0.85);
+  }
+}
