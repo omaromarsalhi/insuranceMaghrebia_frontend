@@ -15,4 +15,6 @@ export { OfferLabelDto } from './models/offer-label-dto';
 export { OfferPackageDto } from './models/offer-package-dto';
 export { OfferRequest } from './models/offer-request';
 export { OfferResponse } from './models/offer-response';
+export { PurchasedOfferDataDto } from './models/purchased-offer-data-dto';
+export { PurchasedOfferRequest } from './models/purchased-offer-request';
 export { QuestionTypeDto } from './models/question-type-dto';

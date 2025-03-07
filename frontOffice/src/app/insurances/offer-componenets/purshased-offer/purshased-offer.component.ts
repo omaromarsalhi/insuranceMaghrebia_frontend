@@ -6,9 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormFieldDto } from 'src/app/core/models';
+import {
+  FormFieldDto,
+  PurchasedOfferDataDto,
+  PurchasedOfferRequest,
+} from 'src/app/core/models';
 import { OfferFormControllerService } from 'src/app/core/services/offer-form-controller.service';
 import { firstValueFrom } from 'rxjs';
+import { PurchasedOfferControllerService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-purshased-offer',
@@ -17,21 +22,25 @@ import { firstValueFrom } from 'rxjs';
 })
 export class PurshasedOfferComponent implements OnInit {
   formId!: string;
+  offerId!: string;
   insuranceForm!: FormGroup;
   formFields: Array<FormFieldDto> = [];
   isLoading: boolean = false;
   notValid: boolean = false;
   selectedValue: number = 0;
+  data2Save: PurchasedOfferRequest = { data: [] };
 
   constructor(
     private fb: FormBuilder,
     private formData: OfferFormControllerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private purchasedoffer: PurchasedOfferControllerService
   ) {}
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
-    console.log('Form ID:', this.formId);
+    this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
+
     this.insuranceForm = this.fb.group({});
 
     this._fetchData(() => {
@@ -52,7 +61,11 @@ export class PurshasedOfferComponent implements OnInit {
         validators.push(Validators.required);
       }
       if (field.regex) {
-        validators.push(Validators.pattern(field.regex));
+        let pattern = field.regex;
+        if (pattern.startsWith('/') && pattern.endsWith('/')) {
+          pattern = pattern.slice(1, -1);
+        }
+        validators.push(Validators.pattern(pattern));
       }
 
       this.insuranceForm.addControl(
@@ -71,14 +84,40 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isLoading = true;
-    if (this.insuranceForm.valid) {
-      console.log(this.insuranceForm.value)
+    // this.isLoading = true;
+    // if (this.insuranceForm.valid) {
+      const list = this.insuranceForm.value; // Assuming it's a JSON object
 
-      this.isLoading = true;
+      Object.entries(list).forEach(([key,value], index) => {
+        this.data2Save.data!.push({
+          fieldLabel: this.formFields[index].label,
+          fieldType: this.formFields[index].type,
+          fieldValue: value,
+        });
+      });
+      this.data2Save.formId = this.formId;
+      console.log(this.saveForData)
+      this.saveForData();
+
       return;
-    }
+    // }
+    this.isLoading = false;
     this.notValid = true;
+  }
+
+  saveForData() {
+    const parm = {
+      body: this.data2Save,
+    };
+
+    this.purchasedoffer.create(parm).subscribe(() => {
+      console.log('done');
+      setTimeout(() => {
+        this.isLoading = false;
+        this.notValid = false;
+        this.insuranceForm.reset();
+      }, 2000);
+    });
   }
 
   // Method to get the current value of the range input
