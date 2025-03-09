@@ -66,9 +66,13 @@
                         </div>
 
                         <div class="col-lg-12">
-                            <apx-chart class="apex-charts" dir="ltr" [series]="item.series"
-                                       [chart]="earningLineChart.chart" [colors]="earningLineChart.colors"
-                                       [stroke]="earningLineChart.stroke" [dataLabels]="earningLineChart.dataLabels">
+                            <apx-chart class="apex-charts" dir="ltr" [series]="earningLineChart.series"
+                                       [chart]="earningLineChart.chart"
+                                       [colors]="earningLineChart.colors"
+                                       [stroke]="earningLineChart.stroke"
+                                       [dataLabels]="earningLineChart.dataLabels"
+                                       [xaxis]="earningLineChart.xaxis">
+
                             </apx-chart>
                         </div>
                     </div>

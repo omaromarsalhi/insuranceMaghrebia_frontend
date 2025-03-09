@@ -2,8 +2,8 @@ import { ChartType } from './saas.model';
 
 const earningLineChart: ChartType = {
     series: [{
-        name: 'series1',
-        data: [31, 40, 36, 51, 49, 72, 69, 56, 68, 82, 68, 76]
+        name: 'series1'
+        // data: [5, 3, 9, 7, 0, 6, 3]
     }],
     chart: {
         height: 288,
