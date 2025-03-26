@@ -83,7 +83,6 @@ export class OfferManagerComponent implements OnInit {
   categoriesData: OfferCategory[] = [];
   offer: OfferRequest;
   offerForm: FormFieldDto[] = [];
-  isThereAiData: boolean = false;
   createdForm: OfferFormResponse;
   createdOffer: OfferResponse;
   isChatOpen = false;
@@ -305,6 +304,6 @@ export class OfferManagerComponent implements OnInit {
 
   receiveData(data: FormFieldDto[]) {
     this.offerForm = data;
-    this.isThereAiData = true;
+
   }
 }

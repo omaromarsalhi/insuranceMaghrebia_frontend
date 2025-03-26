@@ -30,11 +30,12 @@ import { Subject } from "rxjs";
   templateUrl: "./form-creator.component.html",
   styleUrls: ["./form-creator.component.scss"],
 })
-export class FormCreatorComponent implements OnInit, OnChanges {
+export class FormCreatorComponent implements OnInit {
   @Output() offerFormCreationEvent = new EventEmitter<FormFieldDto[]>();
   @Input() triggerCleanEvent!: Subject<void>;
-  @Input() formCreatedByAi!: FormFieldDto[];
-  @Input() isThereAiData!: boolean;
+  @Input() formCreatedByAi: FormFieldDto[] = [];
+  @Input() useFormCreatedByAi: boolean;
+  isOnInitDone: boolean = false;
   dynamicForm!: FormGroup;
   activeSection = 0;
   rangeValues: number[] = [];
@@ -61,30 +62,27 @@ export class FormCreatorComponent implements OnInit, OnChanges {
     this.triggerCleanEvent.subscribe(() => {
       this.resetForm();
     });
+    this.isOnInitDone = true;
+    if (this.useFormCreatedByAi) this.setAiForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log("oninit: " + this.isOnInitDone);
     if (
       changes["formCreatedByAi"] &&
-      this.isThereAiData &&
+      this.isOnInitDone &&
       changes["formCreatedByAi"].currentValue.length > 0
     ) {
-      this.fields.clear();
-      changes["formCreatedByAi"].currentValue.forEach((data) => {
-        this.fields.push(this.createFieldBasedOnLocalData(data));
-      });
+      this.setAiForm();
     }
   }
 
-  // ngAfterViewInit(): void {
-  //   console.log(this.isChatOpen)  
-  //   if (this.formCreatedByAi.length > 0 && !this.isChatOpen) {
-  //     this.fields.clear();
-  //     this.formCreatedByAi.forEach((data) => {
-  //       this.fields.push(this.createFieldBasedOnLocalData(data));
-  //     });
-  //   } else this.initForm();
-  // }
+  setAiForm(): void {
+    this.fields.clear();
+    this.formCreatedByAi.forEach((data) => {
+      this.fields.insert(data.order, this.createFieldBasedOnLocalData(data));
+    });
+  }
 
   // Submit method
   send2OfferManager() {
