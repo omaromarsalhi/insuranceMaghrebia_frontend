@@ -31,8 +31,8 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 6,
-                label: 'MENUITEMS.INSURANCE.LIST.OFFER-DETAILS',
-                link: '/insurance/offer-details/1',
+                label: 'MENUITEMS.INSURANCE.LIST.CHAT',
+                link: '/insurance/chat',
                 parentId: 2
             },
      

@@ -20,11 +20,62 @@ import {
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { OfferFormControllerService } from "../../../core/services/offer-form-controller.service";
 import Swal from "sweetalert2";
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  state,
+} from "@angular/animations";
 
 @Component({
   selector: "app-offer-manager",
   templateUrl: "./offer-manager.component.html",
   styleUrls: ["./offer-manager.component.scss"],
+  animations: [
+    trigger("scaleFade", [
+      transition(":enter", [
+        style({ opacity: 0, transform: "scale(0.95)" }),
+        animate("300ms ease-out", style({ opacity: 1, transform: "scale(1)" })),
+      ]),
+      transition(":leave", [
+        animate(
+          "300ms ease-in",
+          style({ opacity: 0, transform: "scale(0.95)" })
+        ),
+      ]),
+    ]),
+    trigger("slideVertical", [
+      transition(":enter", [
+        style({ opacity: 0, transform: "translateY(20px)" }),
+        animate(
+          "300ms 150ms ease-out",
+          style({ opacity: 1, transform: "translateY(0)" })
+        ),
+      ]),
+      transition(":leave", [
+        animate(
+          "300ms ease-in",
+          style({ opacity: 0, transform: "translateY(-20px)" })
+        ),
+      ]),
+    ]),
+    trigger("slideHorizontal", [
+      transition(":enter", [
+        style({ opacity: 0, transform: "translateX(30px)" }),
+        animate(
+          "300ms ease-out",
+          style({ opacity: 1, transform: "translateX(0)" })
+        ),
+      ]),
+      transition(":leave", [
+        animate(
+          "300ms ease-in",
+          style({ opacity: 0, transform: "translateX(30px)" })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class OfferManagerComponent implements OnInit {
   triggerCleanEvent = new Subject<void>();
@@ -32,8 +83,10 @@ export class OfferManagerComponent implements OnInit {
   categoriesData: OfferCategory[] = [];
   offer: OfferRequest;
   offerForm: FormFieldDto[] = [];
+  isThereAiData: boolean = false;
   createdForm: OfferFormResponse;
   createdOffer: OfferResponse;
+  isChatOpen = false;
   private waiting2submitSubject = new BehaviorSubject<{
     offerData: boolean;
     offerFormData: boolean;
@@ -248,5 +301,10 @@ export class OfferManagerComponent implements OnInit {
       title: msg,
       confirmButtonColor: "#556ee6",
     });
+  }
+
+  receiveData(data: FormFieldDto[]) {
+    this.offerForm = data;
+    this.isThereAiData = true;
   }
 }

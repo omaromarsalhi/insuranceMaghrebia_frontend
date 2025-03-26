@@ -1,4 +1,13 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -21,10 +30,15 @@ import { Subject } from "rxjs";
   templateUrl: "./form-creator.component.html",
   styleUrls: ["./form-creator.component.scss"],
 })
-export class FormCreatorComponent implements OnInit {
+export class FormCreatorComponent implements OnInit, OnChanges {
   @Output() offerFormCreationEvent = new EventEmitter<FormFieldDto[]>();
   @Input() triggerCleanEvent!: Subject<void>;
+  @Input() formCreatedByAi!: FormFieldDto[];
+  @Input() isThereAiData!: boolean;
   dynamicForm!: FormGroup;
+  activeSection = 0;
+  rangeValues: number[] = [];
+  colorPreviews: string[] = [];
   availableFieldTypes = [
     "number",
     "textarea",
@@ -44,11 +58,33 @@ export class FormCreatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-
     this.triggerCleanEvent.subscribe(() => {
       this.resetForm();
     });
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes["formCreatedByAi"] &&
+      this.isThereAiData &&
+      changes["formCreatedByAi"].currentValue.length > 0
+    ) {
+      this.fields.clear();
+      changes["formCreatedByAi"].currentValue.forEach((data) => {
+        this.fields.push(this.createFieldBasedOnLocalData(data));
+      });
+    }
+  }
+
+  // ngAfterViewInit(): void {
+  //   console.log(this.isChatOpen)  
+  //   if (this.formCreatedByAi.length > 0 && !this.isChatOpen) {
+  //     this.fields.clear();
+  //     this.formCreatedByAi.forEach((data) => {
+  //       this.fields.push(this.createFieldBasedOnLocalData(data));
+  //     });
+  //   } else this.initForm();
+  // }
 
   // Submit method
   send2OfferManager() {
@@ -246,6 +282,77 @@ export class FormCreatorComponent implements OnInit {
     return formGroup;
   }
 
+  createFieldBasedOnLocalData(data: FormFieldDto): FormGroup {
+    const formGroup = this.fb.group(
+      {
+        label: [
+          data.label,
+          [
+            Validators.required,
+            Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,100}$/),
+          ],
+        ],
+        type: [data.type],
+        order: [data.order],
+        required: [data.required],
+        placeholder: [data.placeholder],
+        regex: [data.regex], // Validators set dynamically
+        regexErrorMessage: [data.regexErrorMessage],
+        rangeStart: [data.rangeStart ?? 0, [Validators.pattern(/^-?\d+$/)]],
+        rangeEnd: [data.rangeEnd ?? 10, [Validators.pattern(/^-?\d+$/)]],
+        selectOptions: this.fb.array(data.selectOptions || []),
+      },
+      {
+        validators: [this.validateRange, this.validateSelectOptions],
+      }
+    );
+
+    const typeControl = formGroup.get("type");
+    const regexControl = formGroup.get("regex");
+    const regexErrorControl = formGroup.get("regexErrorMessage");
+    const selectOptions = formGroup.get("selectOptions") as FormArray;
+
+    const updateValidators = (currentType: string) => {
+      const requiresRegex = ["text", "email", "number", "textarea"].includes(
+        currentType
+      );
+      const isOptionsType = ["select", "radio"].includes(currentType);
+
+      // Reset validators
+      regexControl?.clearValidators();
+      regexErrorControl?.clearValidators();
+      selectOptions.clearValidators();
+
+      if (requiresRegex) {
+        regexControl?.setValidators([Validators.required, this.validRegex]);
+        regexErrorControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
+        ]);
+      }
+
+      if (isOptionsType) {
+        selectOptions.setValidators([Validators.required]);
+        selectOptions.clear();
+        if (data.selectOptions) {
+          data.selectOptions.forEach((option) =>
+            selectOptions.push(new FormControl(option))
+          );
+        }
+      }
+
+      regexControl?.updateValueAndValidity();
+      regexErrorControl?.updateValueAndValidity();
+      selectOptions.updateValueAndValidity();
+    };
+
+    updateValidators(typeControl?.value);
+
+    typeControl?.valueChanges.subscribe(updateValidators);
+
+    return formGroup;
+  }
+
   // Select Options FormArray (add this to your component)
   createSelectOption(): FormGroup {
     return this.fb.group({
@@ -348,10 +455,6 @@ export class FormCreatorComponent implements OnInit {
       confirmButtonColor: "#556ee6",
     });
   }
-
-  activeSection = 0;
-  rangeValues: number[] = [];
-  colorPreviews: string[] = [];
 
   getFieldTypeIcon(type: string): string {
     const icons = {

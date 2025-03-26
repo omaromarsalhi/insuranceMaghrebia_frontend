@@ -1,19 +1,54 @@
-<div class="container-fluid">
-    <!-- start page title -->
+<!-- <div class="container-fluid">
+
     <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-    <!-- end page title -->
+
 
     <div class="row g-4">
         <div class="col-lg-6">
             <div class="card shadow-lg border-0">
-                <app-offer-creator [triggerCleanEvent]="triggerCleanEvent" (offerCreationEvent)="recieveOfferData($event)" ></app-offer-creator>
+                <app-offer-creator [triggerCleanEvent]="triggerCleanEvent"
+                    (offerCreationEvent)="recieveOfferData($event)"></app-offer-creator>
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="card shadow-lg border-0">
-                <app-form-creator [triggerCleanEvent]="triggerCleanEvent" (offerFormCreationEvent)="recieveOfferFormData($event)" ></app-form-creator>
+                <app-form-creator [triggerCleanEvent]="triggerCleanEvent"
+                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container-fluid">
+    <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-6" [class.col-lg-8]="isChatOpen">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <app-offer-creator *ngIf="!isChatOpen" @scaleFade
+                    [triggerCleanEvent]="triggerCleanEvent"
+                    (offerCreationEvent)="recieveOfferData($event)"></app-offer-creator>
+                
+                <app-form-creator *ngIf="isChatOpen" @slideVertical
+                    [triggerCleanEvent]="triggerCleanEvent"
+                    [formCreatedByAi]="offerForm"
+                    [isThereAiData]="isThereAiData"
+                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-6" @slideHorizontal *ngIf="!isChatOpen">
+            <div class="card shadow-lg border-0">
+                <app-form-creator [triggerCleanEvent]="triggerCleanEvent"
+                    [formCreatedByAi]="offerForm"
+                    [isThereAiData]="isThereAiData"
+                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
             </div>
         </div>
     </div>
 </div>
+
+<app-chat  [(isChatOpen)]="isChatOpen" (aiResponse)="receiveData($event)"></app-chat>
