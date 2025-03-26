@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   AfterViewInit,
+  TemplateRef,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -294,7 +295,8 @@ export class FormCreatorComponent implements OnInit {
         order: [data.order],
         required: [data.required],
         placeholder: [data.placeholder],
-        regex: [data.regex], // Validators set dynamically
+        regex: [data.regex],
+        javaRegex: [data.javaRegex],
         regexErrorMessage: [data.regexErrorMessage],
         rangeStart: [data.rangeStart ?? 0, [Validators.pattern(/^-?\d+$/)]],
         rangeEnd: [data.rangeEnd ?? 10, [Validators.pattern(/^-?\d+$/)]],
@@ -479,4 +481,7 @@ export class FormCreatorComponent implements OnInit {
   updateColorPreview(event: any, index: number): void {
     this.colorPreviews[index] = event.target.value;
   }
+
+
+
 }

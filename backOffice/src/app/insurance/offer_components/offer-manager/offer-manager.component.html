@@ -34,6 +34,7 @@
                 <app-form-creator *ngIf="isChatOpen" @slideVertical
                     [triggerCleanEvent]="triggerCleanEvent"
                     [formCreatedByAi]="offerForm"
+                    [useFormCreatedByAi]="offerForm.length>0"
                     (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
             </div>
         </div>

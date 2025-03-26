@@ -235,7 +235,7 @@ export class OfferManagerComponent implements OnInit {
           body: this.offer,
         };
 
-        this.offerService.create(parm).subscribe({
+        this.offerService.create1(parm).subscribe({
           next: (response) => {
             this.createdOffer = response;
             console.log(response);
@@ -257,7 +257,7 @@ export class OfferManagerComponent implements OnInit {
         } as OfferFormRequest,
       };
 
-      this.formService.create1(formParms).subscribe({
+      this.formService.create2(formParms).subscribe({
         next: (response) => {
           this.createdForm = response;
           console.log(response);
