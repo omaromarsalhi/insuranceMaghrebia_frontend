@@ -1,0 +1,40 @@
+.accordion-button::after {
+    display: none !important;
+}
+
+.accordion-button {
+    position: relative;
+}
+
+.accordion-button::before {
+    content: "\f078"; /* Font Awesome 'chevron-down' */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.accordion-button[aria-expanded="true"]::before {
+    transform: rotate(180deg);
+}
+
+
+.hover-lift {
+    transition: all 0.25s ease;
+    transform: translateY(0);
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
