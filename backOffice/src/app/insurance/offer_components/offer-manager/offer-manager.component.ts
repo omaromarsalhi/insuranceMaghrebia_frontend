@@ -4,6 +4,7 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  Input,
 } from "@angular/core";
 import {
   OfferCategoryControllerService,
@@ -78,6 +79,11 @@ import {
   ],
 })
 export class OfferManagerComponent implements OnInit {
+  @Input() isThisEditMode:{offer:boolean,form:boolean}={
+    offer:false,
+    form:false
+  };
+  @Input() offerId: string;
   triggerCleanEvent = new Subject<void>();
   breadCrumbItems: Array<{}>;
   categoriesData: OfferCategory[] = [];
@@ -85,7 +91,10 @@ export class OfferManagerComponent implements OnInit {
   offerForm: FormFieldDto[] = [];
   createdForm: OfferFormResponse;
   createdOffer: OfferResponse;
+  offer2Update: OfferResponse;
+  form2Update:OfferFormResponse
   isChatOpen = false;
+
   private waiting2submitSubject = new BehaviorSubject<{
     offerData: boolean;
     offerFormData: boolean;
@@ -106,7 +115,8 @@ export class OfferManagerComponent implements OnInit {
       { label: "offer" },
       { label: "create offer", active: true },
     ];
-
+    if (this.isThisEditMode.offer) this._fetchOfferData();
+    
     this._fetchCategoryData();
 
     this.waiting2submit$.subscribe((value) => {
@@ -294,6 +304,23 @@ export class OfferManagerComponent implements OnInit {
     });
   }
 
+  private _fetchOfferData() {
+    this.offerService.getByOfferId({ offerId: this.offerId }).subscribe({
+      next: (data) => {
+        this.offer2Update = data;
+        this._fetchFormData();
+      },
+    });
+  }
+
+  private _fetchFormData() {
+    this.formService.get({ formId: this.offer2Update.formId }).subscribe({
+      next: (data) => {
+        this.form2Update = data;
+      },
+    });
+  }
+
   private popup(msg: string, status: boolean) {
     Swal.fire({
       icon: status ? "success" : "error",
@@ -304,6 +331,5 @@ export class OfferManagerComponent implements OnInit {
 
   receiveData(data: FormFieldDto[]) {
     this.offerForm = data;
-
   }
 }

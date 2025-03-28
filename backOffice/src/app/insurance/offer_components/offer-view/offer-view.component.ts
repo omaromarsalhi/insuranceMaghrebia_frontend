@@ -10,8 +10,11 @@ import {
   transition,
   style,
   animate,
-  state,
+  query,
+  stagger,
 } from "@angular/animations";
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: "app-offer-view",
@@ -92,6 +95,21 @@ import {
         ),
       ]),
     ]),
+    trigger("filterAnimation", [
+      transition(":enter", [
+        style({ transform: "translateY(-10px)", opacity: 0 }),
+        animate(
+          "300ms ease-out",
+          style({ transform: "translateY(0)", opacity: 1 })
+        ),
+      ]),
+      transition(":leave", [
+        animate(
+          "300ms ease-in",
+          style({ transform: "translateY(-10px)", opacity: 0 })
+        ),
+      ]),
+    ]),
   ],
 })
 export class OfferViewComponent implements OnInit {
@@ -105,7 +123,10 @@ export class OfferViewComponent implements OnInit {
   itemsPerPage: number = 6;
   nbrpages: number = 1;
   categories: CategoryResponse[] = [];
+  searchTerm = "";
+  filteredOffers: OfferResponse[] = [];
   isFilterOpen = false;
+  private searchSubject = new Subject<string>();
 
   constructor(
     private offerService: OfferControllerService,
@@ -117,8 +138,10 @@ export class OfferViewComponent implements OnInit {
       { label: "Offers" },
       { label: "Offers List", active: true },
     ];
-    this._fetchDataC();
-    this._fetchData();
+      this._fetchDataC();
+      this._fetchData();
+
+    this.setupSearch();
   }
 
   private _myInit() {
@@ -130,7 +153,7 @@ export class OfferViewComponent implements OnInit {
   updatePaginatedOffers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedOffers = this.offersList.slice(startIndex, endIndex);
+    this.paginatedOffers = this.filteredOffers.slice(startIndex, endIndex);
   }
 
   goToPage(page: number) {
@@ -167,13 +190,17 @@ export class OfferViewComponent implements OnInit {
   private _fetchData() {
     this.offerService.getAll().subscribe((response: OfferResponse[]) => {
       this.offersList = response;
-      for (let i = 0; i < 10; i++) this.offersList.push(response[0]);
+      this.filteredOffers = [...response];
       this._myInit();
-      console.log(this.nbrpages);
     });
   }
 
-  
+  deletedOffer(offerId: string) {
+    this.selectOffer(this.offersList[0] || null);
+    this.offersList = this.offersList.filter(
+      (offer) => offer.offerId !== offerId
+    );
+  }
 
   toggleFilter() {
     this.isFilterOpen = !this.isFilterOpen;
@@ -188,5 +215,43 @@ export class OfferViewComponent implements OnInit {
         console.error("Error fetching categories:", error);
       },
     });
+  }
+
+  private setupSearch() {
+    this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((searchTerm) => {
+        this.performSearch(searchTerm);
+      });
+  }
+
+  onSearchInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm = value;
+    this.searchSubject.next(value.trim());
+  }
+
+  private performSearch(searchTerm: string) {
+    if (!searchTerm) {
+      this.filteredOffers = [...this.offersList];
+    } else {
+      this.filteredOffers = this.offersList.filter((offer) =>
+        offer.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    this.nbrpages = Math.ceil(this.filteredOffers.length / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedOffers();
+  }
+
+
+  clearSearch() {
+    this.searchTerm = "";
+    this.searchSubject.next("");
+  }
+
+  ngOnDestroy() {
+    this.searchSubject.complete();
   }
 }

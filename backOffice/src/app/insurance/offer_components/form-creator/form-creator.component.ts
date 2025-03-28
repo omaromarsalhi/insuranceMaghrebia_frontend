@@ -22,7 +22,7 @@ import {
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OfferFormRequest } from "../../../core/models/offer-form-request";
-import { FormFieldDto } from "src/app/core/models";
+import { FormFieldDto, OfferFormResponse } from "src/app/core/models";
 import Swal from "sweetalert2";
 import { Subject } from "rxjs";
 
@@ -36,7 +36,13 @@ export class FormCreatorComponent implements OnInit {
   @Input() triggerCleanEvent!: Subject<void>;
   @Input() formCreatedByAi: FormFieldDto[] = [];
   @Input() useFormCreatedByAi: boolean;
+  @Input() form2Update: OfferFormResponse = null;
+  @Input() isThisEditMode: { offer: boolean; form: boolean } = {
+    offer: false,
+    form: false,
+  };
   isOnInitDone: boolean = false;
+  isForm2UpdateLoaded: boolean = false;
   dynamicForm!: FormGroup;
   activeSection = 0;
   rangeValues: number[] = [];
@@ -59,16 +65,15 @@ export class FormCreatorComponent implements OnInit {
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    this.initForm();
+    if(!this.isThisEditMode.form) this.initForm();
+    this.isOnInitDone = true;
     this.triggerCleanEvent.subscribe(() => {
       this.resetForm();
     });
-    this.isOnInitDone = true;
     if (this.useFormCreatedByAi) this.setAiForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("oninit: " + this.isOnInitDone);
     if (
       changes["formCreatedByAi"] &&
       this.isOnInitDone &&
@@ -76,6 +81,21 @@ export class FormCreatorComponent implements OnInit {
     ) {
       this.setAiForm();
     }
+    if (
+      changes["form2Update"] &&
+      this.form2Update != null
+    ) {
+      this.initForm();
+      this.setUpdateForm();
+      this.isForm2UpdateLoaded = true;
+    }
+  }
+
+  setUpdateForm(): void {
+    this.fields.clear();
+    this.form2Update.fields.forEach((data,index) => {
+      this.fields.push( this.createFieldBasedOnLocalData(data));
+    });
   }
 
   setAiForm(): void {
@@ -481,7 +501,4 @@ export class FormCreatorComponent implements OnInit {
   updateColorPreview(event: any, index: number): void {
     this.colorPreviews[index] = event.target.value;
   }
-
-
-
 }

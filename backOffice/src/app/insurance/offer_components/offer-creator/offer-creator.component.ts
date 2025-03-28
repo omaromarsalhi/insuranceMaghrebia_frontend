@@ -21,7 +21,9 @@ import { Subject } from "rxjs";
 import {
   FilteredCategoryDto,
   OfferCategory,
+  OfferFormResponse,
   OfferRequest,
+  OfferResponse,
 } from "src/app/core/models";
 import { OfferCategoryControllerService } from "src/app/core/services";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
@@ -31,9 +33,11 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit {
+export class OfferCreatorComponent implements OnInit, OnChanges {
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
   @Output() offerCreationEvent = new EventEmitter<OfferRequest>();
+  @Input() isThisEditMode:{offer:boolean,form:boolean};
+  @Input() offer2Update: OfferResponse = null;
   @Input() triggerCleanEvent!: Subject<void>;
 
   labelsForm: FormGroup;
@@ -41,6 +45,7 @@ export class OfferCreatorComponent implements OnInit {
   form: FormGroup;
   submit = false;
   categoryData: OfferCategory[] = [];
+  isOffer2UpdateLoaded: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -50,8 +55,7 @@ export class OfferCreatorComponent implements OnInit {
   ngOnInit(): void {
     this._fetchCategoryData();
 
-    this.initForm();
-
+    if (!this.isThisEditMode.offer) this.initForm();
 
     this.breadCrumbItems = [
       { label: "Forms" },
@@ -61,6 +65,13 @@ export class OfferCreatorComponent implements OnInit {
     this.triggerCleanEvent.subscribe(() => {
       this.resetLabelForm();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes["offer2Update"] && this.offer2Update != null) {
+      this.initForm4Update();
+      this.isOffer2UpdateLoaded = true;
+    }
   }
 
   getFilteredCategory(categoryId: string): FilteredCategoryDto | undefined {
@@ -75,23 +86,22 @@ export class OfferCreatorComponent implements OnInit {
   }
 
   send2OfferManager() {
-    console.log(this.labelsForm.value);
     this.submit = true;
     // if (this.labelsForm.valid) {
-      let formValue = this.labelsForm.value;
-      formValue.category = this.getFilteredCategory(formValue.categoryId);
+    let formValue = this.labelsForm.value;
+    formValue.category = this.getFilteredCategory(formValue.categoryId);
 
-      this.imageUploader
-        .uploadImage()
-        .then((imageUrl) => {
-          formValue.imageUri = imageUrl;
-        })
-        .catch((error) => {
-          console.error("Image upload failed:", error);
-        })
-        .finally(() => {
-          this.offerCreationEvent.emit(formValue);
-        });
+    this.imageUploader
+      .uploadImage()
+      .then((imageUrl) => {
+        formValue.imageUri = imageUrl;
+      })
+      .catch((error) => {
+        console.error("Image upload failed:", error);
+      })
+      .finally(() => {
+        this.offerCreationEvent.emit(formValue);
+      });
     // }
   }
 
@@ -127,6 +137,108 @@ export class OfferCreatorComponent implements OnInit {
       benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
       packages: this.fb.array([], Validators.required),
+    });
+  }
+
+  private initForm4Update(): void {
+    this.labelsForm = this.fb.group({
+      name: [
+        this.offer2Update.name,
+        [Validators.required, Validators.pattern(/^[a-zA-Z\s\-.,']{1,100}$/)],
+      ],
+      header: [
+        this.offer2Update.header,
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/),
+        ],
+      ],
+      categoryId: [this.offer2Update.category.categoryId],
+      imageUri: ["", Validators.required],
+      benefits: this.fb.array([], [Validators.required]),
+      labels: this.fb.array([], Validators.required),
+      packages: this.fb.array([], Validators.required),
+    });
+
+    this.offer2Update.benefits.forEach((benfit) => {
+      this.benefitsArray.push(
+        this.fb.group({
+          benefitText: [
+            benfit.benefitText,
+            [
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(150),
+              Validators.pattern(/^[a-zA-Z0-9 .,!?@%&*()\-\/]+$/),
+            ],
+          ],
+        })
+      );
+    });
+
+    this.offer2Update.labels.forEach((label, index) => {
+      this.labelsArray.push(
+        this.fb.group(
+          {
+            name: [
+              label.name,
+              [Validators.required, Validators.pattern(/^[a-zA-Z\s\-]{1,50}$/)],
+            ],
+            questions: this.fb.array([], Validators.required),
+            answers: this.fb.array([], Validators.required),
+          },
+          { validators: this.validateLabelQuestionsAnswers }
+        )
+      );
+      label.questions.forEach((question) => {
+        this.getQuestions(index).push(
+          this.fb.group({
+            questionText: [
+              question.questionText,
+              [
+                Validators.required,
+                Validators.pattern(/^[a-zA-Z0-9\s\-?.,']{1,200}$/),
+              ],
+            ],
+          })
+        );
+      });
+      label.answers.forEach((answer) => {
+        this.getAnswers(index).push(
+          this.fb.group({
+            questionIndex: [answer.questionIndex],
+            answerText: [
+              answer.answerText,
+              [
+                Validators.required,
+                Validators.pattern(/^[a-zA-Z0-9\s\-.,']{1,200}$/),
+              ],
+            ],
+          })
+        );
+      });
+    });
+
+    this.offer2Update.packages.forEach((pkg, index) => {
+      this.packagesArray.push(
+        this.fb.group({
+          title: [pkg.title, [Validators.required]],
+          price: [pkg.price, [Validators.required, Validators.min(0)]],
+          duration: [pkg.duration, [Validators.required]],
+          customDuration: [pkg.customDuration, []], // Add this line
+          features: this.fb.array(
+            [this.fb.control("", Validators.required)],
+            [Validators.minLength(1), Validators.maxLength(5)]
+          ),
+        })
+      );
+      this.getPackageFeatures(index).clear();
+      pkg.features.forEach((feature, index2) => {
+        this.getPackageFeatures(index).insert(
+          index2,
+          this.fb.control(feature, Validators.required)
+        );
+      });
     });
   }
 

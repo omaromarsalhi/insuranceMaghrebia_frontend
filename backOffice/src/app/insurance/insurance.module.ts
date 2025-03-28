@@ -31,6 +31,7 @@ import { CategoryModalComponent } from './category_componenets/category-modal/ca
 import { ChatComponent } from './chat/chat.component';
 import { OfferViewComponent } from './offer_components/offer-view/offer-view.component';
 import { OfferDetailComponent } from './offer_components/offer-detail/offer-detail.component';
+import { EditOfferComponent } from "./offer_components/edit-offer/edit-offer.component";
 
 
 
@@ -38,7 +39,8 @@ import { OfferDetailComponent } from './offer_components/offer-detail/offer-deta
 
 @NgModule({
   declarations: [CategoryComponent, OfferCreatorComponent,
-     FormCreatorComponent, OfferManagerComponent, CategoryModalComponent, ChatComponent, OfferViewComponent, OfferDetailComponent],
+     FormCreatorComponent, OfferManagerComponent, CategoryModalComponent, ChatComponent, 
+     OfferViewComponent, OfferDetailComponent,EditOfferComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,

@@ -3,7 +3,7 @@
         <h2 class="text-primary"><i class="fas fa-plus me-2"></i>Add Offer</h2>
     </div>
 
-    <form [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
+    <form *ngIf="!isThisEditMode.offer||(isThisEditMode.offer && isOffer2UpdateLoaded)" [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
         <div class="row g-3 mb-4">
             <div class="col-md-6">
                 <label class="form-label fw-bold" for="name">Offer name</label>

@@ -13,11 +13,18 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { create1 } from '../fn/offer-controller/create-1';
 import { Create1$Params } from '../fn/offer-controller/create-1';
+import { delete$ } from '../fn/offer-controller/delete';
+import { Delete$Params } from '../fn/offer-controller/delete';
 import { getAll } from '../fn/offer-controller/get-all';
 import { GetAll$Params } from '../fn/offer-controller/get-all';
+import { getByOfferId } from '../fn/offer-controller/get-by-offer-id';
+import { GetByOfferId$Params } from '../fn/offer-controller/get-by-offer-id';
 import { getOne } from '../fn/offer-controller/get-one';
 import { GetOne$Params } from '../fn/offer-controller/get-one';
+import { OfferGeneralResponse } from '../models/offer-general-response';
 import { OfferResponse } from '../models/offer-response';
+import { updateStatus } from '../fn/offer-controller/update-status';
+import { UpdateStatus$Params } from '../fn/offer-controller/update-status';
 
 @Injectable({ providedIn: 'root' })
 export class OfferControllerService extends BaseService {
@@ -50,6 +57,56 @@ export class OfferControllerService extends BaseService {
     );
   }
 
+  /** Path part for operation `delete()` */
+  static readonly DeletePath = '/api/v1/offers';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `delete()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  delete$Response(params: Delete$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferGeneralResponse>> {
+    return delete$(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `delete$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  delete(params: Delete$Params, context?: HttpContext): Observable<OfferGeneralResponse> {
+    return this.delete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferGeneralResponse>): OfferGeneralResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `updateStatus()` */
+  static readonly UpdateStatusPath = '/api/v1/offers';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateStatus()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateStatus$Response(params: UpdateStatus$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferGeneralResponse>> {
+    return updateStatus(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateStatus$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateStatus(params: UpdateStatus$Params, context?: HttpContext): Observable<OfferGeneralResponse> {
+    return this.updateStatus$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferGeneralResponse>): OfferGeneralResponse => r.body)
+    );
+  }
+
   /** Path part for operation `getOne()` */
   static readonly GetOnePath = '/api/v1/offers/one/{categoryId}';
 
@@ -71,6 +128,31 @@ export class OfferControllerService extends BaseService {
    */
   getOne(params: GetOne$Params, context?: HttpContext): Observable<OfferResponse> {
     return this.getOne$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getByOfferId()` */
+  static readonly GetByOfferIdPath = '/api/v1/offers/offer/{offerId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getByOfferId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByOfferId$Response(params: GetByOfferId$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+    return getByOfferId(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getByOfferId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByOfferId(params: GetByOfferId$Params, context?: HttpContext): Observable<OfferResponse> {
+    return this.getByOfferId$Response(params, context).pipe(
       map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
     );
   }
