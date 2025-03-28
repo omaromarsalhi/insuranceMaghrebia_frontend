@@ -14,5 +14,6 @@ export interface OfferRequest {
   imageUri?: string;
   labels?: Array<OfferLabelDto>;
   name: string;
+  offerId?: string;
   packages?: Array<OfferPackageDto>;
 }

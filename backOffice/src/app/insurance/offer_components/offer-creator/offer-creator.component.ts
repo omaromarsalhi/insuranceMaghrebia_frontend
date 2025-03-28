@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   ViewChild,
+  OnDestroy,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -33,10 +34,13 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit, OnChanges {
+export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
-  @Output() offerCreationEvent = new EventEmitter<OfferRequest>();
-  @Input() isThisEditMode:{offer:boolean,form:boolean};
+  @Output() offerActionEvent = new EventEmitter<{
+    action: string;
+    data: OfferRequest;
+  }>();
+  @Input() isThisEditMode: { offer: boolean; form: boolean };
   @Input() offer2Update: OfferResponse = null;
   @Input() triggerCleanEvent!: Subject<void>;
 
@@ -45,6 +49,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   form: FormGroup;
   submit = false;
   categoryData: OfferCategory[] = [];
+  filtereCategoryData: OfferCategory[] = [];
   isOffer2UpdateLoaded: boolean = false;
 
   constructor(
@@ -53,9 +58,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this._fetchCategoryData();
-
-    if (!this.isThisEditMode.offer) this.initForm();
+    if (!this.isOffer2UpdateLoaded) this.initForm();
 
     this.breadCrumbItems = [
       { label: "Forms" },
@@ -65,6 +68,8 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
     this.triggerCleanEvent.subscribe(() => {
       this.resetLabelForm();
     });
+
+    this._fetchCategoryData();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -88,20 +93,23 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   send2OfferManager() {
     this.submit = true;
     // if (this.labelsForm.valid) {
-    let formValue = this.labelsForm.value;
-    formValue.category = this.getFilteredCategory(formValue.categoryId);
+      let formValue = this.labelsForm.value;
+      formValue.category = this.getFilteredCategory(formValue.categoryId);
 
-    this.imageUploader
-      .uploadImage()
-      .then((imageUrl) => {
-        formValue.imageUri = imageUrl;
-      })
-      .catch((error) => {
-        console.error("Image upload failed:", error);
-      })
-      .finally(() => {
-        this.offerCreationEvent.emit(formValue);
-      });
+      this.imageUploader
+        .uploadImage()
+        .then((imageUrl) => {
+          formValue.imageUri = imageUrl;
+        })
+        .catch((error) => {
+          console.error("Image upload failed:", error);
+        })
+        .finally(() => {
+          this.offerActionEvent.emit({
+            action: this.isThisEditMode.offer ? "update" : "create",
+            data: formValue,
+          });
+        });
     // }
   }
 
@@ -153,7 +161,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
           Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/),
         ],
       ],
-      categoryId: [this.offer2Update.category.categoryId],
+      categoryId: null,
       imageUri: ["", Validators.required],
       benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
@@ -406,7 +414,6 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
   onsubmit(): void {
     if (this.labelsForm.valid) {
       const formValue = this.labelsForm.value;
-      console.log(this.labelsForm.value);
     }
   }
 
@@ -433,11 +440,27 @@ export class OfferCreatorComponent implements OnInit, OnChanges {
       next: (data) => {
         this.categoryData = data;
         if (this.categoryData.length > 0) {
-          this.labelsForm.patchValue({
-            categoryId: this.categoryData[0].categoryId,
-          });
+          if (this.isOffer2UpdateLoaded) {
+            let id: string = this.offer2Update.category.categoryId;
+
+            this.labelsForm.patchValue({
+              categoryId: id,
+            });
+            this.filtereCategoryData = this.categoryData.filter(
+              (cat) => cat.categoryId !== id
+            );
+          } else
+            this.labelsForm.patchValue({
+              categoryId: this.categoryData[0].categoryId,
+            });
         }
       },
     });
+  }
+
+  ngOnDestroy() {
+    let offerValue = this.labelsForm.value;
+    offerValue.category = this.getFilteredCategory(offerValue.categoryId);
+    this.offerActionEvent.emit({ action: "temp_save", data: offerValue });
   }
 }

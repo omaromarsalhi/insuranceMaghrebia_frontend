@@ -23,6 +23,8 @@ import { getOne } from '../fn/offer-controller/get-one';
 import { GetOne$Params } from '../fn/offer-controller/get-one';
 import { OfferGeneralResponse } from '../models/offer-general-response';
 import { OfferResponse } from '../models/offer-response';
+import { update } from '../fn/offer-controller/update';
+import { Update$Params } from '../fn/offer-controller/update';
 import { updateStatus } from '../fn/offer-controller/update-status';
 import { UpdateStatus$Params } from '../fn/offer-controller/update-status';
 
@@ -30,6 +32,31 @@ import { UpdateStatus$Params } from '../fn/offer-controller/update-status';
 export class OfferControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `update()` */
+  static readonly UpdatePath = '/api/v1/offers/update';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `update()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  update$Response(params: Update$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+    return update(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `update$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  update(params: Update$Params, context?: HttpContext): Observable<OfferResponse> {
+    return this.update$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+    );
   }
 
   /** Path part for operation `create1()` */

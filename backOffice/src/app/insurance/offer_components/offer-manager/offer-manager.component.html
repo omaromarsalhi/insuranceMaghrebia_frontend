@@ -29,7 +29,7 @@
             <div class="card shadow-lg border-0 overflow-hidden">
                 <app-offer-creator *ngIf="!isChatOpen" @scaleFade [triggerCleanEvent]="triggerCleanEvent"
                     [isThisEditMode]="isThisEditMode" [offer2Update]="offer2Update"
-                    (offerCreationEvent)="recieveOfferData($event)"></app-offer-creator>
+                    (offerActionEvent)="recieveOfferAction($event)"></app-offer-creator>
 
                 <app-form-creator *ngIf="isChatOpen" @slideVertical [triggerCleanEvent]="triggerCleanEvent"
                     [formCreatedByAi]="offerForm" [useFormCreatedByAi]="offerForm.length > 0"
@@ -41,7 +41,7 @@
         <div class="col-lg-6" @slideHorizontal *ngIf="!isChatOpen">
             <div class="card shadow-lg border-0">
                 <app-form-creator [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
-                    [useFormCreatedByAi]="offerForm.length > 0"
+                    [useFormCreatedByAi]="offerForm?.length > 0"
                     (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
             </div>
         </div>
@@ -54,7 +54,7 @@
             <div class="card shadow-lg border-0 overflow-hidden">
                 <app-offer-creator *ngIf="!isChatOpen && isThisEditMode.offer" @scaleFade
                     [triggerCleanEvent]="triggerCleanEvent" [isThisEditMode]="isThisEditMode"
-                    [offer2Update]="offer2Update" (offerCreationEvent)="recieveOfferData($event)"></app-offer-creator>
+                    [offer2Update]="offer2Update" (offerActionEvent)="recieveOfferAction($event)"></app-offer-creator>
 
                 <app-form-creator *ngIf="isChatOpen && isThisEditMode.form" @slideVertical
                     [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
