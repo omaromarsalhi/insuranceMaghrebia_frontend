@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: "offer/detail", component: OfferDetailComponent },
   { path: "edit-offer/:offerId", component: EditOfferComponent },
   { path: "edit-offer/:offerId/:formId", component: EditOfferComponent },
+  { path: "edit-offer", component: EditOfferComponent },
   { path: "chat", component: ChatComponent },
 ];
 

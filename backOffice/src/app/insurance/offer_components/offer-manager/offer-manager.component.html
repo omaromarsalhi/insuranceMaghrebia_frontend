@@ -33,7 +33,7 @@
 
                 <app-form-creator *ngIf="isChatOpen" @slideVertical [triggerCleanEvent]="triggerCleanEvent"
                     [formCreatedByAi]="offerForm" [useFormCreatedByAi]="offerForm.length > 0"
-                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             <div class="card shadow-lg border-0">
                 <app-form-creator [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
                     [useFormCreatedByAi]="offerForm?.length > 0"
-                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
             </div>
         </div>
     </div>
@@ -50,7 +50,9 @@
     <div *ngIf="isThisEditMode.offer" class="row g-4"
         [class.justify-content-center]="!isChatOpen && !isThisEditMode.form">
         <!-- Left Column -->
-        <div class="col-lg-6" [class.col-lg-8]="!isThisEditMode.form||(isChatOpen && isThisEditMode.form)">
+        <div class="col-lg-6" [class.col-lg-8]="
+        !isThisEditMode.form || (isChatOpen && isThisEditMode.form)
+      ">
             <div class="card shadow-lg border-0 overflow-hidden">
                 <app-offer-creator *ngIf="!isChatOpen && isThisEditMode.offer" @scaleFade
                     [triggerCleanEvent]="triggerCleanEvent" [isThisEditMode]="isThisEditMode"
@@ -60,7 +62,7 @@
                     [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
                     [useFormCreatedByAi]="offerForm.length > 0" [form2Update]="form2Update"
                     [isThisEditMode]="isThisEditMode"
-                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
             </div>
         </div>
 
@@ -70,11 +72,12 @@
                 <app-form-creator [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
                     [useFormCreatedByAi]="offerForm.length > 0" [form2Update]="form2Update"
                     [isThisEditMode]="isThisEditMode"
-                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
             </div>
         </div>
     </div>
 </div>
 
-<app-chat *ngIf="!isThisEditMode.offer||(isThisEditMode.offer && isThisEditMode.form)" [(isChatOpen)]="isChatOpen"
+<app-chat *ngIf="!isThisEditMode.offer || (isThisEditMode.offer && isThisEditMode.form)" [(isChatOpen)]="isChatOpen"
+    [existingForm]="form2Update?.fields" [isFormBiengUpdated]="isThisEditMode.offer && isThisEditMode.form"
     (aiResponse)="receiveData($event)"></app-chat>

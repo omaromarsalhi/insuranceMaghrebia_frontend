@@ -69,6 +69,11 @@ export class OfferDetailComponent implements OnInit {
   }
 
   navigateToEditOffer() {
+    if(this.offer.isActive){
+      this.popup("You Need To Inactivate The Offer First 😁",false);
+    }
+    else{
+      console.log(this.selectedOption)
     if (this.selectedOption === "offerOnly")
       this.router.navigate(["/insurance/edit-offer", this.offer.offerId]);
     else
@@ -77,6 +82,7 @@ export class OfferDetailComponent implements OnInit {
         this.offer.offerId,
         this.offer.formId,
       ]);
+    }
   }
 
   onRadioChange(event: any) {
@@ -149,7 +155,7 @@ export class OfferDetailComponent implements OnInit {
           this.offerService.delete({ body: params }).subscribe({
             next: (response: OfferGeneralResponse) => {
               if (response.status == "Deleted successfully")
-                this.deletedOfferId.emit(response.offerId);
+                this.deletedOfferId.emit(this.offer.offerId);
               else {
                 this.popup(response.status, false);
                 return;

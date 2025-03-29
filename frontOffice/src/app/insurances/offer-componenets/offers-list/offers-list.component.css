@@ -1,0 +1,22 @@
+.portfolio-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .single-portfolio-item-two {
+    transition: all 0.3s ease;
+    will-change: transform, opacity, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+  
+  .img-holder img {
+    transition: transform 0.3s ease;
+    border-radius: 4%;
+    width: 60%;
+  }
+  
+  .single-portfolio-item-two:hover .img-holder img {
+    transform: scale(1.05);
+  }

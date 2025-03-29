@@ -15,8 +15,10 @@ import {
   OfferCategory,
   OfferFormRequest,
   OfferFormResponse,
+  OfferFormUpdateRequest,
   OfferRequest,
   OfferResponse,
+  OfferUpdateRequest,
 } from "src/app/core/models";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { OfferFormControllerService } from "../../../core/services/offer-form-controller.service";
@@ -91,8 +93,8 @@ export class OfferManagerComponent implements OnInit {
   offerForm: FormFieldDto[] = [];
   createdForm: OfferFormResponse;
   createdOffer: OfferResponse;
-  offer2Update: OfferResponse;
-  form2Update: OfferFormResponse;
+  offer2Update: OfferUpdateRequest;
+  form2Update: OfferFormUpdateRequest;
   isChatOpen = false;
 
   private waiting2submitSubject = new BehaviorSubject<{
@@ -123,14 +125,8 @@ export class OfferManagerComponent implements OnInit {
       if (this.isThisEditMode.offer) {
         if (value.offerData) {
           this.submitOffer();
-        } else if (value.offerData && value.offerFormData) {
-          this.popup("You need to create a Form", false);
-          this.waiting2submitSubject.next({
-            offerData: false,
-            offerFormData: false,
-          });
         }
-      } else {
+      } else if (!this.isThisEditMode.offer) {
         if (value.offerData && value.offerFormData) {
           this.submitOffer();
           this.cleanThevariables();
@@ -224,16 +220,20 @@ export class OfferManagerComponent implements OnInit {
     try {
       let result;
 
-      if (this.isThisEditMode.offer) result = this.updateOffer();
-      else if (!this.isThisEditMode.offer) result = this.addOfferWithItsForm();
+      if (!this.isThisEditMode.offer) result = this.addOfferWithItsForm();
+      else if (this.isThisEditMode.offer && this.isThisEditMode.form) 
+        result = this.updateOfferWithItsForm();
+       else if (this.isThisEditMode.offer && !this.isThisEditMode.form) 
+        result = this.updateOffer();
+      
 
       if (result) throw new Error("Offer submission failed");
 
       Swal.fire({
         icon: "success",
         title: this.isThisEditMode.offer
-          ? "Offer updated successfully!"
-          : "Offer added successfully!",
+          ? "Offer updated successfully! 😘"
+          : "Offer added successfully! 😘",
         timer: 2000,
       });
     } catch (error) {
@@ -251,9 +251,8 @@ export class OfferManagerComponent implements OnInit {
   private addOfferWithItsForm(): boolean {
     let error = false;
 
-    this.createOffer()
+    this.createForm()
       .then((response) => {
-        console.log("result:", response);
       })
       .catch((error) => {
         console.error("Image upload failed:", error);
@@ -278,11 +277,16 @@ export class OfferManagerComponent implements OnInit {
     return error;
   }
 
+  private updateOfferWithItsForm(): boolean {
+    let res1 = this.updateForm();
+    let res2 = this.updateOffer();
+    return res1 && res2;
+  }
+
   private updateOffer(): boolean {
     let error = false;
-    console.log(this.offer)
     const parm = {
-      body: this.offer,
+      body: this.offer2Update,
     };
     this.offerService.update(parm).subscribe({
       next: (response) => {
@@ -296,7 +300,7 @@ export class OfferManagerComponent implements OnInit {
     return error;
   }
 
-  createOffer(): Promise<string> {
+  createForm(): Promise<string> {
     return new Promise((resolve, reject) => {
       const formParms = {
         body: {
@@ -317,17 +321,47 @@ export class OfferManagerComponent implements OnInit {
     });
   }
 
-  recieveOfferAction(holder: { action: string; data: OfferRequest }) {
+  updateForm(): boolean {
+    let error = false;
+    const formParms = {
+      body: this.form2Update,
+    };
+
+    this.formService.update1(formParms).subscribe({
+      next: (response) => {
+        this.createdForm = response;
+      },
+      error: (error) => {
+        error = true;
+        this.popup(error,false)
+        // console.error("Error saving offer form:", error);
+      },
+    });
+    return error;
+  }
+
+  recieveOfferAction(holder: { action: string; data: OfferUpdateRequest }) {
     if (holder.action === "create" || holder.action === "update") {
-      this.offer = holder.data;
+      if (holder.action === "create") this.offer = holder.data as OfferRequest;
+      else {
+        this.offer2Update = holder.data;
+        this.offer2Update.offerId = this.offerId;
+      }
+
+      
       let olValue = this.waiting2submitSubject.value;
       olValue.offerData = true;
       this.waiting2submitSubject.next(olValue);
     } else if (holder.action === "temp_save") this.offer2Update = holder.data;
   }
 
-  recieveOfferFormData(data: FormFieldDto[]) {
-    this.offerForm = data;
+  recieveOfferFormAction(holder: {
+    action: string;
+    data: OfferFormUpdateRequest;
+  }) {
+    if (holder.action === "create") this.offerForm = holder.data.fields;
+    else this.form2Update = holder.data;
+
     let olValue = this.waiting2submitSubject.value;
     olValue.offerFormData = true;
     this.waiting2submitSubject.next(olValue);
@@ -367,6 +401,8 @@ export class OfferManagerComponent implements OnInit {
   }
 
   receiveData(data: FormFieldDto[]) {
+    if (this.isThisEditMode.offer && this.isThisEditMode.form)
+      this.form2Update.fields = data;
     this.offerForm = data;
   }
 }

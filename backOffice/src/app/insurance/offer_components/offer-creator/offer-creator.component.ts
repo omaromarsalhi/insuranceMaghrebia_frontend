@@ -25,6 +25,7 @@ import {
   OfferFormResponse,
   OfferRequest,
   OfferResponse,
+  OfferUpdateRequest,
 } from "src/app/core/models";
 import { OfferCategoryControllerService } from "src/app/core/services";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
@@ -38,7 +39,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
   @Output() offerActionEvent = new EventEmitter<{
     action: string;
-    data: OfferRequest;
+    data: OfferUpdateRequest;
   }>();
   @Input() isThisEditMode: { offer: boolean; form: boolean };
   @Input() offer2Update: OfferResponse = null;
@@ -93,24 +94,37 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   send2OfferManager() {
     this.submit = true;
     // if (this.labelsForm.valid) {
-      let formValue = this.labelsForm.value;
-      formValue.category = this.getFilteredCategory(formValue.categoryId);
-
-      this.imageUploader
-        .uploadImage()
-        .then((imageUrl) => {
-          formValue.imageUri = imageUrl;
-        })
-        .catch((error) => {
-          console.error("Image upload failed:", error);
-        })
-        .finally(() => {
-          this.offerActionEvent.emit({
-            action: this.isThisEditMode.offer ? "update" : "create",
-            data: formValue,
-          });
+    let formValue = this.labelsForm.value;
+    formValue.category = this.getFilteredCategory(formValue.categoryId);
+    console.log(formValue);
+    this.imageUploader
+      .uploadImage()
+      .then((imageUrl) => {
+        formValue.imageUri = imageUrl;
+      })
+      .catch((error) => {
+        console.error("Image upload failed:", error);
+      })
+      .finally(() => {
+        if (this.isThisEditMode.offer) this.prepereData4Update(formValue);
+        this.offerActionEvent.emit({
+          action: this.isThisEditMode.offer ? "update" : "create",
+          data: this.isThisEditMode.offer ? this.offer2Update : formValue,
         });
+      });
     // }
+  }
+
+  private prepereData4Update(formValue) {
+    this.offer2Update.benefits = formValue.benefits;
+    this.offer2Update.category = this.getFilteredCategory(formValue.categoryId);
+    this.offer2Update.header = formValue.header;
+    this.offer2Update.imageUri =
+      formValue.imageUri || this.offer2Update.imageUri;
+    this.offer2Update.labels = formValue.labels;
+    this.offer2Update.name = formValue.name;
+    this.offer2Update.tags = formValue.tags;
+    this.offer2Update.packages = formValue.packages;
   }
 
   get f() {
@@ -145,6 +159,11 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
       benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
       packages: this.fb.array([], Validators.required),
+      tags: this.fb.array([]),
+      newTag: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+      ],
     });
   }
 
@@ -166,6 +185,11 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
       benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
       packages: this.fb.array([], Validators.required),
+      tags: this.fb.array([]),
+      newTag: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+      ],
     });
 
     this.offer2Update.benefits.forEach((benfit) => {
@@ -247,6 +271,10 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
           this.fb.control(feature, Validators.required)
         );
       });
+    });
+
+    this.offer2Update.tags.forEach((tag) => {
+      this.tagsArray.push(this.fb.control(tag));
     });
   }
 
@@ -456,6 +484,24 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
         }
       },
     });
+  }
+
+  get tagsArray() {
+    return this.labelsForm.get("tags") as FormArray;
+  }
+
+  addTag() {
+    if (this.labelsForm.get("newTag").valid) {
+      const newTag = this.labelsForm.get("newTag").value.trim();
+      if (newTag) {
+        this.tagsArray.push(this.fb.control(newTag));
+        this.labelsForm.get("newTag").reset();
+      }
+    }
+  }
+
+  removeTag(index: number) {
+    this.tagsArray.removeAt(index);
   }
 
   ngOnDestroy() {

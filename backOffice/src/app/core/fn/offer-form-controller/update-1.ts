@@ -8,15 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferResponse } from '../../models/offer-response';
-import { OfferUpdateRequest } from '../../models/offer-update-request';
+import { OfferFormResponse } from '../../models/offer-form-response';
+import { OfferFormUpdateRequest } from '../../models/offer-form-update-request';
 
-export interface Update$Params {
-      body: OfferUpdateRequest
+export interface Update1$Params {
+      body: OfferFormUpdateRequest
 }
 
-export function update(http: HttpClient, rootUrl: string, params: Update$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-  const rb = new RequestBuilder(rootUrl, update.PATH, 'put');
+export function update1(http: HttpClient, rootUrl: string, params: Update1$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferFormResponse>> {
+  const rb = new RequestBuilder(rootUrl, update1.PATH, 'put');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -26,9 +26,9 @@ export function update(http: HttpClient, rootUrl: string, params: Update$Params,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferResponse>;
+      return r as StrictHttpResponse<OfferFormResponse>;
     })
   );
 }
 
-update.PATH = '/api/v1/offers/update';
+update1.PATH = '/api/v1/offer_forms/update';

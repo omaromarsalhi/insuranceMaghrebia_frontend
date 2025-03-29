@@ -6,6 +6,9 @@ import {
   ElementRef,
   ViewChild,
   AfterViewChecked,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 
 import { FormFieldDto } from "src/app/core/models";
@@ -56,8 +59,10 @@ import { ChatService } from "src/app/core/services/chat.service";
     ]),
   ],
 })
-export class ChatComponent implements AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked, OnChanges {
   @Input() isChatOpen!: boolean;
+  @Input() isFormBiengUpdated!: boolean;
+  @Input() existingForm!: FormFieldDto[];
   @Output() isChatOpenChange = new EventEmitter<boolean>();
   @Output() aiResponse = new EventEmitter<FormFieldDto[]>();
   @ViewChild("messageContainer") private messageContainer!: ElementRef;
@@ -73,10 +78,25 @@ export class ChatComponent implements AfterViewChecked {
   newMessage = "";
   isTyping = false;
   responseContent = "";
-  // userInput: string = '';
-  // chatHistory: { user: string, assistant: string }[] = [];
 
   constructor(private chatService: ChatService) {}
+
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes["existingForm"] &&
+      this.existingForm != null &&
+      this.isFormBiengUpdated
+    ) {
+      let message =
+        "take this form and put it in memory: " +
+        JSON.stringify(this.existingForm);
+      this.chatService.chat(message).subscribe((response) => {
+        console.log(response);
+      });
+    }
+  }
 
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -99,8 +119,6 @@ export class ChatComponent implements AfterViewChecked {
     }
 
     if (this.newMessage.trim()) {
-      // Add user message
-
       this.messages.push({
         content: this.newMessage.trim(),
         isUser: true,

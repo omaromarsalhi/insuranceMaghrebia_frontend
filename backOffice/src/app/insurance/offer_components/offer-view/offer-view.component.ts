@@ -138,8 +138,8 @@ export class OfferViewComponent implements OnInit {
       { label: "Offers" },
       { label: "Offers List", active: true },
     ];
-      this._fetchDataC();
-      this._fetchData();
+    this._fetchDataC();
+    this._fetchData();
 
     this.setupSearch();
   }
@@ -197,9 +197,13 @@ export class OfferViewComponent implements OnInit {
 
   deletedOffer(offerId: string) {
     this.selectOffer(this.offersList[0] || null);
-    this.offersList = this.offersList.filter(
+    this.filteredOffers = this.offersList.filter(
       (offer) => offer.offerId !== offerId
     );
+
+    this.nbrpages = Math.ceil(this.filteredOffers.length / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedOffers();
   }
 
   toggleFilter() {
@@ -244,7 +248,6 @@ export class OfferViewComponent implements OnInit {
     this.currentPage = 1;
     this.updatePaginatedOffers();
   }
-
 
   clearSearch() {
     this.searchTerm = "";

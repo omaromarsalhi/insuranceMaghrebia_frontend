@@ -18,4 +18,5 @@ export interface OfferResponse {
   name?: string;
   offerId?: string;
   packages?: Array<OfferPackageDto>;
+  tags?: Array<string>;
 }

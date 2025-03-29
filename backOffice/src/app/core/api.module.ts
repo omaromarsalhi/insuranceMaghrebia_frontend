@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { OfferControllerService } from './services/offer-controller.service';
+import { OfferFormControllerService } from './services/offer-form-controller.service';
 import { OfferCategoryControllerService } from './services/offer-category-controller.service';
 import { PurchasedOfferControllerService } from './services/purchased-offer-controller.service';
-import { OfferFormControllerService } from './services/offer-form-controller.service';
 import { ImageUploadControllerService } from './services/image-upload-controller.service';
 
 /**
@@ -21,9 +21,9 @@ import { ImageUploadControllerService } from './services/image-upload-controller
   declarations: [],
   providers: [
     OfferControllerService,
+    OfferFormControllerService,
     OfferCategoryControllerService,
     PurchasedOfferControllerService,
-    OfferFormControllerService,
     ImageUploadControllerService,
     ApiConfiguration
   ],
