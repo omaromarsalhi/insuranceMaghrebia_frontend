@@ -7,8 +7,8 @@ import { OffersListComponent } from './offer-componenets/offers-list/offers-list
 
 const routes: Routes = [
   { path: 'categories', component: CategoryComponent  },
-  { path: 'offer-details/:categoryId', component: OfferDtailsComponent  },
-  { path: 'offer-list', component: OffersListComponent  },
+  { path: 'offer-details', component: OfferDtailsComponent  },
+  { path: 'offer-list/:categoryId', component: OffersListComponent  },
   { path: 'offer-pushasing/:formId/:offerId', component: PurshasedOfferComponent  },
 ];
 

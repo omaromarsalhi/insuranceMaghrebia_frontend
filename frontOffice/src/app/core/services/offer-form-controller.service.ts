@@ -16,11 +16,38 @@ import { Create2$Params } from '../fn/offer-form-controller/create-2';
 import { get } from '../fn/offer-form-controller/get';
 import { Get$Params } from '../fn/offer-form-controller/get';
 import { OfferFormResponse } from '../models/offer-form-response';
+import { update1 } from '../fn/offer-form-controller/update-1';
+import { Update1$Params } from '../fn/offer-form-controller/update-1';
 
 @Injectable({ providedIn: 'root' })
 export class OfferFormControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `update1()` */
+  static readonly Update1Path = '/api/v1/offer_forms/update';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `update1()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  update1$Response(params: Update1$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferFormResponse>> {
+    return update1(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `update1$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  update1(params: Update1$Params, context?: HttpContext): Observable<OfferFormResponse> {
+    return this.update1$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OfferFormResponse>): OfferFormResponse => r.body)
+    );
   }
 
   /** Path part for operation `create2()` */

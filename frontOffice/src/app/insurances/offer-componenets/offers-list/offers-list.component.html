@@ -33,11 +33,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="filter-button mb-60" [@fadeInDown]>
-                    <ul class="filter-btn gap-2">
+                    <ul  class="filter-btn gap-2">
                         <li [class.active]="activeFilter === '*'" (click)="setFilter('*')">
                             Show All
                         </li>
-                        <li [class.active]="activeFilter === 'item1'" (click)="setFilter('item1')">
+                        <li *ngFor="let tag of tagsList "  [class.active]="activeFilter === tag" (click)="setFilter(tag)">
+                            {{ tag | titlecase }}
+                        </li>
+                        <!-- <li [class.active]="activeFilter === 'item1'" (click)="setFilter('item1')">
                             House
                         </li>
                         <li [class.active]="activeFilter === 'item2'" (click)="setFilter('item2')">
@@ -54,29 +57,29 @@
                         </li>
                         <li [class.active]="activeFilter === 'item6'" (click)="setFilter('item6')">
                             Agri
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row portfolio-active justify-content-center">
-            <div class="col-xl-6" 
+            <div class="col-xl-5" 
                  *ngFor="let item of filteredItems" 
                  [class]="item.classes"
                  >
-                <div class="single-portfolio-item-two mb-30" [@dynamicAnimation]="item.animation">
+                <div class="single-portfolio-item-two mb-30" [@dynamicAnimation]="item.animation" >
                     <div class="img-holder">
-                        <img [src]="item.image" [alt]="item.title">
+                        <img [src]="item.imageUri" [alt]="item.name">
                     </div>
                     <div class="content">
                         <a href="#" class="cat-link">{{ item.category }}</a>
-                        <h3 class="title"><a [routerLink]="['/portfolio-details', item.id]">{{ item.title }}</a></h3>
-                        <a [routerLink]="['/portfolio-details', item.id]" class="btn-link">
-                            Case Details<i class="far fa-arrow-right"></i>
+                        <h3 class="title "><a [routerLink]="['/portfolio-details', item.offerId]">{{ item.name }}</a></h3>
+                        <a [routerLink]="['/portfolio-details', item.offerId]" class="btn-link">
+                            Case Details<i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 </section>

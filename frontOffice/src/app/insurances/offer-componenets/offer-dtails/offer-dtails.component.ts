@@ -71,12 +71,12 @@ export class OfferDtailsComponent implements OnInit {
   };
 
   private _loadOffers() {
-    const param={
-      categoryId:this.categoryId
-    }
-    this.offerService.getOne(param).subscribe((offer) => {
-      this.offerDetails = offer;
-      console.log(this.offerDetails);
-    });
+    // const param={
+    //   categoryId:this.categoryId
+    // }
+    // this.offerService.getOne(param).subscribe((offer) => {
+    //   this.offerDetails = offer;
+    //   console.log(this.offerDetails);
+    // });
   }
 }
