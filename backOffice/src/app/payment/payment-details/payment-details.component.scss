@@ -1,0 +1,52 @@
+/* Custom CSS for cards */
+.card {
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-soft-primary {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.text-primary {
+    color: #0d6efd !important;
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Custom CSS for cards */
+.card {
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}

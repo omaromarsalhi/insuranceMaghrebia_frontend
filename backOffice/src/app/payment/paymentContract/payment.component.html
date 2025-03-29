@@ -1,0 +1,146 @@
+<div class="container-fluid">
+    <app-page-title title="Payment Tables " [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Advanced Data Table</h4>
+
+                    <div class="row mb-md-2">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="tickets-table_length"><label
+                                    class="d-inline-flex align-items-center">Show
+                                    <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                                        [(ngModel)]="service.pageSize" class="form-control form-control-sm mx-2">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="25">25</option>
+                                        <option [ngValue]="50">50</option>
+                                        <option [ngValue]="100">100</option>
+                                    </select> entries</label></div>
+                        </div>
+                        <!-- Search -->
+                        <div class="col-sm-12 col-md-6">
+                            <div id="tickets-table_filter" class="dataTables_filter text-md-end"><label
+                                    class="d-inline-flex align-items-center">Search:
+                                    <input type="text" name="searchTerm" class="form-control form-control-sm ms-2"
+                                        aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
+                        </div>
+                        <!-- End search -->
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="basic-datatable"
+                            class="table table-bordered dt-responsive nowrap datatables no-footer dtr-inline">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th sortable="userId" (sort)="onSort($event)">Name</th>
+                                    <th sortable="offerId" (sort)="onSort($event)">Offer</th>
+                                    <th sortable="totalAmount" (sort)="onSort($event)">Total Amount</th>
+                                    <th sortable="planDuration" (sort)="onSort($event)">Plan Duration</th>
+                                    <th sortable="contractCreatedAt" (sort)="onSort($event)">Date</th>
+                                    <th sortable="paymentStatus" (sort)="onSort($event)">Payment Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let table of payments$ | async; let i=index">
+                                <tr>
+                                    <td align="center">
+                                        <!-- Dynamically change the icon -->
+                                        <a class="expand-row" (click)="changeValue(i)">
+                                            {{ hideme[i] ? '+' : '-' }} <!-- Toggle between + and - -->
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.userId"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.offerId"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.totalAmount"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.planDuration"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        {{ table.contractCreatedAt | date: 'dd MMMM yyyy' }} <!-- Formatted Date -->
+                                    </td>
+                                    <td class="fixed-size-td">
+                                        <ngb-highlight [result]="table.paymentStatus" [term]="service.searchTerm"
+                                            class="badge" [ngClass]="{'bg-success': table.paymentStatus === 'Paid',
+                                        'bg-warning': table.paymentStatus === 'Pending',
+                                        'bg-danger': table.paymentStatus === 'Overdue'}" style="font-size: 12px;">
+                                        </ngb-highlight>
+                                    <td>
+                                        <div ngbDropdown placement="bottom-left">
+                                            <i class="mdi mdi-dots-vertical dropdown-toggle" ngbDropdownToggle
+                                                data-toggle="dropdown" aria-expanded="true"></i>
+                                            <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                                <a class="dropdown-item" href="javascript: void(0);"><i
+                                                        class="dripicons-document-delete"></i> Delete</a>
+                                                <a class="dropdown-item" href="javascript: void(0);"><i
+                                                        class="mdi mdi-account-edit"></i> Edit</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="!hideme[i]" class="sub-table no-bg">
+                                    <td align="center"> </td>
+                                    <td colspan="15" class="p-0">
+                                        <table class="table mb-0 table-striped">
+                                            <thead class="bg-dark text-white">
+                                                <tr>
+                                                    <th>Month</th>
+                                                    <th>Amount Paid</th>
+                                                    <th>Amount Due</th>
+                                                    <th>Due Date</th>
+                                                    <th>Payment Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Loop through the paymentPlans for the specific payment -->
+                                                <tr *ngFor="let plan of table.paymentPlans">
+                                                    <td>{{ plan.month }}</td>
+                                                    <td>{{ plan.amountPaid | number: '1.2-3' }}</td>
+                                                    <td>{{ plan.amountDue | number: '1.2-3'}}</td>
+                                                    <td>{{ plan.dueDate | date: 'dd MMMM yyyy' }}</td>
+                                                    <td>{{ plan.paymentStatus }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- End table -->
+                    <div class="row justify-content-md-between align-items-md-center mt-2">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Showing
+                                {{service.startIndex}} to
+                                {{service.endIndex}} of {{service.totalRecords}}
+                                entries
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col-sm-12 col-md-5">
+                            <div class="text-md-right float-md-end pagination-rounded">
+                                <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page"
+                                    [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
