@@ -9,15 +9,16 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { OfferResponse } from '../../models/offer-response';
+import { OfferUpdateRequest } from '../../models/offer-update-request';
 
-export interface GetOne$Params {
-  categoryId: string;
+export interface Update$Params {
+      body: OfferUpdateRequest
 }
 
-export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-  const rb = new RequestBuilder(rootUrl, getOne.PATH, 'get');
+export function update(http: HttpClient, rootUrl: string, params: Update$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+  const rb = new RequestBuilder(rootUrl, update.PATH, 'put');
   if (params) {
-    rb.path('categoryId', params.categoryId, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -30,4 +31,4 @@ export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params,
   );
 }
 
-getOne.PATH = '/api/v1/offers/one/{categoryId}';
+update.PATH = '/api/v1/offers/update';

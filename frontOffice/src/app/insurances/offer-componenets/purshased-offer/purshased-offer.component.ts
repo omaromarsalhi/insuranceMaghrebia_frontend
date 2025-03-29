@@ -111,8 +111,8 @@ export class PurshasedOfferComponent implements OnInit {
     };
 
     this.purchasedoffer.create(parm).subscribe(() => {
-      console.log('done');
-      setTimeout(() => {
+      setTimeout((response:string) => {
+        console.log("form responce: "+response)
         this.isLoading = false;
         this.notValid = false;
         this.insuranceForm.reset();

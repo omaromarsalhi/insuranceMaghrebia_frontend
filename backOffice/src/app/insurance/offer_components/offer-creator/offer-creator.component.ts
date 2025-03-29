@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   ViewChild,
+  OnDestroy,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -21,7 +22,10 @@ import { Subject } from "rxjs";
 import {
   FilteredCategoryDto,
   OfferCategory,
+  OfferFormResponse,
   OfferRequest,
+  OfferResponse,
+  OfferUpdateRequest,
 } from "src/app/core/models";
 import { OfferCategoryControllerService } from "src/app/core/services";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
@@ -31,9 +35,14 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
   templateUrl: "./offer-creator.component.html",
   styleUrls: ["./offer-creator.component.scss"],
 })
-export class OfferCreatorComponent implements OnInit {
+export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(ImageUploaderComponent) imageUploader!: ImageUploaderComponent;
-  @Output() offerCreationEvent = new EventEmitter<OfferRequest>();
+  @Output() offerActionEvent = new EventEmitter<{
+    action: string;
+    data: OfferUpdateRequest;
+  }>();
+  @Input() isThisEditMode: { offer: boolean; form: boolean };
+  @Input() offer2Update: OfferResponse = null;
   @Input() triggerCleanEvent!: Subject<void>;
 
   labelsForm: FormGroup;
@@ -41,6 +50,8 @@ export class OfferCreatorComponent implements OnInit {
   form: FormGroup;
   submit = false;
   categoryData: OfferCategory[] = [];
+  filtereCategoryData: OfferCategory[] = [];
+  isOffer2UpdateLoaded: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -48,10 +59,7 @@ export class OfferCreatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._fetchCategoryData();
-
-    this.initForm();
-
+    if (!this.isOffer2UpdateLoaded) this.initForm();
 
     this.breadCrumbItems = [
       { label: "Forms" },
@@ -61,6 +69,15 @@ export class OfferCreatorComponent implements OnInit {
     this.triggerCleanEvent.subscribe(() => {
       this.resetLabelForm();
     });
+
+    this._fetchCategoryData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes["offer2Update"] && this.offer2Update != null) {
+      this.initForm4Update();
+      this.isOffer2UpdateLoaded = true;
+    }
   }
 
   getFilteredCategory(categoryId: string): FilteredCategoryDto | undefined {
@@ -75,24 +92,39 @@ export class OfferCreatorComponent implements OnInit {
   }
 
   send2OfferManager() {
-    console.log(this.labelsForm.value);
     this.submit = true;
     // if (this.labelsForm.valid) {
-      let formValue = this.labelsForm.value;
-      formValue.category = this.getFilteredCategory(formValue.categoryId);
-
-      this.imageUploader
-        .uploadImage()
-        .then((imageUrl) => {
-          formValue.imageUri = imageUrl;
-        })
-        .catch((error) => {
-          console.error("Image upload failed:", error);
-        })
-        .finally(() => {
-          this.offerCreationEvent.emit(formValue);
+    let formValue = this.labelsForm.value;
+    formValue.category = this.getFilteredCategory(formValue.categoryId);
+    console.log(formValue);
+    this.imageUploader
+      .uploadImage()
+      .then((imageUrl) => {
+        formValue.imageUri = imageUrl;
+      })
+      .catch((error) => {
+        console.error("Image upload failed:", error);
+      })
+      .finally(() => {
+        if (this.isThisEditMode.offer) this.prepereData4Update(formValue);
+        this.offerActionEvent.emit({
+          action: this.isThisEditMode.offer ? "update" : "create",
+          data: this.isThisEditMode.offer ? this.offer2Update : formValue,
         });
+      });
     // }
+  }
+
+  private prepereData4Update(formValue) {
+    this.offer2Update.benefits = formValue.benefits;
+    this.offer2Update.category = this.getFilteredCategory(formValue.categoryId);
+    this.offer2Update.header = formValue.header;
+    this.offer2Update.imageUri =
+      formValue.imageUri || this.offer2Update.imageUri;
+    this.offer2Update.labels = formValue.labels;
+    this.offer2Update.name = formValue.name;
+    this.offer2Update.tags = formValue.tags;
+    this.offer2Update.packages = formValue.packages;
   }
 
   get f() {
@@ -127,6 +159,122 @@ export class OfferCreatorComponent implements OnInit {
       benefits: this.fb.array([], [Validators.required]),
       labels: this.fb.array([], Validators.required),
       packages: this.fb.array([], Validators.required),
+      tags: this.fb.array([]),
+      newTag: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+      ],
+    });
+  }
+
+  private initForm4Update(): void {
+    this.labelsForm = this.fb.group({
+      name: [
+        this.offer2Update.name,
+        [Validators.required, Validators.pattern(/^[a-zA-Z\s\-.,']{1,100}$/)],
+      ],
+      header: [
+        this.offer2Update.header,
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,200}$/),
+        ],
+      ],
+      categoryId: null,
+      imageUri: ["", Validators.required],
+      benefits: this.fb.array([], [Validators.required]),
+      labels: this.fb.array([], Validators.required),
+      packages: this.fb.array([], Validators.required),
+      tags: this.fb.array([]),
+      newTag: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+      ],
+    });
+
+    this.offer2Update.benefits.forEach((benfit) => {
+      this.benefitsArray.push(
+        this.fb.group({
+          benefitText: [
+            benfit.benefitText,
+            [
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(150),
+              Validators.pattern(/^[a-zA-Z0-9 .,!?@%&*()\-\/]+$/),
+            ],
+          ],
+        })
+      );
+    });
+
+    this.offer2Update.labels.forEach((label, index) => {
+      this.labelsArray.push(
+        this.fb.group(
+          {
+            name: [
+              label.name,
+              [Validators.required, Validators.pattern(/^[a-zA-Z\s\-]{1,50}$/)],
+            ],
+            questions: this.fb.array([], Validators.required),
+            answers: this.fb.array([], Validators.required),
+          },
+          { validators: this.validateLabelQuestionsAnswers }
+        )
+      );
+      label.questions.forEach((question) => {
+        this.getQuestions(index).push(
+          this.fb.group({
+            questionText: [
+              question.questionText,
+              [
+                Validators.required,
+                Validators.pattern(/^[a-zA-Z0-9\s\-?.,']{1,200}$/),
+              ],
+            ],
+          })
+        );
+      });
+      label.answers.forEach((answer) => {
+        this.getAnswers(index).push(
+          this.fb.group({
+            questionIndex: [answer.questionIndex],
+            answerText: [
+              answer.answerText,
+              [
+                Validators.required,
+                Validators.pattern(/^[a-zA-Z0-9\s\-.,']{1,200}$/),
+              ],
+            ],
+          })
+        );
+      });
+    });
+
+    this.offer2Update.packages.forEach((pkg, index) => {
+      this.packagesArray.push(
+        this.fb.group({
+          title: [pkg.title, [Validators.required]],
+          price: [pkg.price, [Validators.required, Validators.min(0)]],
+          duration: [pkg.duration, [Validators.required]],
+          customDuration: [pkg.customDuration, []], // Add this line
+          features: this.fb.array(
+            [this.fb.control("", Validators.required)],
+            [Validators.minLength(1), Validators.maxLength(5)]
+          ),
+        })
+      );
+      this.getPackageFeatures(index).clear();
+      pkg.features.forEach((feature, index2) => {
+        this.getPackageFeatures(index).insert(
+          index2,
+          this.fb.control(feature, Validators.required)
+        );
+      });
+    });
+
+    this.offer2Update.tags.forEach((tag) => {
+      this.tagsArray.push(this.fb.control(tag));
     });
   }
 
@@ -294,7 +442,6 @@ export class OfferCreatorComponent implements OnInit {
   onsubmit(): void {
     if (this.labelsForm.valid) {
       const formValue = this.labelsForm.value;
-      console.log(this.labelsForm.value);
     }
   }
 
@@ -321,11 +468,45 @@ export class OfferCreatorComponent implements OnInit {
       next: (data) => {
         this.categoryData = data;
         if (this.categoryData.length > 0) {
-          this.labelsForm.patchValue({
-            categoryId: this.categoryData[0].categoryId,
-          });
+          if (this.isOffer2UpdateLoaded) {
+            let id: string = this.offer2Update.category.categoryId;
+
+            this.labelsForm.patchValue({
+              categoryId: id,
+            });
+            this.filtereCategoryData = this.categoryData.filter(
+              (cat) => cat.categoryId !== id
+            );
+          } else
+            this.labelsForm.patchValue({
+              categoryId: this.categoryData[0].categoryId,
+            });
         }
       },
     });
+  }
+
+  get tagsArray() {
+    return this.labelsForm.get("tags") as FormArray;
+  }
+
+  addTag() {
+    if (this.labelsForm.get("newTag").valid) {
+      const newTag = this.labelsForm.get("newTag").value.trim();
+      if (newTag) {
+        this.tagsArray.push(this.fb.control(newTag));
+        this.labelsForm.get("newTag").reset();
+      }
+    }
+  }
+
+  removeTag(index: number) {
+    this.tagsArray.removeAt(index);
+  }
+
+  ngOnDestroy() {
+    let offerValue = this.labelsForm.value;
+    offerValue.category = this.getFilteredCategory(offerValue.categoryId);
+    this.offerActionEvent.emit({ action: "temp_save", data: offerValue });
   }
 }

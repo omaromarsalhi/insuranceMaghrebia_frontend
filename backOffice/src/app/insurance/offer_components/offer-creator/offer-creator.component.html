@@ -3,7 +3,9 @@
         <h2 class="text-primary"><i class="fas fa-plus me-2"></i>Add Offer</h2>
     </div>
 
-    <form [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
+    <form *ngIf="
+      !isThisEditMode.offer || (isThisEditMode.offer && isOffer2UpdateLoaded)
+    " [formGroup]="labelsForm" (ngSubmit)="send2OfferManager()">
         <div class="row g-3 mb-4">
             <div class="col-md-6">
                 <label class="form-label fw-bold" for="name">Offer name</label>
@@ -21,7 +23,15 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-bold">Category</label>
-                <select class="form-select" formControlName="categoryId">
+                <select *ngIf="isOffer2UpdateLoaded" class="form-select" formControlName="categoryId">
+                    <option [value]="offer2Update.category.categoryId">
+                        {{ offer2Update.category.name }}
+                    </option>
+                    <option *ngFor="let category of filtereCategoryData" [value]="category.categoryId">
+                        {{ category.name }}
+                    </option>
+                </select>
+                <select *ngIf="!isOffer2UpdateLoaded" class="form-select" formControlName="categoryId">
                     <option *ngFor="let category of categoryData" [value]="category.categoryId">
                         {{ category.name }}
                     </option>
@@ -48,16 +58,15 @@
 
         <!-- Benefits Section -->
         <div class="mb-4">
-
             <label class="form-label fw-bold">Offer Benefits (Minimum 1 Required)</label>
             <div formArrayName="benefits">
-                <div *ngFor="let benefit of benefitsArray.controls; let i = index"  [formGroupName]="i" class="mb-3">
+                <div *ngFor="let benefit of benefitsArray.controls; let i = index" [formGroupName]="i" class="mb-3">
                     <div class="input-group">
                         <input type="text" class="form-control" formControlName="benefitText"
                             placeholder="Enter benefit {{ i + 1 }}" [ngClass]="{
-                           'is-invalid': (benefit.invalid && (benefit.touched || submit)),
-                           'is-valid': benefit.valid
-                       }">
+                'is-invalid': benefit.invalid && (benefit.touched || submit),
+                'is-valid': benefit.valid
+              }" />
                         <button type="button" class="btn btn-outline-danger" (click)="deleteBenefit(i)"
                             [disabled]="i < 1" title="Remove benefit">
                             <i class="fas fa-trash"></i>
@@ -79,7 +88,8 @@
 
             <div *ngIf="benefitsArray.errors && (benefitsArray.touched || submit)" class="alert alert-danger">
                 <div *ngIf="benefitsArray.errors['minlength']">
-                    At least 3 benefits are required (currently {{ benefitsArray.length }})
+                    At least 3 benefits are required (currently
+                    {{ benefitsArray.length }})
                 </div>
                 <div *ngIf="benefitsArray.errors['maxlength']">
                     Maximum 10 benefits allowed
@@ -92,6 +102,44 @@
                 <small class="text-black ms-2">({{ 10 - benefitsArray.length }} remaining)</small>
             </button>
         </div>
+
+        <!-- New Tags Section -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">Tags (Max 5)</label>
+            <div formArrayName="tags">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div *ngFor="let tag of tagsArray.controls; let i = index"
+                        class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-1 me-2 mb-2">
+                        <span class="me-2">{{ tag.value }}</span>
+                        <button type="button" class="btn btn-link p-0 text-danger" (click)="removeTag(i)"
+                            title="Remove tag">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" class="form-control" formControlName="newTag" placeholder="Enter a tag"
+                    (keyup.enter)="addTag()" [ngClass]="{
+                     'is-invalid': labelsForm.get('newTag').invalid && (labelsForm.get('newTag').touched || submit),
+                     'is-valid': labelsForm.get('newTag').valid
+                   }">
+                <button type="button" class="btn btn-success" (click)="addTag()"
+                    [disabled]="tagsArray.length >= 5 || labelsForm.get('newTag').invalid">
+                    <i class="fas fa-plus me-1"></i> Add Tag
+                    <small class="text-black ms-2">({{ 5 - tagsArray.length }} remaining)</small>
+                </button>
+            </div>
+            <div *ngIf="labelsForm.get('newTag').invalid && (labelsForm.get('newTag').touched || submit)"
+                class="invalid-feedback">
+                <span *ngIf="labelsForm.get('newTag').errors.required">Tag is required</span>
+                <span *ngIf="labelsForm.get('newTag').errors.pattern">
+                    Only letters, numbers, and hyphens allowed
+                </span>
+            </div>
+        </div>
+
         <div class="mb-4">
             <h5 class="mb-3 h4 text-secondary">Labels</h5>
             <div formArrayName="labels">
@@ -169,11 +217,10 @@
                         'is-valid': submit && !answer.get('answerText').errors
                       }"></textarea>
                                         <select class="form-select" formControlName="questionIndex">
-                                            
                                             <option *ngFor="
-                                                    let q of label.get('questions').controls;
-                                                    let i = index
-                                                    " [ngValue]="i">
+                          let q of label.get('questions').controls;
+                          let i = index
+                        " [ngValue]="i">
                                                 Question #{{ i + 1 }}
                                             </option>
                                         </select>
@@ -204,11 +251,11 @@
         </div>
 
         <!-- Pricing Plans Section -->
-        <div class="mb-4" >
+        <div class="mb-4">
             <h5 class="mb-4 h4 text-secondary">Pricing Plans</h5>
             <div formArrayName="packages">
-                <div class="row g-3" >
-                    <div class="col-md-12"  *ngFor="let package of packagesArray.controls; let i = index"
+                <div class="row g-3">
+                    <div class="col-md-12" *ngFor="let package of packagesArray.controls; let i = index"
                         [formGroupName]="i">
                         <div class="card mb-3 border-primary">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -218,24 +265,26 @@
                                 </button>
                             </div>
                             <div class="card-body">
-
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Title</label>
                                     <input type="text" class="form-control" formControlName="title"
-                                        placeholder="Package title" [ngClass]="{'is-invalid': submit && package.get('title')?.errors,
-                                  'is-valid': submit && !package.get('title')?.errors}">
+                                        placeholder="Package title" [ngClass]="{
+                      'is-invalid': submit && package.get('title')?.errors,
+                      'is-valid': submit && !package.get('title')?.errors
+                    }" />
                                     <div *ngIf="submit && package.get('title')?.errors" class="invalid-feedback">
                                         <span *ngIf="package.get('title')?.errors.required">Title is required</span>
                                     </div>
                                 </div>
 
-
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Price ($)</label>
                                         <input type="number" class="form-control" formControlName="price" min="0"
-                                            placeholder="0.00" [ngClass]="{'is-invalid': submit && package.get('price')?.errors,
-                                    'is-valid': submit && !package.get('price')?.errors}">
+                                            placeholder="0.00" [ngClass]="{
+                        'is-invalid': submit && package.get('price')?.errors,
+                        'is-valid': submit && !package.get('price')?.errors
+                      }" />
                                         <div *ngIf="submit && package.get('price')?.errors" class="invalid-feedback">
                                             <span *ngIf="package.get('price')?.errors.required">Price is required</span>
                                             <span *ngIf="package.get('price')?.errors.min">Must be ≥ 0</span>
@@ -244,8 +293,10 @@
 
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Duration</label>
-                                        <select class="form-select" formControlName="duration" [ngClass]="{'is-invalid': submit && package.get('duration')?.errors,
-                                                           'is-valid': submit && !package.get('duration')?.errors}">
+                                        <select class="form-select" formControlName="duration" [ngClass]="{
+                        'is-invalid': submit && package.get('duration')?.errors,
+                        'is-valid': submit && !package.get('duration')?.errors
+                      }">
                                             <option value="">Select Duration</option>
                                             <option value="monthly">Monthly</option>
                                             <option value="quarterly">Quarterly</option>
@@ -258,12 +309,13 @@
                                             <span *ngIf="package.get('duration')?.errors.required">Please select a
                                                 duration</span>
                                         </div>
-                                        
                                     </div>
                                     <div *ngIf="package.get('duration').value === 'custom'" class="mt-2">
                                         <input type="text" class="form-control" placeholder="Enter custom duration"
-                                            formControlName="customDuration"
-                                            [ngClass]="{'is-invalid': submit && package.get('customDuration')?.errors}">
+                                            formControlName="customDuration" [ngClass]="{
+                        'is-invalid':
+                          submit && package.get('customDuration')?.errors
+                      }" />
                                         <div *ngIf="submit && package.get('customDuration')?.errors"
                                             class="invalid-feedback">
                                             Custom duration is required
@@ -274,12 +326,17 @@
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Features (Minimum 1 Required)</label>
                                     <div formArrayName="features">
-                                        <div *ngFor="let feature of getPackageFeatures(i).controls; let j = index"
-                                            class="mb-2">
+                                        <div *ngFor="
+                        let feature of getPackageFeatures(i).controls;
+                        let j = index
+                      " class="mb-2">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" [formControlName]="j"
-                                                    placeholder="Feature {{ j + 1 }}" [ngClass]="{'is-invalid': (feature.invalid && (feature.touched || submit)),
-                                        'is-valid': feature.valid}">
+                                                    placeholder="Feature {{ j + 1 }}" [ngClass]="{
+                            'is-invalid':
+                              feature.invalid && (feature.touched || submit),
+                            'is-valid': feature.valid
+                          }" />
                                                 <button type="button" class="btn btn-outline-danger"
                                                     (click)="deleteFeature(i, j)" [disabled]="j < 1">
                                                     <i class="fas fa-trash"></i>
@@ -321,4 +378,5 @@
             </button>
         </div>
     </form>
+
 </div>

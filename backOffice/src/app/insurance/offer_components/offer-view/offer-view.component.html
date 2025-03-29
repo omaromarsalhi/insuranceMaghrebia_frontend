@@ -1,0 +1,177 @@
+<div class="container-fluid">
+    <app-page-title title="Offers List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row g-4 h-100" style="min-height: calc(100vh - 150px)">
+        <!-- Details Column -->
+        <div class="col-lg-9 h-100" style="overflow-y: auto; padding-bottom: 20px">
+            <app-offer-detail *ngIf="selectedOffer" [offer]="selectedOffer" [@fadeAnimation]="animationState"
+                (deletedOfferId)="deletedOffer($event)"></app-offer-detail>
+            <div *ngIf="offersList.length === 0" class="text-center text-muted mt-4">
+                Select an offer to view details
+            </div>
+        </div>
+
+        <div *ngIf="!isLoding" class="col-xl-3 col-sm-3 h-100" style="overflow-y: auto; padding-bottom: 2rem"
+            @slideVertical>
+            <div class="col-xl-12 col-lg-12 mb-4">
+                <div class="card border-light shadow-sm">
+                    <!-- Header -->
+                    <div class="card-header bg-white border-bottom py-3" style="position: sticky; top: 0; z-index: 100">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0 fw-semibold">
+                                <a (click)="toggleFilter()" class="text-dark btn-filter-header d-inline-flex"
+                                    role="button">
+                                    <i class="mdi mdi-filter-variant me-2"></i>
+                                    Filters
+                                    <i class="mdi mdi-chevron-down ms-2 transition-all"
+                                        [class.rotate-180]="isFilterOpen"></i>
+                                </a>
+                            </h5>
+                            <button class="btn btn-link text-muted p-0" (click)="clearSearch()">
+                                <i class="mdi mdi-autorenew fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Body with Animation -->
+                    <div @filterAnimation *ngIf="isFilterOpen" class="card-body pt-3">
+                        <!-- Search -->
+                        <div class="mb-4 filter-row">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0">
+                                    <i class="mdi mdi-magnify text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0"
+                                    placeholder="Search offers..." [(ngModel)]="searchTerm"
+                                    (input)="onSearchInput($event)" />
+                                <span *ngIf="searchTerm" class="input-group-text bg-transparent border-start-0">
+                                    <i class="mdi mdi-close cursor-pointer" (click)="clearSearch()"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-4 filter-row">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0">
+                                    <i class="mdi mdi-tag-outline text-muted"></i>
+                                </span>
+                                <select class="form-select border-start-0 ps-0">
+                                    <option>All Categories</option>
+                                    <option *ngFor="let category of categories" [value]="category.id">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="mb-4 filter-row">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0">
+                                    <i class="mdi mdi-calendar-blank-outline text-muted"></i>
+                                </span>
+                                <input type="date" class="form-control border-start-0 ps-0" />
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="mt-4 filter-row justify-items-end">
+                            <button class="btn btn-outline-danger w-100 " (click)="toggleFilter()">
+                                <i class="mdi mdi-close-outline "></i>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column gap-3">
+                <div *ngFor="let offer of paginatedOffers" class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="avatar-md me-4">
+                                    <img *ngIf="offer.imageUri" [src]="offer.imageUri"
+                                        class="avatar-title rounded-circle bg-light text-danger font-size-16"
+                                        alt="img" />
+                                </div>
+                                <div class="media-body overflow-hidden mt-2">
+                                    <h5 class="text-truncate font-size-18">
+                                        <a href="javascript:void(0);" [ngbTooltip]="offer.name" class="text-dark"
+                                            (click)="selectOffer(offer)">
+                                            {{ offer.name }}
+                                        </a>
+                                    </h5>
+                                    <div class="text-muted mt-2">
+                                        <p>
+                                            <i class="mdi mdi-chevron-right text-primary"></i>
+                                            {{ offer.category.name }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 border-top">
+                            <ul class="list-inline mb-0 d-flex align-items-center">
+                                <li class="list-inline-item me-3">
+                                    <span class="badge" [ngClass]="{
+                      'bg-success': offer.isActive === true,
+                      'bg-danger': offer.isActive === false
+                    }">
+                                        {{ offer.isActive ? "Active" : "Inactive" }}
+                                    </span>
+                                </li>
+                                <li class="list-inline-item d-flex align-items-center fs-6">
+                                    <i class="bx bx-calendar me-1"></i>
+                                    {{ offer.createdAt | date : "dd MMM, YYYY" }}
+                                </li>
+
+                                <li class="list-inline-item ms-auto">
+                                    <a href="javascript:void(0);"
+                                        class="d-flex align-items-center text-primary text-decoration-underline fs-6 fw-medium"
+                                        (click)="selectOffer(offer)">
+                                        Details <i class="mdi mdi-arrow-right-thick ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="pagination pagination-rounded justify-content-center">
+                        <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+                            <a href="javascript:void(0);" class="page-link" (click)="goToPreviousPage()">
+                                <i class="mdi mdi-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li *ngFor="let i of [].constructor(nbrpages); let idx = index" class="page-item"
+                            [ngClass]="{ active: currentPage === idx + 1 }">
+                            <a href="javascript:void(0);" class="page-link" (click)="goToPage(idx + 1)">{{ idx + 1
+                                }}</a>
+                        </li>
+                        <li class="page-item" [ngClass]="{ disabled: currentPage === nbrpages }">
+                            <a href="javascript:void(0);" class="page-link" (click)="goToNextPage()">
+                                <i class="mdi mdi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isLoding" class="row">
+            <div class="col-12">
+                <div class="text-center my-3">
+                    <a href="javascript:void(0);" class="text-success">
+                        <i class="bx bx-loader bx-spin font-size-18 align-middle me-2"></i>
+                        Loading, please wait!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

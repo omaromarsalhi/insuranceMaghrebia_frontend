@@ -1,4 +1,14 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit,
+  TemplateRef,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -12,7 +22,11 @@ import {
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OfferFormRequest } from "../../../core/models/offer-form-request";
-import { FormFieldDto } from "src/app/core/models";
+import {
+  FormFieldDto,
+  OfferFormResponse,
+  OfferFormUpdateRequest,
+} from "src/app/core/models";
 import Swal from "sweetalert2";
 import { Subject } from "rxjs";
 
@@ -22,9 +36,24 @@ import { Subject } from "rxjs";
   styleUrls: ["./form-creator.component.scss"],
 })
 export class FormCreatorComponent implements OnInit {
-  @Output() offerFormCreationEvent = new EventEmitter<FormFieldDto[]>();
+  @Output() offerFormActionEvent = new EventEmitter<{
+    action: string;
+    data: OfferFormUpdateRequest;
+  }>();
   @Input() triggerCleanEvent!: Subject<void>;
+  @Input() formCreatedByAi: FormFieldDto[] = [];
+  @Input() useFormCreatedByAi: boolean;
+  @Input() form2Update: OfferFormResponse = null;
+  @Input() isThisEditMode: { offer: boolean; form: boolean } = {
+    offer: false,
+    form: false,
+  };
+  isOnInitDone: boolean = false;
+  isForm2UpdateLoaded: boolean = false;
   dynamicForm!: FormGroup;
+  activeSection = 0;
+  rangeValues: number[] = [];
+  colorPreviews: string[] = [];
   availableFieldTypes = [
     "number",
     "textarea",
@@ -43,10 +72,40 @@ export class FormCreatorComponent implements OnInit {
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    this.initForm();
-
+    if (!this.isThisEditMode.form) this.initForm();
+    this.isOnInitDone = true;
     this.triggerCleanEvent.subscribe(() => {
       this.resetForm();
+    });
+    if (this.useFormCreatedByAi) this.setAiForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes["formCreatedByAi"] &&
+      this.isOnInitDone &&
+      changes["formCreatedByAi"].currentValue.length > 0
+    ) {
+      this.setAiForm();
+    }
+    if (changes["form2Update"] && this.form2Update != null) {
+      this.initForm();
+      this.setUpdateForm();
+      this.isForm2UpdateLoaded = true;
+    }
+  }
+
+  setUpdateForm(): void {
+    this.fields.clear();
+    this.form2Update.fields.forEach((data, index) => {
+      this.fields.push(this.createFieldBasedOnLocalData(data));
+    });
+  }
+
+  setAiForm(): void {
+    this.fields.clear();
+    this.formCreatedByAi.forEach((data) => {
+      this.fields.insert(data.order, this.createFieldBasedOnLocalData(data));
     });
   }
 
@@ -54,11 +113,21 @@ export class FormCreatorComponent implements OnInit {
   send2OfferManager() {
     this.submit = true;
     if (this.dynamicForm.value && this.f.fields.valid) {
-      this.popup("Form added successfuly", true);
       const formData: FormFieldDto[] = this.dynamicForm.value.fields;
-      this.offerFormCreationEvent.emit(formData);
-    } else {
-      console.log(this.f);
+      if (this.isThisEditMode.offer && this.isThisEditMode.form) {
+        this.offerFormActionEvent.emit({
+          action: "update",
+          data: { formId: this.form2Update.formId, fields: formData },
+        });
+        this.popup("Form saved successfuly,To update The Form you Need To save the Offer Also 🙂", true);
+      } else if(!this.isThisEditMode.offer) {
+        this.offerFormActionEvent.emit({
+          action: "create",
+          data: { formId: null, fields: formData },
+        });
+        this.popup("Form added successfuly", true);
+      }
+    } else {;
       this.popup("Your form is not valid ", false);
     }
   }
@@ -246,6 +315,78 @@ export class FormCreatorComponent implements OnInit {
     return formGroup;
   }
 
+  createFieldBasedOnLocalData(data: FormFieldDto): FormGroup {
+    const formGroup = this.fb.group(
+      {
+        label: [
+          data.label,
+          [
+            Validators.required,
+            Validators.pattern(/^[a-zA-Z0-9\s\-.,'()]{1,100}$/),
+          ],
+        ],
+        type: [data.type],
+        order: [data.order],
+        required: [data.required],
+        placeholder: [data.placeholder],
+        regex: [data.regex],
+        javaRegex: [data.javaRegex],
+        regexErrorMessage: [data.regexErrorMessage],
+        rangeStart: [data.rangeStart ?? 0, [Validators.pattern(/^-?\d+$/)]],
+        rangeEnd: [data.rangeEnd ?? 10, [Validators.pattern(/^-?\d+$/)]],
+        selectOptions: this.fb.array(data.selectOptions || []),
+      },
+      {
+        validators: [this.validateRange, this.validateSelectOptions],
+      }
+    );
+
+    const typeControl = formGroup.get("type");
+    const regexControl = formGroup.get("regex");
+    const regexErrorControl = formGroup.get("regexErrorMessage");
+    const selectOptions = formGroup.get("selectOptions") as FormArray;
+
+    const updateValidators = (currentType: string) => {
+      const requiresRegex = ["text", "email", "number", "textarea"].includes(
+        currentType
+      );
+      const isOptionsType = ["select", "radio"].includes(currentType);
+
+      // Reset validators
+      regexControl?.clearValidators();
+      regexErrorControl?.clearValidators();
+      selectOptions.clearValidators();
+
+      if (requiresRegex) {
+        regexControl?.setValidators([Validators.required, this.validRegex]);
+        regexErrorControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s\-.,!?'()]{0,200}$/),
+        ]);
+      }
+
+      if (isOptionsType) {
+        selectOptions.setValidators([Validators.required]);
+        selectOptions.clear();
+        if (data.selectOptions) {
+          data.selectOptions.forEach((option) =>
+            selectOptions.push(new FormControl(option))
+          );
+        }
+      }
+
+      regexControl?.updateValueAndValidity();
+      regexErrorControl?.updateValueAndValidity();
+      selectOptions.updateValueAndValidity();
+    };
+
+    updateValidators(typeControl?.value);
+
+    typeControl?.valueChanges.subscribe(updateValidators);
+
+    return formGroup;
+  }
+
   // Select Options FormArray (add this to your component)
   createSelectOption(): FormGroup {
     return this.fb.group({
@@ -348,10 +489,6 @@ export class FormCreatorComponent implements OnInit {
       confirmButtonColor: "#556ee6",
     });
   }
-
-  activeSection = 0;
-  rangeValues: number[] = [];
-  colorPreviews: string[] = [];
 
   getFieldTypeIcon(type: string): string {
     const icons = {

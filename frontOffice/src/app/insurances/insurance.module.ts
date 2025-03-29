@@ -9,11 +9,12 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/purshased-offer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
 
 
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent],
+  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent],
   imports: [
     CommonModule,
     InsuranceRoutingModule,

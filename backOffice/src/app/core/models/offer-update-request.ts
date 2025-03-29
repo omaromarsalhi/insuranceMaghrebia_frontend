@@ -6,14 +6,17 @@ import { BenefitTypeDto } from '../models/benefit-type-dto';
 import { FilteredCategoryDto } from '../models/filtered-category-dto';
 import { OfferLabelDto } from '../models/offer-label-dto';
 import { OfferPackageDto } from '../models/offer-package-dto';
-export interface OfferRequest {
+export interface OfferUpdateRequest {
   benefits?: Array<BenefitTypeDto>;
-  category: FilteredCategoryDto;
+  category?: FilteredCategoryDto;
+  createdAt?: string;
   formId?: string;
-  header: string;
+  header?: string;
   imageUri?: string;
+  isActive?: boolean;
   labels?: Array<OfferLabelDto>;
-  name: string;
+  name?: string;
+  offerId?: string;
   packages?: Array<OfferPackageDto>;
   tags?: Array<string>;
 }

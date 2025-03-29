@@ -9,11 +9,14 @@ import { OfferPackageDto } from '../models/offer-package-dto';
 export interface OfferResponse {
   benefits?: Array<BenefitTypeDto>;
   category?: FilteredCategoryDto;
+  createdAt?: string;
   formId?: string;
   header?: string;
   imageUri?: string;
+  isActive?: boolean;
   labels?: Array<OfferLabelDto>;
   name?: string;
   offerId?: string;
   packages?: Array<OfferPackageDto>;
+  tags?: Array<string>;
 }

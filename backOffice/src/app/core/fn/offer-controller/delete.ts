@@ -8,16 +8,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferResponse } from '../../models/offer-response';
+import { OfferDeletionRequest } from '../../models/offer-deletion-request';
+import { OfferGeneralResponse } from '../../models/offer-general-response';
 
-export interface GetOne$Params {
-  categoryId: string;
+export interface Delete$Params {
+      body: OfferDeletionRequest
 }
 
-export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-  const rb = new RequestBuilder(rootUrl, getOne.PATH, 'get');
+export function delete$(http: HttpClient, rootUrl: string, params: Delete$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferGeneralResponse>> {
+  const rb = new RequestBuilder(rootUrl, delete$.PATH, 'delete');
   if (params) {
-    rb.path('categoryId', params.categoryId, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -25,9 +26,9 @@ export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferResponse>;
+      return r as StrictHttpResponse<OfferGeneralResponse>;
     })
   );
 }
 
-getOne.PATH = '/api/v1/offers/one/{categoryId}';
+delete$.PATH = '/api/v1/offers';

@@ -18,22 +18,29 @@ import { SimplebarAngularModule } from "simplebar-angular";
 import { LightboxModule } from "ngx-lightbox";
 import { UIModule } from "src/app/shared/ui/ui.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ArchwizardModule } from 'angular-archwizard';
 
 import { InsuranceRoutingModule } from "./insurance-routing.module";
 import { CategoryComponent } from "./category_componenets/category/category.component";
 import { Ng5SliderModule } from "ng5-slider";
-import { OfferCreatorComponent } from './offer_componenets/offer-creator/offer-creator.component';
-import { FormCreatorComponent } from './offer_componenets/form-creator/form-creator.component';
+import { OfferCreatorComponent } from './offer_components/offer-creator/offer-creator.component';
+import { FormCreatorComponent } from './offer_components/form-creator/form-creator.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { OfferManagerComponent } from './offer_componenets/offer-manager/offer-manager.component';
+import { OfferManagerComponent } from './offer_components/offer-manager/offer-manager.component';
 import { CategoryModalComponent } from './category_componenets/category-modal/category-modal.component';
+import { ChatComponent } from './chat/chat.component';
+import { OfferViewComponent } from './offer_components/offer-view/offer-view.component';
+import { OfferDetailComponent } from './offer_components/offer-detail/offer-detail.component';
+import { EditOfferComponent } from "./offer_components/edit-offer/edit-offer.component";
 
 
 
 
 
 @NgModule({
-  declarations: [CategoryComponent, OfferCreatorComponent, FormCreatorComponent, OfferManagerComponent, CategoryModalComponent],
+  declarations: [CategoryComponent, OfferCreatorComponent,
+     FormCreatorComponent, OfferManagerComponent, CategoryModalComponent, ChatComponent, 
+     OfferViewComponent, OfferDetailComponent,EditOfferComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,
@@ -54,7 +61,8 @@ import { CategoryModalComponent } from './category_componenets/category-modal/ca
     Ng5SliderModule,
     DragDropModule,
     NgbAccordionModule,
-    NgbModule
+    NgbModule,
+    ArchwizardModule
   ],
 })
 export class InsuranceModule {}

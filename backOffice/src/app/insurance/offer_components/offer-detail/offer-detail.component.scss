@@ -1,0 +1,90 @@
+.accordion-button::after {
+    display: none !important;
+}
+
+.accordion-button {
+    position: relative;
+}
+
+.accordion-button::before {
+    content: "\f078"; /* Font Awesome 'chevron-down' */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.accordion-button[aria-expanded="true"]::before {
+    transform: rotate(180deg);
+}
+
+
+.hover-lift {
+    transition: all 0.25s ease;
+    transform: translateY(0);
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+.delete-container {
+    display: inline-block;
+    position: relative;
+}
+
+.delete-options-menu, .update-options-menu {
+    position: absolute;
+    right: 0;
+    top: -180%;
+    right : 120%;
+    min-width: 120px;
+    background: white;
+    border-radius: 8px;
+    padding: 0.05rem;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.update-options-menu {
+    top: -50%;
+}
+
+.delete-container:hover .delete-options-menu, .delete-container:hover .update-options-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(5px);
+}
+
+.delete-options-menu button , .update-options-menu button{
+    transition: all 0.2s ease;
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    text-align: left;
+}
+
+.delete-options-menu button:hover , .update-options-menu button:hover{
+    transform: translateX(2px);
+}
+
+
+

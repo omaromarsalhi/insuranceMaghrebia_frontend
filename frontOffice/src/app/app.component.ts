@@ -17,10 +17,9 @@ export class AppComponent {
   ngOnInit(): void {
     // Initialize WOW.js
     new WOW().init();
-    console.log("omar salhi is the");
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.currentUrl = event.url; // Update the current URL dynamically
+        this.currentUrl = event.url; 
       }
     });
   }

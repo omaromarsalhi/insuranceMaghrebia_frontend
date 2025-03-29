@@ -1,0 +1,83 @@
+<!--====== Start Breadcrumb Section ======-->
+<section class="page-banner overlay pt-170 pb-170 bg_cover"
+    [style.background-image]="'url(assets/images/bg/page-bg.jpg)'">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!--=== Page Banner Content ===-->
+                <div class="page-banner-content text-center text-white">
+                    <h1 class="page-title">Case</h1>
+                    <ul class="breadcrumb-link text-white">
+                        <li><a routerLink="/">Home</a></li>
+                        <li class="active">Case</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== End Breadcrumb Section ======-->
+
+<!--====== Start Portfolio Section ======-->
+<section class="portfolio-section pt-120 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <!--=== Section Title ===-->
+                <div class="section-title mb-50" [@fadeInUp]>
+                    <span class="sub-title">Case</span>
+                    <h2>Learn Our Popular Case</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="filter-button mb-60" [@fadeInDown]>
+                    <ul class="filter-btn gap-2">
+                        <li [class.active]="activeFilter === '*'" (click)="setFilter('*')">
+                            Show All
+                        </li>
+                        <li [class.active]="activeFilter === 'item1'" (click)="setFilter('item1')">
+                            House
+                        </li>
+                        <li [class.active]="activeFilter === 'item2'" (click)="setFilter('item2')">
+                            Business
+                        </li>
+                        <li [class.active]="activeFilter === 'item3'" (click)="setFilter('item3')">
+                            Car
+                        </li>
+                        <li [class.active]="activeFilter === 'item4'" (click)="setFilter('item4')">
+                            Health
+                        </li>
+                        <li [class.active]="activeFilter === 'item5'" (click)="setFilter('item5')">
+                            Travel
+                        </li>
+                        <li [class.active]="activeFilter === 'item6'" (click)="setFilter('item6')">
+                            Agri
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row portfolio-active justify-content-center">
+            <div class="col-xl-6" 
+                 *ngFor="let item of filteredItems" 
+                 [class]="item.classes"
+                 >
+                <div class="single-portfolio-item-two mb-30" [@dynamicAnimation]="item.animation">
+                    <div class="img-holder">
+                        <img [src]="item.image" [alt]="item.title">
+                    </div>
+                    <div class="content">
+                        <a href="#" class="cat-link">{{ item.category }}</a>
+                        <h3 class="title"><a [routerLink]="['/portfolio-details', item.id]">{{ item.title }}</a></h3>
+                        <a [routerLink]="['/portfolio-details', item.id]" class="btn-link">
+                            Case Details<i class="far fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== End Portfolio Section ======-->

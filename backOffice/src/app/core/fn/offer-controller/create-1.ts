@@ -8,16 +8,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { OfferRequest } from '../../models/offer-request';
 import { OfferResponse } from '../../models/offer-response';
 
-export interface GetOne$Params {
-  categoryId: string;
+export interface Create1$Params {
+      body: OfferRequest
 }
 
-export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-  const rb = new RequestBuilder(rootUrl, getOne.PATH, 'get');
+export function create1(http: HttpClient, rootUrl: string, params: Create1$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+  const rb = new RequestBuilder(rootUrl, create1.PATH, 'post');
   if (params) {
-    rb.path('categoryId', params.categoryId, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -30,4 +31,4 @@ export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params,
   );
 }
 
-getOne.PATH = '/api/v1/offers/one/{categoryId}';
+create1.PATH = '/api/v1/offers/create';
