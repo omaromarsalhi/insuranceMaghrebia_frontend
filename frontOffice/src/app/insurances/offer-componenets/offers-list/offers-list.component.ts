@@ -576,80 +576,7 @@ export class OffersListComponent implements OnInit {
     'hover',
   ];
   animations: string[] = [];
-  portfolioItems = [
-    {
-      id: 1,
-      classes: 'item item1',
-      image: 'assets/images/portfolio/case-1.jpg',
-      category: 'Life Insurance',
-      title: 'Family Care Protection Plan',
-      animation: 'zoom',
-    },
-    {
-      id: 2,
-      classes: 'item item2 item5',
-      image: 'assets/images/portfolio/case-2.jpg',
-      category: 'Business Insurance',
-      title: 'Enterprise Risk Management Solution',
-      animation: 'slide',
-    },
-    {
-      id: 3,
-      classes: 'item item3 item6',
-      image: 'assets/images/portfolio/case-3.jpg',
-      category: 'Home Insurance',
-      title: 'Smart Home Protection Package',
-      animation: 'rotate',
-    },
-    {
-      id: 4,
-      classes: 'item item4',
-      image: 'assets/images/portfolio/case-4.jpg',
-      category: 'Health Insurance',
-      title: 'Comprehensive Health Coverage',
-      animation: 'zoom',
-    },
-    {
-      id: 5,
-      classes: 'item item5',
-      image: 'assets/images/portfolio/case-5.jpg',
-      category: 'Auto Insurance',
-      title: 'Premium Vehicle Protection',
-      animation: 'slide',
-    },
-    {
-      id: 6,
-      classes: 'item item6',
-      image: 'assets/images/portfolio/case-6.jpg',
-      category: 'Travel Insurance',
-      title: 'Global Travel Safeguard',
-      animation: 'rotate',
-    },
-    {
-      id: 7,
-      classes: 'item item1 item4',
-      image: 'assets/images/portfolio/case-7.jpg',
-      category: 'Pet Insurance',
-      title: 'Animal Companion Care',
-      animation: 'zoom',
-    },
-    {
-      id: 8,
-      classes: 'item item2',
-      image: 'assets/images/portfolio/case-8.jpg',
-      category: 'Cyber Insurance',
-      title: 'Digital Asset Protection',
-      animation: 'slide',
-    },
-    {
-      id: 9,
-      classes: 'item item3',
-      image: 'assets/images/portfolio/case-9.jpg',
-      category: 'Marine Insurance',
-      title: 'Cargo Transport Coverage',
-      animation: 'rotate',
-    },
-  ];
+
 
   constructor(
     private offerService: OfferControllerService,
@@ -657,9 +584,10 @@ export class OffersListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categoryId = this.route.snapshot.paramMap.get('categoryId') || 'null';
-    console.log('Form ID:', this.categoryId);
-    this._loadOffers();
+    this.route.paramMap.subscribe((params) => {
+      this.categoryId = params.get('categoryId') || 'null';
+      this._loadOffers();
+    });
   }
 
   onHover(item: any, isHover: boolean) {

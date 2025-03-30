@@ -10,14 +10,12 @@ import { RequestBuilder } from '../../request-builder';
 
 import { CategoryResponse } from '../../models/category-response';
 
-export interface GetAllOfferCategories$Params {
-  target: 'PARTICULAR' | 'COMPANY';
+export interface GetAll1$Params {
 }
 
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
+export function getAll1(http: HttpClient, rootUrl: string, params?: GetAll1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getAll1.PATH, 'get');
   if (params) {
-    rb.query('target', params.target, {});
   }
 
   return http.request(
@@ -30,4 +28,4 @@ export function getAllOfferCategories(http: HttpClient, rootUrl: string, params:
   );
 }
 
-getAllOfferCategories.PATH = '/api/v1/offer-categories/getAll';
+getAll1.PATH = '/api/v1/offer-categories/getAll';

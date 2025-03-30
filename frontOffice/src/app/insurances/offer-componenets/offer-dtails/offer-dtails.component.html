@@ -56,9 +56,9 @@
                                 </div>
                             </ngx-slick-carousel>
                         </div>
-                        <div class="action-btn">
-                            <a class="btn-link">Learn More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
+                        <a [routerLink]="['/offer-details']" class="btn-link">
+                            Learn More<i class="fa fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </ngx-slick-carousel>
@@ -158,7 +158,7 @@
                 <!--=== Section Title ===-->
                 <div class="section-title text-center mb-55 wow fadeInDown">
                     <span class="sub-title">Pricing Plan</span>
-                    <h2>Amazing Insurance Product Pricing Package</h2>
+                    <h2>Amazing Insurance Offer Pricing Package</h2>
                 </div>
             </div>
         </div>
@@ -180,7 +180,7 @@
                         </ul>
                     </div>
                     <div class="d-flex justify-content-center align-items-center mt-auto">
-                        <a [routerLink]="['/insurance/offer-pushasing', offerDetails.formId,offerDetails.offerId]"  class="main-btn primary-btn mt-2">
+                        <a [routerLink]="['/insurance/offer-pushasing', offerDetails.formId,offerDetails.offerId]"  class="main-btn primary-btn btn-link no-underline mt-2">
                             Choose Package <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>

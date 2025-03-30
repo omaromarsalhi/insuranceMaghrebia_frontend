@@ -22,16 +22,17 @@ export class CategoryModalComponent {
   onSubmit() {
     this.submitted = true;
     if (this.form.valid) {
-      // Upload image first (if needed)
       this.imageUploader.uploadImage().then((imageUri) => {
-        console.log('image : '+imageUri)
         this.save.emit(imageUri);
+        this.activeModal.close();
+      }).catch(()=>{
+        this.save.emit(null);
         this.activeModal.close();
       });
     }
   }
 
-  // Close the modal
+
   dismiss() {
     this.activeModal.dismiss();
   }

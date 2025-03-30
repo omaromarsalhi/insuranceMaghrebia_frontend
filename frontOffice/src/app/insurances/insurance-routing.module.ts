@@ -6,8 +6,8 @@ import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/pur
 import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
 
 const routes: Routes = [
-  { path: 'categories', component: CategoryComponent  },
-  { path: 'offer-details', component: OfferDtailsComponent  },
+  { path: 'categories/:target', component: CategoryComponent  },
+  { path: 'offer-details/:offerId', component: OfferDtailsComponent  },
   { path: 'offer-list/:categoryId', component: OffersListComponent  },
   { path: 'offer-pushasing/:formId/:offerId', component: PurshasedOfferComponent  },
 ];

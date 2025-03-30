@@ -8,16 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CategoryResponse } from '../../models/category-response';
+import { OfferWithTagsResponse } from '../../models/offer-with-tags-response';
 
-export interface GetAllOfferCategories$Params {
-  target: 'PARTICULAR' | 'COMPANY';
+export interface GetAllByCategoryId$Params {
+  categoryId: string;
 }
 
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
+export function getAllByCategoryId(http: HttpClient, rootUrl: string, params: GetAllByCategoryId$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferWithTagsResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getAllByCategoryId.PATH, 'get');
   if (params) {
-    rb.query('target', params.target, {});
+    rb.path('categoryId', params.categoryId, {});
   }
 
   return http.request(
@@ -25,9 +25,9 @@ export function getAllOfferCategories(http: HttpClient, rootUrl: string, params:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<CategoryResponse>>;
+      return r as StrictHttpResponse<Array<OfferWithTagsResponse>>;
     })
   );
 }
 
-getAllOfferCategories.PATH = '/api/v1/offer-categories/getAll';
+getAllByCategoryId.PATH = '/api/v1/offers/getAllByCategoryId/{categoryId}';
