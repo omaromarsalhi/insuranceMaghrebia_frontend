@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TomTom Map with Location</title>
+    <script type="text/javascript" src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.js"></script>
+    <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.css">
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        // Function to display the map with the given latitude and longitude
+        function showMap(latitude, longitude) {
+            const map = tt.map({
+                key: 'your_actual_api_key_here', // Replace with your API key
+                container: 'map',
+                center: [longitude, latitude],
+                zoom: 14
+            });
+
+            // Add a marker for the current location
+            new tt.Marker().setLngLat([longitude, latitude]).addTo(map);
+        }
+
+        // Get the user's current location
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+            // Show the map with the user's location
+            showMap(latitude, longitude);
+        }, function(error) {
+            console.error("Error getting location", error);
+        });
+    </script>
+</body>
+</html>

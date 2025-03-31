@@ -1,0 +1,219 @@
+<div class="raw d-flex justify-content-center mt-100 mb-100">
+    <div class="col-lx-6 col-md-6">
+        <div class="form-container contact-form-area">
+            <form [formGroup]="insuranceForm" (ngSubmit)="onSubmit()" class="contact-form">
+
+                <!-- Progress Steps -->
+                <div class="surancy-pagination mb-50">
+                    <li [class.active]="step >= 1">1</li>
+                    <li [class.active]="step >= 2">2</li>
+                    <li [class.active]="step >= 3">3</li>
+                </div>
+
+                <!-- Step 1: Personal Info -->
+                <div *ngIf="step === 1" class="step-content">
+                    <h3 class="section-title mb-40">Step 1: Personal Information</h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">First Name</label>
+                                <input class="form_control" formControlName="firstName" type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Last Name</label>
+                                <input class="form_control" formControlName="lastName" type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Email</label>
+                                <input class="form_control" formControlName="email" type="email" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Phone Number</label>
+                                <input class="form_control" formControlName="phoneNumber" type="tel" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Date of Birth</label>
+                                <input class="form_control" formControlName="dateOfBirth" type="date" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">CIN</label>
+                                <input class="form_control" formControlName="cin" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right mt-40">
+                        <button type="button" class="main-btn primary-btn" (click)="nextStep()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Driver & Vehicle Info -->
+                <div *ngIf="step === 2" class="step-content">
+                    <h3 class="section-title mb-40">Step 2: Driver & Vehicle Details</h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">License Number</label>
+                                <input class="form_control" formControlName="licenseNumber" type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Driving Experience (years)</label>
+                                <input class="form_control" formControlName="drivingExperience" type="number" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form_group">
+                                <label class="sub-title">Vehicle Type</label>
+                                <select class="nice-select" formControlName="vehicleType">
+                                    <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form_group">
+                                <label class="sub-title">Vehicle Make</label>
+                                <select class="nice-select" formControlName="vehicleMake">
+                                    <option *ngFor="let make of vehicleMakes" [value]="make">{{ make }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form_group">
+                                <label class="sub-title">Vehicle Model</label>
+                                <input class="form_control" formControlName="vehicleModel" type="text" required>
+                            </div>
+                        </div>
+
+
+                        <!-- Accident History -->
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Accident History (past 3 years)</label>
+                                <select class="nice-select" formControlName="accidentHistory">
+                                    <option value="0">0 accidents</option>
+                                    <option value="1">1 accident</option>
+                                    <option value="2+">2+ accidents</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Traffic Violations -->
+                        <div class="col-12">
+                            <div class="form_group">
+                                <label class="sub-title mb-20">Traffic Violations</label>
+                                <div class="checkbox-grid">
+                                    <div class="checkbox-item" *ngFor="let violation of trafficViolations">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" [value]="violation"
+                                                formControlName="trafficViolations">
+                                            <span class="checkmark"></span>
+                                            {{ violation }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Defensive Driving Course -->
+                        <div class="col-12">
+                            <div class="form_group">
+                                <label class="checkbox-label defensive-driving">
+                                    <input type="checkbox" formControlName="defensiveDrivingCourse">
+                                    <span class="checkmark"></span>
+                                    I have completed a defensive driving course (eligible for discount)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group mt-40">
+                        <button type="button" class="main-btn secondary-btn mr-20" (click)="prevStep()">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="button" class="main-btn primary-btn" (click)="nextStep()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+
+
+
+                </div>
+
+                <!-- Step 3: Coverage & Location -->
+                <div *ngIf="step === 3" class="step-content">
+                    <h3 class="section-title mb-40">Step 3: Coverage & Location</h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Coverage Type</label>
+                                <select class="nice-select" formControlName="coverageType">
+                                    <option *ngFor="let type of coverageTypes" [value]="type">{{ type }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Governorate</label>
+                                <select class="nice-select" formControlName="governorate">
+                                    <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">Street Address</label>
+                                <input class="form_control" formControlName="streetAddress" type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form_group">
+                                <label class="sub-title">City</label>
+                                <input class="form_control" formControlName="city" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group mt-40">
+                        <button type="button" class="main-btn secondary-btn mr-20" (click)="prevStep()">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="submit" class="main-btn primary-btn">
+                            Submit <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

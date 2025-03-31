@@ -1,0 +1,241 @@
+/* Multi-Step Form Enhancements */
+.form-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 30px 80px rgba(25, 59, 30, 0.1);
+  }
+  
+  .step-content {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Progress Steps Enhancement */
+  .surancy-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px !important;
+  }
+  
+  .surancy-pagination li {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #193B1E;
+  }
+  
+  .surancy-pagination li:not(:last-child):after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    background: #193B1E;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .surancy-pagination li.active {
+    background: #FFB966;
+    border-color: #FFB966;
+    color: #fff;
+  }
+  
+  /* Form Group Enhancements */
+  .form_group {
+    margin-bottom: 30px;
+  }
+  
+  .form_group label.sub-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #193B1E;
+    margin-bottom: 12px;
+  }
+  
+  .form_control {
+    height: 60px;
+    border: 2px solid rgba(25, 59, 30, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 0 25px !important;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .form_control:focus {
+    border-color: #FFB966 !important;
+    box-shadow: 0px 10px 30px rgba(255, 185, 102, 0.2);
+  }
+  
+  /* Select Box Enhancements */
+  .nice-select {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    border: 2px solid rgba(25, 59, 30, 0.1);
+    border-radius: 10px;
+  }
+  
+  .nice-select:after {
+    right: 25px !important;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Button Group Styling */
+  .button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+  }
+  
+  .main-btn.primary-btn {
+    background: #193B1E;
+    color: #fff;
+    padding: 18px 45px;
+    transition: all 0.3s ease;
+  }
+  
+  .main-btn.secondary-btn {
+    background: #FFB966;
+    color: #193B1E;
+    border: 2px solid #FFB966;
+    padding: 18px 45px;
+  }
+  
+  .main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 15px 30px rgba(25, 59, 30, 0.2);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 991px) {
+    .form-container {
+      padding: 40px;
+    }
+    
+    .surancy-pagination {
+      gap: 20px;
+    }
+    
+    .surancy-pagination li:not(:last-child):after {
+      width: 20px;
+      right: -20px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .form-container {
+      padding: 30px;
+    }
+    
+    .button-group {
+      flex-direction: column;
+    }
+    
+    .main-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .surancy-pagination li {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .form_control {
+      height: 50px;
+      padding: 0 20px !important;
+    }
+  }
+  
+  /* Error States */
+  .invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  
+  .form_control.ng-invalid.ng-touched {
+    border-color: #dc3545 !important;
+  }
+
+
+  /* Checkbox Styling */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    color: #193B1E;
+  }
+  
+  .checkbox-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .checkmark {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #193B1E;
+    border-radius: 4px;
+    margin-right: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .checkbox-label input:checked ~ .checkmark {
+    background-color: #FFB966;
+    border-color: #FFB966;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  .checkbox-label input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .defensive-driving {
+    padding: 15px;
+    background: #FEFBE9;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .defensive-driving .checkmark {
+    flex-shrink: 0;
+  }
+  

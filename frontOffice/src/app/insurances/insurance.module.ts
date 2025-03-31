@@ -10,11 +10,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/purshased-offer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
+import { GenerateQuoteComponent } from './offer-componenets/generate-quote/generate-quote.component';
+import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
 
 
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent],
+  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent],
   imports: [
     CommonModule,
     InsuranceRoutingModule,
