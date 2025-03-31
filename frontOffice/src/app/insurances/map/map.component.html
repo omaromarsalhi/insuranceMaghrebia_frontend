@@ -1,0 +1,35 @@
+<div class="map-container">
+
+    <div class="map-search-box" [class.active]="showSearch">
+        <div class="search-container">
+            <i class="fas fa-search search-icon" (click)="toggleSearch()"></i>
+
+            <input #searchInput type="text" class="search-input" placeholder="Search address..."
+                (input)="onSearchInput($event)" (click)="$event.stopPropagation()" />
+
+            <div class="search-loading" *ngIf="isSearching">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+
+            <div class="search-results">
+                <div *ngFor="let result of searchResults" class="result-item" (click)="selectSearchResult(result)">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ result.address.freeformAddress || "Unknown location" }}
+                </div>
+            </div>
+
+            <div class="search-error" *ngIf="searchError">
+                <i class="fas fa-exclamation-triangle"></i>
+                {{ searchError }}
+            </div>
+        </div>
+    </div>
+    <div #mapContainer class="map-container" style="height: 300px; width: 100%; border: 1px solid #ddd"></div>
+
+
+    <button (click)="toggleSatelliteView()" class="satellite-toggle">
+        <i *ngIf="!isSatelliteView" class="fas fa-satellite-dish"></i>
+        <i *ngIf="isSatelliteView" class="fas fa-satellite-dish active"></i>
+
+    </button>
+</div>

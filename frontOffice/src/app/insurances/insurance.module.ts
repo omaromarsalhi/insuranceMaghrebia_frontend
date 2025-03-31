@@ -12,11 +12,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
 import { GenerateQuoteComponent } from './offer-componenets/generate-quote/generate-quote.component';
 import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
+import { MapComponent } from './map/map.component';
 
 
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent],
+  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent, MapComponent],
   imports: [
     CommonModule,
     InsuranceRoutingModule,

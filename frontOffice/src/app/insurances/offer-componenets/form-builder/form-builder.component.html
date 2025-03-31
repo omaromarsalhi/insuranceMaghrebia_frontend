@@ -1,219 +1,224 @@
-<div class="raw d-flex justify-content-center mt-100 mb-100">
-    <div class="col-lx-6 col-md-6">
-        <div class="form-container contact-form-area">
-            <form [formGroup]="insuranceForm" (ngSubmit)="onSubmit()" class="contact-form">
+<app-preloader></app-preloader>
 
-                <!-- Progress Steps -->
-                <div class="surancy-pagination mb-50">
-                    <li [class.active]="step >= 1">1</li>
-                    <li [class.active]="step >= 2">2</li>
-                    <li [class.active]="step >= 3">3</li>
-                </div>
-
-                <!-- Step 1: Personal Info -->
-                <div *ngIf="step === 1" class="step-content">
-                    <h3 class="section-title mb-40">Step 1: Personal Information</h3>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">First Name</label>
-                                <input class="form_control" formControlName="firstName" type="text" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Last Name</label>
-                                <input class="form_control" formControlName="lastName" type="text" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Email</label>
-                                <input class="form_control" formControlName="email" type="email" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Phone Number</label>
-                                <input class="form_control" formControlName="phoneNumber" type="tel" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Date of Birth</label>
-                                <input class="form_control" formControlName="dateOfBirth" type="date" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">CIN</label>
-                                <input class="form_control" formControlName="cin" type="text" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-right mt-40">
-                        <button type="button" class="main-btn primary-btn" (click)="nextStep()">
-                            Next <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Driver & Vehicle Info -->
-                <div *ngIf="step === 2" class="step-content">
-                    <h3 class="section-title mb-40">Step 2: Driver & Vehicle Details</h3>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">License Number</label>
-                                <input class="form_control" formControlName="licenseNumber" type="text" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Driving Experience (years)</label>
-                                <input class="form_control" formControlName="drivingExperience" type="number" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form_group">
-                                <label class="sub-title">Vehicle Type</label>
-                                <select class="nice-select" formControlName="vehicleType">
-                                    <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form_group">
-                                <label class="sub-title">Vehicle Make</label>
-                                <select class="nice-select" formControlName="vehicleMake">
-                                    <option *ngFor="let make of vehicleMakes" [value]="make">{{ make }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form_group">
-                                <label class="sub-title">Vehicle Model</label>
-                                <input class="form_control" formControlName="vehicleModel" type="text" required>
-                            </div>
-                        </div>
-
-
-                        <!-- Accident History -->
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Accident History (past 3 years)</label>
-                                <select class="nice-select" formControlName="accidentHistory">
-                                    <option value="0">0 accidents</option>
-                                    <option value="1">1 accident</option>
-                                    <option value="2+">2+ accidents</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Traffic Violations -->
-                        <div class="col-12">
-                            <div class="form_group">
-                                <label class="sub-title mb-20">Traffic Violations</label>
-                                <div class="checkbox-grid">
-                                    <div class="checkbox-item" *ngFor="let violation of trafficViolations">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" [value]="violation"
-                                                formControlName="trafficViolations">
-                                            <span class="checkmark"></span>
-                                            {{ violation }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Defensive Driving Course -->
-                        <div class="col-12">
-                            <div class="form_group">
-                                <label class="checkbox-label defensive-driving">
-                                    <input type="checkbox" formControlName="defensiveDrivingCourse">
-                                    <span class="checkmark"></span>
-                                    I have completed a defensive driving course (eligible for discount)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="button-group mt-40">
-                        <button type="button" class="main-btn secondary-btn mr-20" (click)="prevStep()">
-                            <i class="fas fa-arrow-left"></i> Previous
-                        </button>
-                        <button type="button" class="main-btn primary-btn" (click)="nextStep()">
-                            Next <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-
-
-
-
-                </div>
-
-                <!-- Step 3: Coverage & Location -->
-                <div *ngIf="step === 3" class="step-content">
-                    <h3 class="section-title mb-40">Step 3: Coverage & Location</h3>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Coverage Type</label>
-                                <select class="nice-select" formControlName="coverageType">
-                                    <option *ngFor="let type of coverageTypes" [value]="type">{{ type }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Governorate</label>
-                                <select class="nice-select" formControlName="governorate">
-                                    <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">Street Address</label>
-                                <input class="form_control" formControlName="streetAddress" type="text" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form_group">
-                                <label class="sub-title">City</label>
-                                <input class="form_control" formControlName="city" type="text" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="button-group mt-40">
-                        <button type="button" class="main-btn secondary-btn mr-20" (click)="prevStep()">
-                            <i class="fas fa-arrow-left"></i> Previous
-                        </button>
-                        <button type="submit" class="main-btn primary-btn">
-                            Submit <i class="fas fa-check"></i>
-                        </button>
-                    </div>
-                </div>
-
-            </form>
+<section class="contact-form-section gray-bg">
+    <!-- Popup Overlay -->
+    <div class="overlay" *ngIf="showPopup" (click)="showPopup = false" @fadeInOut>
+        <div class="modal-content" (click)="$event.stopPropagation()" @slideIn>
+            <button class="close-btn" (click)="showPopup = false">&times;</button>
+            <h3>Thank You!</h3>
+            <span *ngIf="isLoading">
+                <i class="fa fa-spinner fa-spin"></i> Loading...
+            </span>
+            <p *ngIf="!isLoading">Your submission has been received.</p>
+            <button *ngIf="!isLoading" class="main-btn primary-btn" (click)="showPopup = false">
+                Close
+            </button>
         </div>
     </div>
-</div>
+
+    <div class="container col-11">
+        <div class="row">
+            <!-- Left Column: Consultation Info -->
+            <div class="col-xl-4 order-1 order-xl-1 green-bg sideSectionRight">
+                <div class="insurance-types">
+                    <h3 class="types-title d-flex justify-content-center">
+                        <i class="fas fa-shield-alt me-2"></i>Insurance Options
+                    </h3>
+                    <div class="type-buttons">
+                        <button *ngFor="let type of formTypes" class="type-option"
+                            [class.active]="currentFormType === type.id" (click)="changeFormType(type.id)">
+                            <i [class]="type.icon"></i>
+                            {{ type.label }} Quote
+                        </button>
+                    </div>
+
+                    <div class="site-branding">
+                        <a class="brand-logo">
+                            <div class="logo-container">
+                                <img src="../../../../assets/images/logo/logo.png" alt="Company Logo"
+                                    class="logo-image" />
+                                <div class="logo-slogan">Your Safety, Our Priority</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Contact Form Area -->
+            <div class="col-xl-8 order-2 order-xl-2 mt-4 mb-4 sideSection">
+                <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
+                    <div class="section-title mb-10">
+                        <h2>Get Your Insurance</h2>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active show fade" id="dynamicForm">
+                            <form class="contact-form" [formGroup]="insuranceForm">
+                                <ng-container *ngFor="
+                    let field of filteredFormFields;
+                    let i = index;
+                    trackBy: trackByFn
+                  ">
+                                    <div class="form_group mb-3" [ngSwitch]="field.type">
+                                        <div *ngIf="
+                        field.type !== 'checkbox' && field.type !== 'header'
+                      ">
+                                            <label [attr.for]="field.label">{{ field.label }}</label>
+                                        </div>
+
+                                        <!-- Number Input -->
+                                        <input *ngSwitchCase="'number'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="number" />
+
+                                        <!-- Text Input -->
+                                        <input *ngSwitchCase="'text'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="text" />
+
+                                        <!-- Textarea Input -->
+                                        <textarea *ngSwitchCase="'textarea'" class="form_control sideLine"
+                                            style="min-height: 60px" [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)"></textarea>
+
+                                        <!-- Email Input -->
+                                        <input *ngSwitchCase="'email'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || 'example@domain.com'"
+                                            [formControlName]="getFormControlName(field, i)" type="email" />
+
+                                        <!-- Telephone Input -->
+                                        <input *ngSwitchCase="'tel'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || '+000 (123) 456 887'"
+                                            [formControlName]="getFormControlName(field, i)" pattern="[+]?[0-9]+"
+                                            type="tel" />
+
+                                        <!-- Date Input -->
+                                        <input *ngSwitchCase="'date'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="date" />
+
+                                        <!-- Time Input -->
+                                        <input *ngSwitchCase="'time'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="time" />
+
+                                        <!-- Color Input -->
+                                        <input *ngSwitchCase="'color'" class="form_control sideLine"
+                                            [placeholder]="field.placeholder || ''"
+                                            [formControlName]="getFormControlName(field, i)" type="color" />
+
+                                        <!-- Select Dropdown -->
+                                        <div *ngSwitchCase="'select'" style="margin-bottom: 8px" class="">
+                                            <select class="wide nice-select sideLine" style="margin-bottom: 20px"
+                                                [formControlName]="getFormControlName(field, i)">
+                                                <option value="" disabled selected>
+                                                    Select An Option
+                                                </option>
+                                                <option *ngFor="let option of field.selectOptions" [value]="option">
+                                                    {{ option }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Range Input -->
+
+                                        <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
+                                            <!-- Range Input -->
+                                            <input type="range" class="form-control range-slider"
+                                                [min]="field.rangeStart" [max]="field.rangeEnd"
+                                                [formControlName]="getFormControlName(field, i)"
+                                                (input)="updateRangeValue(field, i, $event)" />
+
+                                            <!-- Range Values -->
+                                            <div class="range-values">
+                                                <span>{{ field.rangeStart }}</span>
+                                                <span class="current-value">{{
+                                                    getCurrentValue(field, i)
+                                                    }}</span>
+                                                <span>{{ field.rangeEnd }}</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Checkbox Group -->
+
+                                        <div *ngSwitchCase="'checkbox'"
+                                            class="col-12 check-list flex items-center gap-2">
+                                            <div class="checkbox-item">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox"
+                                                        [formControlName]="getFormControlName(field, i)" />
+                                                    <span class="checkmark"></span>
+                                                    {{ field.label }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Radio Buttons -->
+                                        <div *ngSwitchCase="'radio'" class="radio-group">
+                                            <label *ngFor="let option of field.selectOptions" class="radio-label">
+                                                <input type="radio" [formControlName]="getFormControlName(field, i)"
+                                                    [value]="option" />
+                                                <span>{{ option }}</span>
+                                            </label>
+                                        </div>
+
+                                        <div *ngSwitchCase="'map'" class="form_group mb-3">
+                                            <button type="button" class="main-btn primary-btn mb-3"
+                                                (click)="toggleMap()">
+                                                <i class="fas fa-map-marker-alt fs-6"></i>
+                                            </button>
+
+                                            <app-map *ngIf="showMap" [@slideFade]></app-map>
+                                        </div>
+
+                                        <!-- Validation Errors -->
+                                        <!-- <div *ngIf="
+                        insuranceForm.controls[getFormControlName(field, i)]
+                          .invalid &&
+                        (insuranceForm.controls[getFormControlName(field, i)]
+                          .touched ||
+                          insuranceForm.controls[getFormControlName(field, i)]
+                            .dirty)
+                      " class="validation-error text-danger">
+                                            <span
+                                                *ngIf="insuranceForm.controls[getFormControlName(field, i)].errors?.['required']">
+                                                This field is required
+                                            </span>
+                                            <span
+                                                *ngIf="insuranceForm.controls[getFormControlName(field, i)].errors?.['pattern']">
+                                                {{ field.regexErrorMessage }}
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                </ng-container>
+
+                                <div class="form_group">
+                                    <div class="button-group mt-40">
+                                        <button *ngIf="step > 1" type="button" class="main-btn secondary-btn mr-20"
+                                            (click)="prevStep()">
+                                            <i class="fas fa-arrow-left"></i> Previous
+                                        </button>
+                                        <button *ngIf="step < 3" type="button" class="main-btn primary-btn"
+                                            (click)="nextStep()">
+                                            Next <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                        <button *ngIf="step === 3" type="submit"
+                                            class="main-btn primary-btn btn-link no-underline" (click)="onSubmit()">
+                                            <span>Submit <i class="fa fa-arrow-right"></i></span>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="!insuranceForm.valid && notValid"
+                                        class="validation-error text-danger ms-1 mt-2">
+                                        <span style="font-size: 18px">
+                                            One or more fields have an error. Please check and try
+                                            again.
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

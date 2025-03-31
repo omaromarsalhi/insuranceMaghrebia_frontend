@@ -1,0 +1,159 @@
+
+
+
+ .map-container {
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 330px; 
+  background: #f5f5f5; 
+}
+
+.map-search-box {
+  position: absolute;
+  top: 20px; 
+  left: 20px; 
+  z-index: 1000;
+  width: 40px;
+  transition: all 0.3s ease;
+  border-left: 3px solid #ffb966;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.map-search-box.active {
+  width: 80%; /* Responsive width */
+  max-width: 350px;
+  border-radius: 15px;
+}
+
+.search-container {
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 15px;
+  overflow: visible; /* Changed from hidden */
+  background: rgba(255, 255, 255, 0.348);
+  
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 45px 12px 40px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Important for width calculations */
+}
+
+.map-search-box.active .search-input {
+  opacity: 1;
+  transform: translateX(0);
+  padding-left: 40px;
+  border-radius: 15px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffb966;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.search-results {
+  position: absolute;
+  width: calc(100% - 40px); /* Account for padding */
+  left: 20px;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-top: 5px;
+  z-index: 1001; /* Higher than search box */
+}
+
+.map-search-box.active .search-results {
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 15px;
+}
+
+.result-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid #eee;
+}
+
+.result-item:hover {
+  background: #f8f9fa;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+/* Loading Animation */
+.search-loading {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.satellite-toggle {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 20px;
+  right: 8px;
+  z-index: 1000;
+  background: white;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
+.satellite-toggle i {
+  /* margin-right: 5px; */
+  color: #193b1e;
+}
+
+/* Default (Inactive) State */
+.fas.fa-satellite-dish {
+  color: #193b1e; /* Gray color for inactive */
+  transition: color 0.3s ease;
+}
+
+/* Active State */
+.fas.fa-satellite-dish.active {
+  color: #ffb966; /* Green color for active */
+  transition: color 0.3s ease;
+}

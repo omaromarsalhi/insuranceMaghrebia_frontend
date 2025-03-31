@@ -19,7 +19,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-purshased-offer',
   templateUrl: './purshased-offer.component.html',
-  styleUrls: ['./purshased-offer.component.css', './nice-select.css'],
+  styleUrls: ['../../form.css','./purshased-offer.component.css', '../../nice-select.css'],
   animations: [
     trigger('fadeInOut', [
         transition(':enter', [

@@ -94,15 +94,7 @@
                                         </div>
 
                                         <!-- Range Input -->
-                                        <!-- <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
-                                            <input type="range" class="form_control" [min]="field.rangeStart"
-                                                [max]="field.rangeEnd"
-                                                [formControlName]="getFormControlName(field, i)" />
-                                            <div class="range-values check-list">
-                                                <span>{{ field.rangeStart }}</span>
-                                                <span>{{ field.rangeEnd }}</span>
-                                            </div>
-                                        </div> -->
+                                
                                         <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
                                             <!-- Range Input -->
                                             <input type="range" class="form-control range-slider"
@@ -123,9 +115,13 @@
                                         <!-- Checkbox Group -->
 
                                         <div *ngSwitchCase="'checkbox'" class="check-list flex items-center gap-2">
-                                            <input type="checkbox" [formControlName]="getFormControlName(field, i)"
-                                                class="w-4 h-4" />
-                                            <label class="text-sm">{{ field.label }}</label>
+                                            <div class="checkbox-item">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" [formControlName]="getFormControlName(field, i)">
+                                                    <span class="checkmark"></span>
+                                                    {{ field.label }}
+                                                </label>
+                                            </div>
                                         </div>
 
                                         <!-- Radio Buttons -->

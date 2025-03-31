@@ -9,6 +9,7 @@ import { FormBuilderComponent } from './offer-componenets/form-builder/form-buil
 
 const routes: Routes = [
   { path: 'generate-quote', component: FormBuilderComponent  },
+  { path: 'generate-quote2', component: GenerateQuoteComponent  },
   { path: 'categories/:target', component: CategoryComponent  },
   { path: 'offer-details/:offerId', component: OfferDtailsComponent  },
   { path: 'offer-list/:categoryId', component: OffersListComponent  },
