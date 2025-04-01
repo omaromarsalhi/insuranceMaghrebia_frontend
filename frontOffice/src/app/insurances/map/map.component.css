@@ -8,24 +8,25 @@
   position: relative;
   min-height: 330px; 
   background: #f5f5f5; 
+
 }
 
 .map-search-box {
   position: absolute;
   top: 20px; 
   left: 20px; 
-  z-index: 1000;
+  z-index: 10;
   width: 40px;
   transition: all 0.3s ease;
-  border-left: 3px solid #ffb966;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
 }
 
 .map-search-box.active {
   width: 80%; /* Responsive width */
   max-width: 350px;
   border-radius: 15px;
+  border-left: 3px solid #ffb966;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .search-container {
@@ -58,8 +59,8 @@
 
 .search-icon {
   position: absolute;
-  left: 15px;
-  top: 50%;
+  left: 13px;
+  top: 52%;
   transform: translateY(-50%);
   color: #ffb966;
   cursor: pointer;
@@ -77,7 +78,7 @@
   transition: max-height 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   margin-top: 5px;
-  z-index: 1001; /* Higher than search box */
+  z-index: 11;
 }
 
 .map-search-box.active .search-results {
@@ -131,7 +132,7 @@
   position: absolute;
   bottom: 20px;
   right: 8px;
-  z-index: 1000;
+  z-index: 10;
   background: white;
   border: none;
   padding: 8px;
@@ -156,4 +157,63 @@
 .fas.fa-satellite-dish.active {
   color: #ffb966; /* Green color for active */
   transition: color 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+.primary-btn {
+  padding: 0.75rem;
+  background-color: #e8eceb;
+  color: black;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e8eceb;
+}
+
+.primary-btn:hover {
+  color: #28a745;
+  border-color: #28a745;
+  box-shadow: 0 4px 12px rgba(255, 185, 102, 0.1);
+}
+
+.primary-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.confirmation-message {
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 4px solid #28a745;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.confirmation-message i {
+  color:  #28a745;
+}
+
+
+.error{
+  color: red;
+  border-left: 4px solid red;
+}
+
+.error i{
+  color: red;
 }

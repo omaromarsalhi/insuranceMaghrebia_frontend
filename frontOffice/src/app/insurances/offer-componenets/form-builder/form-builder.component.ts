@@ -1,14 +1,6 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormFieldDto } from 'src/app/core/models';
 
 import {
   trigger,
@@ -18,6 +10,9 @@ import {
   state,
 } from '@angular/animations';
 import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
+import { FormFieldDto } from 'src/app/core/models/form-field-dto';
+import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
+import { AutomobileQuoteControllerService } from '../../../core/services/automobile-quote-controller.service';
 
 @Component({
   selector: 'app-form-builder',
@@ -75,184 +70,418 @@ export class FormBuilderComponent implements OnInit {
   offerId!: string;
   insuranceForm!: FormGroup;
   isLoading: boolean = false;
-  notValid: boolean = false;
+  isFormSubmitted: boolean = false;
   selectedValue: number = 0;
   showPopup = false;
-  step: number = 3;
+  step: number = 1;
+  maxSteps: number = 1;
   showMap: boolean = false;
+  position: any = null;
+  data2Save!: AutoInsuranceRequest;
 
   filteredFormFields: MyFormFieldDto[] = [];
-  formFields: MyFormFieldDto[] = [
-    // Step 1: Personal Information
-    {
-      label: 'First Name',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter your first name',
-      regex: '^[A-Za-z]+$',
-      regexErrorMessage: 'Only alphabetic characters are allowed',
-      order: 1,
-      step: 1,
-    },
-    {
-      label: 'Last Name',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter your last name',
-      regex: '^[A-Za-z]+$',
-      regexErrorMessage: 'Only alphabetic characters are allowed',
-      order: 2,
-      step: 1,
-    },
-    {
-      label: 'Email',
-      type: 'email',
-      required: true,
-      placeholder: 'Enter your email address',
-      regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-      regexErrorMessage: 'Enter a valid email address',
-      order: 3,
-      step: 1,
-    },
-    {
-      label: 'Phone Number',
-      type: 'number',
-      required: true,
-      placeholder: 'Enter your phone number',
-      regex: '^[0-9]{8,15}$',
-      regexErrorMessage: 'Phone number must be between 8 and 15 digits',
-      order: 4,
-      step: 1,
-    },
-    {
-      label: 'Date of Birth',
-      type: 'date',
-      required: true,
-      placeholder: 'Select your date of birth',
-      order: 5,
-      step: 1,
-    },
-    {
-      label: 'CIN',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter your CIN',
-      regex: '^[0-9]{8}$',
-      regexErrorMessage: 'CIN must be exactly 8 digits',
-      order: 6,
-      step: 1,
-    },
+  chosenFormFields: any[] = [];
+  formConfigurations: any = {
+    auto: {
+      data: [
+        {
+          label: 'VIN (Vehicle Identification Number)',
+          type: 'text',
+          required: true,
+          placeholder: 'Enter 17-character VIN',
+          regex: '^[A-HJ-NPR-Z0-9]{17}$',
+          regexErrorMessage: 'Must be a valid 17-character VIN',
+          step: 1,
+        },
+        {
+          label: 'License Number',
+          type: 'text',
+          required: true,
+          placeholder: 'Enter your license number',
+          regex: '^[A-Za-z0-9-]{6,20}$',
+          regexErrorMessage: 'Invalid license number format',
+          step: 1,
+        },
+        {
+          label: 'Driving Experience (years)',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter years of experience',
+          regex: '^[0-9]{1,3}$',
+          regexErrorMessage: 'Enter a valid number of years',
+          step: 1,
+        },
+        {
+          label: 'Vehicle Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Car', 'Motorcycle', 'Truck'],
+          placeholder: 'Select vehicle type',
+          order: 9,
+          step: 1,
+        },
+        {
+          label: 'Vehicle Make',
+          type: 'text',
+          required: true,
+          placeholder: 'Enter vehicle make',
+          regex: '^[A-Za-z0-9\\s-]{2,50}$',
+          regexErrorMessage: 'Invalid vehicle make',
+          order: 10,
+          step: 1,
+        },
+        {
+          label: 'Vehicle Model',
+          type: 'text',
+          required: true,
+          placeholder: 'Enter vehicle model',
+          regex: '^[A-Za-z0-9\\s-]{2,50}$',
+          regexErrorMessage: 'Invalid vehicle model',
+          order: 11,
+          step: 1,
+        },
+        {
+          label: 'Accident History (past 3 years)',
+          type: 'select',
+          required: true,
+          selectOptions: ['0 accidents', '1 accident', '2+ accidents'],
+          placeholder: 'Select accident history',
+          order: 12,
+          step: 1,
+        },
+        {
+          label: 'Traffic Violations',
+          type: 'checkbox',
+          required: false,
+          selectOptions: ['Speeding', 'Running Red Light', 'DUI'],
+          order: 13,
+          step: 1,
+        },
+        {
+          label: 'Defensive Driving Course',
+          type: 'checkbox',
+          required: false,
+          order: 14,
+          step: 1,
+        },
 
-    // Step 2: Driver & Vehicle Info
-    {
-      label: 'License Number',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter your license number',
-      regex: '^[A-Za-z0-9-]+$',
-      regexErrorMessage: 'Invalid license number format',
-      order: 7,
-      step: 2,
+        // Step 3: Coverage & Location
+        {
+          label: 'Coverage Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Basic', 'Comprehensive', 'Third-Party'],
+          placeholder: 'Select coverage type',
+          order: 15,
+          step: 2,
+        },
+        {
+          label: 'Location',
+          type: 'map',
+          placeholder: 'Select your governorate',
+          order: 16,
+          step: 2,
+        },
+      ],
+      nbrSteps: 2,
     },
-    {
-      label: 'Driving Experience (years)',
-      type: 'number',
-      required: true,
-      placeholder: 'Enter years of experience',
-      rangeStart: 0,
-      rangeEnd: 100,
-      rangeValid: true,
-      order: 8,
-      step: 2,
-    },
-    {
-      label: 'Vehicle Type',
-      type: 'select',
-      required: true,
-      selectOptions: ['Car', 'Motorcycle', 'Truck'],
-      placeholder: 'Select vehicle type',
-      order: 9,
-      step: 2,
-    },
-    {
-      label: 'Vehicle Make',
-      type: 'select',
-      required: true,
-      selectOptions: ['Toyota', 'Honda', 'Ford', 'BMW', 'Mercedes'],
-      placeholder: 'Select vehicle make',
-      order: 10,
-      step: 2,
-    },
-    {
-      label: 'Vehicle Model',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter vehicle model',
-      order: 11,
-      step: 2,
-    },
-    {
-      label: 'Accident History (past 3 years)',
-      type: 'select',
-      required: true,
-      selectOptions: ['0 accidents', '1 accident', '2+ accidents'],
-      placeholder: 'Select accident history',
-      order: 12,
-      step: 2,
-    },
-    {
-      label: 'Traffic Violations',
-      type: 'checkbox',
-      required: false,
-      selectOptions: ['Speeding', 'Running Red Light', 'DUI'],
-      order: 13,
-      step: 2,
-    },
-    {
-      label: 'Defensive Driving Course',
-      type: 'checkbox',
-      required: false,
-      order: 14,
-      step: 2,
-    },
+    health: {
+      data: [
+        // Step 1: Personal Information
+        // {
+        //   label: 'Full Name',
+        //   type: 'text',
+        //   required: true,
+        //   placeholder: 'Enter your full name',
+        //   regex: '^[A-Za-z\\s]{2,}$',
+        //   regexErrorMessage: 'Must contain at least 2 alphabetical characters',
+        //   order: 1,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Date of Birth',
+        //   type: 'date',
+        //   required: true,
+        //   placeholder: 'Select your date of birth',
+        //   minDate: '1900-01-01',
+        //   maxDate: new Date().toISOString().split('T')[0],
+        //   order: 2,
+        //   step: 1
+        // },
+        // {
+        //   label: 'CIN',
+        //   type: 'text',
+        //   required: true,
+        //   placeholder: 'Enter your CIN',
+        //   regex: '^[0-9]{8}$',
+        //   regexErrorMessage: 'CIN must be exactly 8 digits',
+        //   order: 3,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Phone Number',
+        //   type: 'tel',
+        //   required: true,
+        //   placeholder: 'Enter your phone number',
+        //   regex: '^[0-9]{8,15}$',
+        //   regexErrorMessage: 'Phone number must be 8-15 digits',
+        //   order: 4,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Email',
+        //   type: 'email',
+        //   required: true,
+        //   placeholder: 'Enter your email',
+        //   regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+        //   regexErrorMessage: 'Enter a valid email address',
+        //   order: 5,
+        //   step: 1
+        // },
 
-    // Step 3: Coverage & Location
-    {
-      label: 'Coverage Type',
-      type: 'select',
-      required: true,
-      selectOptions: ['Basic', 'Comprehensive', 'Third-Party'],
-      placeholder: 'Select coverage type',
-      order: 15,
-      step: 3,
+        // Step 2: Health Information
+        {
+          label: 'Annual Income (TND)',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter your annual income',
+          min: 0,
+          max: 1000000,
+          regex: '^\\d{4,7}$',
+          regexErrorMessage: 'Must be a valid amount (4-7 digits)',
+          order: 6,
+          step: 1,
+        },
+        {
+          label: 'Coverage Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Basic', 'Standard', 'Premium'],
+          placeholder: 'Select coverage type',
+          order: 7,
+          step: 1,
+        },
+        {
+          label: 'Existing Conditions',
+          type: 'checkbox-group',
+          required: false,
+          selectOptions: ['Diabetes', 'Hypertension', 'Heart Disease', 'None'],
+          order: 8,
+          step: 1,
+        },
+        {
+          label: 'Include Dental Coverage',
+          type: 'checkbox',
+          required: false,
+          order: 9,
+          step: 1,
+        },
+        {
+          label: 'Include Optical Coverage',
+          type: 'checkbox',
+          required: false,
+          order: 10,
+          step: 1,
+        },
+      ],
+      nbrSteps: 1,
     },
-    {
-      label: 'Location',
-      type: 'map',
-      required: true,
-      placeholder: 'Select your governorate',
-      order: 16,
-      step: 3,
+    home: {
+      data: [
+        {
+          label: 'Property Address',
+          type: 'map',
+          placeholder: 'Select your Property Address',
+          order: 1,
+          step: 1,
+        },
+        {
+          label: 'Property Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Apartment', 'House', 'Villa', 'Commercial'],
+          placeholder: 'Select property type',
+          order: 3,
+          step: 1,
+        },
+        {
+          label: 'Square Footage (m²)',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter area in square meters',
+          min: 10,
+          max: 1000,
+          regex: '^\\d{2,5}$',
+          regexErrorMessage: 'Must be a valid area (10-99999 m²)',
+          order: 4,
+          step: 1,
+        },
+        {
+          label: 'Year Built',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter construction year',
+          min: 1900,
+          max: new Date().getFullYear(),
+          regex: '^(19|20)\\d{2}$',
+          regexErrorMessage:
+            'Enter a valid year between 1900-' + new Date().getFullYear(),
+          order: 5,
+          step: 1,
+        },
+        {
+          label: 'Coverage Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Basic', 'Extended', 'Premium'],
+          placeholder: 'Select coverage type',
+          order: 6,
+          step: 2,
+        },
+        {
+          label: 'Include Flood Insurance',
+          type: 'checkbox',
+          required: false,
+          order: 7,
+          step: 2,
+        },
+        {
+          label: 'Include Earthquake Coverage',
+          type: 'checkbox',
+          required: false,
+          order: 8,
+          step: 2,
+        },
+        {
+          label: 'Estimated Property Value (TND)',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter property value',
+          min: 10000,
+          max: 5000000,
+          regex: '^\\d{5,7}$',
+          regexErrorMessage: 'Must be a valid amount (5-7 digits)',
+          order: 9,
+          step: 2,
+        },
+        {
+          label: 'Security Features',
+          type: 'checkbox-group',
+          required: false,
+          selectOptions: [
+            'Alarm System',
+            'Security Cameras',
+            'Gated Community',
+            'None',
+          ],
+          order: 10,
+          step: 2,
+        },
+      ],
+      nbrSteps: 2,
     },
-    // {
-    //   label: 'Street Address',
-    //   type: 'text',
-    //   required: true,
-    //   placeholder: 'Enter your street address',
-    //   order: 17,
-    //   step: 3,
-    // },
-    // {
-    //   label: 'City',
-    //   type: 'text',
-    //   required: true,
-    //   placeholder: 'Enter your city',
-    //   order: 18,
-    //   step: 3,
-    // },
-  ];
-  currentFormType = 'health';
+    life: {
+      data: [
+        // Step 1: Personal Information
+        // {
+        //   label: 'Full Name',
+        //   type: 'text',
+        //   required: true,
+        //   placeholder: 'Enter your full name',
+        //   regex: '^[A-Za-z\\s]{2,}$',
+        //   regexErrorMessage: 'Must contain at least 2 alphabetical characters',
+        //   order: 1,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Date of Birth',
+        //   type: 'date',
+        //   required: true,
+        //   placeholder: 'Select your date of birth',
+        //   minDate: '1900-01-01',
+        //   maxDate: new Date().toISOString().split('T')[0],
+        //   order: 2,
+        //   step: 1
+        // },
+        // {
+        //   label: 'CIN',
+        //   type: 'text',
+        //   required: true,
+        //   placeholder: 'Enter your CIN',
+        //   regex: '^[0-9]{8}$',
+        //   regexErrorMessage: 'CIN must be exactly 8 digits',
+        //   order: 3,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Email',
+        //   type: 'email',
+        //   required: true,
+        //   placeholder: 'Enter your email',
+        //   regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+        //   regexErrorMessage: 'Enter a valid email address',
+        //   order: 4,
+        //   step: 1
+        // },
+        // {
+        //   label: 'Phone Number',
+        //   type: 'tel',
+        //   required: true,
+        //   placeholder: 'Enter your phone number',
+        //   regex: '^[0-9]{8,15}$',
+        //   regexErrorMessage: 'Phone number must be 8-15 digits',
+        //   order: 5,
+        //   step: 1
+        // },
 
+        // Step 2: Policy Details
+        {
+          label: 'Desired Coverage Amount (TND)',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter coverage amount',
+          min: 10000,
+          max: 1000000,
+          regex: '^\\d{5,7}$',
+          regexErrorMessage: 'Must be a valid amount (5-7 digits)',
+          order: 6,
+          step: 1,
+        },
+        {
+          label: 'Term Length',
+          type: 'select',
+          required: true,
+          selectOptions: ['10 Years', '20 Years', '30 Years'],
+          placeholder: 'Select term length',
+          order: 7,
+          step: 1,
+        },
+        {
+          label: 'Include Critical Illness',
+          type: 'checkbox',
+          required: false,
+          order: 8,
+          step: 1,
+        },
+        {
+          label: 'Smoker',
+          type: 'radio',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          order: 9,
+          step: 1,
+        },
+        {
+          label: 'Dangerous Occupation',
+          type: 'checkbox',
+          required: false,
+          order: 10,
+          step: 1,
+        },
+      ],
+      nbrSteps: 1,
+    },
+  };
   formTypes = [
     { id: 'auto', label: 'Auto', icon: 'fas fa-car' },
     { id: 'health', label: 'Health', icon: 'fas fa-heartbeat' },
@@ -260,13 +489,33 @@ export class FormBuilderComponent implements OnInit {
     { id: 'life', label: 'Life', icon: 'fas fa-umbrella' },
   ];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {}
+  currentFormType = 'auto';
+
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private autoInsuranceService: AutomobileQuoteControllerService
+  ) {}
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
     this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
     this.insuranceForm = this.fb.group({});
+    this.initializeForm('auto');
+  }
+
+  initializeForm(formType: string): void {
+    this.currentFormType = formType;
+    this.chosenFormFields = this.formConfigurations[formType].data;
+    this.step = 1;
+    this.maxSteps = this.formConfigurations[formType].nbrSteps;
     this.filteredFields();
+  }
+
+  changeFormType(formType: string): void {
+    if (formType !== this.currentFormType) {
+      this.initializeForm(formType);
+    }
   }
 
   createFormControls(): void {
@@ -297,14 +546,14 @@ export class FormBuilderComponent implements OnInit {
   }
 
   filteredFields() {
-    this.filteredFormFields = this.formFields.filter(
+    this.filteredFormFields = this.chosenFormFields.filter(
       (field) => field.step === this.step
     );
     this.createFormControls();
   }
 
   nextStep() {
-    if (this.step < 3) {
+    if (this.step < this.maxSteps) {
       this.step++;
       this.filteredFields();
     }
@@ -317,13 +566,6 @@ export class FormBuilderComponent implements OnInit {
     }
   }
 
-  changeFormType(formType: string): void {
-    if (formType !== this.currentFormType) {
-      // this.initializeForm(formType);
-      this.notValid = false;
-    }
-  }
-
   getFormControlName(field: any, index: number): string {
     return `${field.type}_${index}`;
   }
@@ -333,30 +575,46 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    this.showPopup = true;
-    this.isLoading = true;
-    // if (this.insuranceForm.valid) {
-    // const list = this.insuranceForm.value; // Assuming it's a JSON object
+    this.isFormSubmitted = true;
+    if (!this.position) return;
 
-    // Object.entries(list).forEach(([key, value], index) => {
-    //   this.data2Save.data!.push({
-    //     fieldLabel: this.formFields[index].label,
-    //     fieldType: this.formFields[index].type,
-    //     fieldValue: value,
-    //   });
-    // });
-    // this.data2Save.formId = this.formId;
-    // console.log(this.saveForData);
-    // this.saveForData();
+    if (this.insuranceForm.valid) {
+      this.showPopup = true;
+      this.isLoading = true;
 
-    // return;
-    // }
-    // this.isLoading = false;  
+      const list = this.insuranceForm.value;
+      let temp: any[] = [];
+      Object.entries(list).forEach(([key, value]) => temp.push(value));
+      this.data2Save = {
+        vin: temp[0],
+        licenseNumber: temp[1],
+        drivingExperience: temp[2],
+        vehicleType: temp[3],
+        vehicleMake: temp[4],
+        vehicleModel: temp[5],
+        accidentHistory: temp[6],
+        trafficViolations: temp[7]||false,
+        defensiveDrivingCourse: temp[8]||false,
+        coverageType: temp[9],
+        addressInfo: this.position,
+        billingPeriod:'ANNUAL'
+      };
+      this._calculate();
+      console.log(this.data2Save);
+    }
     setTimeout(() => {
       this.isLoading = false;
-      this.cleanForm();
+      // this.cleanForm();
+      this.isFormSubmitted = false;
     }, 1000);
-    // this.notValid = true;
+  }
+
+  private _calculate() {
+    this.autoInsuranceService
+      .calculate({ body: this.data2Save })
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
 
   cleanForm() {
@@ -377,4 +635,74 @@ export class FormBuilderComponent implements OnInit {
   toggleMap() {
     this.showMap = !this.showMap;
   }
+
+  getPosition(data: any) {
+    this.position = data;
+  }
 }
+
+// // Get all invalid fields
+// Object.keys(this.insuranceForm.controls).forEach((key) => {
+//   const controlErrors = this.insuranceForm.get(key)?.errors;
+//   if (controlErrors) {
+//     console.log('Field:', key, 'Errors:', controlErrors);
+//   }
+// });
+// {
+//   label: 'First Name',
+//   type: 'text',
+//   required: true,
+//   placeholder: 'Enter your first name',
+//   regex: '^[A-Za-z]+$',
+//   regexErrorMessage: 'Only alphabetic characters are allowed',
+//   order: 1,
+//   step: 1,
+// },
+// {
+//   label: 'Last Name',
+//   type: 'text',
+//   required: true,
+//   placeholder: 'Enter your last name',
+//   regex: '^[A-Za-z]+$',
+//   regexErrorMessage: 'Only alphabetic characters are allowed',
+//   order: 2,
+//   step: 1,
+// },
+// {
+//   label: 'Email',
+//   type: 'email',
+//   required: true,
+//   placeholder: 'Enter your email address',
+//   regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+//   regexErrorMessage: 'Enter a valid email address',
+//   order: 3,
+//   step: 1,
+// },
+// {
+//   label: 'Phone Number',
+//   type: 'number',
+//   required: true,
+//   placeholder: 'Enter your phone number',
+//   regex: '^[0-9]{8,15}$',
+//   regexErrorMessage: 'Phone number must be between 8 and 15 digits',
+//   order: 4,
+//   step: 1,
+// },
+// {
+//   label: 'Date of Birth',
+//   type: 'date',
+//   required: true,
+//   placeholder: 'Select your date of birth',
+//   order: 5,
+//   step: 1,
+// },
+// {
+//   label: 'CIN',
+//   type: 'text',
+//   required: true,
+//   placeholder: 'Enter your CIN',
+//   regex: '^[0-9]{8}$',
+//   regexErrorMessage: 'CIN must be exactly 8 digits',
+//   order: 6,
+//   step: 1,
+// },

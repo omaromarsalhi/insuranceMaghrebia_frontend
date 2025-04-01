@@ -30,6 +30,23 @@
     <button (click)="toggleSatelliteView()" class="satellite-toggle">
         <i *ngIf="!isSatelliteView" class="fas fa-satellite-dish"></i>
         <i *ngIf="isSatelliteView" class="fas fa-satellite-dish active"></i>
+    </button>
 
+
+</div>
+
+<div *ngIf="selectedPosition" class="d-flex gap-4 justify-content-between" style="max-height: 3rem;" [@fancyAppear]>
+
+    <div class="confirmation-message" [ngClass]="{'error':errorMessage!=='null'}">
+        <i class="fas fa-check-circle me-2" ></i>
+        <span *ngIf="chosedPosition">Position Chosen Successful</span>
+        <span *ngIf="errorMessage!=='null'">{{errorMessage}}</span>
+        <span *ngIf="!chosedPosition&&errorMessage==='null'"> {{'Position confirmed at' + (coordinates?.lng |
+            number:'1.4-4') + ', ' + (coordinates?.lat | number:'1.4-4')}}</span>
+    </div>
+
+
+    <button type="button" class="primary-btn confirm-btn" (click)="reverseGeocode()">
+        <i class="fas fa-check me-2"></i>Confirm Position
     </button>
 </div>

@@ -4,9 +4,20 @@ import {
   ViewChild,
   ElementRef,
   OnDestroy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  state,
+  keyframes,
+} from '@angular/animations';
 import tt from '@tomtom-international/web-sdk-maps';
 import { services } from '@tomtom-international/web-sdk-services';
+import { environment } from 'envirement';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
@@ -14,21 +25,37 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
+  animations: [
+    trigger('fancyAppear', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.5) translateY(50px)' }),
+        animate(
+          '1000ms cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+          style({ opacity: 1, transform: 'scale(1) translateY(0)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  private readonly TOMTOM_API_KEY = ''; // Replace with your actual API key
+  private readonly TOMTOM_API_KEY = environment.tomtom_api_key; // Replace with your actual API key
 
   private map: tt.Map | null = null;
   private marker: tt.Marker | null = null;
 
   @ViewChild('mapContainer') mapContainer!: ElementRef;
   @ViewChild('searchInput') searchInput!: ElementRef;
+  @Output() position = new EventEmitter<{}>();
 
   searchResults: any[] = [];
   showSearch = false;
   isSearching = false;
   searchError: string | null = null;
   isSatelliteView = false;
+  coordinates!: { lat: number; lng: number };
+  selectedPosition: boolean = false;
+  chosedPosition: boolean = false;
+  errorMessage: string='null';
 
   private searchSubject = new Subject<string>();
   private searchSubscription!: Subscription;
@@ -44,15 +71,57 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map = tt.map({
       key: this.TOMTOM_API_KEY,
       container: this.mapContainer.nativeElement,
-      center: [10.187056, 36.800072], // Default to NYC
+      center: [10.187056, 36.800072],
       zoom: 5,
     });
 
     this.map.addControl(new tt.FullscreenControl());
     this.map.addControl(new tt.NavigationControl());
+
+    this.map.on('click', (e: any) => this.handleMapClick(e));
   }
 
-  // 2. Satellite layer setup
+  private handleMapClick(e: any) {
+    this.chosedPosition = false;
+    if (!this.map) return;
+
+    this.coordinates = e.lngLat;
+
+    // Remove existing marker
+    if (this.marker) {
+      this.marker.remove();
+    }
+
+    // Add new marker
+    this.marker = new tt.Marker().setLngLat(this.coordinates).addTo(this.map);
+    this.selectedPosition = true;
+  }
+
+  reverseGeocode() {
+    services
+      .reverseGeocode({
+        key: this.TOMTOM_API_KEY,
+        position: this.coordinates,
+        language: 'fr-FR',
+      })
+      .then((response: any) => {
+        const result = response.addresses[0].address;
+        this.chosedPosition = this.checkIfInTunisia(result);
+        this.errorMessage = !this.chosedPosition
+          ? 'The Chosen Place Is Not In Tunisia'
+          : 'null';
+          console.log(this.coordinates)
+          console.log(result)
+        this.position.emit(result);
+      })
+      .catch((error: any) => console.error('Geocoding error:', error));
+  }
+
+  private checkIfInTunisia(data: any): boolean {
+    if (data.country == 'Tunisie') return true;
+    return false;
+  }
+
   private addSatelliteLayer() {
     if (this.map) {
       if (this.map.getSource('satellite-source')) return;
@@ -117,8 +186,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.isSearching = true;
     this.searchError = null;
 
-    console.log(query);
-
     services
       .fuzzySearch({
         key: this.TOMTOM_API_KEY,
@@ -127,7 +194,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         limit: 5,
       })
       .then((response) => {
-        console.log(response);
         this.handleSearchResponse(response);
       })
       .catch((error) => {
@@ -150,19 +216,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const coordinates: [number, number] = [
-      result.position.lng,
-      result.position.lat,
-    ];
+    this.coordinates = result.position;
 
     if (this.marker) {
       this.marker.remove();
     }
 
     if (this.map) {
-      this.marker = new tt.Marker().setLngLat(coordinates).addTo(this.map);
+      this.selectedPosition = true;
+      this.marker = new tt.Marker().setLngLat(this.coordinates).addTo(this.map);
 
-      this.map.setCenter(coordinates);
+      this.map.setCenter(this.coordinates);
 
       this.map.flyTo({
         speed: 1.2,
@@ -184,7 +248,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       this.searchResults = response.results.filter(
         (result: any) => result.address && result.position
       );
-      console.log(this.searchResults);
     } else {
       this.searchResults = [];
       this.searchError = 'No results found';

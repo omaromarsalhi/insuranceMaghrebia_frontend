@@ -6,15 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  FormFieldDto,
-  PurchasedOfferDataDto,
-  PurchasedOfferRequest,
-} from 'src/app/core/models';
+
 import { OfferFormControllerService } from 'src/app/core/services/offer-form-controller.service';
 import { firstValueFrom } from 'rxjs';
-import { PurchasedOfferControllerService } from 'src/app/core/services';
+
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FormFieldDto } from 'src/app/core/models/form-field-dto';
+import { PurchasedOfferRequest } from 'src/app/core/models/purchased-offer-request';
+import { PurchasedOfferControllerService } from 'src/app/core/services/purchased-offer-controller.service';
 
 @Component({
   selector: 'app-purshased-offer',

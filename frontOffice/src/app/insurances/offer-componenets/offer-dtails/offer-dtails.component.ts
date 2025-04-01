@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OfferResponse } from 'src/app/core/models';
-import { OfferControllerService } from 'src/app/core/services';
+import { OfferResponse } from 'src/app/core/models/offer-response';
+import { OfferControllerService } from 'src/app/core/services/offer-controller.service';
 
 @Component({
   selector: 'app-offer-dtails',

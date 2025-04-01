@@ -10,9 +10,8 @@ import {
   keyframes,
 } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
-import { OfferControllerService } from 'src/app/core/services';
-import { OfferResponse, OfferWithTagsResponse } from 'src/app/core/models';
 import { OfferFiltered } from 'src/app/core/models/my-filtered-offers';
+import { OfferControllerService } from 'src/app/core/services/offer-controller.service';
 
 @Component({
   selector: 'app-offers-list',
