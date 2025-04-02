@@ -86,7 +86,7 @@
   font-size: 17px;
   letter-spacing: 0.3px;
   position: relative;
-  padding: 38px 5px !important;
+  padding: 30px 5px !important;
 }
 
 .header-navigation .main-menu ul > li > a:after {
@@ -216,6 +216,7 @@
   border-bottom: 2px solid #ffb966;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .dropdown-item,
@@ -376,3 +377,36 @@
 }
 
 
+
+/* Add this before your header or as a sibling element */
+.header-placeholder {
+  height: 74px; /* Match your header's height */
+  width: 100%;
+  display: block;
+}
+
+
+
+
+/* this the new header animation DO NOT DELETE IT */
+
+/* @keyframes stickySlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  animation: stickySlideIn 0.8s ease-out forwards;
+  will-change: transform, opacity; 
+} */

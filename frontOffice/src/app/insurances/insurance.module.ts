@@ -13,11 +13,12 @@ import { OffersListComponent } from './offer-componenets/offers-list/offers-list
 import { GenerateQuoteComponent } from './offer-componenets/generate-quote/generate-quote.component';
 import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
 import { MapComponent } from './map/map.component';
+import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment/quote-appointment.component';
 
 
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent, MapComponent],
+  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent, MapComponent, QuoteAppointmentComponent],
   imports: [
     CommonModule,
     InsuranceRoutingModule,

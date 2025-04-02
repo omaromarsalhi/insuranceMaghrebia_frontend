@@ -8,7 +8,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 import { OfferFormControllerService } from 'src/app/core/services/offer-form-controller.service';
-import { firstValueFrom } from 'rxjs';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FormFieldDto } from 'src/app/core/models/form-field-dto';

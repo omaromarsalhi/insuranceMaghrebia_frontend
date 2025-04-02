@@ -1,5 +1,9 @@
 
-
+.contact-form-section {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 10rem !important;
+}
 
 .contact-form-section .row {
     align-items: stretch; 

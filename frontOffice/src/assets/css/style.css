@@ -125,6 +125,7 @@ h6 {
 /* Base CSS */
 html {
   font-size: 100%;
+  scroll-behavior: smooth;
 }
 
 * {
@@ -1248,7 +1249,7 @@ button {
   margin-right: 20px;
 }
 /* Header Sticky */
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   left: 0;
@@ -1256,9 +1257,17 @@ button {
   z-index: 999;
   -webkit-animation: sticky 1.2s;
           animation: sticky 1.2s;
-}
+} */
 
-@-webkit-keyframes sticky {
+/* .sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: all 0.3s ease-out;
+  will-change: transform;
+} */
+
+/* @-webkit-keyframes sticky {
   0% {
     top: -200px;
   }
@@ -1273,6 +1282,27 @@ button {
   100% {
     top: 0;
   }
+} */
+
+@keyframes stickySlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  animation: stickySlideIn 0.6s ease-out forwards;
+  will-change: transform, opacity; /* Optimizes performance */
 }
 /*---========================
         03. Hero css 

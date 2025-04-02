@@ -176,10 +176,17 @@ export class FormBuilderComponent implements OnInit {
           step: 2,
         },
         {
+          label: 'Billing Period ',
+          type: 'select',
+          required: true,
+          selectOptions: ['MONTHLY', 'QUARTERLY', 'SEMI_ANNUAL','ANNUAL'],
+          placeholder: 'Select coverage type',
+          step: 2,
+        },
+        {
           label: 'Location',
           type: 'map',
           placeholder: 'Select your governorate',
-          order: 16,
           step: 2,
         },
       ],

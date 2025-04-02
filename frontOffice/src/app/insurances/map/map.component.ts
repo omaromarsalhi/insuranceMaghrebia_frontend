@@ -40,7 +40,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 export class MapComponent implements AfterViewInit, OnDestroy {
   private readonly TOMTOM_API_KEY = environment.tomtom_api_key; // Replace with your actual API key
 
-  private map: tt.Map | null = null;
+  private map!: tt.Map;
   private marker: tt.Marker | null = null;
 
   @ViewChild('mapContainer') mapContainer!: ElementRef;
@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   coordinates!: { lat: number; lng: number };
   selectedPosition: boolean = false;
   chosedPosition: boolean = false;
-  errorMessage: string='null';
+  errorMessage: string = 'null';
 
   private searchSubject = new Subject<string>();
   private searchSubscription!: Subscription;
@@ -110,8 +110,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.errorMessage = !this.chosedPosition
           ? 'The Chosen Place Is Not In Tunisia'
           : 'null';
-          console.log(this.coordinates)
-          console.log(result)
         this.position.emit(result);
       })
       .catch((error: any) => console.error('Geocoding error:', error));
@@ -119,28 +117,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private checkIfInTunisia(data: any): boolean {
     if (data.country == 'Tunisie') return true;
+    this.marker = new tt.Marker({ color: 'red' })
+      .setLngLat(this.coordinates)
+      .addTo(this.map);
     return false;
   }
 
   private addSatelliteLayer() {
-    if (this.map) {
-      if (this.map.getSource('satellite-source')) return;
+    if (this.map.getSource('satellite-source')) return;
 
-      this.map.addSource('satellite-source', {
-        type: 'raster',
-        tiles: [
-          `https://api.tomtom.com/map/1/tile/sat/main/{z}/{x}/{y}.jpg?key=${this.TOMTOM_API_KEY}&tileSize=256`,
-        ],
-        tileSize: 256,
-      });
+    this.map.addSource('satellite-source', {
+      type: 'raster',
+      tiles: [
+        `https://api.tomtom.com/map/1/tile/sat/main/{z}/{x}/{y}.jpg?key=${this.TOMTOM_API_KEY}&tileSize=256`,
+      ],
+      tileSize: 256,
+    });
 
-      this.map.addLayer({
-        id: 'satellite-layer',
-        type: 'raster',
-        source: 'satellite-source',
-        layout: { visibility: 'none' },
-      });
-    }
+    this.map.addLayer({
+      id: 'satellite-layer',
+      type: 'raster',
+      source: 'satellite-source',
+      layout: { visibility: 'none' },
+    });
   }
 
   toggleSearch() {
@@ -151,20 +150,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleSatelliteView() {
-    if (this.map) {
-      if (!this.map.getLayer('satellite-layer')) {
-        this.addSatelliteLayer();
-        setTimeout(() => this.toggleSatelliteView(), 100);
-        return;
-      }
-
-      this.isSatelliteView = !this.isSatelliteView;
-      this.map.setLayoutProperty(
-        'satellite-layer',
-        'visibility',
-        this.isSatelliteView ? 'visible' : 'none'
-      );
+    if (!this.map.getLayer('satellite-layer')) {
+      this.addSatelliteLayer();
+      setTimeout(() => this.toggleSatelliteView(), 100);
+      return;
     }
+
+    this.isSatelliteView = !this.isSatelliteView;
+    this.map.setLayoutProperty(
+      'satellite-layer',
+      'visibility',
+      this.isSatelliteView ? 'visible' : 'none'
+    );
   }
 
   private setupSearch(): void {
@@ -222,19 +219,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       this.marker.remove();
     }
 
-    if (this.map) {
-      this.selectedPosition = true;
-      this.marker = new tt.Marker().setLngLat(this.coordinates).addTo(this.map);
+    this.selectedPosition = true;
+    this.marker = new tt.Marker().setLngLat(this.coordinates).addTo(this.map);
 
-      this.map.setCenter(this.coordinates);
+    this.map.setCenter(this.coordinates);
 
-      this.map.flyTo({
-        speed: 1.2,
-        curve: 1.5,
-        minZoom: 10,
-        maxDuration: 2000,
-      });
-    }
+    this.map.flyTo({
+      speed: 1.2,
+      curve: 1.5,
+      minZoom: 10,
+      maxDuration: 2000,
+    });
 
     this.searchResults = [];
     this.showSearch = false;
@@ -262,7 +257,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     if (this.map) {
       this.map.remove();
-      this.map = null;
     }
     if (this.marker) {
       this.marker.remove();
