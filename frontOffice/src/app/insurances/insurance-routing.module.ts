@@ -5,6 +5,7 @@ import { OfferDtailsComponent } from './offer-componenets/offer-dtails/offer-dta
 import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/purshased-offer.component';
 import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
 import { GenerateQuoteComponent } from './offer-componenets/generate-quote/generate-quote.component';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   { path: 'generate-quote', component: GenerateQuoteComponent  },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'offer-details/:offerId', component: OfferDtailsComponent  },
   { path: 'offer-list/:categoryId', component: OffersListComponent  },
   { path: 'offer-pushasing/:formId/:offerId', component: PurshasedOfferComponent  },
+  { path: 'test', component: TestComponent  },
 ];
 
 

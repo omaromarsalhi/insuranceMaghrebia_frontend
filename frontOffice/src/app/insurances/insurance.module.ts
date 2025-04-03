@@ -14,11 +14,24 @@ import { GenerateQuoteComponent } from './offer-componenets/generate-quote/gener
 import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
 import { MapComponent } from './map/map.component';
 import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment/quote-appointment.component';
-
-
+import { TestComponent } from './test/test.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { BillingPeriodPipe } from './pipes/billing-period.pipe';
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent, GenerateQuoteComponent, FormBuilderComponent, MapComponent, QuoteAppointmentComponent],
+  declarations: [
+    CategoryComponent,
+    OfferDtailsComponent,
+    PurshasedOfferComponent,
+    OffersListComponent,
+    GenerateQuoteComponent,
+    FormBuilderComponent,
+    MapComponent,
+    QuoteAppointmentComponent,
+    TestComponent,
+    TruncatePipe,
+    BillingPeriodPipe
+  ],
   imports: [
     CommonModule,
     InsuranceRoutingModule,
@@ -26,7 +39,7 @@ import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment
     SlickCarouselModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class InsuranceModule { }
+export class InsuranceModule {}

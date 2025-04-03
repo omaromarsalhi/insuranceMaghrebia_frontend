@@ -3286,7 +3286,7 @@ button {
   border-color: #0F0F2D;
 }
 .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "\f054";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }

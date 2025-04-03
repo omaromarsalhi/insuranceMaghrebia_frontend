@@ -1,6 +1,6 @@
 <app-preloader></app-preloader>
 
-<section *ngIf="!isAppointmentActive" class="contact-form-section gray-bg">
+<section *ngIf="!isAppointmentActive" class="contact-form-section gray-bg" @fadeOut>
 
     <div class="container col-11">
         <div class="row">
@@ -38,198 +38,10 @@
                     </div>
                     <div *ngIf="!isResponseReady" class="tab-content">
                         <div class="tab-pane active show fade" id="dynamicForm">
-                            <form class="contact-form" [formGroup]="insuranceForm">
-                                <ng-container *ngFor="
-                    let field of filteredFormFields;
-                    let i = index;
-                    trackBy: trackByFn
-                  ">
-                                    <div class="form_group mb-3" [ngSwitch]="field.type">
-                                        <div *ngIf="
-                        field.type !== 'checkbox' && field.type !== 'header'
-                      ">
-                                            <label [attr.for]="field.label">{{ field.label }}</label>
-                                        </div>
+                            <app-form-builder [formConfigurations]="oneFormConfigurations"
+                                [iNeedAdress]="oneFormConfigurations.getAdressAlso" [errorsTable]="errorsTable"
+                                (formdata)="recieveFormData($event)"></app-form-builder>
 
-                                        <!-- Number Input -->
-                                        <input *ngSwitchCase="'number'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)" type="number" />
-
-                                        <!-- Text Input -->
-                                        <input *ngSwitchCase="'text'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)" type="text" />
-
-                                        <!-- Textarea Input -->
-                                        <textarea *ngSwitchCase="'textarea'" class="form_control sideLine"
-                                            style="min-height: 60px" [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)"></textarea>
-
-                                        <!-- Email Input -->
-                                        <input *ngSwitchCase="'email'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || 'example@domain.com'"
-                                            [formControlName]="getFormControlName(field)" type="email" />
-
-                                        <!-- Telephone Input -->
-                                        <input *ngSwitchCase="'tel'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || '+000 (123) 456 887'"
-                                            [formControlName]="getFormControlName(field)" type="tel" />
-
-                                        <!-- Date Input -->
-                                        <input *ngSwitchCase="'date'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)" type="date" />
-
-                                        <!-- Time Input -->
-                                        <input *ngSwitchCase="'time'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)" type="time" />
-
-                                        <!-- Color Input -->
-                                        <input *ngSwitchCase="'color'" class="form_control sideLine"
-                                            [placeholder]="field.placeholder || ''"
-                                            [formControlName]="getFormControlName(field)" type="color" />
-
-                                        <!-- Select Dropdown -->
-                                        <div *ngSwitchCase="'select'" class="">
-                                            <select class="wide nice-select sideLine" [ngClass]="{ 'mb-4':!((insuranceForm.controls[getFormControlName(field)]
-                                                .invalid &&
-                                                insuranceForm.controls[getFormControlName(field)]
-                                                  .touched) ||
-                                              (insuranceForm.controls[getFormControlName(field)]
-                                                .invalid &&
-                                                isFormSubmitted))} " [formControlName]="getFormControlName(field)">
-                                                <option value="" disabled selected>
-                                                    Select An Option
-                                                </option>
-                                                <option *ngFor="let option of field.selectOptions" [value]="option">
-                                                    {{ option }}
-                                                </option>
-                                            </select>
-
-                                        </div>
-
-                                        <!-- Range Input -->
-
-                                        <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
-                                            <!-- Range Input -->
-                                            <input type="range" class="form-control range-slider"
-                                                [min]="field.rangeStart" [max]="field.rangeEnd"
-                                                [formControlName]="getFormControlName(field)"
-                                                (input)="updateRangeValue(field, $event)" />
-
-                                            <!-- Range Values -->
-                                            <div class="range-values">
-                                                <span>{{ field.rangeStart }}</span>
-                                                <span class="current-value">{{
-                                                    getCurrentValue(field)
-                                                    }}</span>
-                                                <span>{{ field.rangeEnd }}</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Checkbox Group -->
-
-                                        <div *ngSwitchCase="'checkbox'"
-                                            class="col-12 check-list flex items-center gap-2">
-                                            <div class="checkbox-item">
-                                                <label class="checkbox-label">
-                                                    <input type="checkbox"
-                                                        [formControlName]="getFormControlName(field)" />
-                                                    <span class="checkmark"></span>
-                                                    {{ field.label }}
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Checkbox-Group -->
-
-                                        <div *ngSwitchCase="'checkbox-group'">
-                                            <div *ngFor="let opt of field.selectOptions"
-                                                class="col-12 check-list flex items-center gap-2">
-                                                <div class="checkbox-item ms-3">
-                                                    <label class="checkbox-label">
-                                                        <input type="checkbox"
-                                                            [formControlName]="getFormControlName(field)" />
-                                                        <span class="checkmark"></span>
-                                                        {{ opt }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Radio Buttons -->
-                                        <div *ngSwitchCase="'radio'" class="radio-group">
-                                            <label *ngFor="let option of field.selectOptions"
-                                                class="radio-label d-flex gap-3">
-                                                <input type="radio" [formControlName]="getFormControlName(field)"
-                                                    [value]="option" />
-                                                <span>{{ option }}</span>
-                                            </label>
-                                        </div>
-
-                                        <div *ngSwitchCase="'map'" class="form_group mb-3">
-                                            <button type="button" class="main-btn primary-btn mb-3" [ngClass]="{
-                          map_not_valid: position === null && isFormSubmitted
-                        }" (click)="toggleMap()">
-                                                <i class="fa-solid fa-map-location-dot fs-5"></i>
-                                            </button>
-                                            <app-map *ngIf="showMap" [@slideFade]
-                                                (position)="getPosition($event)"></app-map>
-                                        </div>
-
-                                        <!-- Validation Errors -->
-                                        <div *ngIf="
-                        (insuranceForm.controls[getFormControlName(field)]
-                          .invalid &&
-                          insuranceForm.controls[getFormControlName(field)]
-                            .touched) ||
-                        (insuranceForm.controls[getFormControlName(field)]
-                          .invalid &&
-                          isFormSubmitted)
-                      " class="validation-error text-danger">
-                                            <span
-                                                *ngIf="insuranceForm.controls[getFormControlName(field)].errors?.['pattern']">
-                                                {{ field.regexErrorMessage }}
-                                            </span>
-                                            <span
-                                                *ngIf="insuranceForm.controls[getFormControlName(field)].errors?.['required']">
-                                                This field is required
-                                            </span>
-
-                                            <span
-                                                *ngIf="insuranceForm.controls[getFormControlName(field)].errors?.['incorrect']">
-                                                Wrong {{ field.label }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </ng-container>
-
-                                <div class="form_group">
-                                    <div *ngIf="insuranceForm.invalid && isFormSubmitted"
-                                        class="validation-error text-danger d-flex justify-content-center">
-                                        <span style="font-size: 18px">
-                                            One or more fields have an error. Please check and try
-                                            again.
-                                        </span>
-                                    </div>
-                                    <div class="button-group mt-40">
-                                        <button *ngIf="step > 1" type="button" class="main-btn secondary-btn mr-20"
-                                            (click)="prevStep()">
-                                            <i class="fas fa-arrow-left"></i> Previous
-                                        </button>
-                                        <button *ngIf="step < maxSteps" type="button" class="main-btn primary-btn"
-                                            (click)="nextStep()">
-                                            Next <i class="fas fa-arrow-right"></i>
-                                        </button>
-                                        <button *ngIf="step === maxSteps" type="submit"
-                                            class="main-btn primary-btn btn-link no-underline" (click)="onSubmit()">
-                                            <span>Submit <i class="fa fa-arrow-right"></i></span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
 
@@ -328,7 +140,7 @@
                                 <button class="main-btn secondary-btn-outline" (click)="newQuote()">
                                     <i class="fas fa-plus me-2 fs-6"></i>New Quote
                                 </button>
-                                <button class="main-btn secondary-btn-outline">
+                                <button class="main-btn secondary-btn-outline" (click)="makeAppointment()">
                                     <i class="fa-solid fa-calendar-check me-2 fs-6"></i>Make
                                     Appointment
                                 </button>
@@ -362,4 +174,5 @@
 
 </section>
 
-<app-quote-appointment *ngIf="isAppointmentActive"></app-quote-appointment>
+<app-quote-appointment *ngIf="isAppointmentActive" [currentAppointementInsuranceType]="currentFormType"
+    [@fadeIn]></app-quote-appointment>

@@ -1,88 +1,3 @@
-/* Multi-Step Form Enhancements */
-.form-container {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px;
-  background: #fff;
-  /* border-radius: 20px; */
-  box-shadow: 0px 30px 80px rgba(25, 59, 30, 0.1);
-}
-
-.step-content {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Progress Steps Enhancement */
-.surancy-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 60px !important;
-}
-
-.surancy-pagination li {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #193b1e;
-}
-
-.surancy-pagination li:not(:last-child):after {
-  content: "";
-  position: absolute;
-  width: 40px;
-  height: 2px;
-  background: #193b1e;
-  right: -40px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.surancy-pagination li.active {
-  background: #ffb966;
-  border-color: #ffb966;
-  color: #fff;
-}
-
-/* Form Group Enhancements */
-.form_group {
-  margin-bottom: 30px;
-}
-
-.form_group label.sub-title {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #193b1e;
-  margin-bottom: 12px;
-}
-
-.form_control {
-  height: 50px;
-  border: 2px solid rgba(25, 59, 30, 0.1) !important;
-  /* border-radius: 10px !important; */
-  border: 0 0 0 2px red;
-  padding: 0 25px !important;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.form_control:focus {
-  border-color: #ffb966 !important;
-  box-shadow: 0px 10px 30px rgba(255, 185, 102, 0.2);
-}
 
 /* Button Group Styling */
 .button-group {
@@ -1173,6 +1088,24 @@
 
 
 
+
+
+
+
+
+
+:host {
+  display: block;
+  position: relative;
+  min-height: 100vh; 
+}
+
+contact-form-section, app-quote-appointment {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
 
 
 

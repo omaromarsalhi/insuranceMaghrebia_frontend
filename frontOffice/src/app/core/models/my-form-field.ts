@@ -16,4 +16,7 @@ export interface MyFormFieldDto {
   selectOptions?: Array<string>;
   type: string;
   step?: number;
+  controleName: string;
+  min?:number,
+  max?:number,
 }
