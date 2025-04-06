@@ -97,7 +97,7 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Checkbox-Group -->
 
-            <div *ngSwitchCase="'checkbox-group'">
+            <!-- <div *ngSwitchCase="'checkbox-group'">
                 <div *ngFor="let opt of field.selectOptions" class="col-12 check-list flex items-center gap-2">
                     <div class="checkbox-item ms-3">
                         <label class="checkbox-label">
@@ -107,7 +107,22 @@ field.type !== 'checkbox' && field.type !== 'header'
                         </label>
                     </div>
                 </div>
+            </div> -->
+
+            <div *ngSwitchCase="'checkbox-group'">
+                <div *ngFor="let opt of field.selectOptions; let i = index"
+                    class="col-12 check-list flex items-center gap-2">
+                    <div class="checkbox-item ms-3">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [checked]="isChecked(field.controleName, opt)"
+                                (change)="onCheckboxChange($event, field.controleName, opt)" />
+                            <span class="checkmark"></span>
+                            {{ opt }}
+                        </label>
+                    </div>
+                </div>
             </div>
+
 
             <!-- Radio Buttons -->
             <div *ngSwitchCase="'radio'" class="radio-group">

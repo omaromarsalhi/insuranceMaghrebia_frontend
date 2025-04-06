@@ -8,14 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { AutoInsuranceRequest } from '../../models/auto-insurance-request';
+import { HealthInsuranceRequest } from '../../models/health-insurance-request';
+import { QuoteResponse } from '../../models/quote-response';
 
-export interface GetVehicleInfo$Params {
-      body: AutoInsuranceRequest
+export interface CalculateHealth$Params {
+      body: HealthInsuranceRequest
 }
 
-export function getVehicleInfo(http: HttpClient, rootUrl: string, params: GetVehicleInfo$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, getVehicleInfo.PATH, 'get');
+export function calculateHealth(http: HttpClient, rootUrl: string, params: CalculateHealth$Params, context?: HttpContext): Observable<StrictHttpResponse<QuoteResponse>> {
+  const rb = new RequestBuilder(rootUrl, calculateHealth.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -25,9 +26,9 @@ export function getVehicleInfo(http: HttpClient, rootUrl: string, params: GetVeh
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
+      return r as StrictHttpResponse<QuoteResponse>;
     })
   );
 }
 
-getVehicleInfo.PATH = '/api/v1/automobile/calculate';
+calculateHealth.PATH = '/api/v1/health/calculate';

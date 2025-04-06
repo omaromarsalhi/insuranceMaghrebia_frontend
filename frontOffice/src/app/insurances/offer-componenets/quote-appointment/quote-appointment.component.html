@@ -29,7 +29,7 @@
           <div class="accordion pr-20 pl-20 pt-60 sideSection2" id="accordionOne">
             <div class="faq-content-box wow fadeInLeft">
               <div *ngFor="let quote of quotesHistory; let i = index" class="accordion-card-two mb-15 bg-green ">
-                <div class="accordion-header">
+                <div class="accordion-header ">
                   <h6 class="accordion-title " data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+ '-' + i">
                     <span class="number fs-5">{{ i + 1 | number:'2.0' }}.</span>
                     {{ quote.vehicleMake || 'Vehicle' }} {{ quote.vehicleModel || 'Quote' }} -
@@ -37,7 +37,7 @@
                   </h6>
                 </div>
                 <div [id]="'collapse' + '-' + i" class="accordion-collapse collapse" data-bs-parent="#accordionOne">
-                  <div class="accordion-content">
+                  <div class="accordion-content ps-4">
                     <div class="quote-details">
                       <!-- Vehicle Details -->
                       <div class="detail-row">

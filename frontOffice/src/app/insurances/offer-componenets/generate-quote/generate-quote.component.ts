@@ -16,6 +16,8 @@ import { AutomobileQuoteControllerService } from '../../../core/services/automob
 import { QuoteResponse } from 'src/app/core/models/quote-response';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { AddressInfo } from 'src/app/core/models/address-info';
+import { HealthInsuranceRequest } from 'src/app/core/models';
+import { HealthQuoteControllerService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-generate-quote',
@@ -67,30 +69,27 @@ import { AddressInfo } from 'src/app/core/models/address-info';
       ]),
     ]),
     trigger('fadeOut', [
-      transition(':leave', [
-        animate('300ms ease-out', 
-          style({ opacity: 0 }))
-      ])
+      transition(':leave', [animate('300ms ease-out', style({ opacity: 0 }))]),
     ]),
     trigger('fadeIn', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('300ms ease-in', 
-          style({ opacity: 1 }))
-      ])
-    ])
+        animate('300ms ease-in', style({ opacity: 1 })),
+      ]),
+    ]),
   ],
 })
 export class GenerateQuoteComponent implements OnInit {
   isLoading: boolean = false;
   isResponseReady: boolean = false;
-  isAppointmentActive: boolean = true;
+  isAppointmentActive: boolean = false;
   showPopup: boolean = false;
 
   selectedValue: number = 0;
 
   position: any = null;
   auto2Calculate!: AutoInsuranceRequest;
+  healtk2Calculate!: HealthInsuranceRequest;
   quoteResponse!: QuoteResponse;
   popupMessage!: string;
   errorsTable: { field: string; step: number }[] = [];
@@ -327,51 +326,231 @@ export class GenerateQuoteComponent implements OnInit {
     },
     health: {
       data: [
+        // Step 1: Personal Information + Basic Medical
         {
-          label: 'Annual Income (TND)',
+          label: 'Age',
           type: 'number',
           required: true,
-          placeholder: 'Enter your annual income',
           min: 0,
-          max: 1000000,
-          regex: '^\\d{4,7}$',
-          regexErrorMessage: 'Must be a valid amount (4-7 digits)',
+          max: 120,
+          placeholder: 'Enter your age',
+          regex: '^\\d{1,3}$',
+          regexErrorMessage: 'Must be a valid age (0-120)',
+          controleName: 'age',
           step: 1,
-          controleName: 'annualIncome',
         },
         {
-          label: 'Coverage Type',
+          label: 'Gender',
           type: 'select',
           required: true,
-          selectOptions: ['Basic', 'Standard', 'Premium'],
-          placeholder: 'Select coverage type',
+          selectOptions: ['Male', 'Female', 'Other'],
+          placeholder: 'Select gender',
+          controleName: 'gender',
           step: 1,
-          controleName: 'healthCoverageType',
         },
         {
-          label: 'Existing Conditions',
+          label: 'Governorate',
+          type: 'select',
+          required: true,
+          selectOptions: ['Tunis', 'Sfax', 'Sousse', 'Ariana', 'Ben Arous'],
+          placeholder: 'Select governorate',
+          controleName: 'governorate',
+          step: 1,
+        },
+        {
+          label: 'Occupation',
+          type: 'select',
+          required: true,
+          selectOptions: ['Office worker', 'Laborer', 'Student', 'Unemployed'],
+          placeholder: 'Select occupation',
+          controleName: 'occupation',
+          step: 1,
+        },
+        {
+          label: 'Pre-existing Conditions',
           type: 'checkbox-group',
           required: false,
-          selectOptions: ['Diabetes', 'Hypertension', 'Heart Disease', 'None'],
+          selectOptions: [
+            'Diabetes',
+            'Hypertension',
+            'Heart Disease',
+            'Cancer',
+            'Asthma/COPD',
+            'Other',
+          ],
+          controleName: 'preExistingConditions',
           step: 1,
-          controleName: 'existingConditions',
         },
         {
-          label: 'Include Dental Coverage',
-          type: 'checkbox',
+          label: 'Family Medical History',
+          type: 'checkbox-group',
           required: false,
+          selectOptions: [
+            'Diabetes',
+            'Heart Disease',
+            'Cancer',
+            'Genetic Disorders',
+          ],
+          controleName: 'familyHistory',
           step: 1,
-          controleName: 'includeDentalCoverage',
+        },
+
+        // Step 2: Detailed Medical + Lifestyle
+        {
+          label: 'Current Medications',
+          type: 'textarea',
+          required: false,
+          placeholder: 'List current medications',
+          controleName: 'medications',
+          step: 2,
         },
         {
-          label: 'Include Optical Coverage',
-          type: 'checkbox',
+          label: 'Hospitalizations (Last 5 Years)',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select option',
+          controleName: 'hospitalizations',
+          step: 2,
+        },
+        {
+          label: 'Chronic Illnesses',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select option',
+          controleName: 'chronicIllnesses',
+          step: 2,
+        },
+        {
+          label: 'Surgeries (Last 5 Years)',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select option',
+          controleName: 'surgeries',
+          step: 2,
+        },
+        {
+          label: 'Smoking Status',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select smoking status',
+          controleName: 'smoking',
+          step: 2,
+        },
+        {
+          label: 'Alcohol Consumption',
+          type: 'select',
+          required: true,
+          selectOptions: ['Never', 'Occasional', 'Regular'],
+          placeholder: 'Select frequency',
+          controleName: 'alcohol',
+          step: 2,
+        },
+        {
+          label: 'Exercise Frequency',
+          type: 'select',
+          required: true,
+          selectOptions: ['Sedentary', '1–3x per week', '4–7x per week'],
+          placeholder: 'Select frequency',
+          controleName: 'exercise',
+          step: 2,
+        },
+        {
+          label: 'BMI',
+          type: 'number',
+          required: true,
+          placeholder: 'Enter your BMI',
+          min: 10,
+          max: 50,
+          regex: '^[1-4][0-9](\\.[0-9])?$',
+          regexErrorMessage: 'Must be between 10.0 and 50.0',
+          controleName: 'bmi',
+          step: 2,
+        },
+
+        // Step 3: Coverage Preferences
+        {
+          label: 'Plan Type',
+          type: 'select',
+          required: true,
+          selectOptions: ['Basic', 'Comprehensive', 'Premium'],
+          placeholder: 'Select plan type',
+          controleName: 'planType',
+          step: 3,
+        },
+        {
+          label: 'Deductible',
+          type: 'select',
+          required: true,
+          selectOptions: ['500 TND', '1000 TND', '2000 TND'],
+          placeholder: 'Select deductible',
+          controleName: 'deductible',
+          step: 3,
+        },
+        {
+          label: 'Add-Ons',
+          type: 'checkbox-group',
           required: false,
-          step: 1,
-          controleName: 'includeOpticalCoverage',
+          selectOptions: [
+            'Dental',
+            'Vision',
+            'Maternity/Paternity',
+            'Mental Health',
+            'Critical Illness',
+            'International',
+          ],
+          controleName: 'addOns',
+          step: 3,
+        },
+
+        // Step 4: Additional Information + Consent
+        {
+          label: 'Existing Insurance',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select option',
+          controleName: 'existingInsurance',
+          step: 4,
+        },
+        {
+          label: 'Employer Insurance',
+          type: 'select',
+          required: true,
+          selectOptions: ['Yes', 'No'],
+          placeholder: 'Select option',
+          controleName: 'employerInsurance',
+          step: 4,
+        },
+        {
+          label: 'Travel Frequency',
+          type: 'select',
+          required: true,
+          selectOptions: ['Rarely', '1–2x/year', 'Monthly'],
+          placeholder: 'Select frequency',
+          controleName: 'travelFrequency',
+          step: 4,
+        },
+        {
+          label: 'Vaccination Status',
+          type: 'checkbox-group',
+          required: false,
+          selectOptions: ['Flu', 'COVID-19', 'Hepatitis B', 'MMR'],
+          controleName: 'vaccinations',
+          step: 4,
+        },
+        {
+          label: 'GDPR Consent',
+          type: 'checkbox',
+          required: true,
+          controleName: 'gdprConsent',
+          step: 4,
         },
       ],
-      nbrSteps: 1,
+      nbrSteps: 4,
       getAdressAlso: false,
     },
     home: {
@@ -529,6 +708,7 @@ export class GenerateQuoteComponent implements OnInit {
 
   constructor(
     private autoInsuranceService: AutomobileQuoteControllerService,
+    private healthInsuranceService: HealthQuoteControllerService,
     private storageService: StorageService
   ) {}
 
@@ -544,68 +724,94 @@ export class GenerateQuoteComponent implements OnInit {
       }
   }
 
-  recieveFormData(data: any) {
+  recieveFormData(formData: any) {
+    const objList = this._initiateLoading(formData.data);
     switch (this.currentFormType) {
       case 'auto':
-        this.submitAutoData(data);
+        this.submitAutoData(objList, formData.position);
+        break;
+      case 'health':
+        this.submitHeatlhData(objList);
         break;
       default:
-        console.log(data);
+        console.log(formData);
         break;
     }
   }
 
-  submitAutoData(autoData: any) {
+  private _initiateLoading(formData: any): any {
     this.showPopup = true;
     this.isLoading = true;
     let temp: any[] = [];
-    Object.entries(autoData.data).forEach(([key, value]) => temp.push(value));
+    Object.entries(formData).forEach(([key, value]) =>
+      temp.push(value)
+    );
+    return temp;
+  }
+
+  submitHeatlhData(objList: any) {
+    this.healtk2Calculate = {
+      age: objList[0],
+      gender: objList[1],
+      governorate: objList[2],
+      occupation: objList[3],
+      preExistingConditions: objList[4],
+      familyHistory: objList[5],
+      medications: objList[6],
+      hospitalizations: objList[7],
+      chronicIllnesses: objList[8],
+      surgeries: objList[9],
+      smoking: objList[10],
+      alcohol: objList[11],
+      exercise: objList[12],
+      bmi: objList[13],
+      planType: objList[14],
+      deductible: objList[15],
+      addOns: objList[16],
+      existingInsurance: objList[17],
+      employerInsurance: objList[18],
+      travelFrequency: objList[19],
+      vaccinations: objList[20],
+      gdprConsent: objList[21] || false,
+    };
+
+    console.log(this.healtk2Calculate);
+    this.storageService.set(this.currentFormType, this.healtk2Calculate);
+    this._calculateHealth();
+  }
+
+  private _calculateHealth() {
+    this.isLoading = true;
+    this.healthInsuranceService
+      .calculateHealth({ body: this.healtk2Calculate })
+      .subscribe(this.handleResponse());
+  }
+
+  submitAutoData(objList: any, position: any) {
     this.auto2Calculate = {
-      vin: temp[0],
-      licenseNumber: temp[1],
-      drivingExperience: temp[2],
-      vehicleType: temp[3],
-      vehicleMake: temp[4],
-      vehicleModel: temp[5],
-      accidentHistory: temp[6],
-      trafficViolations: temp[7] || false,
-      defensiveDrivingCourse: temp[8] || false,
-      coverageType: temp[9],
-      addressInfo: autoData.position,
-      billingPeriod: temp[10],
+      vin: objList[0],
+      licenseNumber: objList[1],
+      drivingExperience: objList[2],
+      vehicleType: objList[3],
+      vehicleMake: objList[4],
+      vehicleModel: objList[5],
+      accidentHistory: objList[6],
+      trafficViolations: objList[7] || false,
+      defensiveDrivingCourse: objList[8] || false,
+      coverageType: objList[9],
+      addressInfo: position,
+      billingPeriod: objList[10],
     };
     console.log(this.auto2Calculate);
     this.storageService.set(this.currentFormType, this.auto2Calculate);
-    this._calculate();
+    this._calculateAuto();
   }
 
-  private _calculate() {
+  private _calculateAuto() {
     this.isLoading = true;
     this.autoInsuranceService
       .calculate({ body: this.auto2Calculate })
-      .subscribe({
-        next: (response) => {
-          this.isResponseReady = true;
-          this.popupMessage = 'The Quote Is generated Successfuly';
-          this.quoteResponse = response;
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.errorsTable = [];
-          this.isLoading = false;
-          this.isResponseReady = false;
-          const message =
-            err?.error?.['error: '] || 'An unexpected error occurred.';
-          const words = message.split(' ');
-          const secondWord = words[1] || '';
-          if (['model', 'make', 'type'].includes(secondWord.toLowerCase())) {
-            let controleName = words[0] + secondWord;
-            this.errorsTable.push({ field: controleName, step: 1 });
-            this.errorsTable = [...this.errorsTable];
-          }
-          this.popupMessage = message;
-        },
-      });
+      .subscribe(this.handleResponse());
   }
 
   newQuote() {
@@ -613,11 +819,40 @@ export class GenerateQuoteComponent implements OnInit {
     this.isResponseReady = false;
   }
 
-  makeAppointment(){
-    this.isAppointmentActive=true
+  makeAppointment() {
+    this.isAppointmentActive = true;
   }
 
   closePopup() {
     this.showPopup = false;
+  }
+
+  handleResponse() {
+    return {
+      next: (response: QuoteResponse) => {
+        this.isResponseReady = true;
+        this.popupMessage = 'The Quote Is generated Successfuly';
+        this.quoteResponse = response;
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        this.errorsTable = [];
+        this.isLoading = false;
+        this.isResponseReady = false;
+
+        const message =
+          err?.error?.['error: '] || 'An unexpected error occurred.';
+        const words = message.split(' ');
+        const secondWord = words[1] || '';
+
+        if (['model', 'make', 'type'].includes(secondWord.toLowerCase())) {
+          let controleName = words[0] + secondWord;
+          this.errorsTable.push({ field: controleName, step: 1 });
+          this.errorsTable = [...this.errorsTable];
+        }
+
+        this.popupMessage = message;
+      },
+    };
   }
 }

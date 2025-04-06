@@ -7,8 +7,13 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 import {
   trigger,
@@ -18,9 +23,6 @@ import {
   state,
 } from '@angular/animations';
 import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
-import { FormFieldDto } from 'src/app/core/models/form-field-dto';
-import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
-import { AutomobileQuoteControllerService } from '../../../core/services/automobile-quote-controller.service';
 import { AddressInfo } from 'src/app/core/models/address-info';
 
 @Component({
@@ -143,10 +145,19 @@ export class FormBuilderComponent implements OnInit, OnChanges {
         }
         validators.push(Validators.pattern(pattern));
       }
-      this.insuranceForm.addControl(
-        field.controleName,
-        this.fb.control('', validators)
-      );
+
+      if (field.type === 'checkbox-group') {
+        const formArray = this.fb.array(
+          field.selectOptions!.map(() => this.fb.control('')) 
+        );
+        this.insuranceForm.addControl(field.controleName, formArray);
+      } else {
+        // Standard FormControl for other types
+        this.insuranceForm.addControl(
+          field.controleName,
+          this.fb.control('', validators)
+        );
+      }
     });
   }
 
@@ -172,23 +183,48 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     }
   }
 
-
   trackByFn(index: number, item: any): any {
     return index;
   }
 
   onSubmit() {
     console.log(this.insuranceForm.value);
+    const mockFormData = {
+      age: '30',
+      gender: 'Female',
+      governorate: 'Sfax',
+      occupation: 'Office worker',
+      preExistingConditions: ['Diabetes', 'Asthma/COPD'],
+      familyHistory: ['Heart Disease'],
+      medications: 'Metformin',
+      hospitalizations: 'No',
+      chronicIllnesses: 'Yes',
+      surgeries: 'No',
+      smoking: 'No',
+      alcohol: 'Occasional',
+      exercise: '1–3x per week',
+      bmi: '24.5',
+      planType: 'Comprehensive',
+      deductible: '1000 TND',
+      addOns: ['Dental', 'Mental Health'],
+      existingInsurance: 'Yes',
+      employerInsurance: 'No',
+      travelFrequency: '1–2x/year',
+      vaccinations: ['Flu', 'COVID-19'],
+      gdprConsent: true,
+    };
+
+    // console.log(this.insuranceForm.value);
     this.isFormSubmitted = true;
     if (this.iNeedAdress && !this.position) return;
 
-    if (this.insuranceForm.valid) {
-      const list = this.insuranceForm.value;
-      this.formdata.emit({
-        data: list,
-        position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
-      });
-    }
+    // if (this.insuranceForm.valid) {
+    const list = this.insuranceForm.value;
+    this.formdata.emit({
+      data: mockFormData,
+      position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
+    });
+    // }
     this.isFormSubmitted = false;
   }
 
@@ -213,6 +249,30 @@ export class FormBuilderComponent implements OnInit, OnChanges {
 
   getPosition(data: any) {
     this.position = data;
+  }
+
+  onCheckboxChange(event: any, controlName: string, option: string) {
+    const formArray: FormArray = this.insuranceForm.get(
+      controlName
+    ) as FormArray;
+
+    if (event.target.checked) {
+      if (!formArray.value.includes(option)) {
+        formArray.push(new FormControl(option));
+      }
+    } else {
+      const index = formArray.controls.findIndex((x) => x.value === option);
+      if (index !== -1) {
+        formArray.removeAt(index);
+      }
+    }
+  }
+
+  isChecked(controlName: string, option: string): boolean {
+    const formArray: FormArray = this.insuranceForm.get(
+      controlName
+    ) as FormArray;
+    return formArray?.value?.includes(option);
   }
 
   clearVariables() {
