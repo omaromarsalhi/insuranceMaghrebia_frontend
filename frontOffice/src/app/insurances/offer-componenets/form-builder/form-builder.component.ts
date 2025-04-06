@@ -189,42 +189,42 @@ export class FormBuilderComponent implements OnInit, OnChanges {
 
   onSubmit() {
     console.log(this.insuranceForm.value);
-    const mockFormData = {
-      age: '30',
-      gender: 'Female',
-      governorate: 'Sfax',
-      occupation: 'Office worker',
-      preExistingConditions: ['Diabetes', 'Asthma/COPD'],
-      familyHistory: ['Heart Disease'],
-      medications: 'Metformin',
-      hospitalizations: 'No',
-      chronicIllnesses: 'Yes',
-      surgeries: 'No',
-      smoking: 'No',
-      alcohol: 'Occasional',
-      exercise: '1–3x per week',
-      bmi: '24.5',
-      planType: 'Comprehensive',
-      deductible: '1000 TND',
-      addOns: ['Dental', 'Mental Health'],
-      existingInsurance: 'Yes',
-      employerInsurance: 'No',
-      travelFrequency: '1–2x/year',
-      vaccinations: ['Flu', 'COVID-19'],
-      gdprConsent: true,
-    };
+    // const mockFormData = {
+    //   age: '30',
+    //   gender: 'Female',
+    //   governorate: 'Sfax',
+    //   occupation: 'Office worker',
+    //   preExistingConditions: ['Diabetes', 'Asthma/COPD'],
+    //   familyHistory: ['Heart Disease'],
+    //   medications: 'Metformin',
+    //   hospitalizations: 'No',
+    //   chronicIllnesses: 'Yes',
+    //   surgeries: 'No',
+    //   smoking: 'No',
+    //   alcohol: 'Occasional',
+    //   exercise: '1–3x per week',
+    //   bmi: '24.5',
+    //   planType: 'Comprehensive',
+    //   deductible: '1000 TND',
+    //   addOns: ['Dental', 'Mental Health'],
+    //   existingInsurance: 'Yes',
+    //   employerInsurance: 'No',
+    //   travelFrequency: '1–2x/year',
+    //   vaccinations: ['Flu', 'COVID-19'],
+    //   gdprConsent: true,
+    // };
 
     // console.log(this.insuranceForm.value);
     this.isFormSubmitted = true;
     if (this.iNeedAdress && !this.position) return;
 
-    // if (this.insuranceForm.valid) {
+    if (this.insuranceForm.valid) {
     const list = this.insuranceForm.value;
     this.formdata.emit({
-      data: mockFormData,
+      data: list,
       position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
     });
-    // }
+    }
     this.isFormSubmitted = false;
   }
 

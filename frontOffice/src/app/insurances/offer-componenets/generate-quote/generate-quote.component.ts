@@ -343,7 +343,7 @@ export class GenerateQuoteComponent implements OnInit {
           label: 'Gender',
           type: 'select',
           required: true,
-          selectOptions: ['Male', 'Female', 'Other'],
+          selectOptions: ['Male', 'Female'],
           placeholder: 'Select gender',
           controleName: 'gender',
           step: 1,
@@ -352,7 +352,28 @@ export class GenerateQuoteComponent implements OnInit {
           label: 'Governorate',
           type: 'select',
           required: true,
-          selectOptions: ['Tunis', 'Sfax', 'Sousse', 'Ariana', 'Ben Arous'],
+          selectOptions: [
+            'Tunis',
+            'Ariana',
+            'Ben Arous',
+            'Manouba',
+            'Sousse',
+            'Sfax',
+            'Gabès',
+            'Monastir',
+            'Kasserine',
+            'Gafsa',
+            'Tataouine',
+            'Médenine',
+            'Kairouan',
+            'Nabeul',
+            'Bizerte',
+            'Jendouba',
+            'Béja',
+            'Siliana',
+            'Tozeur',
+            'Kebili',
+          ],
           placeholder: 'Select governorate',
           controleName: 'governorate',
           step: 1,
@@ -485,7 +506,7 @@ export class GenerateQuoteComponent implements OnInit {
           label: 'Deductible',
           type: 'select',
           required: true,
-          selectOptions: ['500 TND', '1000 TND', '2000 TND'],
+          selectOptions: [500, 1000, 2000],
           placeholder: 'Select deductible',
           controleName: 'deductible',
           step: 3,
@@ -505,26 +526,7 @@ export class GenerateQuoteComponent implements OnInit {
           controleName: 'addOns',
           step: 3,
         },
-
         // Step 4: Additional Information + Consent
-        {
-          label: 'Existing Insurance',
-          type: 'select',
-          required: true,
-          selectOptions: ['Yes', 'No'],
-          placeholder: 'Select option',
-          controleName: 'existingInsurance',
-          step: 4,
-        },
-        {
-          label: 'Employer Insurance',
-          type: 'select',
-          required: true,
-          selectOptions: ['Yes', 'No'],
-          placeholder: 'Select option',
-          controleName: 'employerInsurance',
-          step: 4,
-        },
         {
           label: 'Travel Frequency',
           type: 'select',
@@ -538,7 +540,7 @@ export class GenerateQuoteComponent implements OnInit {
           label: 'Vaccination Status',
           type: 'checkbox-group',
           required: false,
-          selectOptions: ['Flu', 'COVID-19', 'Hepatitis B', 'MMR'],
+          selectOptions: ['Flu', 'COVID-19', 'Hepatitis B', 'MMR','Tuberculosis'],
           controleName: 'vaccinations',
           step: 4,
         },
@@ -743,9 +745,7 @@ export class GenerateQuoteComponent implements OnInit {
     this.showPopup = true;
     this.isLoading = true;
     let temp: any[] = [];
-    Object.entries(formData).forEach(([key, value]) =>
-      temp.push(value)
-    );
+    Object.entries(formData).forEach(([key, value]) => temp.push(value));
     return temp;
   }
 
