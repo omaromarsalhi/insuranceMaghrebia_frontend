@@ -6,19 +6,36 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  FormFieldDto,
-  PurchasedOfferDataDto,
-  PurchasedOfferRequest,
-} from 'src/app/core/models';
+
 import { OfferFormControllerService } from 'src/app/core/services/offer-form-controller.service';
-import { firstValueFrom } from 'rxjs';
-import { PurchasedOfferControllerService } from 'src/app/core/services';
+
+import { trigger, transition, style, animate } from '@angular/animations';
+import { FormFieldDto } from 'src/app/core/models/form-field-dto';
+import { PurchasedOfferRequest } from 'src/app/core/models/purchased-offer-request';
+import { PurchasedOfferControllerService } from 'src/app/core/services/purchased-offer-controller.service';
 
 @Component({
   selector: 'app-purshased-offer',
   templateUrl: './purshased-offer.component.html',
-  styleUrls: ['./purshased-offer.component.css', './nice-select.css'],
+  styleUrls: ['../../form.css','./purshased-offer.component.css', '../../nice-select.css'],
+  animations: [
+    trigger('fadeInOut', [
+        transition(':enter', [
+            style({ opacity: 0 }),
+            animate('150ms ease-out', style({ opacity: 1 }))
+        ]),
+        transition(':leave', [
+            animate('100ms ease-in', style({ opacity: 0 }))
+        ])
+    ]),
+    trigger('slideIn', [
+        transition(':enter', [
+            style({ transform: 'translateY(-20px)', opacity: 0 }),
+            animate('200ms 100ms ease-out', 
+                style({ transform: 'translateY(0)', opacity: 1 }))
+        ])
+    ])
+]
 })
 export class PurshasedOfferComponent implements OnInit {
   formId!: string;
@@ -29,6 +46,7 @@ export class PurshasedOfferComponent implements OnInit {
   notValid: boolean = false;
   selectedValue: number = 0;
   data2Save: PurchasedOfferRequest = { data: [] };
+  showPopup = false;
 
   constructor(
     private fb: FormBuilder,
@@ -84,24 +102,29 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.isLoading = true;
+    this.showPopup=true;
+    this.isLoading = true;
     // if (this.insuranceForm.valid) {
-      const list = this.insuranceForm.value; // Assuming it's a JSON object
+    // const list = this.insuranceForm.value; // Assuming it's a JSON object
 
-      Object.entries(list).forEach(([key,value], index) => {
-        this.data2Save.data!.push({
-          fieldLabel: this.formFields[index].label,
-          fieldType: this.formFields[index].type,
-          fieldValue: value,
-        });
-      });
-      this.data2Save.formId = this.formId;
-      console.log(this.saveForData)
-      this.saveForData();
+    // Object.entries(list).forEach(([key, value], index) => {
+    //   this.data2Save.data!.push({
+    //     fieldLabel: this.formFields[index].label,
+    //     fieldType: this.formFields[index].type,
+    //     fieldValue: value,
+    //   });
+    // });
+    // this.data2Save.formId = this.formId;
+    // console.log(this.saveForData);
+    // this.saveForData();
 
-      return;
+    // return;
     // }
-    this.isLoading = false;
+    // this.isLoading = false;
+    setTimeout(()=>{
+      this.isLoading = false;
+      this.cleanForm();
+    },1000)
     this.notValid = true;
   }
 
@@ -111,13 +134,17 @@ export class PurshasedOfferComponent implements OnInit {
     };
 
     this.purchasedoffer.create(parm).subscribe(() => {
-      setTimeout((response:string) => {
-        console.log("form responce: "+response)
+      setTimeout((response: string) => {
+        console.log('form responce: ' + response);
         this.isLoading = false;
         this.notValid = false;
         this.insuranceForm.reset();
       }, 2000);
     });
+  }
+
+  cleanForm(){
+    this.insuranceForm.reset();
   }
 
   // Method to get the current value of the range input

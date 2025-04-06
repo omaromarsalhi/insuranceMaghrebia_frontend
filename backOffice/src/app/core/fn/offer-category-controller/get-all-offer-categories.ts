@@ -11,11 +11,13 @@ import { RequestBuilder } from '../../request-builder';
 import { CategoryResponse } from '../../models/category-response';
 
 export interface GetAllOfferCategories$Params {
+  target: 'PARTICULAR' | 'COMPANY';
 }
 
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
+export function getAllOfferCategories(http: HttpClient, rootUrl: string, params: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
   const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
   if (params) {
+    rb.query('target', params.target, {});
   }
 
   return http.request(

@@ -17,12 +17,13 @@ import { delete$ } from '../fn/offer-controller/delete';
 import { Delete$Params } from '../fn/offer-controller/delete';
 import { getAll } from '../fn/offer-controller/get-all';
 import { GetAll$Params } from '../fn/offer-controller/get-all';
+import { getAllByCategoryId } from '../fn/offer-controller/get-all-by-category-id';
+import { GetAllByCategoryId$Params } from '../fn/offer-controller/get-all-by-category-id';
 import { getByOfferId } from '../fn/offer-controller/get-by-offer-id';
 import { GetByOfferId$Params } from '../fn/offer-controller/get-by-offer-id';
-import { getOne } from '../fn/offer-controller/get-one';
-import { GetOne$Params } from '../fn/offer-controller/get-one';
 import { OfferGeneralResponse } from '../models/offer-general-response';
 import { OfferResponse } from '../models/offer-response';
+import { OfferWithTagsResponse } from '../models/offer-with-tags-response';
 import { update } from '../fn/offer-controller/update';
 import { Update$Params } from '../fn/offer-controller/update';
 import { updateStatus } from '../fn/offer-controller/update-status';
@@ -134,31 +135,6 @@ export class OfferControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getOne()` */
-  static readonly GetOnePath = '/api/v1/offers/one/{categoryId}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getOne()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getOne$Response(params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-    return getOne(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getOne$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getOne(params: GetOne$Params, context?: HttpContext): Observable<OfferResponse> {
-    return this.getOne$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
-    );
-  }
-
   /** Path part for operation `getByOfferId()` */
   static readonly GetByOfferIdPath = '/api/v1/offers/offer/{offerId}';
 
@@ -181,6 +157,31 @@ export class OfferControllerService extends BaseService {
   getByOfferId(params: GetByOfferId$Params, context?: HttpContext): Observable<OfferResponse> {
     return this.getByOfferId$Response(params, context).pipe(
       map((r: StrictHttpResponse<OfferResponse>): OfferResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllByCategoryId()` */
+  static readonly GetAllByCategoryIdPath = '/api/v1/offers/getAllByCategoryId/{categoryId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllByCategoryId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllByCategoryId$Response(params: GetAllByCategoryId$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferWithTagsResponse>>> {
+    return getAllByCategoryId(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllByCategoryId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllByCategoryId(params: GetAllByCategoryId$Params, context?: HttpContext): Observable<Array<OfferWithTagsResponse>> {
+    return this.getAllByCategoryId$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<OfferWithTagsResponse>>): Array<OfferWithTagsResponse> => r.body)
     );
   }
 

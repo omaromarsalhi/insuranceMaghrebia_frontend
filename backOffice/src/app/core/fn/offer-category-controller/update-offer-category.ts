@@ -12,14 +12,12 @@ import { CategoryResponse } from '../../models/category-response';
 import { OfferCategory } from '../../models/offer-category';
 
 export interface UpdateOfferCategory$Params {
-  id: string;
       body: OfferCategory
 }
 
 export function updateOfferCategory(http: HttpClient, rootUrl: string, params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
   const rb = new RequestBuilder(rootUrl, updateOfferCategory.PATH, 'put');
   if (params) {
-    rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
   }
 
@@ -33,4 +31,4 @@ export function updateOfferCategory(http: HttpClient, rootUrl: string, params: U
   );
 }
 
-updateOfferCategory.PATH = '/api/v1/offer-categories/update/{id}';
+updateOfferCategory.PATH = '/api/v1/offer-categories/update';

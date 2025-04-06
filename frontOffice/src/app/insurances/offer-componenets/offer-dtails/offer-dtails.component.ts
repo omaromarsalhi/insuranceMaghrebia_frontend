@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OfferResponse } from 'src/app/core/models';
-import { OfferControllerService } from 'src/app/core/services';
+import { OfferResponse } from 'src/app/core/models/offer-response';
+import { OfferControllerService } from 'src/app/core/services/offer-controller.service';
 
 @Component({
   selector: 'app-offer-dtails',
@@ -16,7 +16,7 @@ import { OfferControllerService } from 'src/app/core/services';
 })
 export class OfferDtailsComponent implements OnInit {
   offerDetails!: OfferResponse;
-  categoryId!: string;
+  offerId!: string;
   @ViewChildren('featureItem') featureItems!: QueryList<ElementRef>;
 
   constructor(
@@ -25,8 +25,7 @@ export class OfferDtailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categoryId = this.route.snapshot.paramMap.get('categoryId') || 'null';
-    console.log('Form ID:', this.categoryId);
+    this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
     this._loadOffers();
   }
 
@@ -71,10 +70,7 @@ export class OfferDtailsComponent implements OnInit {
   };
 
   private _loadOffers() {
-    const param={
-      categoryId:this.categoryId
-    }
-    this.offerService.getOne(param).subscribe((offer) => {
+    this.offerService.getByOfferId({offerId:this.offerId}).subscribe((offer) => {
       this.offerDetails = offer;
       console.log(this.offerDetails);
     });

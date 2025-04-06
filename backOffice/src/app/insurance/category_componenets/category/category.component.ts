@@ -7,6 +7,7 @@ import { CategoryResponse, OfferCategory } from "src/app/core/models";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 import { uploadImage } from "../../../core/fn/image-upload-controller/upload-image";
 import { CategoryModalComponent } from "../category-modal/category-modal.component";
+import { element } from "protractor";
 
 @Component({
   selector: "app-category",
@@ -48,7 +49,7 @@ export class CategoryComponent implements OnInit {
   }
 
   private _fetchData() {
-    this.categoryService.getAllOfferCategories().subscribe({
+    this.categoryService.getAll1().subscribe({
       next: (data) => {
         this.categoriesData = data;
       },
@@ -63,6 +64,7 @@ export class CategoryComponent implements OnInit {
   }
 
   openModal(category?: any) {
+    console.log(category);
     this.formData.reset();
     this.submitted = false;
     const modalRef = this.modalService.open(CategoryModalComponent, {
@@ -79,18 +81,18 @@ export class CategoryComponent implements OnInit {
     }
 
     modalRef.componentInstance.save.subscribe((imageUri: string) => {
-      if (category) {
-        console.log("update");
-        // this.updateCategory();
-      } else {
-        this.submitOffer(imageUri);
-      }
+      this.submitCategory(imageUri, !!category, category);
     });
   }
 
-  submitOffer = async (imageUri: string) => {
+  submitCategory = async (
+    imageUri: string,
+    isEditMode: boolean,
+    category: any
+  ) => {
     Swal.fire({
-      title: "Category is being added!",
+      title:
+        "Category is being " + (isEditMode ? "updated!" : "added!") + " 😉",
       timer: 2000,
       didOpen: () => {
         Swal.showLoading();
@@ -98,23 +100,27 @@ export class CategoryComponent implements OnInit {
     });
 
     try {
-      this.saveCategory(imageUri);
+      if (isEditMode) {
+        let index = this.categoriesData.indexOf(category);
+        this.updateCategory(category.categoryId, imageUri, index);
+      } else this.saveCategory(imageUri);
       Swal.fire({
         icon: "success",
-        title: "Category added successfully!",
+        title:
+          "Category " +
+          (isEditMode ? "Updated" : "Added") +
+          " successfully! 🤩",
         timer: 2000,
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Failed to add Category",
+        title: "Failed to " + (isEditMode ? "update" : "add") + " Category 🧐",
         text: error.message,
         timer: 2000,
       });
     }
   };
-
-  openUpdateModal(category: OfferCategory) {}
 
   saveCategory(imageUri: string) {
     this.submitted = true;
@@ -131,10 +137,9 @@ export class CategoryComponent implements OnInit {
     console.log(params);
 
     this.categoryService.createOfferCategory(params).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: (response: CategoryResponse) => {
         this.modalService.dismissAll();
-        this._fetchData();
+        this.categoriesData.push(response);
       },
       error: (error) => {
         console.error("Error saving category:", error);
@@ -142,20 +147,20 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  updateCategory(categoryId: string) {
+  updateCategory(categoryId: string, imageUri: string, index: number) {
     if (this.formData.invalid) {
       return;
     }
 
     const params = {
-      id: categoryId,
       body: this.formData.value,
     };
-    console.log(params);
+    params.body.imageUri = imageUri;
+    params.body.categoryId = categoryId;
 
     this.categoryService.updateOfferCategory(params).subscribe({
-      next: (response) => {
-        this._fetchData();
+      next: (response: CategoryResponse) => {
+        this.categoriesData[index] = response;
         this.modalService.dismissAll();
       },
       error: (error) => {
@@ -184,15 +189,18 @@ export class CategoryComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-
-          this.categoryService.deleteOfferCategory({ id: categoryId }).subscribe({
-            next: () => {
-              this._fetchData();
-            },
-            error: (error) => {
-              console.error("Error deleting category:", error);
-            },
-          });
+          this.categoryService
+            .deleteOfferCategory({ id: categoryId })
+            .subscribe({
+              next: () => {
+                this.categoriesData = this.categoriesData.filter(
+                  (element) => element.categoryId != categoryId
+                );
+              },
+              error: (error) => {
+                console.error("Error deleting category:", error);
+              },
+            });
 
           swalWithBootstrapButtons.fire(
             "Deleted!",

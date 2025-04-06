@@ -10,11 +10,28 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PurshasedOfferComponent } from './offer-componenets/purshased-offer/purshased-offer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OffersListComponent } from './offer-componenets/offers-list/offers-list.component';
-
-
+import { GenerateQuoteComponent } from './offer-componenets/generate-quote/generate-quote.component';
+import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
+import { MapComponent } from './map/map.component';
+import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment/quote-appointment.component';
+import { TestComponent } from './test/test.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { BillingPeriodPipe } from './pipes/billing-period.pipe';
 
 @NgModule({
-  declarations: [CategoryComponent,OfferDtailsComponent, PurshasedOfferComponent, OffersListComponent],
+  declarations: [
+    CategoryComponent,
+    OfferDtailsComponent,
+    PurshasedOfferComponent,
+    OffersListComponent,
+    GenerateQuoteComponent,
+    FormBuilderComponent,
+    MapComponent,
+    QuoteAppointmentComponent,
+    TestComponent,
+    TruncatePipe,
+    BillingPeriodPipe
+  ],
   imports: [
     CommonModule,
     InsuranceRoutingModule,
@@ -22,7 +39,7 @@ import { OffersListComponent } from './offer-componenets/offers-list/offers-list
     SlickCarouselModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class InsuranceModule { }
+export class InsuranceModule {}

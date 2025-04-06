@@ -1,0 +1,82 @@
+
+.sideSection{
+  padding: 1rem 2rem 1rem 1rem !important;
+}
+
+.sideSection2{
+  min-width: 60vh;
+  height: 103vh;
+  overflow: auto;
+  scrollbar-width: none; 
+  background-color: transparent !important;
+}
+
+
+.bg-green {
+  /* background-color: #193b1e17; */
+  background-color: #EAF1F2;
+}
+
+.detail-item {
+  display: flex;
+  gap: 0.5rem; /* Adjust as needed */
+}
+
+.detail-item label {
+  font-weight: bold;
+}
+
+
+/* Button Styles */
+.action-buttons {
+  display: flex;
+  justify-content: end;
+  gap: 8px;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.btn-buy {
+  background-color: #fefbe9;
+  color: #ffb966;
+}
+
+.btn-buy:hover {
+  background-color: #f9f3d0;
+
+}
+
+.btn-delete {
+  background-color: #f8d7da;
+  color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #f5c6cb;
+}
+
+/* Accordion Header Alignment */
+.accordion-header {
+  padding: 12px 20px;
+}
+
+.accordion-title {
+  margin-right: 15px;
+  flex-grow: 1;
+}
+
+
+
+
+

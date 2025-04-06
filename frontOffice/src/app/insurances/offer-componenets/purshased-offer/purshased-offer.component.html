@@ -1,11 +1,27 @@
-<section class="contact-form-section gray-bg pt-125 pb-100 " style="padding: 150px; padding-left: 150px;">
+
+<app-preloader></app-preloader>
+
+<section class="contact-form-section gray-bg pt-125 pb-100" style="padding: 150px; padding-left: 150px">
+    <!-- Popup Overlay -->
+    <div class="overlay" *ngIf="showPopup" (click)="showPopup = false" @fadeInOut>
+        <div class="modal-content" (click)="$event.stopPropagation()" @slideIn>
+            <button class="close-btn" (click)="showPopup = false">&times;</button>
+            <h3>Thank You!</h3>
+            <span *ngIf="isLoading">
+                <i class="fa fa-spinner fa-spin"></i> Loading...
+            </span>
+            <p *ngIf="!isLoading">Your submission has been received.</p>
+            <button *ngIf="!isLoading" class="main-btn primary-btn" (click)="showPopup = false">Close</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Column: Contact Form Area -->
             <div class="col-xl-6 order-2 order-xl-1 mt-4 mb-4">
                 <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
                     <div class="section-title mb-10">
-                        <h2>Get Start Insurance</h2>
+                        <h2>Get Your Insurance</h2>
                     </div>
 
                     <div class="tab-content">
@@ -78,41 +94,34 @@
                                         </div>
 
                                         <!-- Range Input -->
-                                        <!-- <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
-                                            <input type="range" class="form_control" [min]="field.rangeStart"
-                                                [max]="field.rangeEnd"
-                                                [formControlName]="getFormControlName(field, i)" />
-                                            <div class="range-values check-list">
-                                                <span>{{ field.rangeStart }}</span>
-                                                <span>{{ field.rangeEnd }}</span>
-                                            </div>
-                                        </div> -->
-                                        <div *ngSwitchCase="'range'" class=" single-progress-bar progress-style-one">
+                                
+                                        <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
                                             <!-- Range Input -->
-                                            <input
-                                              type="range"
-                                              class="form-control range-slider"
-                                              [min]="field.rangeStart"
-                                              [max]="field.rangeEnd"
-                                              [formControlName]="getFormControlName(field, i)"
-                                              (input)="updateRangeValue(field, i, $event)"
-                                            />
-                                          
+                                            <input type="range" class="form-control range-slider"
+                                                [min]="field.rangeStart" [max]="field.rangeEnd"
+                                                [formControlName]="getFormControlName(field, i)"
+                                                (input)="updateRangeValue(field, i, $event)" />
+
                                             <!-- Range Values -->
                                             <div class="range-values">
-                                              <span>{{ field.rangeStart }}</span>
-                                              <span class="current-value">{{ getCurrentValue(field, i) }}</span>
-                                              <span>{{ field.rangeEnd }}</span>
+                                                <span>{{ field.rangeStart }}</span>
+                                                <span class="current-value">{{
+                                                    getCurrentValue(field, i)
+                                                    }}</span>
+                                                <span>{{ field.rangeEnd }}</span>
                                             </div>
-                                          </div>
-                                    
+                                        </div>
 
                                         <!-- Checkbox Group -->
 
                                         <div *ngSwitchCase="'checkbox'" class="check-list flex items-center gap-2">
-                                            <input type="checkbox" [formControlName]="getFormControlName(field, i)"
-                                                class="w-4 h-4" />
-                                            <label class="text-sm">{{ field.label }}</label>
+                                            <div class="checkbox-item">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" [formControlName]="getFormControlName(field, i)">
+                                                    <span class="checkmark"></span>
+                                                    {{ field.label }}
+                                                </label>
+                                            </div>
                                         </div>
 
                                         <!-- Radio Buttons -->
@@ -126,13 +135,13 @@
 
                                         <!-- Validation Errors -->
                                         <div *ngIf="
-                                                    insuranceForm.controls[getFormControlName(field, i)]
-                                                    .invalid &&
-                                                    (insuranceForm.controls[getFormControlName(field, i)]
-                                                    .touched ||
-                                                    insuranceForm.controls[getFormControlName(field, i)]
-                                                        .dirty)
-                                                " class="validation-error text-danger">
+                        insuranceForm.controls[getFormControlName(field, i)]
+                          .invalid &&
+                        (insuranceForm.controls[getFormControlName(field, i)]
+                          .touched ||
+                          insuranceForm.controls[getFormControlName(field, i)]
+                            .dirty)
+                      " class="validation-error text-danger">
                                             <span
                                                 *ngIf="insuranceForm.controls[getFormControlName(field, i)].errors?.['required']">
                                                 This field is required
@@ -146,12 +155,16 @@
                                 </ng-container>
 
                                 <div class="form_group">
-                                    <button type="submit" class="main-btn primary-btn" [disabled]="isLoading"
-                                        (click)="onSubmit()">
+                                    <!-- <button type="submit" class="main-btn primary-btn btn-link no-underline"
+                                        [disabled]="isLoading" (click)="onSubmit()">
                                         <span *ngIf="!isLoading">Submit <i class="fa fa-arrow-right"></i></span>
                                         <span *ngIf="isLoading">
                                             <i class="fa fa-spinner fa-spin"></i> Loading...
                                         </span>
+                                    </button> -->
+                                    <button type="submit" class="main-btn primary-btn btn-link no-underline"
+                                        (click)="onSubmit()">
+                                        <span >Submit <i class="fa fa-arrow-right"></i></span>
                                     </button>
                                     <div *ngIf="!insuranceForm.valid && notValid"
                                         class="validation-error text-danger ms-1 mt-2">

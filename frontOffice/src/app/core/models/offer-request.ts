@@ -15,4 +15,5 @@ export interface OfferRequest {
   labels?: Array<OfferLabelDto>;
   name: string;
   packages?: Array<OfferPackageDto>;
+  tags?: Array<string>;
 }

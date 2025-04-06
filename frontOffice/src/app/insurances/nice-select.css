@@ -43,9 +43,7 @@
 	color: #999;
 	pointer-events: none;
 }
-.nice-select.disabled:after {
-	border-color: #cccccc;
-}
+
 .nice-select.wide {
 	width: 100%;
 }
@@ -65,10 +63,7 @@
 	height: 36px;
 	line-height: 34px;
 }
-.nice-select.small:after {
-	height: 4px;
-	width: 4px;
-}
+
 .nice-select.small .option {
 	line-height: 34px;
 	min-height: 34px;
