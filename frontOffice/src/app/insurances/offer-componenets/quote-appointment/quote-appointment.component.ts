@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
-import { AddressInfo } from 'src/app/core/models/address-info';
 
 @Component({
   selector: 'app-quote-appointment',
@@ -24,6 +23,9 @@ import { AddressInfo } from 'src/app/core/models/address-info';
           style({ transform: 'translateY(0)', opacity: 1 })
         ),
       ]),
+    ]),
+    trigger('fadeOut', [
+      transition(':leave', [animate('400ms ease-out', style({ opacity: 0 }))]),
     ]),
   ],
 })
@@ -93,6 +95,13 @@ export class QuoteAppointmentComponent implements OnInit {
         regexErrorMessage: 'CIN must be exactly 8 digits',
         step: 1,
         controleName: 'cin',
+      },
+      {
+        label: 'CIN Document',
+        controleName: 'cinDocuments',
+        type: 'file',
+        required: true,
+        step: 1,
       },
     ],
     nbrSteps: 1,
@@ -357,23 +366,32 @@ export class QuoteAppointmentComponent implements OnInit {
     },
   };
 
-  quotesHistory: AutoInsuranceRequest[] = []; // Populate this array with your actual quotes data
+  quotesHistory: { key: string; obj: AutoInsuranceRequest }[] = []; // Populate this array with your actual quotes data
   constructor(private storageService: StorageService) {}
 
   ngOnInit(): void {
-    console.log(this.currentAppointementInsuranceType);
-    this.quotesHistory = this.storageService.get<AutoInsuranceRequest>('auto');
+    this.quotesHistory = this.storageService.get<AutoInsuranceRequest>(
+      this.currentAppointementInsuranceType
+    );
   }
 
+  deleteQuote(key: string) {
+    this.storageService.remove(key);
+    this.quotesHistory = this.quotesHistory.filter((q) => q.key !== key);
+  }
+
+  makeAutoReservation(data: any) {
+    console.log(data);
+  }
 
   recieveFormData(data: any) {
-    // switch (this.currentFormType) {
-    //   case 'auto':
-    //     this.submitAutoData(data);
-    //     break;
-    //   default:
-    //     console.log(data);
-    //     break;
-    // }
+    switch (this.currentAppointementInsuranceType) {
+      case 'auto':
+        this.makeAutoReservation(data);
+        break;
+      default:
+        console.log(data);
+        break;
+    }
   }
 }

@@ -211,7 +211,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   private _fetchDataC() {
-    this.categoryService.getAllOfferCategories().subscribe({
+    this.categoryService.getAll1().subscribe({
       next: (data) => {
         this.categories = data;
       },

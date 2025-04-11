@@ -368,7 +368,7 @@ export class OfferManagerComponent implements OnInit {
   }
 
   private _fetchCategoryData() {
-    this.categoryService.getAllOfferCategories().subscribe({
+    this.categoryService.getAll1().subscribe({
       next: (data) => {
         this.categoriesData = data;
       },

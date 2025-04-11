@@ -18,6 +18,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { AddressInfo } from 'src/app/core/models/address-info';
 import { HealthInsuranceRequest } from 'src/app/core/models';
 import { HealthQuoteControllerService } from 'src/app/core/services';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-generate-quote',
@@ -417,14 +418,7 @@ export class GenerateQuoteComponent implements OnInit {
         },
 
         // Step 2: Detailed Medical + Lifestyle
-        {
-          label: 'Current Medications',
-          type: 'textarea',
-          required: false,
-          placeholder: 'List current medications',
-          controleName: 'medications',
-          step: 2,
-        },
+
         {
           label: 'Hospitalizations (Last 5 Years)',
           type: 'select',
@@ -540,15 +534,14 @@ export class GenerateQuoteComponent implements OnInit {
           label: 'Vaccination Status',
           type: 'checkbox-group',
           required: false,
-          selectOptions: ['Flu', 'COVID-19', 'Hepatitis B', 'MMR','Tuberculosis'],
+          selectOptions: [
+            'Flu',
+            'COVID-19',
+            'Hepatitis B',
+            'MMR',
+            'Tuberculosis',
+          ],
           controleName: 'vaccinations',
-          step: 4,
-        },
-        {
-          label: 'GDPR Consent',
-          type: 'checkbox',
-          required: true,
-          controleName: 'gdprConsent',
           step: 4,
         },
       ],
@@ -750,32 +743,27 @@ export class GenerateQuoteComponent implements OnInit {
   }
 
   submitHeatlhData(objList: any) {
+    let i = 0;
     this.healtk2Calculate = {
-      age: objList[0],
-      gender: objList[1],
-      governorate: objList[2],
-      occupation: objList[3],
-      preExistingConditions: objList[4],
-      familyHistory: objList[5],
-      medications: objList[6],
-      hospitalizations: objList[7],
-      chronicIllnesses: objList[8],
-      surgeries: objList[9],
-      smoking: objList[10],
-      alcohol: objList[11],
-      exercise: objList[12],
-      bmi: objList[13],
-      planType: objList[14],
-      deductible: objList[15],
-      addOns: objList[16],
-      existingInsurance: objList[17],
-      employerInsurance: objList[18],
-      travelFrequency: objList[19],
-      vaccinations: objList[20],
-      gdprConsent: objList[21] || false,
+      age: Number(objList[i++]),
+      gender: objList[i++],
+      governorate: objList[i++],
+      occupation: objList[i++],
+      preExistingConditions: objList[i++].filter((item: any) => item !== ''),
+      familyHistory: objList[i++].filter((item: any) => item !== ''),
+      hospitalizations: objList[i++],
+      chronicIllnesses: objList[i++],
+      surgeries: objList[i++],
+      smoking: objList[i++],
+      alcohol: objList[i++],
+      exercise: objList[i++],
+      bmi: parseFloat(objList[i++]),
+      planType: objList[i++],
+      deductible: Number(objList[i++]),
+      addOns: objList[i++].filter((item: any) => item !== ''),
+      travelFrequency: objList[i++],
+      vaccinations: objList[i++].filter((item: any) => item !== ''),
     };
-
-    console.log(this.healtk2Calculate);
     this.storageService.set(this.currentFormType, this.healtk2Calculate);
     this._calculateHealth();
   }

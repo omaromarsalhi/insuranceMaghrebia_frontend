@@ -1,4 +1,4 @@
-<section class="contact-form-section gray-bg">
+<section class="contact-form-section gray-bg ">
   <div class="container">
     <div class="row align-items-center">
       <!-- Left Column: Contact Form Area -->
@@ -28,12 +28,12 @@
           </div>
           <div class="accordion pr-20 pl-20 pt-60 sideSection2" id="accordionOne">
             <div class="faq-content-box wow fadeInLeft">
-              <div *ngFor="let quote of quotesHistory; let i = index" class="accordion-card-two mb-15 bg-green ">
+              <div *ngFor="let quote of quotesHistory; let i = index" class="accordion-card-two mb-15 bg-green " [@fadeOut]>
                 <div class="accordion-header ">
                   <h6 class="accordion-title " data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+ '-' + i">
                     <span class="number fs-5">{{ i + 1 | number:'2.0' }}.</span>
-                    {{ quote.vehicleMake || 'Vehicle' }} {{ quote.vehicleModel || 'Quote' }} -
-                    {{ quote.coverageType || 'Standard Coverage' }}
+                    {{ quote.obj.vehicleMake || 'Vehicle' }} {{ quote.obj.vehicleModel || 'Quote' }} -
+                    {{ quote.obj.coverageType || 'Standard Coverage' }}
                   </h6>
                 </div>
                 <div [id]="'collapse' + '-' + i" class="accordion-collapse collapse" data-bs-parent="#accordionOne">
@@ -43,11 +43,11 @@
                       <div class="detail-row">
                         <div class="detail-item gap-1">
                           <label>VIN:</label>
-                          <span>{{ quote.vin || 'N/A' | truncate:4 }}</span>
+                          <span>{{ quote.obj.vin || 'N/A' | truncate:4 }}</span>
                         </div>
                         <div class="detail-item">
                           <label>License:</label>
-                          <span>{{ quote.licenseNumber || 'N/A' | truncate:4 }}</span>
+                          <span>{{ quote.obj.licenseNumber || 'N/A' | truncate:4 }}</span>
                         </div>
                       </div>
 
@@ -55,11 +55,11 @@
                       <div class="detail-row">
                         <div class="detail-item">
                           <label>Experience:</label>
-                          <span>{{ quote.drivingExperience || 0 }} years</span>
+                          <span>{{ quote.obj.drivingExperience || 0 }} years</span>
                         </div>
                         <div class="detail-item">
                           <label>Accident History:</label>
-                          <span>{{ quote.accidentHistory || 'Clean record' }}</span>
+                          <span>{{ quote.obj.accidentHistory || 'Clean record' }}</span>
                         </div>
                       </div>
 
@@ -67,28 +67,28 @@
                       <div class="detail-row">
                         <div class="detail-item">
                           <label>Billing:</label>
-                          <span>{{ quote.billingPeriod || 'N/A' | billingPeriod }}</span>
+                          <span>{{ quote.obj.billingPeriod || 'N/A' | billingPeriod }}</span>
                         </div>
                         <div class="detail-item">
                           <label>Violations:</label>
-                          <span>{{ quote.trafficViolations ? 'Yes' : 'No' }}</span>
+                          <span>{{ quote.obj.trafficViolations ? 'Yes' : 'No' }}</span>
                         </div>
                       </div>
 
                       <!-- Additional Info -->
                       <div class="detail-item full-width">
                         <label>Address:</label>
-                        <span *ngIf="quote.addressInfo">
-                          {{ quote.addressInfo.streetName }}, {{ quote.addressInfo.municipality }},
-                          {{ quote.addressInfo.country }} {{ quote.addressInfo.countryCode }}
+                        <span *ngIf="quote.obj.addressInfo">
+                          {{ quote.obj.addressInfo.streetName }}, {{ quote.obj.addressInfo.municipality }},
+                          {{ quote.obj.addressInfo.country }} {{ quote.obj.addressInfo.countryCode }}
                         </span>
-                        <span *ngIf="!quote.addressInfo">N/A</span>
+                        <span *ngIf="!quote.obj.addressInfo">N/A</span>
                       </div>
 
                       <!-- Course Info -->
                       <div class="detail-item">
                         <label>Defensive Course:</label>
-                        <span>{{ quote.defensiveDrivingCourse ? 'Completed' : 'Not Completed' }}</span>
+                        <span>{{ quote.obj.defensiveDrivingCourse ? 'Completed' : 'Not Completed' }}</span>
                       </div>
 
                       <!-- Add this action buttons section at the end -->
@@ -96,7 +96,7 @@
                         <button class="btn-icon btn-buy" title="Purchase Quote">
                           <i class="fas fa-shopping-cart"></i>
                         </button>
-                        <button class="btn-icon btn-delete" title="Delete Quote">
+                        <button class="btn-icon btn-delete" title="Delete Quote" (click)="deleteQuote(quote.key)">
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </div>

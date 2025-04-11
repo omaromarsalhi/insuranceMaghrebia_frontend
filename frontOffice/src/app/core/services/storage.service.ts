@@ -12,19 +12,20 @@ export class StorageService {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  get<T>(key: string): T[] {
-    let tab: T[] = [];
+  get<T>(key: string): { key: string; obj: T }[] {
+    let tab: { key: string; obj: T }[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const strkey = localStorage.key(i);
       if (strkey?.startsWith(key)) {
         const data = JSON.parse(localStorage.getItem(strkey)!);
-        tab.push(data as T);
+        tab.push({ key: strkey, obj: data as T });
       }
     }
     return tab;
   }
 
   remove(key: string): void {
+    console.log(key)
     localStorage.removeItem(key);
   }
 

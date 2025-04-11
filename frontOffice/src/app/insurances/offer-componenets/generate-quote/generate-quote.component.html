@@ -157,10 +157,10 @@
                             <h3 *ngIf="!isLoading && !isResponseReady" style="color: red">
                                 Sory !
                             </h3>
-                            <span *ngIf="isLoading">
+                            <span *ngIf="isLoading" class="fs-6 text-black fw-bold">
                                 <i class="fa fa-spinner fa-spin"></i> Loading...
                             </span>
-                            <p *ngIf="!isLoading">{{ popupMessage }}</p>
+                            <p *ngIf="!isLoading" class="fs-6 text-black fw-bold">{{ popupMessage }}</p>
                             <button *ngIf="!isLoading" class="main-btn primary-btn" style="height: 1rem"
                                 (click)="closePopup()">
                                 Close
