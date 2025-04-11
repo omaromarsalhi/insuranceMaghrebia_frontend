@@ -5,43 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b25cc8fb-33ea-4099-b108-1215584fd379" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/listComplait.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/listComplait.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/layouts/sidebar/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/layouts/sidebar/menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/contacts-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/contacts-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/contacts.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/contacts.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/data.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/usergrid.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/usergrid.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/usergrid.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/usergrid.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/listComplait.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/contacts/listComplaint/usergrid.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/pages-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/pages-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/create/create.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/create/create.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/create/create.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/create/create.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/overview.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/showResponses.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/overview.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/showResponses.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/overview.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/showResponses.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/overview/overview.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectgrid/projectgrid.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectgrid/projectgrid.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectgrid/projectgrid.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectgrid/projectgrid.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectlist/projectlist.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectlist/projectlist.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectlist/projectlist.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projectlist/projectlist.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projects-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projects-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projects.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/projects/projects.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontOffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontOffice/src/app/camplaint/camplaint.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/src/app/camplaint/camplaint.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontOffice/src/app/core/services/ComplaintService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/src/app/core/services/ComplaintService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/core/models/ReportResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/core/models/ReportResponse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/core/services/ReportService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/core/services/ReportService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/dashboards-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/dashboards-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/tables/advancedtable/advancedtable.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/tables/advancedtable/advancedtable.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +75,8 @@
       <workItem from="1740743354426" duration="1884000" />
       <workItem from="1741116461839" duration="9000" />
       <workItem from="1741251918239" duration="88000" />
+      <workItem from="1744383014140" duration="122000" />
+      <workItem from="1744383151269" duration="4000" />
     </task>
     <servers />
   </component>

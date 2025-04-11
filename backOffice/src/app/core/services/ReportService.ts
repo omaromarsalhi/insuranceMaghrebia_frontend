@@ -13,5 +13,8 @@ export class ReportService {
     getReportsByUserId(userId: string): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/${userId}`);
     }
+    getReportById(reportId: string): Observable<any> {
+        return this.http.get(`${this.baseUrl}/getReportResponse/${reportId}`);
+    }
 
 }

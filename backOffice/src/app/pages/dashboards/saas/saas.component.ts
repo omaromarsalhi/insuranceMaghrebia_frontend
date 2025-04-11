@@ -1,10 +1,14 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChatData, earningLineChart, salesAnalyticsDonutChart} from './data';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ChartType, ChatMessage} from './saas.model';
 import {ConfigService} from '../../../core/services/config.service';
 import {TrackingService} from '../../../core/services/TrackingService';
-
+import {ActivatedRoute} from '@angular/router';
+import {ReportResponse} from '../../../core/models/ReportResponse';
+import {ReportService} from '../../../core/services/ReportService';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 @Component({
     selector: 'app-saas',
     templateUrl: './saas.component.html',
@@ -14,7 +18,8 @@ import {TrackingService} from '../../../core/services/TrackingService';
  * Saas-dashboard component
  */
 export class SaasComponent implements OnInit, AfterViewInit {
-
+    public Editor = ClassicEditor;
+    @ViewChild('emailContent') emailContent!: TemplateRef<any>;
     @ViewChild('scrollRef') scrollRef;
     breadCrumbItems: Array<{}>;
     earningLineChart: ChartType;
@@ -23,21 +28,67 @@ export class SaasComponent implements OnInit, AfterViewInit {
     sassEarning: Array<Object>;
     sassTopSelling: Array<Object>;
     formData: FormGroup;
+    availableMonths: { value: string, label: string }[] = [];
     scores: Map<string, number> = new Map();
-
+    reportId: string | null = null;
+    reportResponse: ReportResponse;
+    iAnalysis: any;
+    type: any;
 
     constructor(public formBuilder: FormBuilder,
                 private configService: ConfigService,
-                private trakingService: TrackingService) {
+                private trakingService: TrackingService,
+                private reportService: ReportService,
+                private route: ActivatedRoute,
+                private modalService: NgbModal) {
     }
 
     get form() {
         return this.formData.controls;
     }
-
+    userActivities = [
+        { time: '09:00 AM', action: 'Visited the homepage' },
+        { time: '10:30 AM', action: 'Visited the Insurance Auto page' },
+        { time: '12:00 PM', action: 'Requested a quote'},
+        { time: '02:30 PM', action: 'Updated profile information' }
+    ];
     ngOnInit(): void {
+
+        // this.iAnalysis = {
+        //     userAnalysis: 'The user showed initial interest in car insurance, actively exploring details and requesting a quote...',
+        //     classification: 'interested, hesitant',
+        //     actions: {
+        //         interested: [
+        //             {
+        //                 actionType: 'email',
+        //                 description: 'Send a personalized email summarizing the car insurance quote and highlighting key benefits.'
+        //             },
+        //             {
+        //                 actionType: 'webinar',
+        //                 description: 'Invite the user to an online webinar showcasing the advantages of the chosen car insurance plan.'
+        //             }
+        //         ],
+        //         hesitant: [
+        //             {
+        //                 actionType: 'email',
+        //                 description: 'Send a follow-up email with a subject line like \'Your Car Insurance Quote is Ready!\''
+        //             },
+        //             {
+        //                 actionType: 'call',
+        //                 description: 'Schedule a brief follow-up call to address any remaining questions about the car insurance plan.'
+        //             }
+        //         ]
+        //     }
+        // };
         this.breadCrumbItems = [{label: 'Dashboards'}, {label: 'Saas', active: true}];
         this._fetchData();
+        this.route.params.subscribe(async (params) => {
+            this.reportId = params.id;
+            this.reportService.getReportById(this.reportId).subscribe(data => {
+                this.reportResponse = data;
+
+            });
+        });
         this.formData = this.formBuilder.group({
             message: ['', [Validators.required]],
         });
@@ -47,12 +98,25 @@ export class SaasComponent implements OnInit, AfterViewInit {
         });
         this.trakingService.getUserScoresPerDay('67a9157f0a6a1371dce93411').subscribe((data) => {
             this.scores = data;
-            console.log('scoreValues');
             this.updateChartData();
+            this.updateAvailableMonths();
 
         });
     }
 
+    open(emailContent: any) {
+        this.modalService.open(emailContent, { centered: true });
+    }
+
+    handleAction(action: any) {
+        if (action === 'email') {
+        this.open(this.emailContent);
+        } else if (action === 'webinar') {
+            console.log('webinar');
+        } else if (action === 'call') {
+            console.log('call');
+        }
+    }
     private _fetchData() {
         this.earningLineChart = earningLineChart;
         this.salesAnalyticsDonutChart = salesAnalyticsDonutChart;
@@ -63,101 +127,78 @@ export class SaasComponent implements OnInit, AfterViewInit {
         this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
     }
 
-
-    selectMonth(value) {
-        switch (value) {
-            case 'january':
-                this.sassEarning = [
-                    {
-                        name: 'This month',
-                        amount: '$2007.35',
-                        revenue: '0.2',
-                        time: 'From previous period',
-                        month: 'Last month',
-                        previousamount: '$784.04',
-                        series: [
-                            {
-                                name: 'series1'
-                                // data: [22, 35, 20, 41, 51, 42, 49, 45, 58, 42, 75, 48],
-                            },
-                        ],
-                    },
-                ];
-                break;
-            case 'december':
-                this.sassEarning = [
-                    {
-                        name: 'This month',
-                        amount: '$2007.35',
-                        revenue: '0.2',
-                        time: 'From previous period',
-                        month: 'Last month',
-                        previousamount: '$784.04',
-                        series: [
-                            {
-                                name: 'series1',
-                                data: [22, 28, 31, 34, 40, 52, 29, 45, 68, 60, 47, 12],
-                            },
-                        ],
-                    },
-                ];
-                break;
-            case 'november':
-                this.sassEarning = [
-                    {
-                        name: 'This month',
-                        amount: '$2887.35',
-                        revenue: '0.4',
-                        time: 'From previous period',
-                        month: 'Last month',
-                        previousamount: '$684.04',
-                        series: [
-                            {
-                                name: 'series1',
-                                data: [28, 30, 48, 50, 47, 40, 35, 48, 56, 42, 65, 41],
-                            },
-                        ],
-                    },
-                ];
-                break;
-            case 'october':
-                this.sassEarning = [
-                    {
-                        name: 'This month',
-                        amount: '$2100.35',
-                        revenue: '0.4',
-                        time: 'From previous period',
-                        month: 'Last month',
-                        previousamount: '$674.04',
-                        series: [
-                            {
-                                name: 'series1',
-                                data: [28, 48, 39, 47, 48, 41, 28, 46, 25, 32, 24, 28],
-                            },
-                        ],
-                    },
-                ];
-                break;
+    updateAvailableMonths(): void {
+        const dates = Object.keys(this.scores).map(date => new Date(date));
+        if (dates.length === 0) {
+            return;
         }
+
+        dates.sort((a, b) => a.getTime() - b.getTime());
+        const start = new Date(dates[0].getFullYear(), dates[0].getMonth(), 1);
+        const end = new Date(dates[dates.length - 1].getFullYear(), dates[dates.length - 1].getMonth(), 1);
+
+        const monthNames = ['janv', 'fevr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'dec'];
+        const result: { value: string, label: string }[] = [];
+
+        const current = new Date(start);
+        while (current <= end) {
+            const month = (current.getMonth() + 1).toString().padStart(2, '0');
+            const year = current.getFullYear();
+
+            result.push({
+                value: `${year}-${month}`,     // utilisé pour filtrer
+                label: `${monthNames[current.getMonth()]}`,  // affiché dans la liste
+            });
+
+            current.setMonth(current.getMonth() + 1);
+        }
+
+        this.availableMonths = result;
     }
+
+    selectMonth(value: string): void {
+        if (value === 'all') {
+            this.updateChartData();
+            return;
+        }
+
+        const filteredScores: { [key: string]: number } = {};
+        for (const date in this.scores) {
+            if (date.startsWith(value)) {
+                filteredScores[date] = this.scores[date];
+            }
+        }
+        const dates = Object.keys(filteredScores);
+        const values = Object.values(filteredScores);
+
+        // 3. Mettre à jour le graphique
+        this.earningLineChart.series = [
+            {
+                name: 'Scores',
+                data: values,
+            },
+        ];
+        this.earningLineChart.xaxis = {
+            categories: dates.map(dateStr => this.formatter(dateStr)),
+        };
+    }
+
 
     updateChartData(): void {
         const dates = Object.keys(this.scores);
         const scoreValues = Object.values(this.scores);
-
-        console.log(scoreValues);
         this.earningLineChart = {
             series: [
                 {
                     name: 'Scores',
-                    data: scoreValues,  // Données de la série
+                    data: scoreValues,
                 },
             ],
             chart: {
-                height: 288,  // Hauteur du graphique
-                type: 'line',  // Type de graphique (ligne)
+                height: 288,
+                type: 'line',
                 toolbar: {
-                    show: false,  // Masque la barre d'outils
+                    show: false,
                 },
                 dropShadow: {
                     enabled: true,
@@ -169,46 +210,67 @@ export class SaasComponent implements OnInit, AfterViewInit {
                 },
             },
             dataLabels: {
-                enabled: false,  // Désactive les étiquettes de données
+                enabled: false,
             },
-            colors: ['#556ee6'],  // Couleur de la ligne
+            colors: ['#556ee6'],
             stroke: {
-                curve: 'smooth',  // Type de courbe (lisse)
-                width: 3,  // Largeur de la ligne
+                curve: 'smooth',
+                width: 3,
             },
             xaxis: {
-                categories: dates,  // Catégories de l'axe X (dates)
+                categories: dates,
+                labels: {
+                    formatter(value: string) {
+                        const date = new Date(value);
+                        const day = date.getDate().toString().padStart(2, '0');
+
+                        const monthNames = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+                        const month = monthNames[date.getMonth()];
+
+                        return `${day} ${month}`;
+                    },
+                },
             },
             yaxis: {
-                min: 0,  // Valeur minimale de l'axe Y
-                max: 100,  // Valeur maximale de l'axe Y
+                min: 0,
+                max: 100,
                 title: {
-                    text: 'Scores',  // Titre de l'axe Y
+                    text: 'Scores',
                 },
             },
             tooltip: {
-                enabled: true,  // Active les info-bulles
-                shared: false,  // Info-bulle partagée
+                enabled: true,
+                shared: false,
             },
             grid: {
-                borderColor: '#e7e7e7',  // Couleur de la grille
-                strokeDashArray: 4,  // Type de ligne de la grille (pointillé)
+                borderColor: '#e7e7e7',
+                strokeDashArray: 4,
             },
             responsive: [
                 {
-                    breakpoint: 600,  // Pour les petits écrans (mobiles)
+                    breakpoint: 600,
                     options: {
                         chart: {
-                            height: 240,  // Hauteur du graphique sur mobile
+                            height: 240,
                         },
                     },
                 },
             ],
             title: {
-                text: 'Scores Over Time',  // Titre du graphique
-                align: 'left',  // Alignement du titre
+                text: 'Scores Over Time',
+                align: 'left',
             },
         };
+    }
+
+    formatter(value: string): string {
+        const date = new Date(value);
+        const day = date.getDate().toString().padStart(2, '0');
+
+        const monthNames = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+        const month = monthNames[date.getMonth()];
+
+        return `${day} ${month}`;
     }
 
 

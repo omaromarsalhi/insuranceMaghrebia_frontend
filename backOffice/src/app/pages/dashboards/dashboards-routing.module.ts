@@ -12,7 +12,7 @@ const routes: Routes = [
         component: DefaultComponent
     },
     {
-        path: 'saas',
+        path: 'saas/:id',
         component: SaasComponent
     },
     {

@@ -1,0 +1,115 @@
+.card-bodyy {
+  padding: 20px;
+  height: 400px; /* Hauteur fixe du cadre */
+  overflow-y: auto; /* Barre de défilement verticale quand nécessaire */
+}
+
+.verti-timeline {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 100%; /* Garantit que la timeline occupe toute la hauteur disponible */
+}
+
+.event-list {
+  display: flex;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.event-timeline-dot {
+  position: absolute;
+  left: -25px;
+  top: 0;
+}
+
+.media {
+  display: flex;
+  align-items: center;
+}
+
+.mr-3 {
+  margin-right: 10px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.media-body {
+  padding-left: 10px;
+}
+
+.btn-sm {
+  font-size: 14px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+
+.event-list {
+  display: flex; /* Utilise Flexbox pour aligner les éléments sur une ligne */
+  align-items: center; /* Aligne verticalement les éléments */
+  margin-bottom: 10px; /* Espacement entre les éléments */
+}
+
+.event-timeline-dot i {
+  transition: transform 0.3s ease, color 0.3s ease; /* Animation de transformation et de changement de couleur */
+}
+
+.event-timeline-dot i:hover {
+  transform: scale(1.2); /* Agrandit l'icône de 20% au survol */
+  color: #007bff; /* Change la couleur de la flèche lors du survol */
+}
+
+.media {
+  display: flex;
+  align-items: center; /* Aligne le contenu horizontalement */
+  width: 100%;
+}
+
+.media h5 {
+  margin-bottom: 0; /* Supprime l'espace en bas du temps */
+}
+
+.media-body {
+  display: flex;
+  align-items: center; /* Aligne le texte d'action avec le temps */
+}
+
+.media-body div {
+  margin-left: 10px; /* Espace entre le temps et l'action */
+}
+
+/* Conteneur principal */
+.engagement-box {
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre */
+.engagement-box h4 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.engagement-details {
+  font-size: 14px;
+  color: #555;
+}
+
+.percentage {
+  font-weight: bold;
+  color: #28a745;
+}
+
+
+
+
+
+

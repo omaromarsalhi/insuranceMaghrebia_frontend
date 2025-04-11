@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { UIModule } from '../../shared/ui/ui.module';
@@ -19,6 +20,7 @@ import { BlogComponent } from './blog/blog.component';
 @NgModule({
   declarations: [DefaultComponent, SaasComponent, CryptoComponent, BlogComponent],
   imports: [
+    CKEditorModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

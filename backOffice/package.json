@@ -23,7 +23,7 @@
     "@angular/platform-browser": "~13.0.2",
     "@angular/platform-browser-dynamic": "~13.0.2",
     "@angular/router": "~13.0.2",
-    "@ckeditor/ckeditor5-angular": "^2.0.1",
+    "@ckeditor/ckeditor5-angular": "^2.0.2",
     "@ckeditor/ckeditor5-build-classic": "^26.0.0",
     "@fullcalendar/angular": "^5.8.0",
     "@fullcalendar/bootstrap": "^5.8.0",
