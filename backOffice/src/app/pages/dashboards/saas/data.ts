@@ -34,7 +34,7 @@ const salesAnalyticsDonutChart: ChartType = {
         type: 'donut',
         height: 240,
     },
-    labels: ['Satisfied ', 'Dissatisfied ', 'Hesitant'],
+    labels: ['interested ', 'Dissatisfied ', 'Hesitant'],
     colors: ['#556ee6', '#34c38f', '#f46a6a'],
     legend: {
         show: false,

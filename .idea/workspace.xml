@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b25cc8fb-33ea-4099-b108-1215584fd379" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/core/models/ReportResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/core/models/ReportResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/core/services/ReportService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/core/services/ReportService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/dashboards-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/dashboards-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/dashboards/saas/saas.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backOffice/src/app/pages/tables/advancedtable/advancedtable.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/backOffice/src/app/pages/tables/advancedtable/advancedtable.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontOffice/src/app/show-complaint/show-complaint.component.html" afterDir="false" />
-    </list>
+    <list default="true" id="b25cc8fb-33ea-4099-b108-1215584fd379" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +69,7 @@
       <workItem from="1741251918239" duration="88000" />
       <workItem from="1744383014140" duration="122000" />
       <workItem from="1744383151269" duration="4000" />
+      <workItem from="1744445126034" duration="17000" />
     </task>
     <servers />
   </component>

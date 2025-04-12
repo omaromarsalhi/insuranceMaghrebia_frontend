@@ -7,8 +7,10 @@ import {ConfigService} from '../../../core/services/config.service';
 import {TrackingService} from '../../../core/services/TrackingService';
 import {ActivatedRoute} from '@angular/router';
 import {ReportResponse} from '../../../core/models/ReportResponse';
+import {Action} from '../../../core/models/Action';
 import {ReportService} from '../../../core/services/ReportService';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 @Component({
     selector: 'app-saas',
     templateUrl: './saas.component.html',
@@ -34,8 +36,23 @@ export class SaasComponent implements OnInit, AfterViewInit {
     reportResponse: ReportResponse;
     iAnalysis: any;
     type: any;
+    userActivities: Action[];
 
-    constructor(public formBuilder: FormBuilder,
+    timelineCarousel: OwlOptions = {
+        items: 1,
+        loop: false,
+        margin: 0,
+        nav: true,
+        navText: ["<i class='mdi mdi-chevron-left'></i>", "<i class='mdi mdi-chevron-right'></i>"],
+        dots: false,
+        responsive: {
+            680: {
+                items: 4
+            },
+        }
+    }
+
+        constructor(public formBuilder: FormBuilder,
                 private configService: ConfigService,
                 private trakingService: TrackingService,
                 private reportService: ReportService,
@@ -46,46 +63,24 @@ export class SaasComponent implements OnInit, AfterViewInit {
     get form() {
         return this.formData.controls;
     }
-    userActivities = [
-        { time: '09:00 AM', action: 'Visited the homepage' },
-        { time: '10:30 AM', action: 'Visited the Insurance Auto page' },
-        { time: '12:00 PM', action: 'Requested a quote'},
-        { time: '02:30 PM', action: 'Updated profile information' }
-    ];
+    openModal(content: any) {
+        this.modalService.open(content, { centered: true, size: 'lg' });
+    }
     ngOnInit(): void {
-
-        // this.iAnalysis = {
-        //     userAnalysis: 'The user showed initial interest in car insurance, actively exploring details and requesting a quote...',
-        //     classification: 'interested, hesitant',
-        //     actions: {
-        //         interested: [
-        //             {
-        //                 actionType: 'email',
-        //                 description: 'Send a personalized email summarizing the car insurance quote and highlighting key benefits.'
-        //             },
-        //             {
-        //                 actionType: 'webinar',
-        //                 description: 'Invite the user to an online webinar showcasing the advantages of the chosen car insurance plan.'
-        //             }
-        //         ],
-        //         hesitant: [
-        //             {
-        //                 actionType: 'email',
-        //                 description: 'Send a follow-up email with a subject line like \'Your Car Insurance Quote is Ready!\''
-        //             },
-        //             {
-        //                 actionType: 'call',
-        //                 description: 'Schedule a brief follow-up call to address any remaining questions about the car insurance plan.'
-        //             }
-        //         ]
-        //     }
-        // };
-        this.breadCrumbItems = [{label: 'Dashboards'}, {label: 'Saas', active: true}];
         this._fetchData();
         this.route.params.subscribe(async (params) => {
             this.reportId = params.id;
             this.reportService.getReportById(this.reportId).subscribe(data => {
                 this.reportResponse = data;
+                this.userActivities = this.reportResponse.activityList;
+                const percentages = this.reportResponse.percentages;
+                if (percentages.has('Satisfied') || percentages.has('Dissatisfied') || percentages.has('Hesitant')) {
+                    this.salesAnalyticsDonutChart.series = [
+                        percentages.get('Satisfied') || 0,
+                        percentages.get('Dissatisfied') || 0,
+                        percentages.get('Hesitant') || 0
+                    ];
+                }
 
             });
         });
@@ -107,7 +102,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
     open(emailContent: any) {
         this.modalService.open(emailContent, { centered: true });
     }
-
     handleAction(action: any) {
         if (action === 'email') {
         this.open(this.emailContent);
@@ -122,11 +116,9 @@ export class SaasComponent implements OnInit, AfterViewInit {
         this.salesAnalyticsDonutChart = salesAnalyticsDonutChart;
         this.ChatData = ChatData;
     }
-
     ngAfterViewInit() {
         this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
     }
-
     updateAvailableMonths(): void {
         const dates = Object.keys(this.scores).map(date => new Date(date));
         if (dates.length === 0) {
@@ -155,7 +147,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
 
         this.availableMonths = result;
     }
-
     selectMonth(value: string): void {
         if (value === 'all') {
             this.updateChartData();
@@ -182,8 +173,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
             categories: dates.map(dateStr => this.formatter(dateStr)),
         };
     }
-
-
     updateChartData(): void {
         const dates = Object.keys(this.scores);
         const scoreValues = Object.values(this.scores);
@@ -262,7 +251,6 @@ export class SaasComponent implements OnInit, AfterViewInit {
             },
         };
     }
-
     formatter(value: string): string {
         const date = new Date(value);
         const day = date.getDate().toString().padStart(2, '0');
@@ -272,6 +260,8 @@ export class SaasComponent implements OnInit, AfterViewInit {
 
         return `${day} ${month}`;
     }
+
+
 
 
 }
