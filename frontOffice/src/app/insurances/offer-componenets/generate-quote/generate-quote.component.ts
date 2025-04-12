@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import {
   trigger,
   transition,
   style,
   animate,
-  state,
+  AnimationEvent,
 } from '@angular/animations';
-import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
-import { FormFieldDto } from 'src/app/core/models/form-field-dto';
 import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
 import { AutomobileQuoteControllerService } from '../../../core/services/automobile-quote-controller.service';
 import { QuoteResponse } from 'src/app/core/models/quote-response';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { AddressInfo } from 'src/app/core/models/address-info';
 import { HealthInsuranceRequest } from 'src/app/core/models';
 import { HealthQuoteControllerService } from 'src/app/core/services';
-import { filter } from 'rxjs/operators';
+import { WebSocketService } from '../../test/websocket.service';
+import { Subscription } from 'rxjs';
+
+interface ChatMessage {
+  type: string;
+  content: any;
+}
+
+interface AiInsight {
+  title: string;
+  content: string;
+  impact?: 'positive' | 'negative' | 'neutral';
+}
 
 @Component({
   selector: 'app-generate-quote',
@@ -78,9 +85,25 @@ import { filter } from 'rxjs/operators';
         animate('300ms ease-in', style({ opacity: 1 })),
       ]),
     ]),
+    trigger('aiPanel', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(50px)' }),
+        animate(
+          '300ms cubic-bezier(0.4, 0, 0.2, 1)',
+          style({ opacity: 1, transform: 'translateX(0)' })
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '200ms ease-out',
+          style({ opacity: 0, transform: 'translateX(50px)' })
+        ),
+      ]),
+    ]),
   ],
 })
 export class GenerateQuoteComponent implements OnInit {
+  @ViewChild('aiContent') private aiContent!: ElementRef;
   isLoading: boolean = false;
   isResponseReady: boolean = false;
   isAppointmentActive: boolean = false;
@@ -94,6 +117,8 @@ export class GenerateQuoteComponent implements OnInit {
   quoteResponse!: QuoteResponse;
   popupMessage!: string;
   errorsTable: { field: string; step: number }[] = [];
+  private userScrolledUp = false;
+  private previousInsightCount = 0;
 
   oneFormConfigurations: any = {
     data: [
@@ -701,13 +726,35 @@ export class GenerateQuoteComponent implements OnInit {
 
   currentFormType = 'auto';
 
+  messageSubscription: Subscription;
+  aiExplanation!: ChatMessage;
+  aiInsights: AiInsight[] = [];
+
   constructor(
     private autoInsuranceService: AutomobileQuoteControllerService,
     private healthInsuranceService: HealthQuoteControllerService,
-    private storageService: StorageService
-  ) {}
+    private storageService: StorageService,
+    private wsService: WebSocketService
+  ) {
+    this.messageSubscription = this.wsService.messages$.subscribe(
+      (msg: ChatMessage) => {
+        console.log(msg);
+        if (msg.type === 'ai') this.aiInsights.push(msg.content as AiInsight);
+      }
+    );
+  }
 
   ngOnInit() {}
+
+  ngAfterViewChecked() {
+    if (
+      this.aiInsights.length > this.previousInsightCount &&
+      !this.userScrolledUp
+    ) {
+      this.scrollToBottom();
+    }
+    this.previousInsightCount = this.aiInsights.length;
+  }
 
   changeFormType(formType: string): void {
     if (!this.isLoading)
@@ -717,6 +764,11 @@ export class GenerateQuoteComponent implements OnInit {
           ...this.formConfigurations[this.currentFormType],
         };
       }
+  }
+
+  recieveAiData(aiData: any) {
+    console.log(aiData)
+    this.wsService.sendMessage(aiData);
   }
 
   recieveFormData(formData: any) {
@@ -813,6 +865,52 @@ export class GenerateQuoteComponent implements OnInit {
 
   closePopup() {
     this.showPopup = false;
+  }
+
+  getInsightIcon(impact: any): string {
+    const icons: any = {
+      positive: 'fas fa-check-circle text-success',
+      negative: 'fas fa-exclamation-triangle text-danger',
+      neutral: 'fas fa-info-circle text-warning',
+    };
+    return icons[impact] || 'fas fa-lightbulb';
+  }
+
+  onPanelAnimate(event: AnimationEvent) {
+    if (event.phaseName === 'start') {
+      if (event.toState === 'void') {
+        // Panel is being removed
+        (event.element as HTMLElement).style.position = 'absolute';
+      } else {
+        // Panel is being added
+        (event.element as HTMLElement).style.visibility = 'visible';
+      }
+    }
+
+    if (event.phaseName === 'done' && event.toState === 'void') {
+      // Cleanup after removal
+      (event.element as HTMLElement).style.position = '';
+    }
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.aiContent.nativeElement.scrollTo({
+        top: this.aiContent.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Track user scroll position
+  onContentScroll() {
+    const element = this.aiContent.nativeElement;
+    const threshold = 100; // pixels from bottom
+    this.userScrolledUp =
+      element.scrollTop + element.clientHeight <
+      element.scrollHeight - threshold;
   }
 
   handleResponse() {

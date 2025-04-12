@@ -14,42 +14,43 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Number Input -->
             <input *ngSwitchCase="'number'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" [attr.min]="field.min" [attr.max]="field.max || null" />
+                [formControlName]="field.controleName" [attr.min]="field.min" [attr.max]="field.max || null"
+                (blur)="onUserInput($event,field.controleName)"/>
 
 
             <!-- Text Input -->
             <input *ngSwitchCase="'text'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="text" />
+                [formControlName]="field.controleName" type="text"  (blur)="onUserInput($event,field.controleName)"/>
 
             <!-- Textarea Input -->
             <textarea *ngSwitchCase="'textarea'" class="form_control sideLine" style="min-height: 60px"
-                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName"></textarea>
+                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName" (blur)="onUserInput($event,field.controleName)"></textarea>
 
             <!-- Email Input -->
             <input *ngSwitchCase="'email'" class="form_control sideLine"
                 [placeholder]="field.placeholder || 'example@domain.com'" [formControlName]="field.controleName"
-                type="email" />
+                type="email"  (blur)="onUserInput($event,field.controleName)"/>
 
             <!-- Telephone Input -->
             <input *ngSwitchCase="'tel'" class="form_control sideLine"
                 [placeholder]="field.placeholder || '+000 (123) 456 887'" [formControlName]="field.controleName"
-                type="tel" />
+                type="tel"  (blur)="onUserInput($event,field.controleName)"/>
 
             <!-- Date Input -->
             <input *ngSwitchCase="'date'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" />
+                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" (blur)="onUserInput($event,field.controleName)" />
 
 
             <!-- Time Input -->
             <input *ngSwitchCase="'time'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="time" />
+                [formControlName]="field.controleName" type="time"  (blur)="onUserInput($event,field.controleName)"/>
 
             <!-- Color Input -->
             <input *ngSwitchCase="'color'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="color" />
+                [formControlName]="field.controleName" type="color" (blur)="onUserInput($event,field.controleName)"/>
 
             <!-- Select Dropdown -->
-            <div *ngSwitchCase="'select'">
+            <div *ngSwitchCase="'select'" (change)="onUserInput($event,field.controleName)" >
 
                 <select class="wide nice-select sideLine" [formControlName]="field.controleName" [ngClass]="{ 'mb-4':!((insuranceForm.controls[field.controleName]
                     .invalid &&
@@ -87,7 +88,7 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Checkbox Group -->
 
-            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2">
+            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2" (change)="onUserInput($event,field.controleName)">
                 <div class="checkbox-item">
                     <label class="checkbox-label">
                         <input type="checkbox" [formControlName]="field.controleName" />

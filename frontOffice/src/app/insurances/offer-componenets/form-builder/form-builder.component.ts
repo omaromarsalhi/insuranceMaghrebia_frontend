@@ -24,6 +24,8 @@ import {
 } from '@angular/animations';
 import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
 import { AddressInfo } from 'src/app/core/models/address-info';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-builder',
@@ -85,6 +87,12 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     position?: AddressInfo;
     licenceId: any;
   }>();
+  @Output() aiExplainerData = new EventEmitter<{
+    factor: any;
+    value: any;
+  }>();
+
+  private aiExplainerString = new Subject<{ factor: any; value: any }>();
 
   isInitFinished: boolean = false;
 
@@ -101,6 +109,14 @@ export class FormBuilderComponent implements OnInit, OnChanges {
 
   filteredFormFields: MyFormFieldDto[] = [];
   chosenFormFields: any[] = [];
+  allowedField2Explain = [
+    'drivingExperience',
+    'accidentHistory',
+    'trafficViolations',
+    'defensiveDrivingCourse',
+    'coverageType',
+    'vehicleType',
+  ];
 
   constructor(private fb: FormBuilder) {}
 
@@ -108,6 +124,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.insuranceForm = this.fb.group({});
     this.initializeForm();
     this.isInitFinished = true;
+    this.setAiExplainer();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -118,6 +135,21 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     if (changes['formConfigurations'] && this.isInitFinished) {
       this.clearAllControls();
       this.initializeForm();
+    }
+  }
+
+  private setAiExplainer() {
+    this.aiExplainerString
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((fieldValue) => {
+        this.aiExplainerData.emit(fieldValue);
+      });
+  }
+
+  onUserInput(event: Event, fieldName: string) {
+    if (this.allowedField2Explain.includes(fieldName)) {
+      const value = (event.target as HTMLInputElement).value;
+      this.aiExplainerString.next({ factor: fieldName, value: value.trim() });
     }
   }
 

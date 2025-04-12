@@ -2,10 +2,11 @@
 
 <section *ngIf="!isAppointmentActive" class="contact-form-section gray-bg" @fadeOut>
 
-    <div class="container col-11">
+    <div class="container col-12">
         <div class="row">
             <!-- Left Column: Consultation Info -->
-            <div class="col-xl-4 order-1 order-xl-1 green-bg sideSectionRight">
+            <div [class.col-xl-3]="aiInsights.length > 0" [class.col-xl-4]="aiInsights.length === 0"
+                class=" order-1 order-xl-1 green-bg sideSectionRight">
                 <div class="insurance-types">
                     <h3 class="types-title d-flex justify-content-center">
                         <i class="fas fa-shield-alt me-2"></i>Insurance Options
@@ -30,8 +31,10 @@
                 </div>
             </div>
 
+
             <!-- Right Column: Contact Form Area -->
-            <div class="col-xl-8 order-2 order-xl-2 mt-4 mb-4 sideSection">
+            <div class=" order-2 order-xl-2 mt-4 mb-4 sideSection" [class.col-xl-6]="aiInsights.length > 0"
+                [class.with-ai]="aiInsights.length > 0" [class.col-xl-8]="aiInsights.length === 0">
                 <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
                     <div *ngIf="!isResponseReady" class="section-title mb-10">
                         <h2>Get Your Insurance</h2>
@@ -40,10 +43,13 @@
                         <div class="tab-pane active show fade" id="dynamicForm">
                             <app-form-builder [formConfigurations]="oneFormConfigurations"
                                 [iNeedAdress]="oneFormConfigurations.getAdressAlso" [errorsTable]="errorsTable"
-                                (formdata)="recieveFormData($event)"></app-form-builder>
+                                (formdata)="recieveFormData($event)"
+                                (aiExplainerData)="recieveAiData($event)"></app-form-builder>
 
                         </div>
                     </div>
+
+
 
                     <!-- Add this after the form closing tag and before the overlay -->
                     <div *ngIf="isResponseReady" class="quote-response-container animate__animated animate__fadeIn">
@@ -165,6 +171,43 @@
                                 (click)="closePopup()">
                                 Close
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- AI Results Column -->
+            <div *ngIf="aiInsights.length>0" class="col-xl-3 order-3 order-xl-3" style="padding: 0 0.4rem 0 0.4rem;">
+                <div class="ai-results-container green-bg p-4 shadow-lg" @aiPanel [@.disabled]="!aiInsights.length"
+                    (@aiPanel.start)="onPanelAnimate($event)" (@aiPanel.done)="onPanelAnimate($event)">
+                    <!-- Header -->
+                    <div class="ai-header position-relative">
+                        <div class="decorative-line"></div>
+                        <h4 class="d-flex align-items-center mb-3">
+                            <i class="fas fa-brain me-2 animate-pulse"></i>
+                            Smart Analysis
+                            <span class="ai-status-indicator ms-2"></span>
+                        </h4>
+                        <p class=" small mb-0">
+                            Real-time optimization tips as you type
+                        </p>
+                    </div>
+
+                    <!-- Scrollable Content Area -->
+                    <div #aiContent class="ai-content">
+                        <!-- Insight Cards -->
+                        <div class="ai-card" *ngFor="let insight of aiInsights"
+                            [ngClass]="'impact-' + (insight.impact || 'neutral')">
+                            <div class="ai-text">
+                                <div class="d-flex justify-content-center align-items-center">
+                                        <div class="ai-icon-badge mb-2">
+                                            <i class="insight-icon" [class]="getInsightIcon(insight.impact)"></i>
+                                        </div>
+                                    <h6 class="mb-1">{{insight.title}}</h6>
+                                </div>
+                                <p class="small mb-0 text-area">{{insight.content}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
