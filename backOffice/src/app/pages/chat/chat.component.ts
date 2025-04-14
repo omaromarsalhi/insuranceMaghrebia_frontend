@@ -1,113 +1,46 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-import { ChatUser, ChatMessage } from './chat.model';
-
-import { chatData, chatMessagesData } from './data';
+import { Component, OnInit } from '@angular/core';
+import { AssistantService } from '../../core/services/AssistantService';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit {
+  // Pour saisir une commande générale
+  userInput = '';
+  // Pour saisir la réponse à un prompt en attente
+  promptResponse = '';
+  // Contient le texte du prompt envoyé par le serveur
+  pendingPrompt: string | null = null;
+  // Historique des messages
+  messages: any[] = [];
 
-  @ViewChild('scrollEle') scrollEle;
-  @ViewChild('scrollRef') scrollRef;
-
-  username = 'Steven Franklin';
-
-  // bread crumb items
-  breadCrumbItems: Array<{}>;
-
-  chatData: ChatUser[];
-  chatMessagesData: ChatMessage[];
-
-  formData: FormGroup;
-
-  // Form submit
-  chatSubmit: boolean;
-
-  usermessage: string;
-
-  constructor(public formBuilder: FormBuilder) {
-  }
+  constructor(private assistantService: AssistantService) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Skote' }, { label: 'Chat', active: true }];
-
-    this.formData = this.formBuilder.group({
-      message: ['', [Validators.required]],
+    this.assistantService.getMessages().subscribe((msg: any) => {
+      console.log(msg);
+      // Ajout du message dans l'historique
+      this.messages.push(msg);
+      // Si le message contient un prompt, le stocker dans pendingPrompt
+      if (msg.prompt) {
+        this.pendingPrompt = msg.prompt;
+      }
     });
-
-    this.onListScroll();
-
-    this._fetchData();
   }
 
-  ngAfterViewInit() {
-    this.scrollEle.SimpleBar.getScrollElement().scrollTop = 100;
-    this.scrollRef.SimpleBar.getScrollElement().scrollTop = 200;
-  }
-
-  /**
-   * Returns form
-   */
-  get form() {
-    return this.formData.controls;
-  }
-
-  private _fetchData() {
-    this.chatData = chatData;
-    this.chatMessagesData = chatMessagesData;
-  }
-
-  onListScroll() {
-    if (this.scrollRef !== undefined) {
-      setTimeout(() => {
-        this.scrollRef.SimpleBar.getScrollElement().scrollTop =
-          this.scrollRef.SimpleBar.getScrollElement().scrollHeight + 1500;
-      }, 500);
+  send() {
+    // Si une réponse à une invite est en attente, on envoie la réponse
+    if (this.pendingPrompt) {
+      this.assistantService.sendUserInput(JSON.stringify({ value: this.promptResponse }));
+      // Réinitialisation de l'état du prompt
+      this.pendingPrompt = null;
+      this.promptResponse = '';
+    } else {
+      // Sinon, envoi de la commande générale
+      this.assistantService.sendUserInput(this.userInput);
+      this.userInput = '';
     }
   }
-
-  chatUsername(name) {
-    this.username = name;
-    this.usermessage = 'Hello';
-    this.chatMessagesData = [];
-    const currentDate = new Date();
-
-    this.chatMessagesData.push({
-      name: this.username,
-      message: this.usermessage,
-      time: currentDate.getHours() + ':' + currentDate.getMinutes()
-    });
-
-  }
-
-  /**
-   * Save the message in chat
-   */
-  messageSave() {
-    const message = this.formData.get('message').value;
-    const currentDate = new Date();
-    if (this.formData.valid && message) {
-      // Message Push in Chat
-      this.chatMessagesData.push({
-        align: 'right',
-        name: 'Henry Wells',
-        message,
-        time: currentDate.getHours() + ':' + currentDate.getMinutes()
-      });
-      this.onListScroll();
-
-      // Set Form Data Reset
-      this.formData = this.formBuilder.group({
-        message: null
-      });
-    }
-
-    this.chatSubmit = true;
-  }
-
 }

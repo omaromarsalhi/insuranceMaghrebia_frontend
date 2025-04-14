@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChatData, earningLineChart, salesAnalyticsDonutChart} from './data';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {ChartType, ChatMessage} from './saas.model';
 import {ConfigService} from '../../../core/services/config.service';
 import {TrackingService} from '../../../core/services/TrackingService';
@@ -10,15 +10,15 @@ import {ReportResponse} from '../../../core/models/ReportResponse';
 import {Action} from '../../../core/models/Action';
 import {ReportService} from '../../../core/services/ReportService';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import {OwlOptions} from 'ngx-owl-carousel-o';
+import {AssistantService} from '../../../core/services/AssistantService';
+
 @Component({
     selector: 'app-saas',
     templateUrl: './saas.component.html',
     styleUrls: ['./saas.component.scss']
 })
-/**
- * Saas-dashboard component
- */
+
 export class SaasComponent implements OnInit, AfterViewInit {
     public Editor = ClassicEditor;
     @ViewChild('emailContent') emailContent!: TemplateRef<any>;
@@ -31,94 +31,101 @@ export class SaasComponent implements OnInit, AfterViewInit {
     sassTopSelling: Array<Object>;
     formData: FormGroup;
     availableMonths: { value: string, label: string }[] = [];
-    scores: Map<string, number> = new Map();
+    scores: Map<Date, number> = new Map();
     reportId: string | null = null;
     reportResponse: ReportResponse;
     iAnalysis: any;
     type: any;
     userActivities: Action[];
+    assistantPrompt: string | null = null;
+    userAnswer = '';
+    isLoading = false;
 
+    messages: any[] = [];
     timelineCarousel: OwlOptions = {
         items: 1,
         loop: false,
         margin: 0,
         nav: true,
-        navText: ["<i class='mdi mdi-chevron-left'></i>", "<i class='mdi mdi-chevron-right'></i>"],
+        navText: ['<i class=\'mdi mdi-chevron-left\'></i>', '<i class=\'mdi mdi-chevron-right\'></i>'],
         dots: false,
         responsive: {
             680: {
                 items: 4
             },
         }
-    }
+    };
 
-        constructor(public formBuilder: FormBuilder,
+    constructor(public formBuilder: FormBuilder,
                 private configService: ConfigService,
                 private trakingService: TrackingService,
                 private reportService: ReportService,
                 private route: ActivatedRoute,
-                private modalService: NgbModal) {
+                private modalService: NgbModal,
+                private assistantService: AssistantService) {
     }
 
     get form() {
         return this.formData.controls;
     }
+
     openModal(content: any) {
-        this.modalService.open(content, { centered: true, size: 'lg' });
+        this.modalService.open(content, {centered: true, size: 'lg'});
     }
+
     ngOnInit(): void {
         this._fetchData();
+        this.configService.getConfig().subscribe(response => {
+            this.sassEarning = response.sassEarning;
+            this.sassTopSelling = response.sassTopSelling;
+        });
         this.route.params.subscribe(async (params) => {
             this.reportId = params.id;
             this.reportService.getReportById(this.reportId).subscribe(data => {
                 this.reportResponse = data;
                 this.userActivities = this.reportResponse.activityList;
-                const percentages = this.reportResponse.percentages;
-                if (percentages.has('Satisfied') || percentages.has('Dissatisfied') || percentages.has('Hesitant')) {
-                    this.salesAnalyticsDonutChart.series = [
-                        percentages.get('Satisfied') || 0,
-                        percentages.get('Dissatisfied') || 0,
-                        percentages.get('Hesitant') || 0
-                    ];
-                }
+                this.scores = this.reportResponse.dailyScores;
+                this.updateChartData();
+                this.updateAvailableMonths();
+                this.updateDonutChart();
+
 
             });
         });
         this.formData = this.formBuilder.group({
             message: ['', [Validators.required]],
         });
-        this.configService.getConfig().subscribe(response => {
-            this.sassEarning = response.sassEarning;
-            this.sassTopSelling = response.sassTopSelling;
-        });
-        this.trakingService.getUserScoresPerDay('67a9157f0a6a1371dce93411').subscribe((data) => {
-            this.scores = data;
-            this.updateChartData();
-            this.updateAvailableMonths();
 
+        this.assistantService.getMessages().subscribe((msg: any) => {
+            this.messages.push(msg);
+            if (msg.prompt) {
+
+                this.assistantPrompt = msg.prompt;
+            } else {
+                setTimeout(() => {
+                    this.modalService.dismissAll();
+                    this.isLoading = false;
+                    this.userAnswer = '';
+                    this.assistantPrompt = null;
+                }, 500);
+            }
         });
     }
 
     open(emailContent: any) {
-        this.modalService.open(emailContent, { centered: true });
+        this.modalService.open(emailContent, {centered: true});
     }
-    handleAction(action: any) {
-        if (action === 'email') {
-        this.open(this.emailContent);
-        } else if (action === 'webinar') {
-            console.log('webinar');
-        } else if (action === 'call') {
-            console.log('call');
-        }
-    }
+
     private _fetchData() {
         this.earningLineChart = earningLineChart;
         this.salesAnalyticsDonutChart = salesAnalyticsDonutChart;
         this.ChatData = ChatData;
     }
+
     ngAfterViewInit() {
         this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
     }
+
     updateAvailableMonths(): void {
         const dates = Object.keys(this.scores).map(date => new Date(date));
         if (dates.length === 0) {
@@ -147,6 +154,7 @@ export class SaasComponent implements OnInit, AfterViewInit {
 
         this.availableMonths = result;
     }
+
     selectMonth(value: string): void {
         if (value === 'all') {
             this.updateChartData();
@@ -173,14 +181,19 @@ export class SaasComponent implements OnInit, AfterViewInit {
             categories: dates.map(dateStr => this.formatter(dateStr)),
         };
     }
+
     updateChartData(): void {
         const dates = Object.keys(this.scores);
         const scoreValues = Object.values(this.scores);
+        const combined = dates.map((date, index) => [new Date(date).getTime(), scoreValues[index]]);
+        combined.sort((a, b) => a[0] - b[0]);
+        const sortedDates = combined.map(item => new Date(item[0]).toISOString().split('T')[0]);  // Format 'YYYY-MM-DD'
+        const sortedScores = combined.map(item => item[1]);
         this.earningLineChart = {
             series: [
                 {
                     name: 'Scores',
-                    data: scoreValues,
+                    data: sortedScores,
                 },
             ],
             chart: {
@@ -207,7 +220,7 @@ export class SaasComponent implements OnInit, AfterViewInit {
                 width: 3,
             },
             xaxis: {
-                categories: dates,
+                categories: sortedDates,
                 labels: {
                     formatter(value: string) {
                         const date = new Date(value);
@@ -251,6 +264,32 @@ export class SaasComponent implements OnInit, AfterViewInit {
             },
         };
     }
+
+    updateDonutChart(): void {
+        const labels = Object.keys(this.reportResponse.percentages);
+        const series = Object.values(this.reportResponse.percentages);
+        this.salesAnalyticsDonutChart = {
+            series,
+            chart: {
+                type: 'donut',
+                height: 240,
+            },
+            labels,
+            colors: ['#556ee6', '#f46a6a', '#34c38f'],
+            legend: {
+                show: false,
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '70%',
+                    },
+                },
+            },
+        };
+    }
+
+
     formatter(value: string): string {
         const date = new Date(value);
         const day = date.getDate().toString().padStart(2, '0');
@@ -261,7 +300,19 @@ export class SaasComponent implements OnInit, AfterViewInit {
         return `${day} ${month}`;
     }
 
+    sendResponse(modal: NgbModalRef) {
+        this.isLoading = true;
+        this.assistantService.sendUserInput(JSON.stringify({value: this.userAnswer}));
+        setTimeout(() => {
+            this.isLoading = false;
+            this.userAnswer = '';
+        }, 1500);
+    }
 
+    getPercentage(key: string): number | undefined {
+        console.log(this.reportResponse.percentages);
+        return this.reportResponse.percentages[key];
+    }
 
 
 }
