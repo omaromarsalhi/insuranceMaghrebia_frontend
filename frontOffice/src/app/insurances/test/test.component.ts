@@ -36,7 +36,7 @@ export class TestComponent implements OnDestroy {
 
   sendMessage() {
     if (this.message.trim()) {
-      this.wsService.sendMessage(this.message);
+      // this.wsService.sendMessage(this.message);
       this.message = '';
     }
   }

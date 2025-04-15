@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
+import { AppointmentDto } from 'src/app/core/models';
+import { AppointmentControllerService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-quote-appointment',
@@ -76,7 +78,7 @@ export class QuoteAppointmentComponent implements OnInit {
         regex: '^[0-9]{8,15}$',
         regexErrorMessage: 'Phone number must be between 8 and 15 digits',
         step: 1,
-        controleName: 'phoneNumber',
+        controleName: 'phone',
       },
       {
         label: 'Date of Birth',
@@ -96,13 +98,13 @@ export class QuoteAppointmentComponent implements OnInit {
         step: 1,
         controleName: 'cin',
       },
-      {
-        label: 'CIN Document',
-        controleName: 'cinDocuments',
-        type: 'file',
-        required: true,
-        step: 1,
-      },
+      // {
+      //   label: 'CIN Document',
+      //   controleName: 'cinDocuments',
+      //   type: 'file',
+      //   required: true,
+      //   step: 1,
+      // },
     ],
     nbrSteps: 1,
     getAdressAlso: false,
@@ -366,8 +368,11 @@ export class QuoteAppointmentComponent implements OnInit {
     },
   };
 
-  quotesHistory: { key: string; obj: AutoInsuranceRequest }[] = []; // Populate this array with your actual quotes data
-  constructor(private storageService: StorageService) {}
+  quotesHistory: { key: string; obj: AutoInsuranceRequest }[] = [];
+  constructor(
+    private storageService: StorageService,
+    private appointmentService: AppointmentControllerService
+  ) {}
 
   ngOnInit(): void {
     this.quotesHistory = this.storageService.get<AutoInsuranceRequest>(
@@ -381,8 +386,20 @@ export class QuoteAppointmentComponent implements OnInit {
   }
 
   makeAutoReservation(data: any) {
-    console.log(data);
+    const autoAppointment: AppointmentDto = data.data as AppointmentDto;
+    autoAppointment.cin = Number(autoAppointment.cin);
+    autoAppointment.phone = Number(autoAppointment.phone);
+    autoAppointment.dob = this.formatDateToISO(autoAppointment.dob);
+
+    console.log(autoAppointment);
+    this.appointmentService
+      .save({ body: autoAppointment })
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
+
+
 
   recieveFormData(data: any) {
     switch (this.currentAppointementInsuranceType) {
@@ -393,5 +410,22 @@ export class QuoteAppointmentComponent implements OnInit {
         console.log(data);
         break;
     }
+  }
+
+
+  private formatDateToISO(date: any): string {
+
+    if (!date) date = new Date();
+
+    if (typeof date === 'string' && date.includes('T')) return date;
+    
+    if (date instanceof Date) return date.toISOString();
+
+    if (typeof date === 'string') {
+      const parsedDate = new Date(date);
+      return parsedDate.toISOString();
+    }
+
+    return new Date(date).toISOString();
   }
 }

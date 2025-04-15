@@ -6,6 +6,7 @@ import { ChatComponent } from "./chat/chat.component";
 import { OfferViewComponent } from "./offer_components/offer-view/offer-view.component";
 import { OfferDetailComponent } from "./offer_components/offer-detail/offer-detail.component";
 import { EditOfferComponent } from "./offer_components/edit-offer/edit-offer.component";
+import { AppointmentManagerComponent } from "./appointments/appointment-manager/appointment-manager.component";
 
 const routes: Routes = [
   { path: "categories", component: CategoryComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "edit-offer/:offerId", component: EditOfferComponent },
   { path: "edit-offer/:offerId/:formId", component: EditOfferComponent },
   { path: "edit-offer", component: EditOfferComponent },
+  { path: "appointments", component: AppointmentManagerComponent },
   { path: "chat", component: ChatComponent },
 ];
 

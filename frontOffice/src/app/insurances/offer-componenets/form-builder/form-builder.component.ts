@@ -80,6 +80,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 })
 export class FormBuilderComponent implements OnInit, OnChanges {
   @Input() formConfigurations: any;
+  @Input() isAiExplainerOn: boolean = true;
   @Input() iNeedAdress: boolean = false;
   @Input() errorsTable: { field: string; step: number }[] = [];
   @Output() formdata = new EventEmitter<{
@@ -90,9 +91,14 @@ export class FormBuilderComponent implements OnInit, OnChanges {
   @Output() aiExplainerData = new EventEmitter<{
     factor: any;
     value: any;
+    condition: string;
   }>();
 
-  private aiExplainerString = new Subject<{ factor: any; value: any }>();
+  private aiExplainerString = new Subject<{
+    factor: any;
+    value: any;
+    condition: string;
+  }>();
 
   isInitFinished: boolean = false;
 
@@ -117,6 +123,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     'coverageType',
     'vehicleType',
   ];
+  allowedField2ExplaiWithCondition = ['vin'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -124,7 +131,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.insuranceForm = this.fb.group({});
     this.initializeForm();
     this.isInitFinished = true;
-    this.setAiExplainer();
+    if (this.isAiExplainerOn) this.setAiExplainer();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -147,10 +154,20 @@ export class FormBuilderComponent implements OnInit, OnChanges {
   }
 
   onUserInput(event: Event, fieldName: string) {
-    if (this.allowedField2Explain.includes(fieldName)) {
-      const value = (event.target as HTMLInputElement).value;
-      this.aiExplainerString.next({ factor: fieldName, value: value.trim() });
-    }
+    const value = this.insuranceForm.get(fieldName)?.value;
+    console.log(value);
+    if (this.allowedField2Explain.includes(fieldName))
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: value,
+        condition: 'no_preprocessing',
+      });
+    else if (this.allowedField2ExplaiWithCondition.includes(fieldName))
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: value,
+        condition: 'preprocessing',
+      });
   }
 
   initializeForm(): void {
@@ -251,7 +268,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
 
     this.isFormSubmitted = true;
     if (this.iNeedAdress && !this.position) return;
-    // if (this.insuranceForm.valid) {
+    if (this.insuranceForm.valid) {
     const list = this.insuranceForm.value;
     this.formdata.emit({
       data: list,
@@ -261,7 +278,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
           ? { front: this.previewFront, back: this.previewBack }
           : undefined,
     });
-    // }
+    }
     this.isFormSubmitted = false;
   }
 
@@ -284,7 +301,13 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.showMap = !this.showMap;
   }
 
-  getPosition(data: any) {
+  getPosition(data: any, fieldName: string) {
+    if (this.isAiExplainerOn)
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: data,
+        condition: 'preprocessing',
+      });
     this.position = data;
   }
 

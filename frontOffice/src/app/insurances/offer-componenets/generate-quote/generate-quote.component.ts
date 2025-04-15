@@ -5,14 +5,17 @@ import {
   transition,
   style,
   animate,
+  query,
+  stagger,
   AnimationEvent,
+  animateChild,
 } from '@angular/animations';
 import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
 import { AutomobileQuoteControllerService } from '../../../core/services/automobile-quote-controller.service';
 import { QuoteResponse } from 'src/app/core/models/quote-response';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { HealthInsuranceRequest } from 'src/app/core/models';
-import { HealthQuoteControllerService } from 'src/app/core/services';
+import { HealthInsuranceRequest } from 'src/app/core/models/health-insurance-request';
+import { HealthQuoteControllerService } from 'src/app/core/services/health-quote-controller.service';
 import { WebSocketService } from '../../test/websocket.service';
 import { Subscription } from 'rxjs';
 
@@ -98,6 +101,40 @@ interface AiInsight {
           '200ms ease-out',
           style({ opacity: 0, transform: 'translateX(50px)' })
         ),
+      ]),
+    ]),
+    trigger('cardAnimation', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(20px) scale(0.95)',
+        }),
+        animate(
+          '400ms cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Slower ease-out
+          style({
+            opacity: 1,
+            transform: 'translateY(0) scale(1)',
+          })
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '300ms cubic-bezier(0.55, 0.085, 0.68, 0.53)', // Slower ease-in
+          style({
+            opacity: 0,
+            transform: 'scale(0.95)',
+          })
+        ),
+      ]),
+    ]),
+    trigger('staggerAnimation', [
+      transition(':enter', [
+        query('.ai-card', [
+          stagger(
+            '100ms', // Longer stagger delay
+            animateChild()
+          ),
+        ]),
       ]),
     ]),
   ],
@@ -726,7 +763,7 @@ export class GenerateQuoteComponent implements OnInit {
 
   currentFormType = 'auto';
 
-  messageSubscription: Subscription;
+  messageSubscription!: Subscription;
   aiExplanation!: ChatMessage;
   aiInsights: AiInsight[] = [];
 
@@ -736,12 +773,14 @@ export class GenerateQuoteComponent implements OnInit {
     private storageService: StorageService,
     private wsService: WebSocketService
   ) {
-    this.messageSubscription = this.wsService.messages$.subscribe(
-      (msg: ChatMessage) => {
-        console.log(msg);
-        if (msg.type === 'ai') this.aiInsights.push(msg.content as AiInsight);
-      }
-    );
+    if (!(this.isAppointmentActive || this.isResponseReady)){
+      this.wsService.connect()
+      this.messageSubscription = this.wsService.messages$.subscribe(
+        (msg: ChatMessage) => {
+          console.log(msg);
+          if (msg.type === 'ai') this.aiInsights.push(msg.content as AiInsight);
+        }
+      );}
   }
 
   ngOnInit() {}
@@ -767,7 +806,6 @@ export class GenerateQuoteComponent implements OnInit {
   }
 
   recieveAiData(aiData: any) {
-    console.log(aiData)
     this.wsService.sendMessage(aiData);
   }
 
@@ -904,7 +942,6 @@ export class GenerateQuoteComponent implements OnInit {
     }
   }
 
-  // Track user scroll position
   onContentScroll() {
     const element = this.aiContent.nativeElement;
     const threshold = 100; // pixels from bottom

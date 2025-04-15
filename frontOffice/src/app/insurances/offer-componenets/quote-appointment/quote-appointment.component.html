@@ -92,10 +92,7 @@
                       </div>
 
                       <!-- Add this action buttons section at the end -->
-                      <div class="action-buttons">
-                        <button class="btn-icon btn-buy" title="Purchase Quote">
-                          <i class="fas fa-shopping-cart"></i>
-                        </button>
+                      <div class="action-buttons me-4">
                         <button class="btn-icon btn-delete" title="Delete Quote" (click)="deleteQuote(quote.key)">
                           <i class="fas fa-trash-alt"></i>
                         </button>
@@ -115,3 +112,100 @@
   </div>
 
 </section>
+
+
+
+
+<!-- <div class="col-xl-6 order-1 order-xl-2 green-bg sideSection">
+  <div class="faq-section" style="background-color: white;">
+    <div class="d-flex justify-content-center pt-20">
+      <div class="section-title text-center ">
+        <span class="sub-title">Quote</span>
+        <h2>Your {{ currentAppointementInsuranceType }} Quotes</h2>
+      </div>
+    </div>
+    <div class="accordion pr-20 pl-20 pt-60 sideSection2" id="accordionOne">
+      <div class="faq-content-box wow fadeInLeft">
+        <div *ngFor="let quote of quotesHistory; let i = index" class="accordion-card-two mb-15 bg-green " [@fadeOut]>
+          <div class="accordion-header ">
+            <h6 class="accordion-title " data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+ '-' + i">
+              <span class="number fs-5">{{ i + 1 | number:'2.0' }}.</span>
+              {{ quote.obj.vehicleMake || 'Vehicle' }} {{ quote.obj.vehicleModel || 'Quote' }} -
+              {{ quote.obj.coverageType || 'Standard Coverage' }}
+            </h6>
+          </div>
+          <div [id]="'collapse' + '-' + i" class="accordion-collapse collapse" data-bs-parent="#accordionOne">
+            <div class="accordion-content ps-4">
+              <div class="quote-details">
+   
+                <div class="detail-row">
+                  <div class="detail-item gap-1">
+                    <label>VIN:</label>
+                    <span>{{ quote.obj.vin || 'N/A' | truncate:4 }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>License:</label>
+                    <span>{{ quote.obj.licenseNumber || 'N/A' | truncate:4 }}</span>
+                  </div>
+                </div>
+
+ 
+                <div class="detail-row">
+                  <div class="detail-item">
+                    <label>Experience:</label>
+                    <span>{{ quote.obj.drivingExperience || 0 }} years</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Accident History:</label>
+                    <span>{{ quote.obj.accidentHistory || 'Clean record' }}</span>
+                  </div>
+                </div>
+
+
+                <div class="detail-row">
+                  <div class="detail-item">
+                    <label>Billing:</label>
+                    <span>{{ quote.obj.billingPeriod || 'N/A' | billingPeriod }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Violations:</label>
+                    <span>{{ quote.obj.trafficViolations ? 'Yes' : 'No' }}</span>
+                  </div>
+                </div>
+
+  
+                <div class="detail-item full-width">
+                  <label>Address:</label>
+                  <span *ngIf="quote.obj.addressInfo">
+                    {{ quote.obj.addressInfo.streetName }}, {{ quote.obj.addressInfo.municipality }},
+                    {{ quote.obj.addressInfo.country }} {{ quote.obj.addressInfo.countryCode }}
+                  </span>
+                  <span *ngIf="!quote.obj.addressInfo">N/A</span>
+                </div>
+
+   
+                <div class="detail-item">
+                  <label>Defensive Course:</label>
+                  <span>{{ quote.obj.defensiveDrivingCourse ? 'Completed' : 'Not Completed' }}</span>
+                </div>
+
+            
+                <div class="action-buttons">
+                  <button class="btn-icon btn-buy" title="Purchase Quote">
+                    <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  <button class="btn-icon btn-delete" title="Delete Quote" (click)="deleteQuote(quote.key)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="quotesHistory.length==0" class="section-title text-center ">
+        <h2>No Quotes</h2>
+      </div>
+    </div>
+  </div>
+</div>   -->

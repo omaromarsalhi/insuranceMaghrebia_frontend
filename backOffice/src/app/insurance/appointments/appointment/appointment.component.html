@@ -1,0 +1,212 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Appointments</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Type</th>
+                                    <th>Client</th>
+                                    <th>Contact</th>
+                                    <th>CIN</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let app of appointments" class="align-middle">
+                                    <td class="text-center">{{ app.dob | date:'mediumDate' }}</td>
+                                    <!-- <td class="text-center">
+                                        <span class="badge" 
+                                            [ngClass]="{
+                                                'bg-primary': app.offerType === 'AUTO',
+                                                'bg-success': app.offerType === 'HEALTH'
+                                            }">
+                                            {{ app.offerType}}
+                                        </span>
+                                    </td> -->
+                                    <td class="text-center">
+                                        <span class="badge" 
+                                            [ngClass]="{
+                                                'bg-primary': app.offerType === 'AUTO',
+                                                'bg-success': app.offerType === 'HEALTH'
+                                            }">
+                                            {{ app.offerType }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                {{ app.firstName }} {{ app.lastName }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <span><i class="mdi mdi-email-outline me-1"></i>{{ app.email }}</span>
+                                            <span><i class="mdi mdi-phone-outline me-1"></i>{{ app.phone  }}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ app.cin }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-soft-primary btn-hover" 
+                                                (click)="openDetails(app, detailsModal)"
+                                                ngbTooltip="View Details"
+                                                placement="top">
+                                            <i class="mdi mdi-eye-outline fs-5"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Details Modal -->
+<ng-template #detailsModal let-modal>
+    <div class="modal-header bg-soft-primary">
+        <h5 class="modal-title fw-semibold">
+            <i class="mdi mdi-file-document-outline me-2"></i>
+            Offer Details
+        </h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedAppointment">
+        <div class="row g-3">
+            <!-- Vehicle Section -->
+            <div class="col-md-6">
+                <div class="card h-100 border-primary">
+                    <div class="card-header bg-soft-primary d-flex align-items-center">
+                        <i class="mdi mdi-car-outline fs-5 me-2 text-primary"></i>
+                        <h6 class="mb-0">Vehicle Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5">License Plate</dt>
+                            <dd class="col-sm-7">{{ selectedAppointment.offerDetails?.licenseNumber || 'N/A' }}</dd>
+
+                            <dt class="col-sm-5">Make/Model</dt>
+                            <dd class="col-sm-7">
+                                {{ selectedAppointment.offerDetails?.vehicleMake || 'N/A' }} 
+                                {{ selectedAppointment.offerDetails?.vehicleModel || 'N/A' }}
+                            </dd>
+
+                            <dt class="col-sm-5">Vehicle Type</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge bg-primary">
+                                    {{ selectedAppointment.offerDetails?.vehicleType || 'N/A' }}
+                                </span>
+                            </dd>
+
+                            <dt class="col-sm-5">Coverage Type</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge bg-success">
+                                    {{ selectedAppointment.offerDetails?.coverageType || 'N/A' }}
+                                </span>
+                            </dd>
+
+                            <dt class="col-sm-5">Driving Experience</dt>
+                            <dd class="col-sm-7">
+                                {{ selectedAppointment.offerDetails?.drivingExperience || '0' }} years
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="col-md-6">
+                <div class="card h-100 border-success">
+                    <div class="card-header bg-soft-success d-flex align-items-center">
+                        <i class="mdi mdi-map-marker-outline fs-5 me-2 text-success"></i>
+                        <h6 class="mb-0">Location Details</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <div class="mb-2">
+                                <i class="mdi mdi-home-map-marker me-2 text-muted"></i>
+                                {{ selectedAppointment.offerDetails?.addressInfo?.freeformAddress || 'N/A' }}
+                            </div>
+                            <div class="mb-2">
+                                <i class="mdi mdi-city me-2 text-muted"></i>
+                                {{ selectedAppointment.offerDetails?.addressInfo?.municipality || 'N/A' }}
+                            </div>
+                            <div class="mb-2">
+                                <i class="mdi mdi-earth me-2 text-muted"></i>
+                                {{ selectedAppointment.offerDetails?.addressInfo?.countrySubdivisionName || 
+                                   selectedAppointment.offerDetails?.addressInfo?.countrySubdivision || 'N/A' }}
+                            </div>
+                            <div>
+                                <i class="mdi mdi-postage-stamp me-2 text-muted"></i>
+                                Postal Code: {{ selectedAppointment.offerDetails?.addressInfo?.postalCode || 'N/A' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote Section -->
+            <div class="col-12" *ngIf="selectedAppointment.generatedQuote">
+                <div class="card border-info">
+                    <div class="card-header bg-soft-info d-flex align-items-center">
+                        <i class="mdi mdi-cash-multiple fs-5 me-2 text-info"></i>
+                        <h6 class="mb-0">Quote Details</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="border p-3 rounded text-center">
+                                    <h6 class="text-muted mb-1">Amount</h6>
+                                    <h4 class="text-primary mb-0">
+                                        {{ selectedAppointment.generatedQuote?.amount | currency:selectedAppointment.generatedQuote?.currency || 'USD' }}
+                                    </h4>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="border p-3 rounded text-center">
+                                    <h6 class="text-muted mb-1">Valid From</h6>
+                                    <h5 class="mb-0">
+                                        {{ selectedAppointment.generatedQuote?.validFrom  }}
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="border p-3 rounded text-center">
+                                    <h6 class="text-muted mb-1">Valid To</h6>
+                                    <h5 class="mb-0">
+                                        {{ selectedAppointment.generatedQuote?.validTo }}
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="border p-3 rounded text-center">
+                                    <h6 class="text-muted mb-1">Base Premium</h6>
+                                    <h4 class="text-success mb-0">
+                                        {{ selectedAppointment.generatedQuote?.baseAnnualPremium | currency:selectedAppointment.generatedQuote?.currency || 'USD' }}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer bg-soft-light">
+        <button type="button" class="btn btn-light" (click)="modal.close()">
+            <i class="mdi mdi-close-circle-outline me-1"></i>
+            Close
+        </button>
+    </div>
+</ng-template>

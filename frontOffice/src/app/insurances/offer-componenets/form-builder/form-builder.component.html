@@ -15,39 +15,39 @@ field.type !== 'checkbox' && field.type !== 'header'
             <!-- Number Input -->
             <input *ngSwitchCase="'number'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
                 [formControlName]="field.controleName" [attr.min]="field.min" [attr.max]="field.max || null"
-                (blur)="onUserInput($event,field.controleName)"/>
+                (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null" />
 
 
             <!-- Text Input -->
             <input *ngSwitchCase="'text'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="text"  (blur)="onUserInput($event,field.controleName)"/>
+                [formControlName]="field.controleName" type="text"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Textarea Input -->
             <textarea *ngSwitchCase="'textarea'" class="form_control sideLine" style="min-height: 60px"
-                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName" (blur)="onUserInput($event,field.controleName)"></textarea>
+                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"></textarea>
 
             <!-- Email Input -->
             <input *ngSwitchCase="'email'" class="form_control sideLine"
                 [placeholder]="field.placeholder || 'example@domain.com'" [formControlName]="field.controleName"
-                type="email"  (blur)="onUserInput($event,field.controleName)"/>
+                type="email"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Telephone Input -->
             <input *ngSwitchCase="'tel'" class="form_control sideLine"
                 [placeholder]="field.placeholder || '+000 (123) 456 887'" [formControlName]="field.controleName"
-                type="tel"  (blur)="onUserInput($event,field.controleName)"/>
+                type="tel"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Date Input -->
             <input *ngSwitchCase="'date'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" (blur)="onUserInput($event,field.controleName)" />
+                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null" />
 
 
             <!-- Time Input -->
             <input *ngSwitchCase="'time'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="time"  (blur)="onUserInput($event,field.controleName)"/>
+                [formControlName]="field.controleName" type="time"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Color Input -->
             <input *ngSwitchCase="'color'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="color" (blur)="onUserInput($event,field.controleName)"/>
+                [formControlName]="field.controleName" type="color" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Select Dropdown -->
             <div *ngSwitchCase="'select'" (change)="onUserInput($event,field.controleName)" >
@@ -88,10 +88,10 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Checkbox Group -->
 
-            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2" (change)="onUserInput($event,field.controleName)">
+            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2" >
                 <div class="checkbox-item">
                     <label class="checkbox-label">
-                        <input type="checkbox" [formControlName]="field.controleName" />
+                        <input type="checkbox" [formControlName]="field.controleName"  (change)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
                         <span class="checkmark"></span>
                         {{ field.label }}
                     </label>
@@ -129,29 +129,29 @@ map_not_valid: position === null && isFormSubmitted
 }" (click)="toggleMap()">
                     <i class="fa-solid fa-map-location-dot fs-5"></i>
                 </button>
-                <app-map *ngIf="showMap" [@slideFade] (position)="getPosition($event)"></app-map>
+                <app-map *ngIf="showMap" [@slideFade] (position)="getPosition($event,field.controleName)"></app-map>
             </div>
 
 
 
 
-            <div *ngSwitchCase="'file'" class="mb-4">
+            <!-- <div *ngSwitchCase="'file'" class="mb-4">
                 <div class="file-input-container">
                     <div class="row g-3">
-                        <!-- Front Side -->
+         
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <div class="image-preview-container d-flex justify-content-center gap-2">
                                         <div class="image-wrapper position-relative"
                                             style="width: 150px; height: 80px;">
-                                            <!-- Image Preview -->
+                                    
                                             <img *ngIf="previewFront" [src]="previewFront"
                                                 class="preview-image img-fluid h-100 w-100"
                                                 style="object-fit: contain; object-position: center;"
                                                 alt="Front side preview">
 
-                                            <!-- Placeholder -->
+                                 
                                             <div *ngIf="!previewFront"
                                                 class="placeholder-box h-100 w-100 d-flex align-items-center justify-content-center border rounded">
                                                 <p class="fs-5 text-muted ">Front side</p>
@@ -175,20 +175,20 @@ map_not_valid: position === null && isFormSubmitted
                             </div>
                         </div>
 
-                        <!-- Back Side -->
+                  
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <div class="image-preview-container d-flex justify-content-center gap-2">
                                         <div class="image-wrapper position-relative"
                                             style="width: 150px; height: 80px;">
-                                            <!-- Image Preview -->
+                                 
                                             <img *ngIf="previewBack" [src]="previewBack"
                                                 class="preview-image img-fluid h-100 w-100"
                                                 style="object-fit: contain; object-position: center;"
                                                 alt="Back side preview">
 
-                                            <!-- Placeholder -->
+                                       
                                             <div *ngIf="!previewBack"
                                                 class="placeholder-box h-100 w-100 d-flex align-items-center justify-content-center border rounded">
                                                 <p class="fs-5 text-muted">Back side</p>
@@ -214,11 +214,11 @@ map_not_valid: position === null && isFormSubmitted
                     </div>
                 </div>
 
-                <!-- Validation -->
-                <!-- <div *ngIf="showValidationError(field.controleName)" class="invalid-feedback d-block">
+          
+                <div *ngIf="showValidationError(field.controleName)" class="invalid-feedback d-block">
                     {{ field.label }} is required
-                </div> -->
-            </div>
+                </div>
+            </div> -->
 
 
 

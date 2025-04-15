@@ -1258,8 +1258,12 @@ contact-form-section, app-quote-appointment {
   border-radius: 4px;
 }
 
-.sideSection.with-ai {
+.sideSection.with-ai-right {
   padding-right: 1rem !important; 
+}
+
+.with-ai-left {
+  padding-left: 0.6rem !important; 
 }
 
 
@@ -1269,5 +1273,51 @@ contact-form-section, app-quote-appointment {
 .text-area{
   display: flex;
   justify-content: center;
-  line-height: 1.6; 
+  align-items: center;
+  line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ai-card {
+  will-change: transform, opacity;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-area {
+  animation: textReveal 0.5s ease-out forwards;
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

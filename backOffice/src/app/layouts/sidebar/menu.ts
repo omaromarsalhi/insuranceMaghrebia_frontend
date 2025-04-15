@@ -35,6 +35,12 @@ export const MENU: MenuItem[] = [
                 link: '/insurance/edit-offer',
                 parentId: 2
             },
+            {
+                id: 7,
+                label: 'MENUITEMS.INSURANCE.LIST.APPOINTMENTS',
+                link: '/insurance/appointments',
+                parentId: 2
+            },
      
         ]
     }

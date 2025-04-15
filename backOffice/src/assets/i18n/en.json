@@ -119,7 +119,8 @@
         "CART": "Cart",
         "CHECKOUT": "Checkout",
         "SHOPS": "Shops",
-        "ADDPRODUCT": "Add Product"
+        "ADDPRODUCT": "Add Product",
+        "APPOINTMENTS": "Show Appointments"
       }
     },
     "CRYPTO": {

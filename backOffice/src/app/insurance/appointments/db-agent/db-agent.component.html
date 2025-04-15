@@ -1,0 +1,48 @@
+<button *ngIf="!isChatOpen" class="chat-button btn btn-primary rounded-circle shadow-lg" [@pulse]="buttonState"
+    (mouseenter)="buttonState = 'hover'" (mouseleave)="buttonState = 'normal'" (click)="toggleChat()">
+    <i class="fas fa-comment"></i>
+    <span class="pulse-ring" *ngIf="showPulse"></span>
+</button>
+
+<div class="chat-bubble shadow-lg" *ngIf="isChatOpen">
+    <div class="chat-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <div class="avatar me-2">
+                <img src="../../../../assets/images/users/avatar-2.jpg" alt="Assistant" class="rounded-circle" />
+            </div>
+            <div>
+                <h5 class="m-0">Form Assistant</h5>
+                <small class="text-muted" *ngIf="!isTyping">Online</small>
+                <small class="text-muted typing-indicator" *ngIf="isTyping">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </small>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-link text-dark" (click)="toggleChat()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="chat-body">
+        <div #messageContainer class="message-container">
+            <div *ngFor="let message of messages" class="message" [class.user-message]="message.isUser"
+                [class.bot-message]="!message.isUser">
+                <div class="message-content">
+                    {{ message.content }}
+                    <div class="message-time">
+                        {{ message.timestamp | date : "shortTime" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-footer">
+        <div class="input-group">
+            <textarea class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage"
+                (keydown.enter)="sendMessage($event)"></textarea>
+        </div>
+    </div>
+</div>
