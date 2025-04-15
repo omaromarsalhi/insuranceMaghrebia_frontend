@@ -8,10 +8,11 @@
     <div class="chat-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <div class="avatar me-2">
-                <img src="../../../../assets/images/users/avatar-2.jpg" alt="Assistant" class="rounded-circle" />
+                <img src="../../../../assets/images/ai.png" alt="Assistant" class="rounded-full w-8 h-8" />
             </div>
+              
             <div>
-                <h5 class="m-0">Form Assistant</h5>
+                <h5 class="m-0">Database Assistant</h5>
                 <small class="text-muted" *ngIf="!isTyping">Online</small>
                 <small class="text-muted typing-indicator" *ngIf="isTyping">
                     <span class="dot"></span>
@@ -33,6 +34,16 @@
                     {{ message.content }}
                     <div class="message-time">
                         {{ message.timestamp | date : "shortTime" }}
+                    </div>
+                </div>
+            </div>
+            <!-- Typing indicator as a message bubble -->
+            <div *ngIf="isTyping" class="message bot-message">
+                <div class="message-content">
+                    <div class="text-muted typing-indicator">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
                 </div>
             </div>

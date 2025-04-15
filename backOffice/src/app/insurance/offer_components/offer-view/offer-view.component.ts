@@ -14,7 +14,7 @@ import {
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { OfferResponse } from '../../../core/models/offer-response';
-import { OfferControllerService } from "src/app/core/services";
+import { OfferControllerService } from "src/app/core/services/offer-controller.service";
 
 @Component({
   selector: "app-offer-view",

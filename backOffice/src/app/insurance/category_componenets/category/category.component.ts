@@ -2,12 +2,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
-import { OfferCategoryControllerService } from "src/app/core/services";
-import { CategoryResponse, OfferCategory } from "src/app/core/models";
 import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-uploader.component";
 import { uploadImage } from "../../../core/fn/image-upload-controller/upload-image";
 import { CategoryModalComponent } from "../category-modal/category-modal.component";
 import { element } from "protractor";
+import { CategoryResponse } from "src/app/core/models/category-response";
+import { OfferCategoryControllerService } from "src/app/core/services/offer-category-controller.service";
 
 @Component({
   selector: "app-category",

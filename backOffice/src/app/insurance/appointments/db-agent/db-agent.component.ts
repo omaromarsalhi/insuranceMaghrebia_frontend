@@ -5,13 +5,9 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
-  AfterViewChecked,
   OnInit,
-  OnChanges,
-  SimpleChanges,
 } from "@angular/core";
 
-import { FormFieldDto } from "src/app/core/models";
 import {
   trigger,
   state,
@@ -20,11 +16,19 @@ import {
   transition,
 } from "@angular/animations";
 import { ChatService } from "src/app/core/services/chat.service";
+import { WebSocketService } from "src/app/core/services/websocket.service";
+import { Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+
+interface ChatMessage {
+  type: string;
+  content: any;
+}
 
 @Component({
   selector: "app-db-agent",
   templateUrl: "./db-agent.component.html",
-  styleUrls: ["../../chat/chat.component.scss",'./db-agent.component.scss'],
+  styleUrls: ["../../chat/chat.component.scss", "./db-agent.component.scss"],
   animations: [
     trigger("pulse", [
       state(
@@ -65,16 +69,15 @@ export class DbAgentComponent implements OnInit {
   @ViewChild("messageContainer") private messageContainer!: ElementRef;
   buttonState: "normal" | "hover" = "normal";
   showPulse = true;
-  messages: any[] = [
-    {
-      content: "Hello! Im here to help with form creation. Ask me anything!",
-      isUser: false,
-      timestamp: new Date(),
-    },
-  ];
+  messages: any[] = [];
   newMessage = "";
   isTyping = false;
   responseContent = "";
+  messageSubscription!: Subscription;
+  session: string;
+  private apiUrl = "http://localhost:9200/start";
+
+  constructor(private wsService: WebSocketService, private http: HttpClient) {}
 
   ngOnInit(): void {}
 
@@ -82,12 +85,73 @@ export class DbAgentComponent implements OnInit {
     this.scrollToBottom();
   }
 
+  private getSessio() {
+    this.http
+      .post<{ session_id: string }>(this.apiUrl, {})
+      .subscribe((response) => {
+        this.session = response.session_id;
+        this.initWebSocket();
+      });
+  }
+
+  private initWebSocket() {
+    this.wsService.connect(this.session);
+    this.messageSubscription = this.wsService.messages$.subscribe(
+      (msg: ChatMessage) => {
+        if (msg.type === "ready") {
+          this.messages.push({
+            content: "Hi i am ready for you request",
+            isUser: false,
+            timestamp: new Date(),
+          });
+          this.isTyping = false;
+        } else if (msg.type !== "data") {
+          console.log(msg);
+          this.messages.push({
+            content: msg.content,
+            isUser: false,
+            timestamp: new Date(),
+          });
+          this.isTyping = false;
+        } else {
+          console.log(msg);
+        }
+      }
+    );
+  }
+
   toggleChat() {
     this.isChatOpen = !this.isChatOpen;
     this.isChatOpenChange.emit(this.isChatOpen);
+    if (this.isChatOpen) {
+      this.getSessio();
+      this.isTyping = true;
+    } else this.wsService.close();
   }
 
-  sendMessage(event?: KeyboardEvent) {}
+  sendMessage(event?: KeyboardEvent) {
+    if (event) {
+      if (event.shiftKey && event.key === "Enter") {
+        this.newMessage += "\n";
+        return;
+      }
+      if (!event.shiftKey && event.key === "Enter") {
+        event.preventDefault();
+      }
+    }
+
+    if (this.newMessage.trim()) {
+      this.messages.push({
+        content: this.newMessage,
+        isUser: true,
+        timestamp: new Date(),
+      });
+      console.log(this.newMessage);
+      this.isTyping = true;
+      this.wsService.sendMessage(this.newMessage);
+      this.newMessage = "";
+    }
+  }
 
   private scrollToBottom(): void {
     if (this.messageContainer) {
