@@ -1,5 +1,64 @@
 <div class="container-fluid">
+
     <app-page-title title="Payment Tables " [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Payment Overview</h5>
+                        <button class="btn btn-sm btn-outline-secondary" (click)="refreshMetrics()">
+                            <i class="bx bx-refresh"></i> Refresh Metrics
+                        </button>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <!-- Today's Payments -->
+                        <div class="metric-badge">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-calendar-check text-primary me-2"></i>
+                                <div>
+                                    <span class="text-muted d-block">Today's</span>
+                                    <strong>{{ metrics.todayCount }}</strong> payments
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completed Amount -->
+                        <div class="metric-badge text-success">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-check-circle text-success me-2"></i>
+                                <div>
+                                    <span class="text-muted d-block">Completed</span>
+                                    <strong>{{ metrics.completedAmount | currency }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-badge text-danger">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-error-circle text-danger me-2"></i>
+                                <div>
+                                    <span class="text-muted d-block">Overdue</span>
+                                    <strong>{{ metrics.overdueCount }}</strong> ({{ metrics.overdueAmount | currency }})
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Records -->
+                        <div class="metric-badge text-warning">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-time text-warning me-2"></i>
+                                <div>
+                                    <span class="text-muted d-block">Pending</span>
+                                    <strong>{{ metrics.pendingCount }}</strong> records
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -8,15 +67,17 @@
 
                     <div class="row mb-md-2">
                         <div class="col-sm-12 col-md-6">
-                            <div class="dataTables_length" id="tickets-table_length"><label
-                                    class="d-inline-flex align-items-center">Show
+                            <div class="dataTables_length" id="tickets-table_length">
+                                <label class="d-inline-flex align-items-center">Show
                                     <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
                                         [(ngModel)]="service.pageSize" class="form-control form-control-sm mx-2">
                                         <option [ngValue]="10">10</option>
                                         <option [ngValue]="25">25</option>
                                         <option [ngValue]="50">50</option>
                                         <option [ngValue]="100">100</option>
-                                    </select> entries</label></div>
+                                    </select> entries
+                                </label>
+                            </div>
                         </div>
                         <!-- Search -->
                         <div class="col-sm-12 col-md-6">
@@ -91,29 +152,41 @@
                                 </tr>
 
                                 <tr *ngIf="!hideme[i]" class="sub-table no-bg">
-                                    <td align="center"> </td>
+                                    <td align="center"></td>
                                     <td colspan="15" class="p-0">
-                                        <table class="table mb-0 table-striped">
-                                            <thead class="bg-dark text-white">
-                                                <tr>
-                                                    <th>Month</th>
-                                                    <th>Amount Paid</th>
-                                                    <th>Amount Due</th>
-                                                    <th>Due Date</th>
-                                                    <th>Payment Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Loop through the paymentPlans for the specific payment -->
-                                                <tr *ngFor="let plan of table.paymentPlans">
-                                                    <td>{{ plan.month }}</td>
-                                                    <td>{{ plan.amountPaid | number: '1.2-3' }}</td>
-                                                    <td>{{ plan.amountDue | number: '1.2-3'}}</td>
-                                                    <td>{{ plan.dueDate | date: 'dd MMMM yyyy' }}</td>
-                                                    <td>{{ plan.paymentStatus }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="p-3 bg-light border rounded">
+                                            <h6 class="mb-3">Payment Plan Details</h6>
+                                            <div class="table-responsive">
+                                                <table class="table mb-0 table-striped">
+                                                    <thead class="bg-dark text-white">
+                                                        <tr>
+                                                            <th>Month</th>
+                                                            <th>Amount Paid</th>
+                                                            <th>Amount Due</th>
+                                                            <th>Due Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let plan of table.paymentPlans">
+                                                            <td>{{ plan.month }}</td>
+                                                            <td>{{ plan.amountPaid | currency }}</td>
+                                                            <td>{{ plan.amountDue | currency }}</td>
+                                                            <td>{{ plan.dueDate | date: 'mediumDate' }}</td>
+                                                            <td>
+                                                                <span class="badge" [ngClass]="{
+                                                                    'bg-success': plan.paymentStatus === 'Paid',
+                                                                    'bg-warning': plan.paymentStatus === 'Pending',
+                                                                    'bg-danger': plan.paymentStatus === 'Overdue'
+                                                                }">
+                                                                    {{ plan.paymentStatus }}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

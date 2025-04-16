@@ -118,4 +118,23 @@ export class PaymentDetailsComponent implements OnInit {
     //   }
     // });
   }
+
+  getPhotoUrl(offerId: string | undefined): string {
+    switch (offerId) {
+      case 'car':
+        return 'assets/images/icon/icon-2.png';
+      case 'health':
+        return 'assets/images/icon/icon-3.png';
+      case 'house':
+        return 'assets/images/icon/icon-1.png';
+      case 'travel':
+        return 'assets/images/icon/icon-4.png';
+      case 'business':
+        return 'assets/images/icon/icon-5.png';
+      case 'agri':
+        return 'assets/images/icon/icon-6.png';
+      default:
+        return 'assets/images/icon/default-icon.png';
+    }
+  }
 }

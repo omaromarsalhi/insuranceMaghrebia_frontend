@@ -1,52 +1,81 @@
-/* Custom CSS for cards */
+/* Card Styles */
 .card {
     border: 1px solid #e9ecef;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-sm {
-    width: 40px;
-    height: 40px;
+/* Avatar Styles */
+.avatar-md {
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.bg-soft-primary {
+.avatar-title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(13, 110, 253, 0.1);
 }
 
-.text-primary {
-    color: #0d6efd !important;
+.avatar-title img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
 }
 
-.card-footer {
-    background-color: transparent;
-    border-top: 1px solid #e9ecef;
-}
-
-/* Custom CSS for cards */
-.card {
-    border: 1px solid #e9ecef;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
+/* Badge Styles */
 .badge {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 0.25rem;
 }
 
+/* Button Styles */
 .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.825rem;
+    border-radius: 0.25rem;
+}
+
+/* Text Styles */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2a3042;
+}
+
+.text-muted {
+    color: #6c757d !important;
+    font-size: 0.85rem;
+}
+
+/* List Styles */
+.list-unstyled li {
+    padding: 0.15rem 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .avatar-md {
+        width: 40px;
+        height: 40px;
+    }
 }

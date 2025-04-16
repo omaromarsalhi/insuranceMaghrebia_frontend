@@ -52,3 +52,125 @@
     cursor: pointer;
 
 }
+
+
+// here the amtrics 
+/* Metrics Bar Styles */
+.metric-badge {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+    border-left: 3px solid;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &.text-success {
+        border-left-color: var(--bs-success);
+        background-color: rgba(var(--bs-success-rgb), 0.05);
+    }
+
+    &.text-warning {
+        border-left-color: var(--bs-warning);
+        background-color: rgba(var(--bs-warning-rgb), 0.05);
+    }
+
+    &.text-danger {
+        border-left-color: var(--bs-danger);
+        background-color: rgba(var(--bs-danger-rgb), 0.05);
+    }
+
+    i {
+        font-size: 1.5rem;
+        opacity: 0.8;
+    }
+
+    strong {
+        font-weight: 600;
+        font-size: 1.25rem;
+        display: block;
+        margin-top: 0.25rem;
+    }
+
+    .text-muted {
+        font-size: 0.85rem;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .metric-badge {
+        min-width: calc(50% - 0.75rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .metric-badge {
+        min-width: 100%;
+    }
+}
+
+// payment.component.scss
+/* Existing styles... */
+
+/* Enhanced hidden table styles */
+.sub-table {
+    transition: all 0.3s ease;
+
+    .table-striped {
+        background-color: #f8f9fa;
+
+        thead {
+            th {
+                padding: 0.75rem;
+                font-weight: 600;
+            }
+        }
+
+        tbody {
+            tr {
+                &:nth-child(odd) {
+                    background-color: rgba(0, 0, 0, 0.02);
+                }
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+            }
+
+            td {
+                padding: 0.75rem;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+/* Add animation for expanding rows */
+.expand-row {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+}
+
+/* Add styles for overdue metric */
+.metric-badge.text-danger {
+    border-left-color: var(--bs-danger);
+    background-color: rgba(var(--bs-danger-rgb), 0.05);
+}
