@@ -24,6 +24,8 @@ import {
 } from '@angular/animations';
 import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
 import { AddressInfo } from 'src/app/core/models/address-info';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-builder',
@@ -78,11 +80,24 @@ import { AddressInfo } from 'src/app/core/models/address-info';
 })
 export class FormBuilderComponent implements OnInit, OnChanges {
   @Input() formConfigurations: any;
+  @Input() isAiExplainerOn: boolean = true;
   @Input() iNeedAdress: boolean = false;
   @Input() errorsTable: { field: string; step: number }[] = [];
   @Output() formdata = new EventEmitter<{
     data: any;
     position?: AddressInfo;
+    licenceId: any;
+  }>();
+  @Output() aiExplainerData = new EventEmitter<{
+    factor: any;
+    value: any;
+    condition: string;
+  }>();
+
+  private aiExplainerString = new Subject<{
+    factor: any;
+    value: any;
+    condition: string;
   }>();
 
   isInitFinished: boolean = false;
@@ -95,9 +110,20 @@ export class FormBuilderComponent implements OnInit, OnChanges {
   showMap: boolean = false;
   position: any = null;
   popupMessage!: string;
+  previewFront: string | null = null;
+  previewBack: string | null = null;
 
   filteredFormFields: MyFormFieldDto[] = [];
   chosenFormFields: any[] = [];
+  allowedField2Explain = [
+    'drivingExperience',
+    'accidentHistory',
+    'trafficViolations',
+    'defensiveDrivingCourse',
+    'coverageType',
+    'vehicleType',
+  ];
+  allowedField2ExplaiWithCondition = ['vin'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -105,6 +131,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.insuranceForm = this.fb.group({});
     this.initializeForm();
     this.isInitFinished = true;
+    if (this.isAiExplainerOn) this.setAiExplainer();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -118,10 +145,36 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     }
   }
 
+  private setAiExplainer() {
+    this.aiExplainerString
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((fieldValue) => {
+        this.aiExplainerData.emit(fieldValue);
+      });
+  }
+
+  onUserInput(event: Event, fieldName: string) {
+    const value = this.insuranceForm.get(fieldName)?.value;
+    console.log(value);
+    if (this.allowedField2Explain.includes(fieldName))
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: value,
+        condition: 'no_preprocessing',
+      });
+    else if (this.allowedField2ExplaiWithCondition.includes(fieldName))
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: value,
+        condition: 'preprocessing',
+      });
+  }
+
   initializeForm(): void {
     this.chosenFormFields = this.formConfigurations.data;
     this.step = 1;
     this.maxSteps = this.formConfigurations.nbrSteps;
+    this.createFormControls();
     this.filteredFields();
   }
 
@@ -131,7 +184,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.filteredFormFields.forEach((field) => {
+    this.chosenFormFields.forEach((field: any) => {
       const validators = [];
 
       if (field.required) {
@@ -148,7 +201,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
 
       if (field.type === 'checkbox-group') {
         const formArray = this.fb.array(
-          field.selectOptions!.map(() => this.fb.control('')) 
+          field.selectOptions!.map(() => this.fb.control(''))
         );
         this.insuranceForm.addControl(field.controleName, formArray);
       } else {
@@ -165,7 +218,6 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.filteredFormFields = this.chosenFormFields.filter(
       (field) => field.step === this.step
     );
-    this.createFormControls();
     this.checkErros();
   }
 
@@ -183,12 +235,11 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     }
   }
 
-  trackByFn(index: number, item: any): any {
-    return index;
+  trackByFieldName(index: number, item: MyFormFieldDto): string {
+    return item.controleName;
   }
 
   onSubmit() {
-    console.log(this.insuranceForm.value);
     // const mockFormData = {
     //   age: '30',
     //   gender: 'Female',
@@ -205,7 +256,7 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     //   exercise: '1–3x per week',
     //   bmi: '24.5',
     //   planType: 'Comprehensive',
-    //   deductible: '1000 TND',
+    //   deductible: 1000 ,
     //   addOns: ['Dental', 'Mental Health'],
     //   existingInsurance: 'Yes',
     //   employerInsurance: 'No',
@@ -213,16 +264,19 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     //   vaccinations: ['Flu', 'COVID-19'],
     //   gdprConsent: true,
     // };
-
     // console.log(this.insuranceForm.value);
+
     this.isFormSubmitted = true;
     if (this.iNeedAdress && !this.position) return;
-
     if (this.insuranceForm.valid) {
     const list = this.insuranceForm.value;
     this.formdata.emit({
       data: list,
       position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
+      licenceId:
+        this.previewFront && this.previewBack
+          ? { front: this.previewFront, back: this.previewBack }
+          : undefined,
     });
     }
     this.isFormSubmitted = false;
@@ -247,7 +301,13 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.showMap = !this.showMap;
   }
 
-  getPosition(data: any) {
+  getPosition(data: any, fieldName: string) {
+    if (this.isAiExplainerOn)
+      this.aiExplainerString.next({
+        factor: fieldName,
+        value: data,
+        condition: 'preprocessing',
+      });
     this.position = data;
   }
 
@@ -303,6 +363,42 @@ export class FormBuilderComponent implements OnInit, OnChanges {
       Object.keys(this.insuranceForm.controls).forEach((controlName) => {
         this.insuranceForm.removeControl(controlName);
       });
+  }
+
+  onFileSelected(event: Event, side: 'cinFront' | 'cinBack'): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.insuranceForm.get(side)?.setValue(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (side === 'cinFront') {
+          this.previewFront = reader.result as string;
+        } else {
+          this.previewBack = reader.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(side: 'cinFront' | 'cinBack'): void {
+    if (side === 'cinFront') {
+      this.previewFront = null;
+    } else {
+      this.previewBack = null;
+    }
+    this.insuranceForm.get(side)?.setValue(null);
+    this.insuranceForm.get(side)?.markAsTouched();
+  }
+
+  showValidationError(controlName: string): boolean | undefined {
+    const control = this.insuranceForm.get(controlName);
+    return (
+      (control?.invalid && control.touched) ||
+      (control?.invalid && this.isFormSubmitted)
+    );
   }
 }
 

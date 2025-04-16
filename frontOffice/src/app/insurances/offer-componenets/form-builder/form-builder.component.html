@@ -2,65 +2,68 @@
     <ng-container *ngFor="
 let field of filteredFormFields;
 let i = index;
-trackBy: trackByFn
+trackBy: trackByFieldName
 ">
         <div class="form_group mb-3" [ngSwitch]="field.type">
             <div *ngIf="
 field.type !== 'checkbox' && field.type !== 'header'
 ">
                 <label [attr.for]="field.label">{{ field.label }}</label>
+
             </div>
 
             <!-- Number Input -->
             <input *ngSwitchCase="'number'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" [attr.min]="field.min" [attr.max]="field.max || null" />
+                [formControlName]="field.controleName" [attr.min]="field.min" [attr.max]="field.max || null"
+                (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null" />
 
 
             <!-- Text Input -->
             <input *ngSwitchCase="'text'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="text" />
+                [formControlName]="field.controleName" type="text"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Textarea Input -->
             <textarea *ngSwitchCase="'textarea'" class="form_control sideLine" style="min-height: 60px"
-                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName"></textarea>
+                [placeholder]="field.placeholder || ''" [formControlName]="field.controleName" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"></textarea>
 
             <!-- Email Input -->
             <input *ngSwitchCase="'email'" class="form_control sideLine"
                 [placeholder]="field.placeholder || 'example@domain.com'" [formControlName]="field.controleName"
-                type="email" />
+                type="email"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Telephone Input -->
             <input *ngSwitchCase="'tel'" class="form_control sideLine"
                 [placeholder]="field.placeholder || '+000 (123) 456 887'" [formControlName]="field.controleName"
-                type="tel" />
+                type="tel"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Date Input -->
             <input *ngSwitchCase="'date'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" />
+                [formControlName]="field.controleName" type="date" [min]="field.min" [max]="field.max" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null" />
 
 
             <!-- Time Input -->
             <input *ngSwitchCase="'time'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="time" />
+                [formControlName]="field.controleName" type="time"  (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Color Input -->
             <input *ngSwitchCase="'color'" class="form_control sideLine" [placeholder]="field.placeholder || ''"
-                [formControlName]="field.controleName" type="color" />
+                [formControlName]="field.controleName" type="color" (blur)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
 
             <!-- Select Dropdown -->
-            <div *ngSwitchCase="'select'" class="">
-                <select class="wide nice-select sideLine" [ngClass]="{ 'mb-4':!((insuranceForm.controls[field.controleName]
+            <div *ngSwitchCase="'select'" (change)="onUserInput($event,field.controleName)" >
+
+                <select class="wide nice-select sideLine" [formControlName]="field.controleName" [ngClass]="{ 'mb-4':!((insuranceForm.controls[field.controleName]
                     .invalid &&
                     insuranceForm.controls[field.controleName]
                       .touched) ||
                   (insuranceForm.controls[field.controleName]
                     .invalid &&
-                    isFormSubmitted))} " [formControlName]="field.controleName">
-                    <option value="" disabled selected>
+                    isFormSubmitted))} ">
+                    <option value="">
                         Select An Option
                     </option>
-                    <option *ngFor="let option of field.selectOptions" [value]="option">
-                        {{ option }}
+                    <option *ngFor="let opt of field.selectOptions" [value]="opt">
+                        {{ opt }}
                     </option>
                 </select>
 
@@ -85,10 +88,10 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Checkbox Group -->
 
-            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2">
+            <div *ngSwitchCase="'checkbox'" class="col-12 check-list flex items-center gap-2" >
                 <div class="checkbox-item">
                     <label class="checkbox-label">
-                        <input type="checkbox" [formControlName]="field.controleName" />
+                        <input type="checkbox" [formControlName]="field.controleName"  (change)="isAiExplainerOn ? onUserInput($event, field.controleName) : null"/>
                         <span class="checkmark"></span>
                         {{ field.label }}
                     </label>
@@ -96,18 +99,6 @@ field.type !== 'checkbox' && field.type !== 'header'
             </div>
 
             <!-- Checkbox-Group -->
-
-            <!-- <div *ngSwitchCase="'checkbox-group'">
-                <div *ngFor="let opt of field.selectOptions" class="col-12 check-list flex items-center gap-2">
-                    <div class="checkbox-item ms-3">
-                        <label class="checkbox-label">
-                            <input type="checkbox" [formControlName]="field.controleName" />
-                            <span class="checkmark"></span>
-                            {{ opt }}
-                        </label>
-                    </div>
-                </div>
-            </div> -->
 
             <div *ngSwitchCase="'checkbox-group'">
                 <div *ngFor="let opt of field.selectOptions; let i = index"
@@ -126,9 +117,9 @@ field.type !== 'checkbox' && field.type !== 'header'
 
             <!-- Radio Buttons -->
             <div *ngSwitchCase="'radio'" class="radio-group">
-                <label *ngFor="let option of field.selectOptions" class="radio-label d-flex gap-3">
-                    <input type="radio" [formControlName]="field.controleName" [value]="option" />
-                    <span>{{ option }}</span>
+                <label *ngFor="let opt of field.selectOptions" class="radio-label d-flex gap-3">
+                    <input type="radio" [formControlName]="field.controleName" [value]="opt" />
+                    <span>{{ opt }}</span>
                 </label>
             </div>
 
@@ -138,8 +129,98 @@ map_not_valid: position === null && isFormSubmitted
 }" (click)="toggleMap()">
                     <i class="fa-solid fa-map-location-dot fs-5"></i>
                 </button>
-                <app-map *ngIf="showMap" [@slideFade] (position)="getPosition($event)"></app-map>
+                <app-map *ngIf="showMap" [@slideFade] (position)="getPosition($event,field.controleName)"></app-map>
             </div>
+
+
+
+
+            <!-- <div *ngSwitchCase="'file'" class="mb-4">
+                <div class="file-input-container">
+                    <div class="row g-3">
+         
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="image-preview-container d-flex justify-content-center gap-2">
+                                        <div class="image-wrapper position-relative"
+                                            style="width: 150px; height: 80px;">
+                                    
+                                            <img *ngIf="previewFront" [src]="previewFront"
+                                                class="preview-image img-fluid h-100 w-100"
+                                                style="object-fit: contain; object-position: center;"
+                                                alt="Front side preview">
+
+                                 
+                                            <div *ngIf="!previewFront"
+                                                class="placeholder-box h-100 w-100 d-flex align-items-center justify-content-center border rounded">
+                                                <p class="fs-5 text-muted ">Front side</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid justify-content-center gap-1">
+                                            <input type="file" class="form-control" accept="image/*"
+                                                (change)="onFileSelected($event, 'cinFront')" hidden id="cinFront">
+                                            <label for="cinFront">
+                                                <div class="btn btn-outline-primary btn-sm"><i
+                                                        class="fas fa-upload"></i></div>
+                                            </label>
+                                            <button [disabled]="!previewFront" type="button"
+                                                class="btn btn-outline-danger btn-sm" (click)="removeImage('cinFront')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                  
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="image-preview-container d-flex justify-content-center gap-2">
+                                        <div class="image-wrapper position-relative"
+                                            style="width: 150px; height: 80px;">
+                                 
+                                            <img *ngIf="previewBack" [src]="previewBack"
+                                                class="preview-image img-fluid h-100 w-100"
+                                                style="object-fit: contain; object-position: center;"
+                                                alt="Back side preview">
+
+                                       
+                                            <div *ngIf="!previewBack"
+                                                class="placeholder-box h-100 w-100 d-flex align-items-center justify-content-center border rounded">
+                                                <p class="fs-5 text-muted">Back side</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid justify-content-center gap-1">
+                                            <input type="file" class="form-control" accept="image/*"
+                                                (change)="onFileSelected($event, 'cinBack')" hidden id="cinBack">
+                                            <label for="cinBack">
+                                                <div class="btn btn-outline-primary btn-sm"><i
+                                                        class="fas fa-upload"></i></div>
+                                            </label>
+                                            <button [disabled]="!previewBack" type="button"
+                                                class="btn btn-outline-danger btn-sm" (click)="removeImage('cinBack')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+          
+                <div *ngIf="showValidationError(field.controleName)" class="invalid-feedback d-block">
+                    {{ field.label }} is required
+                </div>
+            </div> -->
+
+
 
             <!-- Validation Errors -->
 
@@ -163,6 +244,10 @@ isFormSubmitted)
                 </span>
 
             </div>
+
+
+
+
         </div>
     </ng-container>
 

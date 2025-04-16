@@ -32,6 +32,9 @@ import { ChatComponent } from './chat/chat.component';
 import { OfferViewComponent } from './offer_components/offer-view/offer-view.component';
 import { OfferDetailComponent } from './offer_components/offer-detail/offer-detail.component';
 import { EditOfferComponent } from "./offer_components/edit-offer/edit-offer.component";
+import { AppointmentComponent } from './appointments/appointment/appointment.component';
+import { DbAgentComponent } from './appointments/db-agent/db-agent.component';
+import { AppointmentManagerComponent } from './appointments/appointment-manager/appointment-manager.component';
 
 
 
@@ -40,7 +43,7 @@ import { EditOfferComponent } from "./offer_components/edit-offer/edit-offer.com
 @NgModule({
   declarations: [CategoryComponent, OfferCreatorComponent,
      FormCreatorComponent, OfferManagerComponent, CategoryModalComponent, ChatComponent, 
-     OfferViewComponent, OfferDetailComponent,EditOfferComponent],
+     OfferViewComponent, OfferDetailComponent,EditOfferComponent, AppointmentComponent, DbAgentComponent, AppointmentManagerComponent],
   imports: [
     InsuranceRoutingModule,
     CommonModule,

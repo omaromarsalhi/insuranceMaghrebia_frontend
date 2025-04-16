@@ -6,9 +6,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { HealthQuoteControllerService } from './services/health-quote-controller.service';
-import { AutomobileQuoteControllerService } from './services/automobile-quote-controller.service';
-import { TestControllerService } from './services/test-controller.service';
+import { AppointmentControllerService } from './services/appointment-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -18,9 +16,7 @@ import { TestControllerService } from './services/test-controller.service';
   exports: [],
   declarations: [],
   providers: [
-    HealthQuoteControllerService,
-    AutomobileQuoteControllerService,
-    TestControllerService,
+    AppointmentControllerService,
     ApiConfiguration
   ],
 })

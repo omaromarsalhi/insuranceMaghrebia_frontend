@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 
-import {
-  OfferCategoryControllerService,
-  OfferControllerService,
-} from "src/app/core/services";
-import { CategoryResponse, OfferResponse } from "src/app/core/models";
+ 
+import { OfferCategoryControllerService } from "src/app/core/services/offer-category-controller.service";
+import { CategoryResponse } from "src/app/core/models/category-response";
 import {
   trigger,
   transition,
@@ -15,6 +13,8 @@ import {
 } from "@angular/animations";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { OfferResponse } from '../../../core/models/offer-response';
+import { OfferControllerService } from "src/app/core/services/offer-controller.service";
 
 @Component({
   selector: "app-offer-view",
@@ -211,7 +211,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   private _fetchDataC() {
-    this.categoryService.getAllOfferCategories().subscribe({
+    this.categoryService.getAll1().subscribe({
       next: (data) => {
         this.categories = data;
       },

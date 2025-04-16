@@ -9,15 +9,11 @@ export interface HealthInsuranceRequest {
   bmi?: number;
   chronicIllnesses?: string;
   deductible?: number;
-  employerInsurance?: string;
   exercise?: string;
-  existingInsurance?: string;
   familyHistory?: Array<string>;
-  gdprConsent?: boolean;
   gender?: string;
   governorate?: string;
   hospitalizations?: string;
-  medications?: string;
   occupation?: string;
   planType?: string;
   preExistingConditions?: Array<string>;

@@ -21,6 +21,7 @@ import {
 } from "@angular/animations";
 import { ChatService } from "src/app/core/services/chat.service";
 
+
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
@@ -136,7 +137,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnChanges {
             response.responseText = "Goodbye 👋";
             setTimeout(() => {
               this.toggleChat();
-            }, 800);
+            }, 500);
           }
 
           this.responseContent =

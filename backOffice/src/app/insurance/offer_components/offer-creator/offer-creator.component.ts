@@ -464,7 +464,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _fetchCategoryData() {
-    this.categoryService.getAllOfferCategories().subscribe({
+    this.categoryService.getAll1().subscribe({
       next: (data) => {
         this.categoryData = data;
         if (this.categoryData.length > 0) {

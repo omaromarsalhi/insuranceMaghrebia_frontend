@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "openapioffer": "ng-openapi-gen -i http://localhost:9002/v3/api-docs --output ./src/app/core --remove-stale-files=false",
-    "openapiquote": "ng-openapi-gen -i http://localhost:9003/v3/api-docs --output ./src/app/core --remove-stale-files=false"
+    "openapiquote": "ng-openapi-gen -i http://localhost:9003/v3/api-docs --output ./src/app/core --remove-stale-files=false",
+    "openapiappointment": "ng-openapi-gen -i http://localhost:9004/v3/api-docs --output ./src/app/core --remove-stale-files=false"
   },
   "private": true,
   "dependencies": {
