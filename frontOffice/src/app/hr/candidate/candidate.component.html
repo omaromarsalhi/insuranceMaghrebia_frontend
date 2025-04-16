@@ -93,6 +93,9 @@
                   <i class="fa fa-check-circle me-2"></i>
                   {{ successMessage }}
                 </div>
+                <div *ngIf="errorMessage" class="error-message-alt">
+                  {{errorMessage}}
+                </div>
 
                 <!-- Submit Button -->
                 <div class="form_group">

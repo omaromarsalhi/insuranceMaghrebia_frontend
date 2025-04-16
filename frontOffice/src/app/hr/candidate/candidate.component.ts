@@ -20,7 +20,8 @@ export class CandidateComponent implements OnInit {
   resumeError: string | null = null;
   submitted = false;
   successMessage: string | null = null;
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder,private candidateService : CandidateService) { }
+  errorMessage : string | null = null;
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private candidateService: CandidateService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.queryParamMap.get('id');
@@ -51,19 +52,19 @@ export class CandidateComponent implements OnInit {
             return;
           }
           if (fileType === 'coverLetter') {
-            this.coverLetterName = null; 
-            this.coverLetterError = null; 
+            this.coverLetterName = null;
+            this.coverLetterError = null;
           } else if (fileType === 'resume') {
-            this.resumeName = null; 
-            this.resumeError = null; 
+            this.resumeName = null;
+            this.resumeError = null;
           }
-  
+
           // Ensure only one file is allowed
-          if (fileType === 'coverLetter' && event.length>1) {
+          if (fileType === 'coverLetter' && event.length > 1) {
             this.coverLetterError = 'Only one file is allowed.';
             return;
           }
-          if (fileType === 'resume' && event.length>1) {
+          if (fileType === 'resume' && event.length > 1) {
             this.resumeError = 'Only one file is allowed.';
             return;
           }
@@ -108,18 +109,27 @@ export class CandidateComponent implements OnInit {
         firstname: this.candidateForm.get('firstname')?.value,
         lastname: this.candidateForm.get('lastname')?.value,
         email: this.candidateForm.get('email')?.value,
-        resume: this.candidateForm.get('resume')?.value, 
+        resume: this.candidateForm.get('resume')?.value,
         coverLetter: this.candidateForm.get('coverLetter')?.value
       };
-      this.candidateService.createCandidate(candidateRequest, this.id!).subscribe(response => {
-        this.successMessage = 'Your application has been submitted successfully! We will contact you for interview scheduling.';
-        setTimeout(() => {
-          this.successMessage = null;
-          this.candidateForm.reset();
-          this.submitted = false;
-          this.coverLetterName = null;
-          this.resumeName = null;
-        }, 5000);
+      this.errorMessage='';
+      this.candidateService.createCandidate(candidateRequest, this.id!).subscribe({
+        next: (response) => {
+          this.successMessage = 'Your application has been submitted successfully! We will contact you for interview scheduling.';
+          setTimeout(() => {
+            this.successMessage = null;
+            this.candidateForm.reset();
+            this.submitted = false;
+            this.coverLetterName = null;
+            this.resumeName = null;
+          }, 5000);
+        },
+        error: (error) => {
+          if(error.status==413)
+          {
+            this.errorMessage="One of your files is too large . Please check them out";
+          }
+        }
       });
     }
   }
