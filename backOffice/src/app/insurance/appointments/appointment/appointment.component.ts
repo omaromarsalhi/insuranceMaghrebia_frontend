@@ -1,49 +1,41 @@
-import { Component, OnInit } from "@angular/core";
-import { DecimalPipe } from "@angular/common";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AppointmentControllerService } from "src/app/core/services/offer/appointment-controller.service";
-import { AppointmentDto } from "src/app/core/models/offer/appointment-dto";
+import { AppointmentControllerService } from "src/app/core/services/appointment-controller.service";
+import { AppointmentDto } from "src/app/core/models/appointment-dto";
 
 @Component({
   selector: "app-appointment",
   templateUrl: "./appointment.component.html",
-  styleUrls: ["./appointment.component.scss"]
+  styleUrls: ["./appointment.component.scss"],
 })
-export class AppointmentComponent implements OnInit {
-
-
-
+export class AppointmentComponent implements OnInit, OnChanges {
   selectedAppointment: any;
   selectedAutomobile: any;
-  appointments:AppointmentDto[]=[];
+  isLoading: boolean = true;
+  @Input() appointments: AppointmentDto[] = [];
 
-  constructor(private modalService: NgbModal,private appointmentService:AppointmentControllerService) {
+  constructor(private modalService: NgbModal) {}
 
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["appointments"] && this.appointments.length > 0)
+      this.isLoading = false;
   }
-
-  ngOnInit(): void {
-   
-
-    this.__fetch();
-  }
-
-  private __fetch(){
-    this.appointmentService.getAll().subscribe(
-      (result)=>{
-          this.appointments=result;
-      }
-    )
-  }
-  
-
 
   openDetails(appointment: AppointmentDto, content: any): void {
     this.selectedAppointment = appointment;
-    this.modalService.open(content, { 
-      size: 'lg', 
+    this.modalService.open(content, {
+      size: "lg",
       centered: true,
-      ariaLabelledBy: 'modal-basic-title'
+      ariaLabelledBy: "modal-basic-title",
     });
   }
 }

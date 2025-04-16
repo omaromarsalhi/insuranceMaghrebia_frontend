@@ -6,6 +6,7 @@ import {
   ElementRef,
   ViewChild,
   OnInit,
+  OnDestroy,
 } from "@angular/core";
 
 import {
@@ -63,9 +64,10 @@ interface ChatMessage {
     ]),
   ],
 })
-export class DbAgentComponent implements OnInit {
+export class DbAgentComponent implements OnInit, OnDestroy {
   @Input() isChatOpen: boolean;
   @Output() isChatOpenChange = new EventEmitter<boolean>();
+  @Output() agentData = new EventEmitter<any>();
   @ViewChild("messageContainer") private messageContainer!: ElementRef;
   buttonState: "normal" | "hover" = "normal";
   showPulse = true;
@@ -115,6 +117,7 @@ export class DbAgentComponent implements OnInit {
           this.isTyping = false;
         } else {
           console.log(msg);
+          this.agentData.emit(msg.content);
         }
       }
     );
@@ -126,7 +129,7 @@ export class DbAgentComponent implements OnInit {
     if (this.isChatOpen) {
       this.getSessio();
       this.isTyping = true;
-    } else this.wsService.close();
+    }
   }
 
   sendMessage(event?: KeyboardEvent) {
@@ -162,5 +165,8 @@ export class DbAgentComponent implements OnInit {
 
   hidePulse() {
     this.showPulse = false;
+  }
+  ngOnDestroy(): void {
+    this.wsService.close();
   }
 }

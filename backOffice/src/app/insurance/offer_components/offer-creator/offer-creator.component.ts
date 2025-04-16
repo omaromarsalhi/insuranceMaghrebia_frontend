@@ -93,14 +93,14 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
 
   send2OfferManager() {
     this.submit = true;
-    // if (this.labelsForm.valid) {
+    if (this.labelsForm.valid) {
     let formValue = this.labelsForm.value;
     formValue.category = this.getFilteredCategory(formValue.categoryId);
-    console.log(formValue);
     this.imageUploader
       .uploadImage()
       .then((imageUrl) => {
-        formValue.imageUri = imageUrl;
+        if (imageUrl !== "No file selected")
+          this.offer2Update.imageUri = imageUrl;
       })
       .catch((error) => {
         console.error("Image upload failed:", error);
@@ -112,15 +112,13 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
           data: this.isThisEditMode.offer ? this.offer2Update : formValue,
         });
       });
-    // }
+    }
   }
 
   private prepereData4Update(formValue) {
     this.offer2Update.benefits = formValue.benefits;
     this.offer2Update.category = this.getFilteredCategory(formValue.categoryId);
     this.offer2Update.header = formValue.header;
-    this.offer2Update.imageUri =
-      formValue.imageUri || this.offer2Update.imageUri;
     this.offer2Update.labels = formValue.labels;
     this.offer2Update.name = formValue.name;
     this.offer2Update.tags = formValue.tags;
@@ -162,7 +160,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
       tags: this.fb.array([]),
       newTag: [
         "",
-        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+        [Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
       ],
     });
   }
@@ -181,14 +179,14 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
         ],
       ],
       categoryId: null,
-      imageUri: ["", Validators.required],
-      benefits: this.fb.array([], [Validators.required]),
-      labels: this.fb.array([], Validators.required),
-      packages: this.fb.array([], Validators.required),
+      imageUri: [""],
+      benefits: this.fb.array([]),
+      labels: this.fb.array([]),
+      packages: this.fb.array([]),
       tags: this.fb.array([]),
       newTag: [
         "",
-        [Validators.required, Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
+        [ Validators.pattern(/^[a-zA-Z0-9\- ]+$/)],
       ],
     });
 
@@ -199,7 +197,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
             benfit.benefitText,
             [
               Validators.required,
-              Validators.minLength(10),
+              Validators.minLength(2),
               Validators.maxLength(150),
               Validators.pattern(/^[a-zA-Z0-9 .,!?@%&*()\-\/]+$/),
             ],
@@ -505,8 +503,11 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    let offerValue = this.labelsForm.value;
-    offerValue.category = this.getFilteredCategory(offerValue.categoryId);
-    this.offerActionEvent.emit({ action: "temp_save", data: offerValue });
+    this.prepereData4Update(this.labelsForm.value);
+
+    this.offerActionEvent.emit({
+      action: "temp_save",
+      data: this.offer2Update,
+    });
   }
 }

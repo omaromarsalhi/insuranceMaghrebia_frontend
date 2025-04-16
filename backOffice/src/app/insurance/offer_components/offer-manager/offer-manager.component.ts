@@ -138,58 +138,6 @@ export class OfferManagerComponent implements OnInit {
           });
         }
       }
-      // if (value.offerFormData) {
-      //   const formParms = {
-      //     body: {
-      //       fields: this.offerForm,
-      //     } as OfferFormRequest,
-      //   };
-      //   this.formService.create1(formParms).subscribe({
-      //     next: (response) => {
-      //       this.createdForm = response;
-      //       console.log(response);
-      //     },
-      //     error: (error: HttpErrorResponse) => {
-      //       console.error("Full error object:", error);
-
-      //       if (error.status === 400) {
-      //         if (error.error && error.error.errors) {
-      //           // Use a Set to track unique field numbers
-      //           const uniqueFieldNumbers = new Set<string>();
-
-      //           const errorMessages = Object.entries(error.error.errors)
-      //             .map(([field]) => {
-
-      //               const fieldNumberMatch = field.match(/fields\[(\d+)\]/);
-      //               const fieldNumber = fieldNumberMatch ? fieldNumberMatch[1] : "unknown";
-      //               uniqueFieldNumbers.add(fieldNumber);
-
-      //               return null;
-      //             })
-      //             .filter(() => true);
-
-      //           const formattedErrors = Array.from(uniqueFieldNumbers)
-      //             .map((fieldNumber) => `➤ Field #${fieldNumber}: invalid input`)
-      //             .join("\n\n"); // Add spacing between errors
-
-      //           Swal.fire({
-      //             title: "Invalid Input",
-      //             html: `<div style="text-align: left; white-space: pre-wrap;">${formattedErrors}</div>`,
-      //             icon: "error",
-      //             confirmButtonText: "OK",
-      //             customClass: {
-      //               popup: "swal-wide", // Optional: Add custom CSS for wider dialog
-      //             },
-      //           });
-      //         } else {
-      //           Swal.fire("Error", "Invalid form configuration", "error");
-      //         }
-      //       } else {
-      //         Swal.fire("Error", "An unexpected error occurred", "error");
-      //       }
-      //     },
-      //   });
-      // }
     });
   }
 
@@ -285,9 +233,11 @@ export class OfferManagerComponent implements OnInit {
 
   private updateOffer(): boolean {
     let error = false;
-    const parm = {
+    let parm = {
       body: this.offer2Update,
     };
+    console.log(this.offer2Update)
+    this.offer2Update.createdAt=(new Date()).toISOString()
     this.offerService.update(parm).subscribe({
       next: (response) => {
         this.createdOffer = response;
@@ -344,6 +294,7 @@ export class OfferManagerComponent implements OnInit {
     if (holder.action === "create" || holder.action === "update") {
       if (holder.action === "create") this.offer = holder.data as OfferRequest;
       else {
+        console.log('holder',holder.data)
         this.offer2Update = holder.data;
         this.offer2Update.offerId = this.offerId;
       }
