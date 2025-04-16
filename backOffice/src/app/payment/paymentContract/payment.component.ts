@@ -2,9 +2,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Payment } from 'src/app/core/models/payment';
+import { Payment } from 'src/app/core/models/payment/payment';
 import { PaymentSortableService, SortEvent } from '../payment-sortable.directive';
-import { PaymentService } from 'src/app/core/services/payment.service';
+import { PaymentService } from 'src/app/core/services/payment/payment.service';
 import { DecimalPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 

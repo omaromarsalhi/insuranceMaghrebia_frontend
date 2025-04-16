@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError, Subject, of } from 'rxjs';
 import { debounceTime, delay, switchMap, tap, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SortDirection } from 'src/app/payment/payment-sortable.directive';
-import { Payment, SearchResult } from '../models/payment';
+import { Payment, SearchResult } from '../../models/payment/payment';
 import { DecimalPipe } from '@angular/common';
 
 

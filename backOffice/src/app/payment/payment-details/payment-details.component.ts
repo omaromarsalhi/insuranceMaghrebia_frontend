@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Payment } from 'src/app/core/models/payment';
-import { PaymentService } from 'src/app/core/services/payment.service';
+import { Payment } from 'src/app/core/models/payment/payment';
+import { PaymentService } from 'src/app/core/services/payment/payment.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentUsPlanDetailsComponent } from '../payment-us-plan-details/payment-us-plan-details.component';
 

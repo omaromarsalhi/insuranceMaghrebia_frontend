@@ -3,7 +3,8 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError, Subject, of } from 'rxjs';
 import { debounceTime, delay, switchMap, tap, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { PaymentPlan } from '../models/payment-plan';
+import { PaymentPlan } from '../../models/payment/payment-plan';
+
 
 @Injectable({
   providedIn: 'root'
