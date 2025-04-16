@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 .no-underline {
     text-decoration: none;
   }
-=======
 /* Force dialog to appear above everything */
 .cdk-overlay-container {
     position: fixed !important;
@@ -30,4 +28,3 @@
     overflow-y: auto !important;
     max-height: 90vh !important;
 }
->>>>>>> payment_branch

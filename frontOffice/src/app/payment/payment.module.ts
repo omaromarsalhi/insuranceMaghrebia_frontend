@@ -13,28 +13,32 @@ import { PaymentPlanDetailsComponent } from './payment-plan-details/payment-plan
 import { ErrorPopUpComponent } from './utils/error-pop-up/error-pop-up.component';
 import { SignatureComponent } from './signature/signature.component';
 import { WalletPaymentComponent } from './wallet-payment/wallet-payment.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgxStripeModule } from 'ngx-stripe';
 
 
 
 @NgModule({
   declarations: [
-      PaymentComponent,
-      CheckoutComponent,
-      PopUpComponent,
-      PaymentdetailsComponent,
-      PaymentContractsComponent,
-      PaymentPlanDetailsComponent,
-      ErrorPopUpComponent,
-      SignatureComponent,
-      WalletPaymentComponent
-    ],
-     imports: [
-        CommonModule,
-        SharedModule,
-        SlickCarouselModule,
-        FontAwesomeModule,
-        ReactiveFormsModule,
-        FormsModule,
-      ],
+    PaymentComponent,
+    CheckoutComponent,
+    PopUpComponent,
+    PaymentdetailsComponent,
+    PaymentContractsComponent,
+    PaymentPlanDetailsComponent,
+    ErrorPopUpComponent,
+    SignatureComponent,
+    WalletPaymentComponent
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    SlickCarouselModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    FormsModule,
+    NgxStripeModule.forRoot('pk_test_51QuEtGA3IRpOqAjD19y87vjYVjauMymaxNEA58EmVBTRSCutsQYZ5yXCtngEw0YQrnYepGyZ21pTV18M383fuNhM00KMjER1WJ'),
+  ],
 })
 export class PaymentModule { }

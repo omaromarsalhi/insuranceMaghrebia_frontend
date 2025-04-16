@@ -1678,13 +1678,8 @@ button {
   right: 0;
   z-index: 999;
   -webkit-animation: sticky 1.2s;
-<<<<<<< HEAD
           animation: sticky 1.2s;
 } */
-=======
-  animation: sticky 1.2s;
-}
->>>>>>> payment_branch
 
 /* .sticky {
   position: sticky;
@@ -3952,15 +3947,9 @@ button {
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
-<<<<<<< HEAD
           transform: rotate(-45deg);
   -webkit-transition: all 10s ease-out 0s !important;
   transition: all .4s ease-out 0s !important
-=======
-  transform: rotate(-45deg);
-  -webkit-transition: all 0.4s ease-out 0s;
-  transition: all 0.4s ease-out 0s;
->>>>>>> payment_branch
 }
 
 .accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after {

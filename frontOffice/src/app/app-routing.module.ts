@@ -10,12 +10,9 @@ import { SignatureComponent } from './payment/signature/signature.component';
 
 const routes: Routes = [
   { path: 'insurance', loadChildren: () => import('./insurances/insurance-routing.module').then(m => m.InsuranceRoutingModule) },
+  { path: 'payments', loadChildren: () => import('./payment/payment-routing.module').then(m => m.PaymentRoutingModule) },
   { path: 'home', component: HomeComponent }, 
   { path: '', component: HomeComponent }, 
-  { path: 'payment/:amount', component: PaymentComponent },
-  { path: 'payment-details/:userId', component: PaymentContractsComponent },
-  { path: 'card/:totalAmount', component: CheckoutComponent },
-  { path: 'paymentPlan/:contractPaymentId', component: PaymentPlanDetailsComponent },
 ];
 
 @NgModule({
