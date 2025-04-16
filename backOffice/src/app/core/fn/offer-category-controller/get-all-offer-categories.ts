@@ -8,8 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-<<<<<<< HEAD
-import { CategoryResponse } from '../../models/offer/category-response';
+import { CategoryResponse } from '../../models/category-response';
 
 export interface GetAllOfferCategories$Params {
   target: 'PARTICULAR' | 'COMPANY';
@@ -27,24 +26,6 @@ export function getAllOfferCategories(http: HttpClient, rootUrl: string, params:
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<Array<CategoryResponse>>;
-=======
-import { OfferCategory } from '../../models/offer-category';
-
-export interface GetAllOfferCategories$Params {
-}
-
-export function getAllOfferCategories(http: HttpClient, rootUrl: string, params?: GetAllOfferCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OfferCategory>>> {
-  const rb = new RequestBuilder(rootUrl, getAllOfferCategories.PATH, 'get');
-  if (params) {
-  }
-
-  return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
-  ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<OfferCategory>>;
->>>>>>> payment_branch
     })
   );
 }

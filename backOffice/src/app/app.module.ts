@@ -9,26 +9,17 @@ import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
-
 import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initFirebaseBackend } from './authUtils';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { ErrorInterceptor } from './core/helpers/error.interceptor';
-import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
-<<<<<<< HEAD
-import { InsuranceModule } from './insurance/insurance.module';
-
-=======
-import { OfferDetailsComponent } from './insurance/particular/offer-details/offer-details.component';
 import { InsuranceModule } from './insurance/insurance.module';
 import { PaymentModule } from './payment/payment.module';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
->>>>>>> payment_branch
+
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -43,14 +34,8 @@ export function createTranslateLoader(http: HttpClient): any {
 
 @NgModule({
   declarations: [
-<<<<<<< HEAD
-    AppComponent
-=======
     AppComponent,
-    OfferDetailsComponent,
     PagetitleComponent,
-
->>>>>>> payment_branch
   ],
   imports: [
     BrowserModule,
@@ -76,11 +61,6 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   bootstrap: [AppComponent],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
-    // LoaderService,
-    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
   ],
 
 })

@@ -24,12 +24,7 @@
                         <label class="text-muted">Due Date:</label>
                         <span class="d-block">{{ plan.dueDate | date: 'mediumDate' }}</span>
                     </div>
-                    <!-- Display "Update Payment" button if status is not "Paid" -->
-                    <div *ngIf="plan.paymentStatus.toLowerCase() !== 'paid'" class="text-center">
-                        <button class="btn btn-warning btn-sm" (click)="updatePayment(plan)">
-                            Update Payment
-                        </button>
-                    </div>
+                   
                 </div>
             </div>
         </div>

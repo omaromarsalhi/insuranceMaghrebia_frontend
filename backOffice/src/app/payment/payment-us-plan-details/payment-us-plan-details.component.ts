@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentPlan } from 'src/app/core/models/offer/payment-plan';
 import { PaymentPlanService } from 'src/app/core/services/payment/payment-plan.service';
 import { Location } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PaymentPlan } from 'src/app/core/models/payment/payment-plan';
 
 @Component({
   selector: 'app-payment-us-plan-details',
@@ -39,11 +39,4 @@ export class PaymentUsPlanDetailsComponent {
     this.activeModal.close(); // Close the modal
   }
 
-  updatePayment(plan: PaymentPlan): void {
-    // Add your logic to update the payment here
-    console.log('Update Payment:', plan);
-    // Example: Mark as paid
-    // plan.paymentStatus = 'Paid';
-    // You can also call a service to update the payment status in the backend
-  }
 }

@@ -5,11 +5,11 @@ import { PaymentContractResponse } from 'src/app/core/models/payment/PaymentCont
 import { PaymentMethod } from 'src/app/core/models/payment/paymentMethod';
 import { TransactionType } from 'src/app/core/models/wallet/TransactionType';
 import { WalletRequest } from 'src/app/core/models/wallet/WalletRequest';
-import { PaymentContractService } from 'src/app/core/services/payment-contract.service';
-import { WalletService } from 'src/app/core/services/wallet.service';
+import { PaymentContractService } from 'src/app/core/services/payment/payment-contract.service';
+import { WalletService } from 'src/app/core/services/payment/wallet.service';
 import { lastValueFrom } from 'rxjs';
 import { error } from 'jquery';
-import { PaymentPlanService } from 'src/app/core/services/payment-plan.service';
+import { PaymentPlanService } from 'src/app/core/services/payment/payment-plan.service';
 @Component({
   selector: 'app-wallet-payment',
   templateUrl: './wallet-payment.component.html',

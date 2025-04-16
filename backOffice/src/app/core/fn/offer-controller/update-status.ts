@@ -8,8 +8,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferGeneralResponse } from '../../models/offer/offer-general-response';
-import { OfferStateRequest } from '../../models/offer/offer-state-request';
+import { OfferGeneralResponse } from '../../models/offer-general-response';
+import { OfferStateRequest } from '../../models/offer-state-request';
 
 export interface UpdateStatus$Params {
       body: OfferStateRequest

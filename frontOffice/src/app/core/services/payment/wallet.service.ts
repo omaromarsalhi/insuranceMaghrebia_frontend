@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Blockchain } from '../models/blockchain/blockchain';
-import { PaymentBlockRequestDto } from '../models/blockchain/PaymentBlockRequestDto';
-import { WalletRequest } from '../models/wallet/WalletRequest';
+import { Blockchain } from '../../models/blockchain/blockchain';
+import { PaymentBlockRequestDto } from '../../models/blockchain/PaymentBlockRequestDto';
+import { WalletRequest } from '../../models/wallet/WalletRequest';
 @Injectable({
     providedIn: 'root'
 })

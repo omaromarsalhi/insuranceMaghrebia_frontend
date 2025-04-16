@@ -3,7 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { PaymentIntentDto } from '../models/stripe/PaymentIntentDto';
+import { PaymentIntentDto } from '../../models/stripe/PaymentIntentDto';
 const cabecera = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable({

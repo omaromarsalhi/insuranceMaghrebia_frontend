@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Payment } from 'src/app/core/models/payment/Payments';
 import { PaymentPlan } from 'src/app/core/models/payment/PaymentsPlan';
-import { PaymentPlanService } from 'src/app/core/services/payment-plan.service';
-import { SharedDataService } from 'src/app/core/services/shared-data.service';
-import { WalletService } from 'src/app/core/services/wallet.service';
+import { PaymentPlanService } from 'src/app/core/services/payment/payment-plan.service';
+import { SharedDataService } from 'src/app/core/services/payment/shared-data.service';
+import { WalletService } from 'src/app/core/services/payment/wallet.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WalletPaymentComponent } from '../wallet-payment/wallet-payment.component';
 

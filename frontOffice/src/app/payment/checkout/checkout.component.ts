@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymentIntentService } from 'src/app/core/services/paymentIntent';
+import { PaymentIntentService } from 'src/app/core/services/payment/paymentIntent';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import { PaymentIntentDto } from 'src/app/core/models/stripe/PaymentIntentDto';
-import { PaymentContractService } from 'src/app/core/services/payment-contract.service';
-import { BlockchainService } from 'src/app/core/services/blockchain.service';
+import { PaymentContractService } from 'src/app/core/services/payment/payment-contract.service';
+import { BlockchainService } from 'src/app/core/services/payment/blockchain.service';
 import { PaymentBlockRequestDto } from 'src/app/core/models/blockchain/PaymentBlockRequestDto';
-import { PaymentPlanService } from 'src/app/core/services/payment-plan.service';
+import { PaymentPlanService } from 'src/app/core/services/payment/payment-plan.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopUpComponent } from '../utils/pop-up/pop-up.component';
 import { ErrorPopUpComponent } from '../utils/error-pop-up/error-pop-up.component';
 import SignaturePad from 'signature_pad';
-import { SignatureService } from 'src/app/core/services/singature.service';
+import { SignatureService } from 'src/app/core/services/payment/singature.service';
 import { signatureRequest } from 'src/app/core/models/signature/signatureRequest';
 @Component({
   selector: 'app-checkout',
