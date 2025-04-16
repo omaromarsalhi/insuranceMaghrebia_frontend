@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Complaint} from '../../../core/models/complaint';
-import {ComplaintResponseService} from '../../../core/services/ComplaintResponseService';
-import {ResponseComplaint} from '../../../core/models/responseComplaint';
+import {Complaint} from '../../../core/models/complaint/complaint';
+import {ComplaintResponseService} from '../../../core/services/complaint/ComplaintResponseService';
+import {ResponseComplaint} from '../../../core/models/userAction/responseComplaint';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ComplaintService} from '../../../core/services/complaintService';
+import {ComplaintService} from '../../../core/services/complaint/complaintService';
 
 @Component({
     selector: 'app-overview',

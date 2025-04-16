@@ -6,10 +6,7 @@ import {environment} from '../environments/environment';
 import {NgbAccordionModule, NgbModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {CarouselModule} from 'ngx-owl-carousel-o';
 import {ScrollToModule} from '@nicky-lenaers/ngx-scroll-to';
-
 import {SharedModule} from './cyptolanding/shared/shared.module';
-
-
 import {LayoutsModule} from './layouts/layouts.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';

@@ -1,14 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-
 import {AuthGuard} from './core/guards/auth.guard';
 import {LayoutComponent} from './layouts/layout.component';
 import {CyptolandingComponent} from './cyptolanding/cyptolanding.component';
 
 
 const routes: Routes = [
-
-    // tslint:disable-next-line: max-line-length
     {
         path: '',
         component: LayoutComponent,

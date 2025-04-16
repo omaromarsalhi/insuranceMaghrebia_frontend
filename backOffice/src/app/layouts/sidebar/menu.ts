@@ -23,7 +23,7 @@ export const MENU: MenuItem[] = [
             {
                 id: 49,
                 label: 'MENUITEMS.USERACTION.LIST.RAPPORT',
-                link: '/tables/advanced',
+                link: '/report/showReport',
                 parentId: 48
             },
         ]

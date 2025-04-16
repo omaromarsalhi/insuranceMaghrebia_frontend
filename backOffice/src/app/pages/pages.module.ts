@@ -10,19 +10,13 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import bootstrapPlugin from "@fullcalendar/bootstrap";
 import { LightboxModule } from 'ngx-lightbox';
-
 import { WidgetModule } from '../shared/widget/widget.module';
 import { UIModule } from '../shared/ui/ui.module';
-
 import { PagesRoutingModule } from './pages-routing.module';
 import { DashboardsModule } from './dashboards/dashboards.module';
-import { CryptoModule } from './crypto/crypto.module';
-import { ContactsModule } from './contacts/contacts.module';
+import { ComplaintModule } from './complaint/complaint.module';
 import { UtilityModule } from './utility/utility.module';
-import { UiModule } from './ui/ui.module';
-import { ChartModule } from './chart/chart.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ChatComponent } from './chat/chat.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -31,7 +25,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [ ChatComponent],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -41,13 +35,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NgApexchartsModule,
     ReactiveFormsModule,
     DashboardsModule,
-    CryptoModule,
     HttpClientModule,
     UIModule,
-    ContactsModule,
+    ComplaintModule,
     UtilityModule,
-    UiModule,
-    ChartModule,
     WidgetModule,
     FullCalendarModule,
     NgbNavModule,

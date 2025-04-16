@@ -1,0 +1,192 @@
+<app-preloader></app-preloader>
+<section class="page-banner overlay pt-165 pb-170 bg_cover"
+         style="background-image: url(../../../assets/images/bg/page-bg.jpg);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <!--=== Page Banner Content ===-->
+        <div class="page-banner-content text-center text-white">
+          <h1 class="page-title">Complaint</h1>
+          <ul class="breadcrumb-link text-white">
+            <li><a href="../../../index.html">Home</a></li>
+            <li class="active">Set Complaint</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-popup
+  [title]="popupTitle"
+  [message]="popupMessage"
+  [showPopup]="showPopup"
+  (close)="onPopupClose()">
+</app-popup>
+
+<!--====== Start Contact Form Section ======-->
+<section class="contact-form-section gray-bg pt-175 pb-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-xl-7 order-2 order-xl-1">
+        <!--=== Contact Form Area ===-->
+        <div class="contact-form-area mb-50 p-r z-1 wow fadeInLeft">
+          <div class="shape shape-one"><span><img src="../../../assets/images/shape/tag.png" alt=""></span></div>
+          <!--=== Section Title ===-->
+          <div class="section-title mb-40">
+            <span class="sub-title">Insurance Services</span>
+            <h2>Start Your Complaint Process</h2>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active show fade" id="cat1">
+              <form class="contact-form" [formGroup]="complaintForm" (ngSubmit)="SaveComplaint()">
+                <div *ngIf="isloading" class="loader-overlay">
+                  <div class="loader"></div>
+                </div>
+                <div class="form_group position-relative">
+                  <label>Title</label>
+                  <!--                  <div class="input-group">-->
+                  <div class="d-flex align-items-center">
+                    <input type="text" class="form_control" placeholder="Enter your title" formControlName="title"
+                           style="  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;">
+
+                    <button type="button" class="icon-btn " (click)="generateTitle()" title="Generate Title"
+                            [disabled]="loading">
+                      <i *ngIf="!loading" class="fa fa-magic"></i>
+                      <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+                    </button>
+
+                  </div>
+                  <div *ngIf="complaintForm.get('title')?.invalid && complaintForm.get('title')?.touched"
+                       class="error-message">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <small *ngIf="complaintForm.get('title')?.errors?.['required']">Title is required.</small>
+                    <small *ngIf="complaintForm.get('title')?.errors?.['minlength']">Minimum 5 characters
+                      required.</small>
+                    <small *ngIf="complaintForm.get('title')?.errors?.['maxlength']">Maximum 100 characters
+                      allowed.</small>
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <label>Complaint Type</label>
+                  <select class="wide" formControlName="complaintType">
+                    <option *ngFor="let option of complaintTypes" [value]="option.value">
+                      {{ option.label }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form_group">
+                  <label>Description</label>
+                  <textarea class="form_control" placeholder="Write Message" rows="6"
+                            formControlName="complaintDescription"></textarea>
+                  <div
+                    *ngIf="complaintForm.get('complaintDescription')?.invalid && complaintForm.get('complaintDescription')?.touched"
+                    class="error-message">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['required']">Description is
+                      required.</small>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['minlength']">Minimum 5 characters
+                      required.</small>
+                    <small *ngIf="complaintForm.get('complaintDescription')?.errors?.['maxlength']">Maximum 500
+                      characters allowed.</small>
+                  </div>
+                </div>
+                <div class="form_group">
+                  <button class="main-btn primary-btn" type="submit" [disabled]="complaintForm.invalid">Send<i
+                    class="fa fa-arrow-right"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 order-1 order-xl-2">
+        <!--=== Contact Image Box ===-->
+        <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
+          <img src="../../../assets/images/gallery/contact-1.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-info-section pt-130 pb-80">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <!--=== Contact Content Box ===-->
+        <div class="contact-content-box mb-50 pr-lg-70 wow fadeInLeft">
+          <!--=== Section Title ===-->
+          <div class="section-title mb-25">
+            <span class="sub-title">Contact Info</span>
+            <h2>Find an Insurance Agent Or Looking for
+              Insurance Agent ?</h2>
+          </div>
+          <p>Sed ut perspiciatis unde omnis iste natus error voluptatem accusantium doloremque laudantium, totam rem
+            aperiam, eaque ipsa quae</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <!--=== Contact Info List ===-->
+        <div class="contact-info-list mb-50 pl-lg-70 wow fadeInRight">
+          <ul>
+            <li>
+              <!--=== Single Info Item ===-->
+              <div class="single-info-item d-flex mb-40">
+                <div class="icon">
+                  <i class="fa fa-map-marker-alt"></i>
+                </div>
+                <div class="info">
+                  <span class="title">Locations</span>
+                  <h3>55 main street, New York</h3>
+                </div>
+              </div>
+            </li>
+            <li>
+              <!--=== Single Info Item ===-->
+              <div class="single-info-item d-flex mb-40">
+                <div class="icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="info">
+                  <span class="title">Email Address</span>
+                  <h3><a href="mailto:support@gmail.com">support@gmail.com</a></h3>
+                </div>
+              </div>
+            </li>
+            <li>
+              <!--=== Single Info Item ===-->
+              <div class="single-info-item d-flex mb-40">
+                <div class="icon">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="info">
+                  <span class="title">Emergency Call</span>
+                  <h3><a href="tel:+000(123)456889">+ 82 10 20 20</a></h3>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <!--=== Social Box ===-->
+          <div class="social-box pt-40">
+            <ul class="social-link-two">
+              <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+              <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-map-page pb-90 wow fadeInUp">
+
+</section>
+
+
+
