@@ -1,49 +1,87 @@
-<div class="user-profile">
-  <div class="profile-header">
-    <h2>Profile</h2>
-    <button class="edit-profile-btn" routerLink="/account/edit-profile">Edit Profile</button>
-  </div>
-  <div class="profile-content">
-    <div class="profile-info">
-      <div class="info-item">
-        <span class="info-label">First Name:</span>
-        <span class="info-value">{{ user?.firstname}}</span>
+<div class="profile-card">
+  <!-- Header Section -->
+  <header class="profile-header">
+    <div class="header-content">
+      <div class="avatar-container">
+        <div class="avatar-placeholder">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h1 class="profile-title">{{ user?.firstname }} {{ user?.lastname }}</h1>
       </div>
-      <div class="info-item">
-        <span class="info-label">Last Name:</span>
-        <span class="info-value">{{ user?.lastname }}</span>
+      
+      <div class="header-actions">
+        <button class="icon-button edit-button" routerLink="/account/edit-profile">
+          <i class="fas fa-pencil-alt"></i>
+          <span>Edit Profile</span>
+        </button>
       </div>
-      <div class="info-item">
-        <span class="info-label">Email:</span>
-        <span class="info-value">{{ user?.email }}</span>
+    </div>
+  </header>
+
+  <!-- Profile Details -->
+  <div class="profile-details">
+    <div class="detail-grid">
+      <!-- Personal Info Column -->
+      <div class="detail-column">
+        <h2 class="column-title">Personal Information</h2>
+        
+        <div class="detail-item">
+          <label>Full Name</label>
+          <p class="detail-value">{{ user?.firstname }} {{ user?.lastname }}</p>
+        </div>
+
+        <div class="detail-item">
+          <label>Email Address</label>
+          <p class="detail-value">{{ user?.email }}</p>
+        </div>
+
+        <div class="detail-item">
+          <label>Date of Birth</label>
+          <p class="detail-value">{{ user?.dateOfBirth | date : 'dd/MM/yyyy'}}</p>
+        </div>
       </div>
-      <div class="info-item">
-        <span class="info-label">Password:</span>
-        <a routerLink="/account/change-password">Change Password</a>
+
+      <!-- Account Info Column -->
+      <div class="detail-column">
+        <h2 class="column-title">Account Details</h2>
+        
+        <div class="detail-item">
+          <label>Password</label>
+          <a class="action-link" routerLink="/account/change-password">
+            Change Password
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="detail-item">
+          <label>Last Login</label>
+          <p class="detail-value">{{ user?.lastLoginDate | date : 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <div class="detail-item">
+          <label>Last Updated</label>
+          <p class="detail-value">{{ user?.lastModifiedDate | date : 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
       </div>
-      <div class="info-item">
-        <span class="info-label">Date of Birth:</span>
-        <span class="info-value">{{ user?.dateOfBirth | date : 'dd/MM/yyyy'}}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Gender:</span>
-        <span class="info-value">{{ user?.gender }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Phone:</span>
-        <span class="info-value">{{ user?.phone }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Address:</span>
-        <span class="info-value">{{ user?.address }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Last Edit Date:</span>
-        <span class="info-value">{{ user?.lastModifiedDate | date : 'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Last Login Date:</span>
-        <span class="info-value">{{ user?.lastLoginDate | date : 'dd/MM/yyyy HH:mm' }}</span>
+
+      <!-- Contact Info Column -->
+      <div class="detail-column">
+        <h2 class="column-title">Contact Information</h2>
+        
+        <div class="detail-item">
+          <label>Phone Number</label>
+          <p class="detail-value">{{ user?.phone || 'Not provided' }}</p>
+        </div>
+
+        <div class="detail-item">
+          <label>Address</label>
+          <p class="detail-value">{{ user?.address || 'Not provided' }}</p>
+        </div>
+
+        <div class="detail-item">
+          <label>Gender</label>
+          <p class="detail-value">{{ user?.gender || 'Not specified' }}</p>
+        </div>
       </div>
     </div>
   </div>

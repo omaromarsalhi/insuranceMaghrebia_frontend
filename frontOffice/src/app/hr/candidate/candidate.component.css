@@ -71,3 +71,16 @@
   border-radius: 8px;
   font-family: "Syne", sans-serif;
 }
+
+.error-message-alt {
+  background-color: #fff3f3; /* Light red background */
+  color: #ff4d4d; /* Bright red text */
+  padding: 10px 15px; /* Padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  border-left: 4px solid #ff4d4d; /* Red left border */
+  margin-bottom: 20px; /* Space below the error message */
+  font-size: 14px; /* Font size */
+  font-weight: 500; /* Medium font weight */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  animation: fadeIn 0.3s ease-in-out; /* Fade-in animation */
+}

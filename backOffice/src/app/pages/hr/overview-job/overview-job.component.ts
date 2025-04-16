@@ -109,4 +109,8 @@ export class OverviewJobComponent implements OnInit {
     );
   }
 
+  scrollModal(scrollDataModal: any,candidat : any) {
+    this.modalService.open(scrollDataModal, { scrollable: true });
+    this.candidat=candidat;
+  }
 }

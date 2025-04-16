@@ -19,7 +19,7 @@
                   <label>First Name</label>
                   <input type="text" formControlName="firstname" class="form_control"
                     placeholder="Enter your first name">
-                  <div *ngIf="candidateForm.get('firstname')?.invalid && submitted" class="text-danger">
+                  <div *ngIf="candidateForm.get('firstname')?.invalid && submitted" class="error-message-alt">
                     First name is required.
                   </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="form_group">
                   <label>Last Name</label>
                   <input type="text" formControlName="lastname" class="form_control" placeholder="Enter your last name">
-                  <div *ngIf="candidateForm.get('lastname')?.invalid && submitted" class="text-danger">
+                  <div *ngIf="candidateForm.get('lastname')?.invalid && submitted" class="error-message-alt">
                     Last name is required.
                   </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="form_group">
                   <label>Email Address (We will use this to contact you)</label>
                   <input type="email" formControlName="email" class="form_control" placeholder="Enter your email">
-                  <div *ngIf="candidateForm.get('email')?.invalid && submitted" class="text-danger">
+                  <div *ngIf="candidateForm.get('email')?.invalid && submitted" class="error-message-alt">
                     Please enter a valid email.
                   </div>
                 </div>
@@ -63,7 +63,7 @@
                   </ngx-file-drop>
 
                   <!-- Show error message below the drop zone -->
-                  <p *ngIf="coverLetterError" class="text-danger mt-2">{{ coverLetterError }}</p>
+                  <p *ngIf="coverLetterError" class="error-message-alt">{{ coverLetterError }}</p>
                 </div>
 
                 <div class="form_group">
@@ -86,7 +86,7 @@
                   </ngx-file-drop>
 
                   <!-- Show error message below the drop zone -->
-                  <p *ngIf="resumeError" class="text-danger mt-2">{{ resumeError }}</p>
+                  <p *ngIf="resumeError" class="error-message-alt">{{ resumeError }}</p>
                 </div>
 
                 <div *ngIf="successMessage" class="alert alert-success mt-4 p-3" role="alert">

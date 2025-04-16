@@ -10,4 +10,8 @@ export interface Candidate {
   appliedJobId?: string;
   applicationDate?: Date;
   status?: CandidateStatus;
+  score?: string;
+  strengths?: string[];
+  weaknesses?:string[];
+  recommendation?: string;
 }

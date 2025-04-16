@@ -2,6 +2,7 @@
   <!-- start page title -->
   <app-page-title title="Job Overview" [breadcrumbItems]="breadCrumbItems"></app-page-title>
   <!-- end page title -->
+
   <ng-template #content role="document" let-modal>
     <div class="modal-header">
       <h5 class="modal-title mt-0">Schedule Date</h5>
@@ -23,7 +24,8 @@
             <div class="mb-3">
               <label for="scheduledDate" class="form-label">Schedule Date Time</label>
               <div>
-                <input class="form-control" type="datetime-local" id="scheduledDate" formControlName="scheduledDate" [ngClass]="{ 'is-invalid': submitted && f.scheduledDate.errors }" >
+                <input class="form-control" type="datetime-local" id="scheduledDate" formControlName="scheduledDate"
+                  [ngClass]="{ 'is-invalid': submitted && f.scheduledDate.errors }">
                 <div *ngIf="submitted && f.scheduledDate.errors" class="invalid-feedback">
                   <div *ngIf="f.scheduledDate.errors.required">Schedule Date Time is required</div>
                   <div *ngIf="f.scheduledDate.errors.pastDate">
@@ -182,6 +184,7 @@
               INTERVIEW SCHEDULED</p>
             <p class="badge bg-danger font-size-12 m-1" *ngIf="candidate.status=='REJECTED'">{{candidate.status}}</p>
             <p class="badge bg-success font-size-12 m-1" *ngIf="candidate.status=='HIRED'">{{candidate.status}}</p>
+            <p class="badge bg-info font-size-12 m-1" *ngIf="candidate.status=='ACCEPTED'">{{candidate.status}}</p>
           </div>
           <div class="avatar-sm mx-auto mb-4">
             <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
@@ -226,19 +229,66 @@
         </div>
         <div class="card-footer bg-transparent">
           <div class="contact-links d-flex font-size-20">
-            <div class="flex-fill" *ngIf="candidate.status=='PENDING'">
-              <a href="javascript: void(0);" ngbTooltip="Schedule Interview"
-                (click)="openModal(content,candidate)"><i class="bx bx-calendar-check"></i></a>
+            <div class="flex-fill" *ngIf="candidate.status=='PENDING' || candidate.status=='ACCEPTED'">
+              <a href="javascript: void(0);" ngbTooltip="Schedule Interview" (click)="openModal(content,candidate)"><i
+                  class="bx bx-calendar-check"></i></a>
             </div>
-            <div class="flex-fill" *ngIf="candidate.status=='PENDING' || candidate.status=='INTERVIEW_SCHEDULED'">
-              <a href="javascript: void(0);" ngbTooltip="Reject"(click)="reject(candidate)"><i class="bx bx-x-circle"></i></a>
+            <div class="flex-fill" *ngIf="candidate.status=='ACCEPTED'">
+              <a href="javascript: void(0);" ngbTooltip="Show Analyse"
+                (click)="scrollModal(scrollDataModal,candidate)"><i class='bx bx-task'></i></a>
+            </div>
+            <div class="flex-fill"
+              *ngIf="candidate.status=='PENDING' || candidate.status=='INTERVIEW_SCHEDULED' || candidate.status=='ACCEPTED'">
+              <a href="javascript: void(0);" ngbTooltip="Reject" (click)="reject(candidate)"><i
+                  class="bx bx-x-circle"></i></a>
             </div>
             <div class="flex-fill" *ngIf="candidate.status=='INTERVIEW_SCHEDULED'">
-              <a href="javascript: void(0);" ngbTooltip="Hire" (click)="hire(candidate)"><i class="bx bx-user-check"></i></a>
+              <a href="javascript: void(0);" ngbTooltip="Hire" (click)="hire(candidate)"><i
+                  class="bx bx-user-check"></i></a>
             </div>
           </div>
         </div>
       </div>
+      <!-- Scrollable Modal -->
+      <ng-template #scrollDataModal let-analyse>
+        <div class="modal-header">
+          <h5 class="modal-title mt-0">{{candidate.lastname + ' ' +candidate.firstname}}'s Resume Analyse</h5>
+          <button type="button" class="btn-close" (click)="analyse.dismiss('Cross click')" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+              <h5 class="font-size-15">Score :</h5>
+            </li>
+            <li class="list-inline-item">
+              <p>{{candidate.score}}</p>
+            </li>
+          </ul>
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+              <h5 class="font-size-15">Recommendation :</h5>
+            </li>
+            <li class="list-inline-item">
+              <p>{{candidate.recommendation}}</p>
+            </li>
+          </ul>
+          <h5 class="font-size-15">His Strengths :</h5>
+          <p *ngFor="let strength of candidate.strengths"><i
+              class="mdi mdi-chevron-right text-primary me-1"></i>{{strength}}</p>
+          <h5 class="font-size-15">His Weaknesses :</h5>
+          <p *ngFor="let weaknesses of candidate.weaknesses"><i
+              class="mdi mdi-chevron-right text-primary me-1"></i>{{weaknesses}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="analyse.close('Close click')">Close</button>
+          <button type="button" class="btn btn-primary"
+            (click)="openModal(content, candidate); analyse.close('Close click')">Schedule
+            Interview</button>
+            <button type="button" class="btn btn-danger"
+            (click)="reject(candidate);analyse.close('Close click')">Reject</button>
+        </div>  
+      </ng-template>
     </div>
   </div>
   <!-- end row -->

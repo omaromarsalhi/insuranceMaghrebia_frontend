@@ -97,7 +97,6 @@ export class CandidateComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.candidateForm.get('coverLetter')?.value);
     if (!this.coverLetterName) {
       this.coverLetterError = 'Cover letter is required.';
     }
@@ -112,7 +111,6 @@ export class CandidateComponent implements OnInit {
         resume: this.candidateForm.get('resume')?.value, 
         coverLetter: this.candidateForm.get('coverLetter')?.value
       };
-      console.log(candidateRequest);
       this.candidateService.createCandidate(candidateRequest, this.id!).subscribe(response => {
         this.successMessage = 'Your application has been submitted successfully! We will contact you for interview scheduling.';
         setTimeout(() => {
