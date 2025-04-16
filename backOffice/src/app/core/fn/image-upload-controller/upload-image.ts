@@ -11,7 +11,11 @@ import { RequestBuilder } from '../../request-builder';
 
 export interface UploadImage$Params {
       body?: {
+<<<<<<< HEAD
 'file': Blob;
+=======
+'image': Blob;
+>>>>>>> payment_branch
 }
 }
 
@@ -22,7 +26,11 @@ export function uploadImage(http: HttpClient, rootUrl: string, params?: UploadIm
   }
 
   return http.request(
+<<<<<<< HEAD
     rb.build({ responseType: 'json', accept: 'application/json', context })
+=======
+    rb.build({ responseType: 'blob', accept: '*/*', context })
+>>>>>>> payment_branch
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {

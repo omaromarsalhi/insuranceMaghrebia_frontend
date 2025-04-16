@@ -1,0 +1,181 @@
+<app-preloader></app-preloader>
+
+<!--====== Start Breadcrumb Section ======-->
+<section class="page-banner overlay pt-170 pb-170 bg_cover"
+    style="background-image: url(../../../assets/images/bg/page-bg.jpg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="page-banner-content text-center text-white">
+                    <h1 class="page-title">Insurance Services</h1>
+                    <ul class="breadcrumb-link text-white">
+                        <li><a routerLink="/home">Home</a></li>
+                        <li class="active">Services</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====== Start Payment Form Section ======-->
+<section class="contact-form-section gray-bg pt-100 pb-100" aria-label="Payment Form Section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-7 order-2 order-xl-1">
+                <div class="payment-form">
+                    <div class="section-title mb-40">
+                        <h3>Card Details</h3>
+                    </div>
+                    <form [formGroup]="paymentForm" (submit)="handlePayment(); $event.preventDefault();">
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input id="name" formControlName="name" type="text" placeholder="John Doe" />
+                            </div>
+                            <div *ngIf="paymentForm.get('name')?.invalid && paymentForm.get('name')?.touched"
+                                class="validation-error">
+                                Full Name is required.
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label for="line1" class="form-label">Address</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input id="line1" formControlName="line1" type="text" placeholder="123 Street" />
+                            </div>
+                            <div *ngIf="paymentForm.get('line1')?.invalid && paymentForm.get('line1')?.touched"
+                                class="validation-error">
+                                Address is required.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city" class="form-label">City</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-city"></i>
+                                <input id="city" formControlName="city" type="text" placeholder="New York" />
+                            </div>
+                            <div *ngIf="paymentForm.get('city')?.invalid && paymentForm.get('city')?.touched"
+                                class="validation-error">
+                                City is required.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postal_code" class="form-label">Postal Code</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input id="postal_code" formControlName="postal_code" type="text" placeholder="10001" />
+                            </div>
+                            <div *ngIf="paymentForm.get('postal_code')?.invalid && paymentForm.get('postal_code')?.touched"
+                                class="validation-error">
+                                Postal Code is required.
+                            </div>
+                        </div>
+
+                        <label class="form-label">Card Details</label>
+                        <div id="card-element"></div>
+
+
+                        <div class="signature-section mt-4" [class.expanded]="signatureVisible">
+
+                            <div class="signature-header" (click)="toggleSignaturePad()">
+                                <label for="postal_code" class="form-label">Authorization Signature</label>
+                                <i class="fa" [class.fa-chevron-down]="!signatureVisible"
+                                    [class.fa-chevron-up]="signatureVisible"></i>
+                            </div>
+
+                            <div class="signature-content" [class.show]="signatureVisible">
+                                <div class="signature-pad-container">
+                                    <canvas #signatureCanvas class="signature-canvas"></canvas>
+                                </div>
+                                <div *ngIf="signatureVerificationMessage" class="alert"
+                                    [class.alert-success]="hasValidSignature"
+                                    [class.alert-danger]="!hasValidSignature && signatureVerificationMessage">
+                                    <div *ngIf="isVerifyingSignature" class="spinner-border spinner-border-sm"
+                                        role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    {{signatureVerificationMessage}}
+                                </div>
+                                <div class="signature-controls mt-2 d-flex justify-content-between align-items-center">
+                                    <button type="button"
+                                        class="btn btn-outline-secondary btn-xs signature-btn clear-btn"
+                                        (click)="clearSignature()">
+                                        <i class="fa fa-eraser me-1"></i> Clear
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-success btn-xs signature-btn confirm-btn"
+                                        (click)="confirmSignature()">
+                                        <i class="fa fa-check-circle me-1"></i> Confirm
+                                    </button> -->
+                                    <button type="button" class="btn btn-success btn-xs signature-btn confirm-btn"
+                                        (click)="confirmSignature()" [disabled]="isVerifyingSignature">
+                                        <i class="fa fa-check-circle me-1"></i>
+                                        {{isVerifyingSignature ? 'Verifying...' : 'Confirm'}}
+                                    </button>
+                                </div>
+                                <div class="signature-instruction text-center mt-2">
+                                    <i class="fas fa-pen-alt me-2"></i>
+                                    <small class="text-muted" *ngIf="!isSigned">
+                                        {{isSigned ? '' : 'Please sign above to authorize payment'}}</small>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- <div class="signature-section mt-4">
+                            <h4 class="mb-3">Authorization Signature</h4>
+                            <div class="signature-pad-container">
+                                <canvas #signatureCanvas class="signature-canvas"></canvas>
+                                <div class="signature-controls mt-2">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        (click)="clearSignature()">
+                                        <i class="fas fa-eraser"></i> Clear
+                                    </button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Please sign above to authorize payment</small>
+                        </div> -->
+
+
+                        <div *ngIf="isProcessing" class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-lg-12 text-center mt-3">
+                            <!-- <button class="main-btn primary-btn" type="submit"
+                                [disabled]="isProcessing || paymentForm.invalid">
+                                <span *ngIf="!isProcessing">Pay</span>
+                                <span *ngIf="isProcessing">
+                                    <div class="spinner-button"></div>
+                                    Processing...
+                                </span>
+                            </button> -->
+                            <button class="main-btn primary-btn" type="submit"
+                                [disabled]="isProcessing || paymentForm.invalid || !hasValidSignature">
+                                <span *ngIf="!isProcessing">Pay</span>
+                                <span *ngIf="isProcessing">
+                                    <div class="spinner-button"></div>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Contact Image -->
+            <div class="col-xl-5 order-1 order-xl-2">
+                <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
+                    <img src="assets/images/gallery/contact-1.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== End Payment Form Section ======-->

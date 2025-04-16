@@ -20,8 +20,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
+<<<<<<< HEAD
 import { InsuranceModule } from './insurance/insurance.module';
 
+=======
+import { OfferDetailsComponent } from './insurance/particular/offer-details/offer-details.component';
+import { InsuranceModule } from './insurance/insurance.module';
+import { PaymentModule } from './payment/payment.module';
+import { PagetitleComponent } from './pagetitle/pagetitle.component';
+>>>>>>> payment_branch
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -36,12 +43,20 @@ export function createTranslateLoader(http: HttpClient): any {
 
 @NgModule({
   declarations: [
+<<<<<<< HEAD
     AppComponent
+=======
+    AppComponent,
+    OfferDetailsComponent,
+    PagetitleComponent,
+
+>>>>>>> payment_branch
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    PaymentModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

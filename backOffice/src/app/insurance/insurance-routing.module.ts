@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CategoryComponent } from "./category_componenets/category/category.component";
@@ -18,10 +19,24 @@ const routes: Routes = [
   { path: "edit-offer", component: EditOfferComponent },
   { path: "appointments", component: AppointmentManagerComponent },
   { path: "chat", component: ChatComponent },
+=======
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: 'particular', loadChildren: () => import('./particular/particular.module').then(m => m.ParticularModule) },
+
+>>>>>>> payment_branch
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
+<<<<<<< HEAD
   exports: [RouterModule],
 })
 export class InsuranceRoutingModule {}
+=======
+  exports: [RouterModule]
+})
+export class InsuranceRoutingModule { }
+>>>>>>> payment_branch

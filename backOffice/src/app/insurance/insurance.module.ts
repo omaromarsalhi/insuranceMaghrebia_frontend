@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -69,3 +70,21 @@ import { AppointmentManagerComponent } from './appointments/appointment-manager/
   ],
 })
 export class InsuranceModule {}
+=======
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { InsuranceRoutingModule } from './insurance-routing.module';
+
+
+@NgModule({
+  declarations: [
+
+  ],
+  imports: [
+    CommonModule,
+    InsuranceRoutingModule
+  ]
+})
+export class InsuranceModule { }
+>>>>>>> payment_branch

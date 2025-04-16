@@ -8,6 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+<<<<<<< HEAD
 import { CategoryResponse } from '../../models/offer/category-response';
 import { OfferCategory } from '../../models/offer/offer-category';
 
@@ -18,17 +19,42 @@ export interface UpdateOfferCategory$Params {
 export function updateOfferCategory(http: HttpClient, rootUrl: string, params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
   const rb = new RequestBuilder(rootUrl, updateOfferCategory.PATH, 'put');
   if (params) {
+=======
+import { OfferCategory } from '../../models/offer-category';
+
+export interface UpdateOfferCategory$Params {
+  id: string;
+      body: OfferCategory
+}
+
+export function updateOfferCategory(http: HttpClient, rootUrl: string, params: UpdateOfferCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferCategory>> {
+  const rb = new RequestBuilder(rootUrl, updateOfferCategory.PATH, 'put');
+  if (params) {
+    rb.path('id', params.id, {});
+>>>>>>> payment_branch
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
+<<<<<<< HEAD
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<CategoryResponse>;
+=======
+    rb.build({ responseType: 'blob', accept: '*/*', context })
+  ).pipe(
+    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+    map((r: HttpResponse<any>) => {
+      return r as StrictHttpResponse<OfferCategory>;
+>>>>>>> payment_branch
     })
   );
 }
 
+<<<<<<< HEAD
 updateOfferCategory.PATH = '/api/v1/offer-categories/update';
+=======
+updateOfferCategory.PATH = '/api/v1/offer-categories/update/{id}';
+>>>>>>> payment_branch

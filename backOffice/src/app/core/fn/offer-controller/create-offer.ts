@@ -8,6 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+<<<<<<< HEAD
 import { OfferRequest } from '../../models/offer/offer-request';
 import { OfferResponse } from '../../models/offer/offer-response';
 
@@ -16,17 +17,34 @@ export interface CreateOffer$Params {
 }
 
 export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
+=======
+import { Offer } from '../../models/offer';
+
+export interface CreateOffer$Params {
+      body: Offer
+}
+
+export function createOffer(http: HttpClient, rootUrl: string, params: CreateOffer$Params, context?: HttpContext): Observable<StrictHttpResponse<Offer>> {
+>>>>>>> payment_branch
   const rb = new RequestBuilder(rootUrl, createOffer.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
+<<<<<<< HEAD
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<OfferResponse>;
+=======
+    rb.build({ responseType: 'blob', accept: '*/*', context })
+  ).pipe(
+    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+    map((r: HttpResponse<any>) => {
+      return r as StrictHttpResponse<Offer>;
+>>>>>>> payment_branch
     })
   );
 }

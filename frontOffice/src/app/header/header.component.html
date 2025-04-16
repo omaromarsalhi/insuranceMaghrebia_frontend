@@ -38,7 +38,12 @@
 
 
 <!--=== Header Navigation ===-->
+<<<<<<< HEAD
 <header class=" header-placeholder header-area header-one">
+=======
+<header class="header-area header-one">
+
+>>>>>>> payment_branch
     <!--====== Header Navigation ======-->
     <div class="header-navigation gray-bg">
         <div class="nav-overlay"></div>
@@ -47,7 +52,11 @@
                 <!--====== Site Branding ======-->
                 <div class="site-branding">
                     <a href="index.html" class="brand-logo">
+<<<<<<< HEAD
                         <img src="assets/images/logo/logo.png" alt="Logo" />
+=======
+                        <img src="assets/images/logo/logo.png" alt="Logo">
+>>>>>>> payment_branch
                     </a>
                 </div>
                 <!--====== Nav Menu ======-->
@@ -55,7 +64,11 @@
                     <!--====== Site Branding ======-->
                     <div class="mobile-logo mb-30 d-block d-xl-none">
                         <a href="index.html" class="brand-logo">
+<<<<<<< HEAD
                             <img src="assets/images/logo/logo-black.png" alt="Site Logo" />
+=======
+                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+>>>>>>> payment_branch
                         </a>
                     </div>
                     <!--=== Nav Search ===-->
@@ -63,7 +76,11 @@
                         <form>
                             <div class="form_group">
                                 <input type="email" class="form_control" placeholder="Search Here" name="email"
+<<<<<<< HEAD
                                     required />
+=======
+                                    required>
+>>>>>>> payment_branch
                                 <button class="search-btn">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -168,7 +185,7 @@
                                     <li><a href="job-details.html">Career Details</a></li>
                                     <li><a href="team.html">Our Team</a></li>
                                     <li><a href="team-details.html">Team Details</a></li>
-                                    <li><a href="faq.html">Faq</a></li>
+                                    <li><a routerLink="/payment">Payment</a></li>
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </li>
@@ -183,6 +200,7 @@
                     </div>
                 </div>
                 <!--====== Nav Right Item ======-->
+
                 <div class="nav-right-item">
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
                         <i class="fas fa-search"></i>
@@ -194,8 +212,81 @@
                             Get Quote
                         </a>
                     </div>
+<<<<<<< HEAD
+=======
+                    <!-- <div class="bar-item">
+                        <img src="assets/images/bar.png" alt="dot">
+                    </div> -->
+                    <div class="wallet-menu menu-item has-children" [class.active]="isWalletDropdownOpen">
+                        <a href="javascript:void(0)" class="wallet-toggle" (click)="toggleWalletDropdown()">
+                            <i class="fas fa-wallet"></i>
+                            <span class="dd-trigger mobile-only"></span>
+
+                        </a>
+
+                        <div class="sub-menu wallet-dropdown">
+                            <div class="wallet-header">
+                                <h4>Your Wallet</h4>
+                                <span class="wallet-status" [class.active]="userHasWallet">
+                                    {{userHasWallet ? 'Connected' : 'Not Setup'}}
+                                </span>
+                            </div>
+
+                            <div *ngIf="userHasWallet" class="wallet-content">
+                                <div class="wallet-amount">
+                                    <span>Balance</span>
+                                    <span class="amount">${{walletBalance | number:'1.2-2'}}</span>
+                                </div>
+
+                                <!-- <div class="wallet-actions">
+                                    <button class="wallet-action-btn">
+                                        <i class="fas fa-plus-circle"></i> Add Funds
+                                    </button>
+                                    <button class="wallet-action-btn">
+                                        <i class="fas fa-exchange-alt"></i> Withdraw
+                                    </button>
+                                </div> -->
+                                <div class="wallet-transactions">
+                                    <h5>Recent Activity</h5>
+                                    <div class="transaction-item">
+                                        <i class="fas fa-coins"></i>
+                                        <span>Premium Payment</span>
+                                        <span class="amount">-${{premiumPayment}}</span>
+                                    </div>
+                                    <div class="transaction-item">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                        <span>Claim Refund</span>
+                                        <span class="amount positive">+${{claimRefund}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!userHasWallet" class="wallet-setup">
+                                <p>Setup your wallet to make payments faster</p>
+                                <p>Gain 5% on every payment</p>
+
+                                <button class="setup-btn" (click)="setupWallet()">
+                                    Setup Wallet
+                                </button>
+                            </div>
+
+                            <div class="wallet-footer">
+                                <a href="/wallet/transactions">Transaction History</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-toggler">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+>>>>>>> payment_branch
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> payment_branch
 </header>
