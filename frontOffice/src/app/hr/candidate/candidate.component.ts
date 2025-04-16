@@ -21,6 +21,7 @@ export class CandidateComponent implements OnInit {
   submitted = false;
   successMessage: string | null = null;
   errorMessage : string | null = null;
+  loading = false;
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private candidateService: CandidateService) { }
 
   ngOnInit(): void {
@@ -113,8 +114,10 @@ export class CandidateComponent implements OnInit {
         coverLetter: this.candidateForm.get('coverLetter')?.value
       };
       this.errorMessage='';
+      this.loading=true;
       this.candidateService.createCandidate(candidateRequest, this.id!).subscribe({
         next: (response) => {
+          this.loading=false;
           this.successMessage = 'Your application has been submitted successfully! We will contact you for interview scheduling.';
           setTimeout(() => {
             this.successMessage = null;
@@ -127,6 +130,7 @@ export class CandidateComponent implements OnInit {
         error: (error) => {
           if(error.status==413)
           {
+            this.loading=false;
             this.errorMessage="One of your files is too large . Please check them out";
           }
         }
