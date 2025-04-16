@@ -17,25 +17,29 @@ import { PurchasedOfferControllerService } from 'src/app/core/services/offer/pur
 @Component({
   selector: 'app-purshased-offer',
   templateUrl: './purshased-offer.component.html',
-  styleUrls: ['../../form.css','./purshased-offer.component.css', '../../nice-select.css'],
+  styleUrls: [
+    '../../form.css',
+    './purshased-offer.component.css',
+    '../../nice-select.css',
+  ],
   animations: [
     trigger('fadeInOut', [
-        transition(':enter', [
-            style({ opacity: 0 }),
-            animate('150ms ease-out', style({ opacity: 1 }))
-        ]),
-        transition(':leave', [
-            animate('100ms ease-in', style({ opacity: 0 }))
-        ])
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('150ms ease-out', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('100ms ease-in', style({ opacity: 0 }))]),
     ]),
     trigger('slideIn', [
-        transition(':enter', [
-            style({ transform: 'translateY(-20px)', opacity: 0 }),
-            animate('200ms 100ms ease-out', 
-                style({ transform: 'translateY(0)', opacity: 1 }))
-        ])
-    ])
-]
+      transition(':enter', [
+        style({ transform: 'translateY(-20px)', opacity: 0 }),
+        animate(
+          '200ms 100ms ease-out',
+          style({ transform: 'translateY(0)', opacity: 1 })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class PurshasedOfferComponent implements OnInit {
   formId!: string;
@@ -102,29 +106,26 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   onSubmit() {
-    this.showPopup=true;
+    this.showPopup = true;
     this.isLoading = true;
-    // if (this.insuranceForm.valid) {
-    // const list = this.insuranceForm.value; // Assuming it's a JSON object
+    if (this.insuranceForm.valid) {
+      const list = this.insuranceForm.value; // Assuming it's a JSON object
 
-    // Object.entries(list).forEach(([key, value], index) => {
-    //   this.data2Save.data!.push({
-    //     fieldLabel: this.formFields[index].label,
-    //     fieldType: this.formFields[index].type,
-    //     fieldValue: value,
-    //   });
-    // });
-    // this.data2Save.formId = this.formId;
-    // console.log(this.saveForData);
-    // this.saveForData();
-
-    // return;
-    // }
-    // this.isLoading = false;
-    setTimeout(()=>{
+      Object.entries(list).forEach(([key, value], index) => {
+        this.data2Save.data!.push({
+          fieldLabel: this.formFields[index].label,
+          fieldType: this.formFields[index].type,
+          fieldValue: value,
+        });
+      });
+      this.data2Save.formId = this.formId;
+      console.log(this.saveForData);
+      this.saveForData();
+    }
+    setTimeout(() => {
       this.isLoading = false;
-      this.cleanForm();
-    },1000)
+      // this.cleanForm();
+    }, 1000);
     this.notValid = true;
   }
 
@@ -143,7 +144,7 @@ export class PurshasedOfferComponent implements OnInit {
     });
   }
 
-  cleanForm(){
+  cleanForm() {
     this.insuranceForm.reset();
   }
 

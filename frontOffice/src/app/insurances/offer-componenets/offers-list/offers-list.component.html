@@ -33,43 +33,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-12">
                 <div class="filter-button mb-60" [@fadeInDown]>
-                    <ul  class="filter-btn gap-2">
+                    <ul class="filter-btn gap-2">
                         <li [class.active]="activeFilter === '*'" (click)="setFilter('*')">
                             Show All
                         </li>
-                        <li *ngFor="let tag of tagsList "  [class.active]="activeFilter === tag" (click)="setFilter(tag)">
+                        <li *ngFor="let tag of tagsList " [class.active]="activeFilter === tag"
+                            (click)="setFilter(tag)">
                             {{ tag | titlecase }}
                         </li>
-                        <!-- <li [class.active]="activeFilter === 'item1'" (click)="setFilter('item1')">
-                            House
-                        </li>
-                        <li [class.active]="activeFilter === 'item2'" (click)="setFilter('item2')">
-                            Business
-                        </li>
-                        <li [class.active]="activeFilter === 'item3'" (click)="setFilter('item3')">
-                            Car
-                        </li>
-                        <li [class.active]="activeFilter === 'item4'" (click)="setFilter('item4')">
-                            Health
-                        </li>
-                        <li [class.active]="activeFilter === 'item5'" (click)="setFilter('item5')">
-                            Travel
-                        </li>
-                        <li [class.active]="activeFilter === 'item6'" (click)="setFilter('item6')">
-                            Agri
-                        </li> -->
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row portfolio-active justify-content-center">
-            <div class="col-xl-5" 
-                 *ngFor="let item of filteredItems" 
-                 [class]="item.classes"
-                 >
-                <div class="single-portfolio-item-two mb-30" [@dynamicAnimation]="item.animation" >
+            <div class="col-6" *ngFor="let item of filteredItems" [class]="item.classes">
+                <div class="single-portfolio-item-two mb-30" [@dynamicAnimation]="item.animation">
                     <div class="img-holder">
                         <img [src]="item.imageUri" [alt]="item.name">
                     </div>
@@ -81,7 +61,7 @@
                         </a>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </section>

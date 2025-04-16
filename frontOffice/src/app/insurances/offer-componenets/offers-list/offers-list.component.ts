@@ -18,547 +18,75 @@ import { OfferControllerService } from 'src/app/core/services/offer/offer-contro
   templateUrl: './offers-list.component.html',
   styleUrls: ['./offers-list.component.css'],
   animations: [
-    // trigger('fadeInUp', [
-    //   transition(':enter', [
-    //     style({ opacity: 0, transform: 'translateY(20px)' }),
-    //     animate(
-    //       '.8s ease-out',
-    //       style({ opacity: 1, transform: 'translateY(0)' })
-    //     ),
-    //   ]),
-    // ]),
-    // trigger('fadeInDown', [
-    //   transition(':enter', [
-    //     style({ opacity: 0, transform: 'translateY(-20px)' }),
-    //     animate(
-    //       '.8s ease-out',
-    //       style({ opacity: 1, transform: 'translateY(0)' })
-    //     ),
-    //   ]),
-    // ]),
-    // // trigger('dynamicAnimation', [
-    // //   state(
-    // //     'zoom',
-    // //     style({
-    // //       transform: 'scale(1)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'slide',
-    // //     style({
-    // //       transform: 'translateX(0)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'rotate',
-    // //     style({
-    // //       transform: 'rotate(0)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'hover',
-    // //     style({
-    // //       transform: 'translateY(-7px) scale(1.02)',
-    // //       boxShadow: '0 15px 30px rgba(0,0,0,0.25)',
-    // //     })
-    // //   ),
-
-    // //   // ENTER TRANSITIONS using keyframes for a smoother effect
-
-    // //   transition('void => zoom', [
-    // //     animate(
-    // //       '600ms ease-out',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'scale(0.8) translateY(40px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(1.1) translateY(-10px)',
-    // //           opacity: 0.7,
-    // //           boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
-    // //           offset: 0.7,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(1) translateY(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('void => slide', [
-    // //     animate(
-    // //       '650ms ease-out',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'translateX(-150px) translateY(30px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateX(20px) translateY(0)',
-    // //           opacity: 0.8,
-    // //           boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
-    // //           offset: 0.8,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateX(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('void => rotate', [
-    // //     animate(
-    // //       '700ms ease-out',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'rotate(-20deg) translateY(40px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'rotate(5deg) translateY(0)',
-    // //           opacity: 0.8,
-    // //           boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
-    // //           offset: 0.8,
-    // //         }),
-    // //         style({
-    // //           transform: 'rotate(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   // HOVER TRANSITIONS remain similar but with a snappier feel
-
-    // //   transition('* => hover', [
-    // //     animate(
-    // //       '200ms ease-in-out',
-    // //       style({
-    // //         transform: 'translateY(-7px) scale(1.02)',
-    // //         boxShadow: '0 15px 30px rgba(0,0,0,0.25)',
-    // //       })
-    // //     ),
-    // //   ]),
-    // //   transition('hover => *', [
-    // //     animate(
-    // //       '150ms ease-in-out',
-    // //       style({
-    // //         transform: 'translateY(0) scale(1)',
-    // //         boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //       })
-    // //     ),
-    // //   ]),
-
-    // //   // EXIT TRANSITIONS using keyframes for a gradual exit
-
-    // //   transition('zoom => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'scale(1) translateY(0)',
-    // //           opacity: 1,
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(0.9) translateY(20px)',
-    // //           opacity: 0.5,
-    // //           offset: 0.5,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(0.8) translateY(40px)',
-    // //           opacity: 0,
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('slide => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({ transform: 'translateX(0)', opacity: 1, offset: 0 }),
-    // //         style({ transform: 'translateX(30px)', opacity: 0.5, offset: 0.5 }),
-    // //         style({ transform: 'translateX(50px)', opacity: 0, offset: 1 }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('rotate => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({ transform: 'rotate(0)', opacity: 1, offset: 0 }),
-    // //         style({ transform: 'rotate(5deg)', opacity: 0.5, offset: 0.5 }),
-    // //         style({ transform: 'rotate(10deg)', opacity: 0, offset: 1 }),
-    // //       ])
-    // //     ),
-    // //   ]),
-    // // ]),
-    // // trigger('dynamicAnimation', [
-    // //   state(
-    // //     'zoom',
-    // //     style({
-    // //       transform: 'scale(1)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'slide',
-    // //     style({
-    // //       transform: 'translateX(0)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'fade',
-    // //     style({
-    // //       opacity: 1,
-    // //       filter: 'blur(0)',
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'bounce',
-    // //     style({
-    // //       transform: 'translateY(0)',
-    // //       opacity: 1,
-    // //       boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //     })
-    // //   ),
-    // //   state(
-    // //     'hover',
-    // //     style({
-    // //       transform: 'translateY(-7px) scale(1.02)',
-    // //       boxShadow: '0 15px 30px rgba(0,0,0,0.25)',
-    // //     })
-    // //   ),
-
-    // //   // ENTER TRANSITIONS
-    // //   transition('void => zoom', [
-    // //     animate(
-    // //       '600ms cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'scale(0.5) translateY(60px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(1.2) translateY(-15px)',
-    // //           opacity: 0.8,
-    // //           boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-    // //           offset: 0.7,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(0.95) translateY(5px)',
-    // //           offset: 0.85,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(1) translateY(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('void => slide', [
-    // //     animate(
-    // //       '650ms cubic-bezier(0.23, 1, 0.32, 1)',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'translateX(-200px) translateY(40px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateX(30px) translateY(-10px)',
-    // //           opacity: 0.8,
-    // //           boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-    // //           offset: 0.7,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateX(-10px) translateY(0)',
-    // //           offset: 0.85,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateX(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('void => fade', [
-    // //     animate(
-    // //       '500ms ease-out',
-    // //       keyframes([
-    // //         style({
-    // //           opacity: 0,
-    // //           filter: 'blur(10px)',
-    // //           transform: 'scale(0.95)',
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           opacity: 0.6,
-    // //           filter: 'blur(5px)',
-    // //           transform: 'scale(1)',
-    // //           offset: 0.6,
-    // //         }),
-    // //         style({
-    // //           opacity: 1,
-    // //           filter: 'blur(0)',
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('void => bounce', [
-    // //     animate(
-    // //       '700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'translateY(-100px)',
-    // //           opacity: 0,
-    // //           boxShadow: '0 0 0 rgba(0,0,0,0)',
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateY(30px)',
-    // //           opacity: 0.8,
-    // //           boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-    // //           offset: 0.6,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateY(-15px)',
-    // //           offset: 0.8,
-    // //         }),
-    // //         style({
-    // //           transform: 'translateY(0)',
-    // //           opacity: 1,
-    // //           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   // HOVER TRANSITIONS
-    // //   transition('* => hover', [
-    // //     animate(
-    // //       '200ms cubic-bezier(0.4, 0, 0.2, 1)',
-    // //       style({
-    // //         transform: 'translateY(-7px) scale(1.02)',
-    // //         boxShadow: '0 15px 30px rgba(0,0,0,0.25)',
-    // //       })
-    // //     ),
-    // //   ]),
-    // //   transition('hover => *', [
-    // //     animate(
-    // //       '150ms cubic-bezier(0.4, 0, 0.2, 1)',
-    // //       style({
-    // //         transform: 'translateY(0) scale(1)',
-    // //         boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-    // //       })
-    // //     ),
-    // //   ]),
-
-    // //   // EXIT TRANSITIONS
-    // //   transition('zoom => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({
-    // //           transform: 'scale(1)',
-    // //           opacity: 1,
-    // //           offset: 0,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(0.8) translateY(30px)',
-    // //           opacity: 0.3,
-    // //           offset: 0.7,
-    // //         }),
-    // //         style({
-    // //           transform: 'scale(0.5) translateY(60px)',
-    // //           opacity: 0,
-    // //           offset: 1,
-    // //         }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('slide => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({ transform: 'translateX(0)', opacity: 1, offset: 0 }),
-    // //         style({ transform: 'translateX(50px)', opacity: 0.5, offset: 0.5 }),
-    // //         style({ transform: 'translateX(100px)', opacity: 0, offset: 1 }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('fade => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({ opacity: 1, filter: 'blur(0)', offset: 0 }),
-    // //         style({ opacity: 0.5, filter: 'blur(5px)', offset: 0.5 }),
-    // //         style({ opacity: 0, filter: 'blur(10px)', offset: 1 }),
-    // //       ])
-    // //     ),
-    // //   ]),
-
-    // //   transition('bounce => void', [
-    // //     animate(
-    // //       '300ms ease-in',
-    // //       keyframes([
-    // //         style({ transform: 'translateY(0)', opacity: 1, offset: 0 }),
-    // //         style({
-    // //           transform: 'translateY(-30px)',
-    // //           opacity: 0.7,
-    // //           offset: 0.3,
-    // //         }),
-    // //         style({ transform: 'translateY(100px)', opacity: 0, offset: 1 }),
-    // //       ])
-    // //     ),
-    // //   ]),
-    // // ]),
     trigger('dynamicAnimation', [
       // STATES
-      state(
-        'zoom',
-        style({
-          transform: 'scale(1)',
-          opacity: 1,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        })
-      ),
-      state(
-        'slideLeft',
-        style({
-          transform: 'translateX(0)',
-          opacity: 1,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        })
-      ),
-      state(
-        'slideRight',
-        style({
-          transform: 'translateX(0)',
-          opacity: 1,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        })
-      ),
-      state(
-        'float',
-        style({
-          transform: 'translateY(0)',
-          opacity: 1,
-          boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-        })
-      ),
-      state(
-        'hover',
-        style({
-          transform: 'translateY(-5px)',
-          boxShadow: '0 8px 28px rgba(0,0,0,0.16)',
-        })
-      ),
-
+      state('zoom', style({
+        transform: 'scale(1)',
+        opacity: 1,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      })),
+    
+      state('slideLeft', style({
+        transform: 'translateX(0)',
+        opacity: 1,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      })),
+    
+      state('slideRight', style({
+        transform: 'translateX(0)',
+        opacity: 1,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      })),
+    
+      state('float', style({
+        transform: 'translateY(0)',
+        opacity: 1,
+        boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+      })),
+    
+      state('hover', style({
+        transform: 'translateY(-5px)',
+        boxShadow: '0 8px 28px rgba(0,0,0,0.16)',
+      })),
+    
       // ENTER TRANSITIONS
       transition('void => zoom', [
-        style({ transform: 'scale(0.95)', opacity: 0 }),
-        animate('800ms ease-out', style({ transform: 'scale(1)', opacity: 1 })),
+        style({ transform: 'scale(0.9)', opacity: 0 }),
+        animate('500ms ease-out')
       ]),
-
-      // Slide from LEFT
+    
       transition('void => slideLeft', [
-        style({ transform: 'translateX(-30px)', opacity: 0 }),
-        animate(
-          '800ms ease-out',
-          style({ transform: 'translateX(0)', opacity: 1 })
-        ),
+        style({ transform: 'translateX(-40px)', opacity: 0 }),
+        animate('500ms ease-out')
       ]),
-
-      // Slide from RIGHT (NEW)
+    
       transition('void => slideRight', [
-        style({ transform: 'translateX(30px)', opacity: 0 }),
-        animate(
-          '800ms ease-out',
-          style({ transform: 'translateX(0)', opacity: 1 })
-        ),
+        style({ transform: 'translateX(40px)', opacity: 0 }),
+        animate('500ms ease-out')
       ]),
-
+    
       transition('void => float', [
         style({ transform: 'translateY(20px)', opacity: 0 }),
-        animate(
-          '900ms ease-out',
-          style({ transform: 'translateY(0)', opacity: 1 })
-        ),
+        animate('600ms ease-out')
       ]),
-
-      // HOVER TRANSITION
+    
+      // HOVER transitions
       transition('* => hover', [
-        animate(
-          '300ms ease-out',
-          style({
-            transform: 'translateY(-5px)',
-            boxShadow: '0 8px 28px rgba(0,0,0,0.16)',
-          })
-        ),
+        animate('300ms ease-in')
       ]),
       transition('hover => *', [
-        animate(
-          '400ms ease-out',
-          style({
-            transform: 'translateY(0)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-          })
-        ),
+        animate('300ms ease-out')
       ]),
-
-      // EXIT TRANSITIONS
+    
+      // EXIT transitions
       transition('* => void', [
-        animate(
-          '600ms ease-out',
-          style({ opacity: 0, transform: 'scale(0.95)' })
-        ),
-      ]),
-    ]),
+        animate('400ms ease-in', style({
+          opacity: 0,
+          transform: 'scale(0.9)'
+        }))
+      ])
+    ])
+    
   ],
 })
 export class OffersListComponent implements OnInit {

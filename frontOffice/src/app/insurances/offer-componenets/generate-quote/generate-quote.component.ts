@@ -16,8 +16,8 @@ import { QuoteResponse } from 'src/app/core/models/offer/quote-response';
 import { StorageService } from 'src/app/core/services/offer/storage.service';
 import { HealthInsuranceRequest } from 'src/app/core/models/offer/health-insurance-request';
 import { HealthQuoteControllerService } from 'src/app/core/services/offer/health-quote-controller.service';
-import { WebSocketService } from '../../test/websocket.service';
 import { Subscription } from 'rxjs';
+import { WebSocketService } from 'src/app/core/services/offer/websocket.service';
 
 interface ChatMessage {
   type: string;
@@ -773,14 +773,22 @@ export class GenerateQuoteComponent implements OnInit {
     private storageService: StorageService,
     private wsService: WebSocketService
   ) {
-    if (!(this.isAppointmentActive || this.isResponseReady)){
-      this.wsService.connect()
+    if (!(this.isAppointmentActive || this.isResponseReady)) {
+      this.wsService.connect();
       this.messageSubscription = this.wsService.messages$.subscribe(
         (msg: ChatMessage) => {
           console.log(msg);
-          if (msg.type === 'ai') this.aiInsights.push(msg.content as AiInsight);
+          if (msg.type === 'ai') {
+            const content = msg.content;
+            if (Array.isArray(content)) {
+              this.aiInsights.push(content[0] as AiInsight);
+            } else {
+              this.aiInsights.push(content as AiInsight);
+            }
+          }
         }
-      );}
+      );
+    }
   }
 
   ngOnInit() {}
