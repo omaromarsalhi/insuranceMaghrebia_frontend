@@ -7,8 +7,7 @@ import {
 } from "@angular/core";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AppointmentControllerService } from "src/app/core/services/appointment-controller.service";
-import { AppointmentDto } from "src/app/core/models/appointment-dto";
+import { AppointmentDto } from "src/app/core/models";
 
 @Component({
   selector: "app-appointment",
