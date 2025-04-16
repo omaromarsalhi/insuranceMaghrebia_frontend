@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/my-upload-image';
-import { MyImageUploadControllerService } from '../../../core/services/my-image-upload-controller.service';
+import { MyImageUploadControllerService } from '../../../core/services/offer/my-image-upload-controller.service';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class ImageUploaderComponent implements OnInit {
   uploadImage(): Promise<string> {
     return new Promise((resolve, reject) => {
       if (!this.selectedFile) {
-        reject("No file selected");
+        resolve("No file selected");
         return;
       }
       

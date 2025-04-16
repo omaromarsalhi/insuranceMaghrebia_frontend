@@ -19,7 +19,7 @@ import {
   animate,
   transition,
 } from "@angular/animations";
-import { ChatService } from "src/app/core/services/chat.service";
+import { ChatService } from "src/app/core/services/offer/chat.service";
 
 
 @Component({

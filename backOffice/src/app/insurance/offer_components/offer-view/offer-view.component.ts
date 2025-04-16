@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 
  
-import { OfferCategoryControllerService } from "src/app/core/services/offer-category-controller.service";
-import { CategoryResponse } from "src/app/core/models/category-response";
+import { OfferCategoryControllerService } from "src/app/core/services/offer/offer-category-controller.service";
+import { CategoryResponse } from "src/app/core/models/offer/category-response";
 import {
   trigger,
   transition,
@@ -13,8 +13,8 @@ import {
 } from "@angular/animations";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { OfferResponse } from '../../../core/models/offer-response';
-import { OfferControllerService } from "src/app/core/services/offer-controller.service";
+import { OfferResponse } from '../../../core/models/offer/offer-response';
+import { OfferControllerService } from "src/app/core/services/offer/offer-controller.service";
 
 @Component({
   selector: "app-offer-view",

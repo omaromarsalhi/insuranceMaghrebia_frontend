@@ -7,15 +7,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { AppointmentDto } from '../models/appointment-dto';
-import { getAll } from '../fn/appointment-controller/get-all';
-import { GetAll$Params } from '../fn/appointment-controller/get-all';
-import { save } from '../fn/appointment-controller/save';
-import { Save$Params } from '../fn/appointment-controller/save';
+import { AppointmentDto } from '../../models/offer/appointment-dto';
+import { getAll } from '../../fn/appointment-controller/get-all';
+import { GetAll$Params } from '../../fn/appointment-controller/get-all';
+import { save } from '../../fn/appointment-controller/save';
+import { Save$Params } from '../../fn/appointment-controller/save';
 
 @Injectable({ providedIn: 'root' })
 export class AppointmentControllerService extends BaseService {

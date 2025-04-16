@@ -6,8 +6,8 @@ import { ImageUploaderComponent } from "src/app/shared/ui/image-uploader/image-u
 import { uploadImage } from "../../../core/fn/image-upload-controller/upload-image";
 import { CategoryModalComponent } from "../category-modal/category-modal.component";
 import { element } from "protractor";
-import { CategoryResponse } from "src/app/core/models/category-response";
-import { OfferCategoryControllerService } from "src/app/core/services/offer-category-controller.service";
+import { CategoryResponse } from "src/app/core/models/offer/category-response";
+import { OfferCategoryControllerService } from "src/app/core/services/offer/offer-category-controller.service";
 
 @Component({
   selector: "app-category",

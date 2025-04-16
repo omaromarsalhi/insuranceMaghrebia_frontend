@@ -104,7 +104,7 @@
         </div>
 
         <!-- New Tags Section -->
-        <div class="mb-4">
+        <!-- <div class="mb-4">
             <label class="form-label fw-bold">Tags (Max 5)</label>
             <div formArrayName="tags">
                 <div class="d-flex flex-wrap gap-2 mb-3">
@@ -133,13 +133,48 @@
             </div>
             <div *ngIf="labelsForm.get('newTag').invalid && (labelsForm.get('newTag').touched || submit)"
                 class="invalid-feedback">
-                <span *ngIf="labelsForm.get('newTag').errors.required">Tag is required</span>
+                <span *ngIf="labelsForm.get('newTag').errors.pattern">
+                    Only letters, numbers, and hyphens allowed
+                </span>
+            </div>
+        </div> -->
+        <!-- New Tags Section -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">Tags (Max 5)</label>
+            <div formArrayName="tags">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div *ngFor="let tag of tagsArray.controls; let i = index"
+                        class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-1 me-2 mb-2">
+                        <span class="me-2">{{ tag.value }}</span>
+                        <button type="button" class="btn btn-link p-0 text-danger" (click)="removeTag(i)"
+                            title="Remove tag">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="tagsArray.invalid && (tagsArray.touched || submit)" class="text-danger small">
+                    Please add at least one tag
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" class="form-control" formControlName="newTag" placeholder="Enter a tag"
+                    (keyup.enter)="addTag()" [ngClass]="{
+               'is-invalid': labelsForm.get('newTag').invalid && labelsForm.get('newTag').touched,
+               'is-valid': labelsForm.get('newTag').valid
+             }">
+                <button type="button" class="btn btn-success" (click)="addTag()"
+                    [disabled]="tagsArray.length >= 5 || labelsForm.get('newTag').invalid">
+                    <i class="fas fa-plus me-1"></i> Add Tag
+                    <small class="text-black ms-2">({{ 5 - tagsArray.length }} remaining)</small>
+                </button>
+            </div>
+            <div *ngIf="labelsForm.get('newTag').invalid && labelsForm.get('newTag').touched" class="invalid-feedback">
                 <span *ngIf="labelsForm.get('newTag').errors.pattern">
                     Only letters, numbers, and hyphens allowed
                 </span>
             </div>
         </div>
-
         <div class="mb-4">
             <h5 class="mb-3 h4 text-secondary">Labels</h5>
             <div formArrayName="labels">

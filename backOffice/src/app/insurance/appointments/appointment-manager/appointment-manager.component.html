@@ -2,9 +2,9 @@
     <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
     <div [class.col-12]="!isChatOpen" [class.col-8]="isChatOpen" @scaleFade>
         <div class="card shadow-lg border-0 overflow-hidden">
-            <app-appointment @scaleFade></app-appointment>
+            <app-appointment [appointments]="appointments" @scaleFade></app-appointment>
         </div>
     </div>
 </div>
 
-<app-db-agent [(isChatOpen)]="isChatOpen"></app-db-agent>
+<app-db-agent [(isChatOpen)]="isChatOpen" (agentData)="reciveAgentData($event)"></app-db-agent>
