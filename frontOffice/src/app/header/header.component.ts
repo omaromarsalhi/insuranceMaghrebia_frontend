@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OfferCategoryControllerService } from '../core/services/offer-category-controller.service';
-import { CategoryResponse } from '../core/models/category-response';
+import { OfferCategoryControllerService } from '../core/services/offer/offer-category-controller.service';
+import { CategoryResponse } from '../core/models/offer/category-response';
 
 
 @Component({

@@ -7,13 +7,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { calculate } from '../fn/automobile-quote-controller/calculate';
-import { Calculate$Params } from '../fn/automobile-quote-controller/calculate';
-import { QuoteResponse } from '../models/quote-response';
+import { calculate } from '../../fn/automobile-quote-controller/calculate';
+import { Calculate$Params } from '../../fn/automobile-quote-controller/calculate';
+import { QuoteResponse } from '../../models/offer/quote-response';
 
 @Injectable({ providedIn: 'root' })
 export class AutomobileQuoteControllerService extends BaseService {

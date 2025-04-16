@@ -7,23 +7,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { CategoryResponse } from '../models/category-response';
-import { createOfferCategory } from '../fn/offer-category-controller/create-offer-category';
-import { CreateOfferCategory$Params } from '../fn/offer-category-controller/create-offer-category';
-import { deleteOfferCategory } from '../fn/offer-category-controller/delete-offer-category';
-import { DeleteOfferCategory$Params } from '../fn/offer-category-controller/delete-offer-category';
-import { getAll1 } from '../fn/offer-category-controller/get-all-1';
-import { GetAll1$Params } from '../fn/offer-category-controller/get-all-1';
-import { getAllByTarget } from '../fn/offer-category-controller/get-all-by-target';
-import { GetAllByTarget$Params } from '../fn/offer-category-controller/get-all-by-target';
-import { getOfferCategoryById } from '../fn/offer-category-controller/get-offer-category-by-id';
-import { GetOfferCategoryById$Params } from '../fn/offer-category-controller/get-offer-category-by-id';
-import { updateOfferCategory } from '../fn/offer-category-controller/update-offer-category';
-import { UpdateOfferCategory$Params } from '../fn/offer-category-controller/update-offer-category';
+import { CategoryResponse } from '../../models/offer/category-response';
+import { createOfferCategory } from '../../fn/offer-category-controller/create-offer-category';
+import { CreateOfferCategory$Params } from '../../fn/offer-category-controller/create-offer-category';
+import { deleteOfferCategory } from '../../fn/offer-category-controller/delete-offer-category';
+import { DeleteOfferCategory$Params } from '../../fn/offer-category-controller/delete-offer-category';
+import { getAll1 } from '../../fn/offer-category-controller/get-all-1';
+import { GetAll1$Params } from '../../fn/offer-category-controller/get-all-1';
+import { getAllByTarget } from '../../fn/offer-category-controller/get-all-by-target';
+import { GetAllByTarget$Params } from '../../fn/offer-category-controller/get-all-by-target';
+import { getOfferCategoryById } from '../../fn/offer-category-controller/get-offer-category-by-id';
+import { GetOfferCategoryById$Params } from '../../fn/offer-category-controller/get-offer-category-by-id';
+import { updateOfferCategory } from '../../fn/offer-category-controller/update-offer-category';
+import { UpdateOfferCategory$Params } from '../../fn/offer-category-controller/update-offer-category';
 
 @Injectable({ providedIn: 'root' })
 export class OfferCategoryControllerService extends BaseService {

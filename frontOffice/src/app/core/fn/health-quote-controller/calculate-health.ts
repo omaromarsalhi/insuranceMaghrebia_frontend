@@ -8,8 +8,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { HealthInsuranceRequest } from '../../models/health-insurance-request';
-import { QuoteResponse } from '../../models/quote-response';
+import { HealthInsuranceRequest } from '../../models/offer/health-insurance-request';
+import { QuoteResponse } from '../../models/offer/quote-response';
 
 export interface CalculateHealth$Params {
       body: HealthInsuranceRequest

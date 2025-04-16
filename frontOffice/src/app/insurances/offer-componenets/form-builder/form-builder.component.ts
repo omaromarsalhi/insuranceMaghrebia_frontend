@@ -22,8 +22,8 @@ import {
   animate,
   state,
 } from '@angular/animations';
-import { MyFormFieldDto } from 'src/app/core/models/my-form-field';
-import { AddressInfo } from 'src/app/core/models/address-info';
+import { MyFormFieldDto } from 'src/app/core/models/offer/my-form-field';
+import { AddressInfo } from 'src/app/core/models/offer/address-info';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 

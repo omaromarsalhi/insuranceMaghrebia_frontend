@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { WhoApiResponse } from '../../models/who-api-response';
+import { WhoApiResponse } from '../../models/offer/who-api-response';
 
 export interface GetWhoStats$Params {
 }

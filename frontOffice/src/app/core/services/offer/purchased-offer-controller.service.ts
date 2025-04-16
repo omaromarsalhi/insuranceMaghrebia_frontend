@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { create } from '../fn/purchased-offer-controller/create';
-import { Create$Params } from '../fn/purchased-offer-controller/create';
+import { create } from '../../fn/purchased-offer-controller/create';
+import { Create$Params } from '../../fn/purchased-offer-controller/create';
 
 @Injectable({ providedIn: 'root' })
 export class PurchasedOfferControllerService extends BaseService {

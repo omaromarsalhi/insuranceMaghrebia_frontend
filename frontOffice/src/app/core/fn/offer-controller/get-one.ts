@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferResponse } from '../../models/offer-response';
+import { OfferResponse } from '../../models/offer/offer-response';
 
 export interface GetOne$Params {
   categoryId: string;
