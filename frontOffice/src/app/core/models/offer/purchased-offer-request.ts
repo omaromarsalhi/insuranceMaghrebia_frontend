@@ -7,4 +7,5 @@ export interface PurchasedOfferRequest {
   data?: Array<PurchasedOfferDataDto>;
   formId?: string;
   offerId?: string;
+  userId?: string;
 }

@@ -43,8 +43,8 @@
                         <div class="tab-pane active show fade" id="dynamicForm">
                             <app-form-builder [formConfigurations]="oneFormConfigurations"
                                 [iNeedAdress]="oneFormConfigurations.getAdressAlso" [errorsTable]="errorsTable"
-                                (formdata)="recieveFormData($event)"
-                                (aiExplainerData)="recieveAiData($event)"></app-form-builder>
+                                (formdata)="recieveFormData($event)" (aiExplainerData)="recieveAiData($event)"
+                                [isAiExplainerOn]="currentFormType==='auto' || currentFormType==='health'"></app-form-builder>
 
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                         <div [@cardAnimation] *ngFor="let insight of aiInsights" class="ai-card"
                             [ngClass]="'impact-' + (insight.impact || 'neutral')">
                             <div class="ai-text">
-                                <div class="d-flex justify-content-center align-items-center">
+                                <div class="d-flex  align-items-center">
                                     <div class="ai-icon-badge mb-2">
                                         <i class="insight-icon" [class]="getInsightIcon(insight.impact)"></i>
                                     </div>

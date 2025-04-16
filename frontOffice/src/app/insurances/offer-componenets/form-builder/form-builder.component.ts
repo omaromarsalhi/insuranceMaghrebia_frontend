@@ -80,7 +80,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 })
 export class FormBuilderComponent implements OnInit, OnChanges {
   @Input() formConfigurations: any;
-  @Input() isAiExplainerOn: boolean = true;
+  @Input() isAiExplainerOn: boolean = false;
   @Input() iNeedAdress: boolean = false;
   @Input() errorsTable: { field: string; step: number }[] = [];
   @Output() formdata = new EventEmitter<{
@@ -116,14 +116,34 @@ export class FormBuilderComponent implements OnInit, OnChanges {
   filteredFormFields: MyFormFieldDto[] = [];
   chosenFormFields: any[] = [];
   allowedField2Explain = [
+    // auto
     'drivingExperience',
     'accidentHistory',
     'trafficViolations',
     'defensiveDrivingCourse',
     'coverageType',
     'vehicleType',
+
+    // health
+    'age',
+    'governorate',
+    'occupation',
+    'preExistingConditions',
+    'familyHistory',
+    'hospitalizations',
+    'surgeries',
+    'chronicIllnesses',
+    'smoking',
+    'alcohol',
+    'exercise',
+    'bmi',
+    'planType',
+    'deductible',
+    'addOns',
+    'travelFrequency',
+    'vaccinations',
   ];
-  allowedField2ExplaiWithCondition = ['vin'];
+  allowedField2ExplaiWithCondition = ['vin', 'gender'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -153,8 +173,10 @@ export class FormBuilderComponent implements OnInit, OnChanges {
       });
   }
 
-  onUserInput(event: Event, fieldName: string) {
-    const value = this.insuranceForm.get(fieldName)?.value;
+  onUserInput(event: Event, fieldName: string, opt?: any) {
+    let value = '';
+    if (opt) value = opt;
+    value = this.insuranceForm.get(fieldName)?.value;
     console.log(value);
     if (this.allowedField2Explain.includes(fieldName))
       this.aiExplainerString.next({
@@ -269,15 +291,15 @@ export class FormBuilderComponent implements OnInit, OnChanges {
     this.isFormSubmitted = true;
     if (this.iNeedAdress && !this.position) return;
     if (this.insuranceForm.valid) {
-    const list = this.insuranceForm.value;
-    this.formdata.emit({
-      data: list,
-      position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
-      licenceId:
-        this.previewFront && this.previewBack
-          ? { front: this.previewFront, back: this.previewBack }
-          : undefined,
-    });
+      const list = this.insuranceForm.value;
+      this.formdata.emit({
+        data: list,
+        position: this.iNeedAdress ? (this.position as AddressInfo) : undefined,
+        licenceId:
+          this.previewFront && this.previewBack
+            ? { front: this.previewFront, back: this.previewBack }
+            : undefined,
+      });
     }
     this.isFormSubmitted = false;
   }

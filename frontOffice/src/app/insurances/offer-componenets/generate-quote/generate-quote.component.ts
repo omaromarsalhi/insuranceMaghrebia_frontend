@@ -773,7 +773,10 @@ export class GenerateQuoteComponent implements OnInit {
     private storageService: StorageService,
     private wsService: WebSocketService
   ) {
-    if (!(this.isAppointmentActive || this.isResponseReady)) {
+    if (
+      !(this.isAppointmentActive || this.isResponseReady) &&
+      (this.currentFormType === 'auto' || this.currentFormType === 'health')
+    ) {
       this.wsService.connect();
       this.messageSubscription = this.wsService.messages$.subscribe(
         (msg: ChatMessage) => {
@@ -781,7 +784,9 @@ export class GenerateQuoteComponent implements OnInit {
           if (msg.type === 'ai') {
             const content = msg.content;
             if (Array.isArray(content)) {
-              this.aiInsights.push(content[0] as AiInsight);
+              content.forEach((ctn) => {
+                this.aiInsights.push(ctn as AiInsight);
+              });
             } else {
               this.aiInsights.push(content as AiInsight);
             }
@@ -814,7 +819,7 @@ export class GenerateQuoteComponent implements OnInit {
   }
 
   recieveAiData(aiData: any) {
-    this.wsService.sendMessage(aiData);
+    this.wsService.sendMessage({ ...aiData, typeQ: this.currentFormType });
   }
 
   recieveFormData(formData: any) {

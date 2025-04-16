@@ -34,7 +34,6 @@ export class OfferDtailsComponent implements OnInit {
       });
   }
 
-
   ngOnInit() {
     this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
     this._loadOffers();
@@ -81,9 +80,11 @@ export class OfferDtailsComponent implements OnInit {
   };
 
   private _loadOffers() {
-    this.offerService.getByOfferId({offerId:this.offerId}).subscribe((offer) => {
-      this.offerDetails = offer;
-      console.log(this.offerDetails);
-    });
+    this.offerService
+      .getByOfferId({ offerId: this.offerId })
+      .subscribe((offer) => {
+        this.offerDetails = offer;
+        console.log(this.offerDetails);
+      });
   }
 }

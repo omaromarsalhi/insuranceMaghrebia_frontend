@@ -106,7 +106,7 @@ field.type !== 'checkbox' && field.type !== 'header'
                     <div class="checkbox-item ms-3">
                         <label class="checkbox-label">
                             <input type="checkbox" [checked]="isChecked(field.controleName, opt)"
-                                (change)="onCheckboxChange($event, field.controleName, opt)" />
+                                (change)="onCheckboxChange($event, field.controleName, opt)"  (change)="onUserInput($event,field.controleName,opt)"/>
                             <span class="checkmark"></span>
                             {{ opt }}
                         </label>

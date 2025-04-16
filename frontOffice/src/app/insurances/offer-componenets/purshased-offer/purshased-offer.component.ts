@@ -51,6 +51,7 @@ export class PurshasedOfferComponent implements OnInit {
   selectedValue: number = 0;
   data2Save: PurchasedOfferRequest = { data: [] };
   showPopup = false;
+  price:any;
 
   constructor(
     private fb: FormBuilder,
@@ -62,7 +63,7 @@ export class PurshasedOfferComponent implements OnInit {
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
     this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
-
+    this.price = this.route.snapshot.queryParamMap.get('price');
     this.insuranceForm = this.fb.group({});
 
     this._fetchData(() => {
@@ -108,7 +109,7 @@ export class PurshasedOfferComponent implements OnInit {
   onSubmit() {
     this.showPopup = true;
     this.isLoading = true;
-    if (this.insuranceForm.valid) {
+    // if (this.insuranceForm.valid) {
       const list = this.insuranceForm.value; // Assuming it's a JSON object
 
       Object.entries(list).forEach(([key, value], index) => {
@@ -119,9 +120,9 @@ export class PurshasedOfferComponent implements OnInit {
         });
       });
       this.data2Save.formId = this.formId;
-      console.log(this.saveForData);
+      this.data2Save.userId = 'omar';
       this.saveForData();
-    }
+    // }
     setTimeout(() => {
       this.isLoading = false;
       // this.cleanForm();
