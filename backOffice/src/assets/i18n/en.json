@@ -112,14 +112,9 @@
       "TEXT": "Insurance",
       "LIST": {
         "CATEGORY": "Categories",
-<<<<<<< HEAD
         "ADDOFFER": "Add offer",
         "OFFER": "Offers",
         "EDITOFFER": "Edit Offer",
-=======
-        "PRODUCTDETAIL": "Product Detail",
-        "ORDERS": "Orders",
->>>>>>> payment_branch
         "CUSTOMERS": "Customers",
         "CART": "Cart",
         "CHECKOUT": "Checkout",

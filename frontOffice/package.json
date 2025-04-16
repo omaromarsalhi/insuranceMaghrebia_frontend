@@ -28,29 +28,22 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
-<<<<<<< HEAD
     "@ng-select/ng-select": "^13.0.0",
     "@popperjs/core": "^2.11.8",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.25.0",
-=======
     "@ng-bootstrap/ng-bootstrap": "^15.1.0",
-    "@popperjs/core": "^2.11.8",
     "@stripe/stripe-js": "^3.0.0",
->>>>>>> payment_branch
     "@types/jquery": "^3.5.32",
     "@types/slick-carousel": "^1.6.40",
     "animate.css": "^3.7.2",
     "bootstrap": "^5.3.3",
     "countup.js": "^2.8.0",
     "font-awesome": "^4.7.0",
-<<<<<<< HEAD
-=======
     "ionicons": "^7.4.0",
     "jquery": "^3.7.1",
     "jspdf": "^3.0.0",
     "jspdf-autotable": "^5.0.2",
->>>>>>> payment_branch
     "magnific-popup": "^1.2.0",
     "ng-openapi-gen": "^0.52.0",
     "ngx-owl-carousel-o": "^16.0.0",

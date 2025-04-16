@@ -1,4 +1,5 @@
-import { PaymentPlan } from '../models/payment-plan';
+import { PaymentPlan } from "./payment-plan";
+
 
 export interface Payment {
     contractPaymentId: string
