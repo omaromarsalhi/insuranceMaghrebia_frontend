@@ -28,3 +28,18 @@ label {
 button {
   margin-left: 10px;
 }
+
+.dark-green-btn {
+  background-color: #165a34; /* Dark Green */
+  color: white; /* White Text */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.dark-green-btn:hover {
+  background-color: #0f3d24; /* Darker Green on Hover */
+}

@@ -18,6 +18,13 @@ export const MENU: MenuItem[] = [
                 link: '/claims',
                 parentId: 5
             },
+            {
+                id: 6,
+                label: 'MAP',
+                link: '/claims/map',
+                parentId: 7
+            },
+
             
         ]
     },

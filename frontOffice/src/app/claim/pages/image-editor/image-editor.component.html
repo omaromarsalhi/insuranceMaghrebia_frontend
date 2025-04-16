@@ -1,7 +1,10 @@
 <div class="drawing-container">
-  <input type="color" [(ngModel)]="color">
-  <button (click)="undo()">Undo</button>
-  <button (click)="saveImage()">Save</button>
+  <div style="display:flex; flex-direction: row;margin-bottom:20px">
+    <input type="color" [(ngModel)]="color">
+    <button class="dark-green-btn" (click)="undo()">Undo</button>
+    <button class="dark-green-btn" (click)="saveImage()">Save</button>
+  </div>
+  
 
 
   <canvas #canvas
