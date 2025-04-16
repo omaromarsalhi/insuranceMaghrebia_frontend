@@ -14,12 +14,11 @@ export class WebSocketService {
   private readonly MAX_RECONNECT_ATTEMPTS = 5;
 
   constructor() {
-    this.connect();
   }
 
-  private connect(): void {
+  public connect(): void {
     this.socket$ = webSocket({
-      url: 'ws://localhost:9000/ws',
+      url: 'ws://localhost:9100/ws',
       serializer: msg => JSON.stringify(msg),
       deserializer: ({ data }) => {
         try {

@@ -14,7 +14,6 @@ import { GenerateQuoteComponent } from './offer-componenets/generate-quote/gener
 import { FormBuilderComponent } from './offer-componenets/form-builder/form-builder.component';
 import { MapComponent } from './map/map.component';
 import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment/quote-appointment.component';
-import { TestComponent } from './test/test.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { BillingPeriodPipe } from './pipes/billing-period.pipe';
 
@@ -28,7 +27,6 @@ import { BillingPeriodPipe } from './pipes/billing-period.pipe';
     FormBuilderComponent,
     MapComponent,
     QuoteAppointmentComponent,
-    TestComponent,
     TruncatePipe,
     BillingPeriodPipe
   ],

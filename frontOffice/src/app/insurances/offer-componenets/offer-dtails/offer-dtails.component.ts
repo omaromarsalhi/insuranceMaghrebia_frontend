@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -5,7 +6,8 @@ import {
   QueryList,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { OfferResponse } from 'src/app/core/models/offer/offer-response';
 import { OfferControllerService } from 'src/app/core/services/offer/offer-controller.service';
 
@@ -21,8 +23,17 @@ export class OfferDtailsComponent implements OnInit {
 
   constructor(
     private offerService: OfferControllerService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private scroller: ViewportScroller,
+    private router: Router
+  ) {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.scroller.scrollToPosition([0, 0]);
+      });
+  }
+
 
   ngOnInit() {
     this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
