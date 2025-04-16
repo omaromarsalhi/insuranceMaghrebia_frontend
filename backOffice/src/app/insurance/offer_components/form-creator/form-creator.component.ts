@@ -21,7 +21,7 @@ import {
 } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OfferFormRequest } from "../../../core/models/offer-form-request";
+import { OfferFormRequest } from "../../../core/models/offer/offer-form-request";
 import {
   FormFieldDto,
   OfferFormResponse,

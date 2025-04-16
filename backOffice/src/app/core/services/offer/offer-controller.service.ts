@@ -7,27 +7,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { create1 } from '../fn/offer-controller/create-1';
-import { Create1$Params } from '../fn/offer-controller/create-1';
-import { delete$ } from '../fn/offer-controller/delete';
-import { Delete$Params } from '../fn/offer-controller/delete';
-import { getAll } from '../fn/offer-controller/get-all';
-import { GetAll$Params } from '../fn/offer-controller/get-all';
-import { getAllByCategoryId } from '../fn/offer-controller/get-all-by-category-id';
-import { GetAllByCategoryId$Params } from '../fn/offer-controller/get-all-by-category-id';
-import { getByOfferId } from '../fn/offer-controller/get-by-offer-id';
-import { GetByOfferId$Params } from '../fn/offer-controller/get-by-offer-id';
-import { OfferGeneralResponse } from '../models/offer-general-response';
-import { OfferResponse } from '../models/offer-response';
-import { OfferWithTagsResponse } from '../models/offer-with-tags-response';
-import { update } from '../fn/offer-controller/update';
-import { Update$Params } from '../fn/offer-controller/update';
-import { updateStatus } from '../fn/offer-controller/update-status';
-import { UpdateStatus$Params } from '../fn/offer-controller/update-status';
+import { create1 } from '../../fn/offer-controller/create-1';
+import { Create1$Params } from '../../fn/offer-controller/create-1';
+import { delete$ } from '../../fn/offer-controller/delete';
+import { Delete$Params } from '../../fn/offer-controller/delete';
+import { getAll } from '../../fn/offer-controller/get-all';
+import { GetAll$Params } from '../../fn/offer-controller/get-all';
+import { getAllByCategoryId } from '../../fn/offer-controller/get-all-by-category-id';
+import { GetAllByCategoryId$Params } from '../../fn/offer-controller/get-all-by-category-id';
+import { getByOfferId } from '../../fn/offer-controller/get-by-offer-id';
+import { GetByOfferId$Params } from '../../fn/offer-controller/get-by-offer-id';
+import { OfferGeneralResponse } from '../../models/offer/offer-general-response';
+import { OfferResponse } from '../../models/offer/offer-response';
+import { OfferWithTagsResponse } from '../../models/offer/offer-with-tags-response';
+import { update } from '../../fn/offer-controller/update';
+import { Update$Params } from '../../fn/offer-controller/update';
+import { updateStatus } from '../../fn/offer-controller/update-status';
+import { UpdateStatus$Params } from '../../fn/offer-controller/update-status';
 
 @Injectable({ providedIn: 'root' })
 export class OfferControllerService extends BaseService {

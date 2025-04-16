@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadImage$Params } from 'src/app/core/fn/image-upload-controller/my-upload-image';
-import { MyImageUploadControllerService } from '../../../core/services/my-image-upload-controller.service';
+import { MyImageUploadControllerService } from '../../../core/services/offer/my-image-upload-controller.service';
 
 
 @Component({

@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { DecimalPipe } from "@angular/common";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AppointmentControllerService } from "src/app/core/services/appointment-controller.service";
-import { AppointmentDto } from "src/app/core/models/appointment-dto";
+import { AppointmentControllerService } from "src/app/core/services/offer/appointment-controller.service";
+import { AppointmentDto } from "src/app/core/models/offer/appointment-dto";
 
 @Component({
   selector: "app-appointment",

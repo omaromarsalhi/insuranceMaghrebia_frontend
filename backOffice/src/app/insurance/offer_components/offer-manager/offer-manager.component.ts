@@ -21,7 +21,7 @@ import {
   OfferUpdateRequest,
 } from "src/app/core/models";
 import { BehaviorSubject, of, Subject } from "rxjs";
-import { OfferFormControllerService } from "../../../core/services/offer-form-controller.service";
+import { OfferFormControllerService } from "../../../core/services/offer/offer-form-controller.service";
 import Swal from "sweetalert2";
 import {
   trigger,

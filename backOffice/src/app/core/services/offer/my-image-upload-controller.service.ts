@@ -7,15 +7,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { uploadImage } from '../fn/image-upload-controller/upload-image';
-import { UploadImage$Params } from '../fn/image-upload-controller/upload-image';
+import { uploadImage } from '../../fn/image-upload-controller/my-upload-image';
+import { UploadImage$Params } from '../../fn/image-upload-controller/my-upload-image';
 
 @Injectable({ providedIn: 'root' })
-export class ImageUploadControllerService extends BaseService {
+export class MyImageUploadControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

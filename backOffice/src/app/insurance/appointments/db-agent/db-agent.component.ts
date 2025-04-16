@@ -15,8 +15,8 @@ import {
   animate,
   transition,
 } from "@angular/animations";
-import { ChatService } from "src/app/core/services/chat.service";
-import { WebSocketService } from "src/app/core/services/websocket.service";
+import { ChatService } from "src/app/core/services/offer/chat.service";
+import { WebSocketService } from "src/app/core/services/offer/websocket.service";
 import { Subscription } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
