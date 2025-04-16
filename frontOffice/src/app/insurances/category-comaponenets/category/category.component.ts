@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OfferCategory } from 'src/app/core/models/offer-category';
-import { OfferCategoryControllerService } from 'src/app/core/services/offer-category-controller.service';
+import { OfferCategory } from 'src/app/core/models/offer/offer-category';
+import { OfferCategoryControllerService } from 'src/app/core/services/offer/offer-category-controller.service';
 
 @Component({
   selector: 'app-category',

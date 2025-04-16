@@ -7,12 +7,12 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { OfferFormControllerService } from 'src/app/core/services/offer-form-controller.service';
+import { OfferFormControllerService } from 'src/app/core/services/offer/offer-form-controller.service';
 
 import { trigger, transition, style, animate } from '@angular/animations';
-import { FormFieldDto } from 'src/app/core/models/form-field-dto';
-import { PurchasedOfferRequest } from 'src/app/core/models/purchased-offer-request';
-import { PurchasedOfferControllerService } from 'src/app/core/services/purchased-offer-controller.service';
+import { FormFieldDto } from 'src/app/core/models/offer/form-field-dto';
+import { PurchasedOfferRequest } from 'src/app/core/models/offer/purchased-offer-request';
+import { PurchasedOfferControllerService } from 'src/app/core/services/offer/purchased-offer-controller.service';
 
 @Component({
   selector: 'app-purshased-offer',

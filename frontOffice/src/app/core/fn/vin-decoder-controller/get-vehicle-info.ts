@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { VehicleInfo } from '../../models/vehicle-info';
+import { VehicleInfo } from '../../models/offer/vehicle-info';
 
 export interface GetVehicleInfo$Params {
   vin: string;

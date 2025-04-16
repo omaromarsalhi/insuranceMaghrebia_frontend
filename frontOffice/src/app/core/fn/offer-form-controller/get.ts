@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferFormResponse } from '../../models/offer-form-response';
+import { OfferFormResponse } from '../../models/offer/offer-form-response';
 
 export interface Get$Params {
   formId: string;

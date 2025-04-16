@@ -7,13 +7,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { getVehicleInfo } from '../fn/vin-decoder-controller/get-vehicle-info';
-import { GetVehicleInfo$Params } from '../fn/vin-decoder-controller/get-vehicle-info';
-import { VehicleInfo } from '../models/vehicle-info';
+import { getVehicleInfo } from '../../fn/vin-decoder-controller/get-vehicle-info';
+import { GetVehicleInfo$Params } from '../../fn/vin-decoder-controller/get-vehicle-info';
+import { VehicleInfo } from '../../models/offer/vehicle-info';
 
 @Injectable({ providedIn: 'root' })
 export class VinDecoderControllerService extends BaseService {

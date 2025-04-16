@@ -7,17 +7,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import { BaseService } from '../../base-service';
+import { ApiConfiguration } from '../../api-configuration';
+import { StrictHttpResponse } from '../../strict-http-response';
 
-import { create2 } from '../fn/offer-form-controller/create-2';
-import { Create2$Params } from '../fn/offer-form-controller/create-2';
-import { get } from '../fn/offer-form-controller/get';
-import { Get$Params } from '../fn/offer-form-controller/get';
-import { OfferFormResponse } from '../models/offer-form-response';
-import { update1 } from '../fn/offer-form-controller/update-1';
-import { Update1$Params } from '../fn/offer-form-controller/update-1';
+import { create2 } from '../../fn/offer-form-controller/create-2';
+import { Create2$Params } from '../../fn/offer-form-controller/create-2';
+import { get } from '../../fn/offer-form-controller/get';
+import { Get$Params } from '../../fn/offer-form-controller/get';
+import { OfferFormResponse } from '../../models/offer/offer-form-response';
+import { update1 } from '../../fn/offer-form-controller/update-1';
+import { Update1$Params } from '../../fn/offer-form-controller/update-1';
 
 @Injectable({ providedIn: 'root' })
 export class OfferFormControllerService extends BaseService {

@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { AppointmentDto } from '../../models/appointment-dto';
+import { AppointmentDto } from '../../models/offer/appointment-dto';
 
 export interface Save$Params {
       body: AppointmentDto

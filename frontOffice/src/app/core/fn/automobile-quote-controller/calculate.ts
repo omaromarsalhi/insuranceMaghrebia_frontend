@@ -8,8 +8,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { AutoInsuranceRequest } from '../../models/auto-insurance-request';
-import { QuoteResponse } from '../../models/quote-response';
+import { AutoInsuranceRequest } from '../../models/offer/auto-insurance-request';
+import { QuoteResponse } from '../../models/offer/quote-response';
 
 export interface Calculate$Params {
       body: AutoInsuranceRequest

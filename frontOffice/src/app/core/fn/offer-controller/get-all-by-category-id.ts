@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferWithTagsResponse } from '../../models/offer-with-tags-response';
+import { OfferWithTagsResponse } from '../../models/offer/offer-with-tags-response';
 
 export interface GetAllByCategoryId$Params {
   categoryId: string;

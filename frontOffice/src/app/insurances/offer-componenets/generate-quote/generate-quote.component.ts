@@ -10,12 +10,12 @@ import {
   AnimationEvent,
   animateChild,
 } from '@angular/animations';
-import { AutoInsuranceRequest } from 'src/app/core/models/auto-insurance-request';
-import { AutomobileQuoteControllerService } from '../../../core/services/automobile-quote-controller.service';
-import { QuoteResponse } from 'src/app/core/models/quote-response';
-import { StorageService } from 'src/app/core/services/storage.service';
-import { HealthInsuranceRequest } from 'src/app/core/models/health-insurance-request';
-import { HealthQuoteControllerService } from 'src/app/core/services/health-quote-controller.service';
+import { AutoInsuranceRequest } from 'src/app/core/models/offer/auto-insurance-request';
+import { AutomobileQuoteControllerService } from '../../../core/services/offer/automobile-quote-controller.service';
+import { QuoteResponse } from 'src/app/core/models/offer/quote-response';
+import { StorageService } from 'src/app/core/services/offer/storage.service';
+import { HealthInsuranceRequest } from 'src/app/core/models/offer/health-insurance-request';
+import { HealthQuoteControllerService } from 'src/app/core/services/offer/health-quote-controller.service';
 import { WebSocketService } from '../../test/websocket.service';
 import { Subscription } from 'rxjs';
 
