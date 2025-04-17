@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <!-- start page title -->
+  <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <!-- end page title -->
+
+  <div class="row">
+    <div class="col-lg-10">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Add Job</h4>
+
+          <form (ngSubmit)="save()" [formGroup]="jobForm">
+            <div class="mb-3">
+              <label for="jobType" class="form-label">Job Type</label>
+              <select formControlName="jobType" id="jobType" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.jobType.errors }">
+                <option *ngFor="let jobType of JobType | keyvalue" [value]="jobType.key">{{ jobType.value }}</option>
+              </select>
+              <div *ngIf="submitted && f.jobType.errors" class="invalid-feedback">
+                <div *ngIf="f.jobType.errors.required">Job type is required</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" formControlName="title" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.title.errors }" id="title" placeholder="Enter title" />
+              <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors.required">Title is required</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea formControlName="description" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.description.errors }" id="description"
+                placeholder="Enter description"></textarea>
+              <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Description is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="mb-3" [formGroup]="skillData">
+                <div formArrayName="skillValue">
+                  <label for="skillsRequired">Skills Required</label>
+                  <div class="inner mb-3 row" *ngFor="let data1 of skilldata().controls; let i=index;"
+                    [formGroupName]="i">
+                    <div class="col-md-10 col-8">
+                      <input type="text" class="inner form-control" formControlName="skillRequired"
+                        placeholder="Enter a skill required">
+                    </div>
+                    <div class="col-md-2 col-4">
+                      <div class="d-grid">
+                        <input type="button" class="btn btn-primary inner" value="Delete" (click)="deleteSkill(i)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="button" class="btn btn-success inner" value="Add Skill" (click)="addSkill()">
+            </div>
+
+            <div class="mb-3">
+              <label for="minimumYearsOfExperience" class="form-label">Minimum years of experience</label>
+              <input type="number" formControlName="minimumYearsOfExperience" class="form-control"
+                id="minimumYearsOfExperience" placeholder="Enter minimum years of experience" />
+            </div>
+
+            <div class="row" style="margin-bottom: 1rem;">
+              <div class="col-lg-3">
+                <label for="startWorkingHour">Start Time</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="time" formControlName="startWorkingHour" value="09:00:00" id="startWorkingHour"
+                    [ngClass]="{ 'is-invalid': submitted && f.startWorkingHour.errors }" />
+                  <div *ngIf="submitted && f.startWorkingHour.errors" class="invalid-feedback">
+                    <div *ngIf="f.startWorkingHour.errors.required">Start time is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <label for="endWorkingHour">End Time</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="time" formControlName="endWorkingHour" id="endWorkingHour"
+                    [ngClass]="{ 'is-invalid': submitted && f.endWorkingHour.errors }" />
+                  <div *ngIf="submitted && f.endWorkingHour.errors" class="invalid-feedback">
+                    <div *ngIf="f.endWorkingHour.errors.required">End time is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <label for="workingDaysPerWeek">Working Days Per Week</label>
+                <input type="number" formControlName="workingDaysPerWeek" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.workingDaysPerWeek.errors }" id="workingDaysPerWeek"
+                  placeholder="Enter working Days per week" />
+              </div>
+              <div class="col-lg-3">
+                <label for="numberOfVacations">Number Of Vacations</label>
+                <input type="number" formControlName="numberOfVacations" class="form-control" id="numberOfVacations"
+                  placeholder="Enter number of Vacations" />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" formControlName="location" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.location.errors }" id="location"
+                placeholder="Enter location" />
+              <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors.required">Location is required</div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 1rem;">
+              <div class="col-lg-4">
+                <label for="salaryAmount">Salary Amount</label>
+                <input type="number" formControlName="salaryAmount" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.salaryAmount.errors }" id="salaryAmount"
+                  placeholder="Enter salary Amount" />
+              </div>
+              <div class="col-lg-4">
+                <label for="salaryType">Salary Type</label>
+                <select formControlName="salaryType" id="salaryType" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.salaryType.errors }">
+                  <option *ngFor="let salaryType of SalaryType | keyvalue" [value]="salaryType.key">{{
+                    salaryType.value }}</option>
+                </select>
+                <div *ngIf="submitted && f.salaryType.errors" class="invalid-feedback">
+                  <div *ngIf="f.salaryType.errors.required">Salary type is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="numberOfOpenings" class="form-label">Number of openings</label>
+              <input type="number" formControlName="numberOfOpenings" class="form-control" id="numberOfOpenings"
+                placeholder="Enter number of openings" />
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-save-event">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+</div>

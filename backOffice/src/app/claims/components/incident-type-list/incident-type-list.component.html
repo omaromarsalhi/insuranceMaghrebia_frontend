@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <app-page-title title="Projects List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="d-flex">
+    <button class="btn btn-success ms-auto mb-2" (click)="openModal(content, 'new')">Add Incident Type </button>
+  </div>
+  <ng-template #content role="document" let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">Add Incident Type</h5>
+      <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit()" [formGroup]="incidentForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label class="control-label">Incident Type Name</label>
+              <input class="form-control" placeholder="Enter Incident Type Name" type="text" name="name"
+                formControlName="name" [ngClass]="{'is-invalid': submitted && incidentForm.controls.name.errors}" />
+              <div *ngIf="incidentForm.controls.name.invalid && (incidentForm.controls.name.touched || incidentForm.controls.name.dirty)" class="invalid-feedback">
+                <span *ngIf="incidentForm.controls.name.errors.required">Field is Required</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="control-label">Incident Type Description</label>
+              <input class="form-control" placeholder="Enter Description" type="text" name="description"
+                formControlName="description" [ngClass]="{'is-invalid': submitted && incidentForm.controls.description.errors}" />
+              <div *ngIf="incidentForm.controls.description.invalid && (incidentForm.controls.description.touched || incidentForm.controls.description.dirty)" class="invalid-feedback">
+                <span *ngIf="incidentForm.controls.description.errors.required">Field is required.</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="control-label">Incident Type Status</label>
+              <div>
+                <ui-switch name="incidentTypeActive" defaultBoColor="#dfdfdf" color="#34c38f" defaultBgColor="#f46a6a" checked class="ms-1" formControlName="active"></ui-switch>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <button type="submit" class="btn btn-info" id="btn-save-event">
+          Save
+        </button>
+      </form>
+    </div>
+  </ng-template>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class>
+        <div class="table-responsive">
+          <table class="table project-list-table table-nowrap align-middle table-borderless">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 100px">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let incidentType of incidentTypes">
+                <td>
+                  #
+                </td>
+                <td>
+                  <h5 class="text-truncate font-size-14">
+                    <a href="javascript: void(0);" class="text-dark">{{incidentType.name}}</a>
+                  </h5>
+                  <p class="text-muted mb-0"></p>
+                </td>
+                <td>{{incidentType.description}}</td>
+                <td>
+                  <span class="badge" (dblclick)="toggleStatus(incidentType)" [ngClass]="{'bg-success': incidentType.active, 
+                                                  'bg-danger': !incidentType.active }" style="cursor:pointer">{{incidentType.active ? 'ACTIVE' : 'INAVTIVE'}}</span>
+                </td>
+                <td>
+                  {{incidentType.created | date:'dd-MM-yyyy HH:mm:ss'}}
+                </td>
+                
+                <td>
+                  <a class="dropdown-item"  (click)="deleteIncidentType(incidentType.id)" style="cursor:pointer">Delete</a>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+
+  
+  <!-- end row -->
+</div>

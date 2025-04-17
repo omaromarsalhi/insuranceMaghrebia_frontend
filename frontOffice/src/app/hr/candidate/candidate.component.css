@@ -1,0 +1,114 @@
+/*====== File Drop Custom Styles ======*/
+.file-drop-container {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px dashed #193B1E;
+  border-radius: 8px;
+  background-color: #FEFBE9;
+  font-family: "Syne", sans-serif;
+}
+
+.file-drop-container:hover {
+  border-color: #FFB966;
+  background-color: rgba(255, 185, 102, 0.05);
+}
+
+.drop-instructions p {
+  margin: 0;
+  color: #0F0F2D;
+  font-size: 16px;
+  text-align: center;
+}
+
+.uploaded-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #193B1E;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-file-btn {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.remove-file-btn:hover {
+  color: #cc0000;
+}
+
+:host ::ng-deep .ngx-file-drop__content,
+:host ::ng-deep .ngx-file-drop__drop-zone {
+  all: unset !important;
+}
+.form_group{
+  margin-bottom: 35px;
+}
+.form_control {
+  margin-bottom: .5rem;
+}
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+  border-radius: 8px;
+  font-family: "Syne", sans-serif;
+}
+
+.error-message-alt {
+  background-color: #fff3f3; /* Light red background */
+  color: #ff4d4d; /* Bright red text */
+  padding: 10px 15px; /* Padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  border-left: 4px solid #ff4d4d; /* Red left border */
+  margin-bottom: 20px; /* Space below the error message */
+  font-size: 14px; /* Font size */
+  font-weight: 500; /* Medium font weight */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  animation: fadeIn 0.3s ease-in-out; /* Fade-in animation */
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loading-text {
+  color: #555;
+  font-size: 1.2rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

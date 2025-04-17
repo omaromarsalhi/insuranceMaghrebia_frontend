@@ -9,13 +9,21 @@ import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
+
 import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initFirebaseBackend } from './authUtils';
+import { CyptolandingComponent } from './cyptolanding/cyptolanding.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { ErrorInterceptor } from './core/helpers/error.interceptor';
+import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
+import { UserModule } from './user/user.module';
+import { AuthInterceptor } from './auth.interceptor';
+import { UIModule } from "./shared/ui/ui.module";
 import { InsuranceModule } from './insurance/insurance.module';
 import { PaymentModule } from './payment/payment.module';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
@@ -51,17 +59,26 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
     LayoutsModule,
     AppRoutingModule,
+    ExtrapagesModule,
     CarouselModule,
     NgbAccordionModule,
     NgbNavModule,
     NgbTooltipModule,
+    SharedModule,
     ScrollToModule.forRoot(),
+    UserModule,
+    UIModule,
     NgbModule,
     InsuranceModule
   ],
   bootstrap: [AppComponent],
   providers: [
+    //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+   // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+   // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    // LoaderService,
+    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-
 })
 export class AppModule { }

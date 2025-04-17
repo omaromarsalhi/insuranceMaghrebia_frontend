@@ -1,0 +1,69 @@
+<!--====== Start Breadcrumb Section ======-->
+<section class="page-banner pt-165 pb-170">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <!--=== Page Banner Content ===-->
+        <div class="page-banner-content text-center">
+          <h1 class="page-title">Career</h1>
+          <ul class="breadcrumb-link">
+            <li><a routerLink="/home">Home</a></li>
+            <li class="active">Contact</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--====== End Breadcrumb Section ======-->
+<!--====== Start Intro Section ======-->
+<section class="intro-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="play-wrapper bg_cover p-r z-1 overlay wow fadeInUp"
+          style="background-image: url(assets/images/bg/intro-bg-1.jpg);">
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--====== End Intro Section ======-->
+<!--====== Start Job Section ======-->
+<section class="job-section pt-120 pb-90">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="section-title text-center mb-50 wow fadeInDown">
+          <span class="sub-title">Career</span>
+          <h2>Let’s Join Our Team to Build
+            your Dream Career</h2>
+        </div>
+      </div>
+    </div>
+    <!--=== Job Wrapper ===-->
+    <div class="job-wrapper">
+      <div class="row justify-content-center">
+        <div class="col-lg-11">
+          <!--=== Single Job Item ===-->
+          <div class="single-job-item d-flex mb-40 wow fadeInUp" *ngFor="let job of jobs ; let i = index">
+            <div class="sn-number">0{{i+1}}</div>
+            <div class="content d-flex">
+              <div class="text">
+                <h3 class="title">{{job.title}}
+                  <span class="duration"*ngIf="job.jobType=='FULL_TIME'">FULL TIME</span>
+                  <span class="duration"*ngIf="job.jobType=='PART_TIME'">PART TIME</span>
+                  <span class="duration"*ngIf="job.jobType=='CONTRACT'">CONTRACT</span>
+                  <span class="duration"*ngIf="job.jobType=='INTERNSHIP'">INTERNSHIP</span>
+                
+                </h3>
+                <p class="salary">{{job.salaryAmount}} DT/{{job.salaryType}}</p>
+              </div>
+              <div class="action-box">
+                <a class="main-btn primary-btn" routerLink="/job" [queryParams]="{id : job.id}">Apply Now<i class="fa fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--====== End Job Section ======-->

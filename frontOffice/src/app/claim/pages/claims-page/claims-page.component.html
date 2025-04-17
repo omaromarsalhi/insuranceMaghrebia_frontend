@@ -1,0 +1,45 @@
+<section class="page-banner pt-165 pb-170">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-lg-10">
+              <!--=== Page Banner Content ===-->
+              <div class="page-banner-content text-center">
+                  <h1 class="page-title">My Claims</h1>
+                  <ul class="breadcrumb-link">
+                      <li><a href="index.html">Home</a></li>
+                      <li class="active">My Claims</li>
+                  </ul>
+              </div>
+          </div>
+          <div class="action-box" style="max-width: 1320px;position:relative;bottom:5px">
+            <a [routerLink]="'/claim/add'"  class="main-btn primary-btn" style="position:absolute;right:20px;">New Claim<i class="far fa-arrow-right"></i></a>
+        </div>
+      </div>
+  </div>
+</section><!--====== End Breadcrumb Section ======-->
+
+<!--====== Start Job Section ======-->
+<section class="job-section pt-120 pb-90">
+  <div class="container">
+      <!--=== Job Wrapper ===-->
+      <div class="job-wrapper">
+          <div class="row justify-content-center">
+              <div class="col-lg-11">          
+                  <!--=== Single Job Item ===-->
+                  <div *ngFor="let claim of claims" class="single-job-item d-flex mb-40 wow fadeInUp">
+                      <div class="sn-number"></div>
+                      <div class="content d-flex">
+                          <div class="text">
+                              <h3 class="title">{{claim.title}}<span class="duration">{{claim.status}}</span></h3>
+                              <p class="salary">{{ claim.responses.length > 0 ? "Last Reply At " + (claim.responses.at(-1)?.respondedAt | date:"dd-MM-YYYY HH:MM")   : 'Created At ' + (claim.submitDate | date:"dd-MM-YYYY HH:MM")}}</p>
+                          </div>
+                          <div class="action-box">
+                              <a  [routerLink]="['details', claim.id]" class="main-btn primary-btn">Details<i class="far fa-arrow-right"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+<div class="container-fluid">
+
+  <app-page-title title="Jobs List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table align-middle table-nowrap table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" style="width: 70px;">#</th>
+                  <th scope="col">candidate</th>
+                  <th scope="col">Schedule Date Time</th>
+                  <th scope="col">location</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interview of interviews">
+                  <td></td>
+                  <td>
+                    <h5 class="font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{interview.candidateId.email}}</a>
+                    </h5>
+                  </td>
+                  <td>{{interview.scheduledDate | date:'dd-MM-yyyy HH:mm'}}</td>
+
+                  <td>{{interview.location}}</td>
+                  <td>
+                    <div>
+                      <a href="javascript: void(0);" class="badge badge-soft-success font-size-12 m-1"
+                        *ngIf="interview.status=='COMPLETED'">COMPLETED</a>
+                        <a href="javascript: void(0);" class="badge badge-soft-warning font-size-12 m-1"
+                        *ngIf="interview.status=='SCHEDULED'">SCHEDULED</a>
+                        <a href="javascript: void(0);" class="badge badge-soft-danger font-size-12 m-1"
+                        *ngIf="interview.status=='CANCELLED'">CANCELLED</a>
+                    </div>
+                  </td>
+                  <td>
+                    <ul class="list-inline font-size-20 contact-links mb-0">
+                      <li class="list-inline-item px-2">
+                        <a href="javascript: void(0);" ngbTooltip="Cancel" (click)="cancel(interview)" *ngIf="interview.status=='SCHEDULED'"><i class="bx bx-x-circle"></i></a>
+                      </li>                      
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul class="pagination pagination-rounded justify-content-center mt-4">
+                <li class="page-item disabled">
+                  <a href="javascript: void(0);" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
+                </li>
+                <li class="page-item active">
+                  <a href="javascript: void(0);" class="page-link">1</a>
+                </li>
+                <li class="page-item">
+                  <a href="javascript: void(0);" class="page-link">2</a>
+                </li>
+                <li class="page-item">
+                  <a href="javascript: void(0);" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                  <a href="javascript: void(0);" class="page-link">4</a>
+                </li>
+                <li class="page-item">
+                  <a href="javascript: void(0);" class="page-link">5</a>
+                </li>
+                <li class="page-item">
+                  <a href="javascript: void(0);" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

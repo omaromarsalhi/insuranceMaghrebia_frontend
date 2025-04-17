@@ -123,6 +123,20 @@
         "APPOINTMENTS": "Show Appointments"
       }
     },
+    "USER": {
+      "TEXT": "User",
+      "LIST": {
+          "ROLE": "Role List",
+          "USERS":"User List"
+      }
+    },
+    "HR": {
+      "TEXT": "Hr",
+      "LIST": {
+          "JOBS": "Job List",
+          "INTERVIEWS":"Interview List"
+      }
+    },
     "CRYPTO": {
       "TEXT": "Crypto",
       "LIST": {
