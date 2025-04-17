@@ -58,7 +58,7 @@ import { AppointmentManagerComponent } from './appointments/appointment-manager/
     NgbCollapseModule,
     Ng2SearchPipeModule,
     SimplebarAngularModule,
-    LightboxModule,
+    // LightboxModule,
     UIModule,
     NgbPaginationModule,
     Ng5SliderModule,

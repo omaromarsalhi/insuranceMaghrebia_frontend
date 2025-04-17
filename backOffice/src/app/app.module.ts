@@ -14,7 +14,6 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initFirebaseBackend } from './authUtils';
-import { CyptolandingComponent } from './cyptolanding/cyptolanding.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -27,6 +26,8 @@ import { UIModule } from "./shared/ui/ui.module";
 import { InsuranceModule } from './insurance/insurance.module';
 import { PaymentModule } from './payment/payment.module';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
+import { SharedModule } from './shared/shared.module';
+import { PagesModule } from './pages/pages.module';
 
 
 if (environment.defaultauth === 'firebase') {
@@ -59,7 +60,6 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
     LayoutsModule,
     AppRoutingModule,
-    ExtrapagesModule,
     CarouselModule,
     NgbAccordionModule,
     NgbNavModule,
@@ -69,7 +69,8 @@ export function createTranslateLoader(http: HttpClient): any {
     UserModule,
     UIModule,
     NgbModule,
-    InsuranceModule
+    InsuranceModule,
+    PagesModule
   ],
   bootstrap: [AppComponent],
   providers: [

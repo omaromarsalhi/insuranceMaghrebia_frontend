@@ -5,14 +5,12 @@ import { PaymentComponent } from "./payment/paymentContract/payment.component";
 
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)},
   {
     path: "insurance",
     component: LayoutComponent,
     loadChildren: () =>
       import("./insurance/insurance.module").then((m) => m.InsuranceModule),
   },
-  { path: "", component: LayoutComponent },
   {
     path: "payment",
     component: LayoutComponent,
