@@ -1,0 +1,9 @@
+<div class="slider-container">
+  <button (click)="prev()" class="nav-button left">&lt;</button>
+  
+  <div class="image-wrapper" [ngClass]="{'center': images.length < 3}">
+    <img *ngFor="let img of getVisibleImages()" [src]="img" class="slider-image">
+  </div>
+
+  <button (click)="next()" class="nav-button right">&gt;</button>
+</div>

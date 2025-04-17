@@ -11,7 +11,15 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import bootstrapPlugin from "@fullcalendar/bootstrap";
 import { LightboxModule } from 'ngx-lightbox';
 
+import { WidgetModule } from '../shared/widget/widget.module';
+import { UIModule } from '../shared/ui/ui.module';
+
 import { PagesRoutingModule } from './pages-routing.module';
+
+
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ClaimsModule } from '../claims/components/claims.module';
+
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -22,6 +30,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 @NgModule({
   declarations: [],
   imports: [
+    ClaimsModule,
     CommonModule,
     FormsModule,
     NgbDropdownModule,
@@ -29,6 +38,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     PagesRoutingModule,
     NgApexchartsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    UIModule,
+    WidgetModule,
     FullCalendarModule,
     NgbNavModule,
     NgbTooltipModule,

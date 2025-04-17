@@ -9,16 +9,28 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
 import { JobsComponent } from './hr/jobs/jobs.component';
 import { JobComponent } from './hr/job/job.component';
 import { CandidateComponent } from './hr/candidate/candidate.component';
+import { AddClaimPageComponent } from './claim/pages/add-claim-page/add-claim-page.component';
+import { ClaimsPageComponent } from './claim/pages/claims-page/claims-page.component';
+import { ClaimDetailsPageComponent } from './claim/pages/claim-details-page/claim-details-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'home', pathMatch: 'full'},
-  { path: 'home', component: HomeComponent , canActivate : [completeProfileGuard] }, 
-  { path: 'account/profile', component: ProfileComponent , canActivate : [completeProfileGuard] }, 
-  { path: 'account/edit-profile', component: EditProfileComponent , canActivate : [blockEntryGuard] }, 
-  { path: 'account/change-password', component: ChangePasswordComponent , canActivate : [completeProfileGuard] }, 
-  { path: 'jobs', component: JobsComponent , canActivate : [completeProfileGuard] }, 
-  { path: 'job', component: JobComponent , canActivate : [completeProfileGuard] }, 
-  { path: 'job/apply', component: CandidateComponent , canActivate : [completeProfileGuard] }, 
+  { path: 'home', component: HomeComponent , canActivate : [completeProfileGuard] },
+  { path: 'account/profile', component: ProfileComponent , canActivate : [completeProfileGuard] },
+  { path: 'account/edit-profile', component: EditProfileComponent , canActivate : [blockEntryGuard] },
+  { path: 'account/change-password', component: ChangePasswordComponent , canActivate : [completeProfileGuard] },
+  { path: 'jobs', component: JobsComponent , canActivate : [completeProfileGuard] },
+  { path: 'job', component: JobComponent , canActivate : [completeProfileGuard] },
+  { path: 'job/apply', component: CandidateComponent , canActivate : [completeProfileGuard] },
+  {path: 'claim/add',component: AddClaimPageComponent,},
+  {
+    path: 'claims',
+    component: ClaimsPageComponent
+  },
+  {
+    path: 'claims/details/:id',
+    component: ClaimDetailsPageComponent
+  }
 ];
 
 @NgModule({

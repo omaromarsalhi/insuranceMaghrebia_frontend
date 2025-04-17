@@ -15,6 +15,13 @@ import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.componen
 import { CounterComponent } from './shared/ui/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddClaimPageComponent } from './claim/pages/add-claim-page/add-claim-page.component';
+import { MapComponent } from './claim/pages/map/map.component';
+import { ImageEditorComponent } from './claim/pages/image-editor/image-editor.component';
+import { ImageSliderComponent } from './claim/pages/image-slider/image-slider.component';
+import { ClaimsPageComponent } from './claim/pages/claims-page/claims-page.component';
+import { ClaimDetailsPageComponent } from './claim/pages/claim-details-page/claim-details-page.component';
+import { ImageSliderV2Component } from './claim/pages/image-slider-v2/image-slider-v2.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './core/helpers/auth.interceptor';
 import { ProfileComponent } from './user/profile/profile.component';
@@ -45,7 +52,16 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     ChangePasswordComponent,
     JobsComponent,
     JobComponent,
-    CandidateComponent
+    CandidateComponent,
+    CounterComponent,
+    AddClaimPageComponent,
+    MapComponent,
+    ImageEditorComponent,
+    ImageSliderComponent,
+    ClaimsPageComponent,
+    ClaimDetailsPageComponent,
+    ImageSliderV2Component,
+
   ],
   imports: [
     BrowserModule,
@@ -53,11 +69,11 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     AppRoutingModule, // Add the routing module here
     SlickCarouselModule,
     FontAwesomeModule,
-    BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatDialogModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgxFileDropModule
   ],
   providers: [

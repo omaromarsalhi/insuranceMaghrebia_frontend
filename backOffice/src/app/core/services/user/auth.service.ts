@@ -101,6 +101,6 @@ export class AuthService {
     window.location.href = 'http://localhost:4200';
   }
   redirectToAdmin() {
-    window.location.href = 'http://localhost:4300/dashboard';
+    window.location.href = 'http://localhost:4300/user/list';
   }
 }

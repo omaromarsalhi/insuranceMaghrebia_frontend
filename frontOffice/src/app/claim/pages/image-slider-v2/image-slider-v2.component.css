@@ -1,0 +1,45 @@
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 90%; 
+  margin-bottom: 50px;
+}
+
+.image-wrapper {
+  display: flex;
+  gap: 15px;
+  overflow: hidden;
+}
+
+.image-wrapper.center {
+  justify-content: center;
+}
+
+.slider-image {
+  width: 350px; /* Increased the image size */
+  height: 200px; /* Maintain a fixed height for proper aspect ratio */
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slider-image:hover {
+  transform: scale(1.05); /* Slightly enlarges the image on hover without making it square */
+}
+
+.nav-button {
+  background-color: #FFB966; /* Updated color */
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #e69e4d; /* Slightly darker shade on hover */
+}

@@ -12,8 +12,10 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "types": ["html2canvas"],
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "node_modules/html2canvas"
     ],
     "lib": [
       "es2018",

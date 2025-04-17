@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <!-- Mirrored from html.webtend.net/surancy/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Feb 2025 22:31:52 GMT -->
+  <body>
+    <!--====== Start Preloader ======-->
+    
+    <!--====== End Preloader ======-->
+    <!--====== Search From ======-->
+    <div class="modal fade search-modal" id="search-modal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form>
+            <div class="form_group">
+              <input
+                type="search"
+                class="form_control"
+                placeholder="Search here"
+                name="search"
+              />
+              <label><i class="fa fa-search"></i></label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--====== Search From ======-->
+    <!--====== offcanvas-panel ======-->
+    <div class="offcanvas-panel">
+      <div class="panel-overlay"></div>
+      <div class="offcanvas-panel-inner">
+        <div class="panel-logo">
+          <a href="index.html"
+            ><img src="assets/images/logo/logo-black.png" alt="cLogo"
+          /></a>
+        </div>
+        <div class="about-us">
+          <h5 class="panel-widget-title">About Us</h5>
+          <p>
+            Ut enim ad minima veniam, quis nostrum aliquid commodie buy business
+            insurance the set experience.
+          </p>
+        </div>
+        <div class="contact-us">
+          <h5 class="panel-widget-title">Contact Us</h5>
+          <form>
+            <div class="form_group">
+              <input
+                type="text"
+                class="form_control"
+                placeholder="Enter Name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="form_group">
+              <input
+                type="email"
+                class="form_control"
+                placeholder="Enter Email"
+                name="email"
+                required
+              />
+            </div>
+            <div class="form_group">
+              <textarea
+                class="form_control"
+                placeholder="Message"
+                name="message"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form_group">
+              <button class="main-btn secondary-btn">Submit Now</button>
+            </div>
+          </form>
+        </div>
+        <a href="#" class="panel-close"><i class="fal fa-times"></i></a>
+      </div>
+    </div>
+    <!--====== offcanvas-panel ======-->
+    <!--====== Start Hero Section ======-->
+
+    <!--====== Start Breadcrumb Section ======-->
+    <section
+      class="page-banner overlay pt-165 pb-170 bg_cover"
+      style="background-image: url(assets/images/bg/page-bg.jpg)"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <!--=== Page Banner Content ===-->
+            <div class="page-banner-content text-center text-white">
+              <h1 class="page-title">Contact</h1>
+              <ul class="breadcrumb-link text-white">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--====== End Breadcrumb Section ======-->
+    <!--====== Start Contact Form Section ======-->
+    <section class="contact-form-section gray-bg pt-175 pb-100">
+      <div style="margin-left: 3%; margin-right: 3%">
+        <div class="row align-items-center">
+          <div class="col-xl-5 order-2 order-xl-1">
+            <!--=== Contact Form Area ===-->
+            <div class="contact-form-area mb-50 p-r z-1 wow fadeInLeft">
+              <div class="shape shape-one">
+                <span><img src="assets/images/shape/tag.png" alt="" /></span>
+              </div>
+              <!--=== Section Title ===-->
+              <div class="section-title mb-40">
+                <span class="sub-title">Insurance Services</span>
+                <h2>Get Start Insurance</h2>
+              </div>
+              <!--=== Contact Nav Tab ===-->
+              <div class="contact-nav-tab mb-45">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <button
+                      class="nav-link active"
+                      id="home-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#cat1"
+                    >
+                    Claim Details
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      class="nav-link"
+                      #next1
+                      data-bs-toggle="tab"
+                      data-bs-target="#cat2"
+                    >
+                      Images
+                    </button>
+                  </li>
+                  
+                  
+                </ul>
+              </div>
+              <!-- Tab panes -->
+              <form
+                class="contact-form"
+                [formGroup]="claimForm"
+                (ngSubmit)="submit(imageSlider)">
+                <div class="tab-content">
+                  <div class="tab-pane active show fade" id="cat1">
+                    <div class="form_group">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        class="form_control"
+                        placeholder="Car Theft"
+                        name="title"
+                        formControlName="title"
+                        [ngClass]="title?.touched && title?.invalid ? 'field_invalid' : ''"
+
+                      />
+                    </div>
+
+                    <div class="form_group">
+                      <label>Location</label>
+                      <input
+                        type="text"
+                        class="form_control"
+                        placeholder="تونس, تونس"
+                        name="name"
+                        readonly
+                        formControlName="location"
+                        [ngClass]="location?.touched && location?.invalid ? 'field_invalid' : ''"
+
+                      />
+                      <div class="error" *ngIf="location?.touched && location?.hasError('required')">Please Select A Location From The Map</div>
+
+                    </div>
+                    <div class="form_group">
+                      <label>Incident Time</label>
+                      <input
+                        type="datetime-local"
+                        class="form_control"
+                        name="date"
+                        formControlName="incidentTime"
+                        [ngClass]="incidentTime?.touched && incidentTime?.invalid ? 'field_invalid' : ''"
+                      />
+                      <div class="error" *ngIf="incidentTime?.hasError('timeInFuture')">Incident Time Cannot Be In The Future</div>
+                    </div>
+                    <div class="error" *ngIf="incidentTime?.touched && incidentTime?.hasError('required')">Please Pick The Incident Type</div>
+                    <div class="form_group">
+                      <label>Insurance Type</label>
+                      <select
+                        class="wide"
+                        id="incident-types"
+                        formControlName="incidentType"
+                        [ngClass]="incidentType?.touched && incidentType?.invalid ? 'field_invalid' : ''"
+                      >
+                        <option
+                          *ngFor="let incidentTypeTmp of incidentTypes"
+                          [value]="incidentTypeTmp.id"
+                        >
+                          {{ incidentTypeTmp.name }}
+                        </option>
+                      </select>
+                      
+                      <div
+                        *ngIf="incidentType?.touched && incidentType?.errors?.['required']"
+                      >
+                        incident type error
+                      </div>
+                    </div>
+                    <div class="form_group">
+                      <label>Description</label>
+                      <textarea
+                        rows="4"
+                        class="form_control"
+                        name="description"
+                        formControlName="description"
+                        style="height: unset"
+                        [ngClass]="description?.touched && description?.errors?.['required'] ? 'field_invalid' : ''"
+                      >
+                      </textarea>
+                      <div class="error" *ngIf="description?.touched && description?.hasError('required')">Please Provide A Description To The Incident</div>
+                    </div>
+                    <div class="form_group">
+                      <button
+                        type="button"
+                        class="main-btn primary-btn"
+                        (click)="nextFormPage()"
+                      >
+                        Submit claim<i class="far fa-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="cat2">
+                    <div class="form_group">
+                      <label>Image</label>
+                      <ngx-file-drop
+                        dropZoneLabel="Drop image files here"
+                        [accept]="'image/*'"
+                        (onFileDrop)="dropped($event)"
+                        (onFileOver)="fileOver($event)"
+                        (onFileLeave)="fileLeave($event)"
+                      >
+                        <ng-template
+                          ngx-file-drop-content-tmp
+                          let-openFileSelector="openFileSelector"
+                        >
+                          <div
+                            style="
+                              height: 100%;
+                              width: 100%;
+                              cursor: pointer;
+                              justify-items: center;
+                              align-content: center;
+                            "
+                            (click)="openFileSelector()"
+                          >
+                            <p>Drop only image files (JPG, PNG, GIF, etc.)</p>
+                          </div>
+                        </ng-template>
+                      </ngx-file-drop>
+                    </div>
+
+                    <div class="form_group">
+                      <button
+                        class="main-btn primary-btn"
+                        style="margin-top: 15px"
+                      >
+                        File a Claim<i class="far fa-arrow-right" style="margin-bottom:10px"></i>
+                      </button>
+                      <app-image-slider #imageSlider></app-image-slider>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-xl-7 order-1 order-xl-2">
+            <claim-map
+              *ngIf="step == 1"
+              (locationEmitter)="fillLocationField($event)"
+            ></claim-map>
+            <div *ngIf="step == 2">
+              <app-image-editor
+                [inputImage]="selectedFile"
+                (canvasEmitter)="saveCanvasToSlider($event, imageSlider)"
+              >
+              </app-image-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--====== End Contact Form Section ======-->
+  </body>
+
+  <!-- Mirrored from html.webtend.net/surancy/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Feb 2025 22:31:53 GMT -->
+</html>
