@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import {CamplaintComponent} from "./complaints/camplaint/camplaint.component";
+import {ShowComplaintComponent} from "./complaints/show-complaint/show-complaint.component";
+import {ResponseComplaintComponent} from "./complaints/response-complaint/response-complaint.component";
+import {PopupComponent} from "./complaints/popup/popup.component";
 import { ProfileComponent } from './user/profile/profile.component';
 import { completeProfileGuard } from './core/guards/complete-profile.guard';
 import { blockEntryGuard } from './core/guards/block-entry.guard';
@@ -22,15 +26,16 @@ const routes: Routes = [
   { path: 'jobs', component: JobsComponent , canActivate : [completeProfileGuard] },
   { path: 'job', component: JobComponent , canActivate : [completeProfileGuard] },
   { path: 'job/apply', component: CandidateComponent , canActivate : [completeProfileGuard] },
-  {path: 'claim/add',component: AddClaimPageComponent,},
+  {path: 'claim/add',component: AddClaimPageComponent,canActivate : [completeProfileGuard]},
   {
     path: 'claims',
-    component: ClaimsPageComponent
+    component: ClaimsPageComponent,canActivate : [completeProfileGuard]
   },
   {
     path: 'claims/details/:id',
-    component: ClaimDetailsPageComponent
-  }
+    component: ClaimDetailsPageComponent,canActivate : [completeProfileGuard]
+  },
+  {path: 'complaints', loadChildren: () => import('./complaints/complaints-module').then(m => m.ComplaintsModule) ,canActivate : [completeProfileGuard] },
 ];
 
 @NgModule({

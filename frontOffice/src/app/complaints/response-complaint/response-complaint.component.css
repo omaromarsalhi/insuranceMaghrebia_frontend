@@ -1,0 +1,12 @@
+.comments-area {
+  max-height: 500px; /* Ajustez cette valeur en fonction de votre besoin */
+  overflow-y: auto;  /* Ajoute une barre de défilement verticale si nécessaire */
+}
+.test{
+  color:#e0a85c;
+}
+.disabled-form {
+  opacity: 0.5;  /* Rend le formulaire plus transparent */
+  pointer-events: none;  /* Désactive toute interaction (clics, saisies) */
+}
+

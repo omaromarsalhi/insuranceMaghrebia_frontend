@@ -1,0 +1,145 @@
+.thread-container {
+  border-radius: 0.6rem;
+  background-color: rgba(var(--bs-light-rgb), 0.4);
+}
+
+.timeline {
+  position: relative;
+  padding: 1rem 1.5rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 1rem 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 1.7rem;
+  top: 2.8rem;
+  bottom: -1rem;
+  width: 1px;
+  background-color: var(--bs-border-color-translucent);
+}
+
+.timeline-item:last-child::before {
+  display: none;
+}
+
+.timeline-item-right {
+  flex-direction: row-reverse;
+}
+
+.timeline-item-right::before {
+  left: auto;
+  right: 1.7rem;
+}
+
+.timeline-badge {
+  position: relative;
+  z-index: 2;
+  margin-top: 0.3rem;
+}
+
+.timeline-badge img {
+  width: 24px;
+  height: 24px;
+}
+
+.timeline-content {
+  flex: 1;
+  background: white;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  border: 1px solid var(--bs-border-color-translucent);
+  transition: all 0.2s ease;
+  max-width: 480px;
+}
+
+.timeline-item-right .timeline-content {
+  background: var(--bs-primary-bg-subtle);
+  border-color: var(--bs-primary-border-subtle);
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.timeline-body p {
+  color: var(--bs-body-color);
+  line-height: 1.4;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
+.timeline-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+  font-size: 0.75rem;
+}
+
+.message-editor {
+  transition: all 0.2s ease;
+  background: var(--bs-body-bg);
+  padding: 0.75rem;
+}
+
+.message-editor:focus-within {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.1);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.btn-icon:hover {
+  transform: scale(1.03);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bs-primary);
+  border-radius: 6px;
+}
+
+.timeline-header span.text-muted {
+  font-size: 0.75rem;
+}
+
+.timeline-body p {
+  margin-bottom: 0.25rem;
+}
+
+.invalid-feedback small {
+  font-size: 0.75rem;
+}
+.error-message {
+  color: #dc3545;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.error-message i {
+  margin-right: 5px;
+}
+.thread-container {
+  margin-bottom: 0 !important;
+}

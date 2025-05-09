@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
 import { MagnificPopupDirective } from './directives/magnific-popup.directive';
 import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
@@ -34,13 +33,14 @@ import { JobsComponent } from './hr/jobs/jobs.component';
 import { JobComponent } from './hr/job/job.component';
 import { CandidateComponent } from './hr/candidate/candidate.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import {ComplaintsModule} from "./complaints/complaints-module";
+import {SharedModule} from "./shared/ui/shared.module";
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    PreloaderComponent,
     MagnificPopupDirective,
     NiceSelectDirective,
     AnimationDirective,
@@ -65,8 +65,9 @@ import { NgxFileDropModule } from 'ngx-file-drop';
   ],
   imports: [
     BrowserModule,
-    RouterModule, // Add RouterModule here
-    AppRoutingModule, // Add the routing module here
+    RouterModule,
+    AppRoutingModule,
+    SharedModule,
     SlickCarouselModule,
     FontAwesomeModule,
     HttpClientModule,
@@ -74,7 +75,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    ComplaintsModule
   ],
   providers: [
 
