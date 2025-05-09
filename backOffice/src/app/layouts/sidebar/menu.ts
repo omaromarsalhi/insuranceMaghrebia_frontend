@@ -29,20 +29,28 @@ export const MENU: MenuItem[] = [
                 link: '/insurance/offers',
                 parentId: 2
             },
+
+        ]
+    },
+    {
+        id: 5,
+        label: 'Payment',
+        icon: 'bx-credit-card',
+        subItems: [
             {
                 id: 6,
-                label: 'MENUITEMS.INSURANCE.LIST.EDITOFFER',
-                link: '/insurance/edit-offer',
-                parentId: 2
+                label: 'Payment ',
+                link: '/payment/contract',
+                parentId: 5
             },
             {
                 id: 7,
-                label: 'MENUITEMS.INSURANCE.LIST.APPOINTMENTS',
-                link: '/insurance/appointments',
-                parentId: 2
-            },
-     
+                label: 'Payment Details',
+                link: '/payment/details/:userId',
+                parentId: 5
+            }
         ]
+
     }
 ];
 

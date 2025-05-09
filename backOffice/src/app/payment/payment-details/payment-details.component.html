@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <app-page-title [title]="'Contract List'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <!-- Filter and Search Bar -->
+    <div class="row mb-3 g-2">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Search by Offer ID..." [(ngModel)]="searchQuery"
+                (input)="applyFilter()">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="statusFilter" (change)="applyFilter()">
+                <option value="">All Statuses</option>
+                <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+                <i class="bx bx-refresh"></i> Reset Filters
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-xl-4 col-md-6" *ngFor="let payment of filteredData">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-md me-3">
+                                <span class="avatar-title rounded-circle bg-light text-danger">
+                                    <img [src]="getPhotoUrl(payment.offerId)" alt class="img-fluid" height="30">
+                                </span>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">{{ payment.offerId }}</h5>
+                                <small class="text-muted">Duration: {{ payment.planDuration }}</small>
+                            </div>
+                        </div>
+                        <span class="badge align-self-start" [ngClass]="{
+                            'bg-success': payment.paymentStatus === 'Paid',
+                            'bg-warning': payment.paymentStatus === 'Pending',
+                            'bg-danger': payment.paymentStatus === 'Overdue'
+                        }">
+                            {{ payment.paymentStatus }}
+                        </span>
+                    </div>
+                    <div class="mb-2 flex-grow-1 mt-3">
+                        <ul class="list-unstyled">
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="bx bx-user me-2 text-muted"></i>
+                                <span>Client Name : {{ payment.userId }}</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="bx bx-money me-2 text-muted"></i>
+                                <span>Amount: {{ payment.totalAmount | currency }}</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="bx bx-calendar me-2 text-muted"></i>
+                                <span>Purchased: {{ payment.contractCreatedAt | date:'d MMM, yyyy' }}</span>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mt-auto pt-2">
+                        <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(payment)">
+                            <i class="bx bx-show me-1"></i> Details
+                        </button>
+                        <button class="btn btn-sm btn-outline-success" (click)="markAsPaid(payment)"
+                            *ngIf="payment.paymentStatus === 'Pending'">
+                            <i class="bx bx-check me-1"></i> Mark Paid
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="hasMoreData">
+        <div class="col-12 text-center my-3">
+            <button class="btn btn-link text-success" (click)="loadMore()">
+                <i class="bx bx-loader bx-spin font-size-18 align-middle me-2"></i>
+                Load More
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="filteredData.length === 0">
+        <div class="col-12 text-center my-5">
+            <h4 class="text-muted">No contracts found</h4>
+        </div>
+    </div>
+</div>

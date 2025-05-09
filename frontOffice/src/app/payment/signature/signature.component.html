@@ -1,0 +1,51 @@
+<!-- <div class="signature-container p-4">
+    <h2 class="text-center mb-4">Please Sign Below</h2>
+
+    <div class="signature-instructions mb-3">
+        <p class="text-muted">Your signature is required to authorize this payment</p>
+    </div>
+
+    <h2 mat-dialog-title>Sign Below</h2>
+    <div mat-dialog-content>
+        <canvas #signatureCanvas width="400" height="200" style="border: 1px solid #000;"></canvas>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="clearSignature()">Clear</button>
+        <button mat-button (click)="closeModal()">Cancel</button>
+        <button mat-button color="primary" (click)="confirmSignature()">Confirm</button>
+    </div>
+</div> -->
+
+<div class="signature-modal">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h2>Electronic Signature</h2>
+        <button mat-icon-button (click)="closeModal()" class="close-button">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="modal-content">
+        <p class="instruction-text">Please sign in the designated area below</p>
+
+        <div class="signature-container">
+            <canvas #signatureCanvas class="signature-pad"></canvas>
+            <div class="help-text" *ngIf="showHelpText">
+                <i class="fas fa-signature"></i>
+                <span>Draw your signature here</span>
+            </div>
+            <div class="signature-line"></div>
+        </div>
+    </div>
+
+    <!-- Modal Actions -->
+    <div class="modal-actions">
+        <button mat-stroked-button (click)="clearSignature()">
+            <i class="fas fa-eraser"></i> Clear
+        </button>
+        <button mat-raised-button (click)="confirmSignature()" [disabled]="isSignatureEmpty">
+            <i class="fas fa-check-circle"></i> Confirm Signature
+        </button>
+    </div>
+</div>

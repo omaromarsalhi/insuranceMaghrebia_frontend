@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   defaultauth: 'fackbackend',
+  apiUrl: 'http://localhost:9001/api/v1/payment-contracts',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

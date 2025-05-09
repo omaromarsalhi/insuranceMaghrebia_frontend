@@ -1,0 +1,95 @@
+<section class="page-banner overlay pt-170 pb-170 bg_cover"
+    style="background-image: url(../../../assets/images/bg/page-bg.jpg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!--=== Page Banner Content ===-->
+                <div class="page-banner-content text-center text-white">
+                    <h1 class="page-title">Insurance Services</h1>
+                    <ul class="breadcrumb-link text-white">
+                        <li><a routerLink="/home">Home</a></li>
+                        <li class="active">Services</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--====== End Breadcrumb Section ======-->
+<!--=== Recent Post Widget ===-->
+<section class="contact-form-section gray-bg pt-175 pb-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-7 order-2 order-xl-1">
+
+
+                <!-- HERE WHAT I DID -->
+                <!--=== Recent Post Widget ===-->
+                <div class="contact-info-list mb-50 pl-lg-70 wow fadeInRight">
+                    <ul>
+                        <li *ngFor="let settlement of settlements">
+                            <!--=== Single Info Item ===-->
+                            <div class="single-info-item d-flex mb-40">
+                                <div class="icon">
+                                    <i class="{{ settlement.icon }}"></i> <!-- Dynamic icon from backend -->
+                                </div>
+                                <div class="info">
+                                    <span class="title">{{ settlement.title }}</span>
+                                    <h3>Due Date: {{ settlement.dueDate }}, Amount: ${{ settlement.amount }}</h3>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="text-center mt-4">
+                        <button class="main-btn primary-btn" (click)="proceedToPayment()">
+                            Proceed to Pay <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+
+                    <!--=== Social Box ===-->
+                    <!-- <div class="social-box pt-40">
+                        <ul class="social-link-two">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        </ul>
+                    </div> -->
+                </div>
+                <!-- finished update -->
+            </div>
+            <div class="col-xl-5 order-1 order-xl-2">
+                <!--=== Contact Image Box ===-->
+                <div class="contact-image-box text-center text-xl-right mb-50 wow fadeInRight">
+                    <img src="assets/images/gallery/contact-1.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--====== End Contact Form Section ======-->
+
+<!--====== Start Contact Info Section ======-->
+<section class="contact-info-section pt-130 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <!--=== Contact Content Box ===-->
+                <div class="contact-content-box mb-50 pr-lg-70 wow fadeInLeft">
+                    <!--=== Section Title ===-->
+                    <!-- I am GONNNA ADD MY THINGS -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section><!--====== End Contact Info Section ======-->
+
+<!--====== Start Contact Map Section ======-->
+<section class="contact-map-page pb-90 wow fadeInUp">
+    <!--=== Map Box ===-->
+    <div class="map-box wow fadeInUp">
+        <iframe
+            src="https://maps.google.com/maps?q=new%20york&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
+    </div>
+</section><!--====== End Contact Map Section ======-->
