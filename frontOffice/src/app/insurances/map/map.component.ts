@@ -17,7 +17,7 @@ import {
 } from '@angular/animations';
 import tt from '@tomtom-international/web-sdk-maps';
 import { services } from '@tomtom-international/web-sdk-services';
-import { environment } from 'envirement';
+// import { environment } from 'envirement';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
@@ -38,7 +38,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
   ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  private readonly TOMTOM_API_KEY = environment.tomtom_api_key; // Replace with your actual API key
+  private readonly TOMTOM_API_KEY = 'environment.tomtom_api_key'; // Replace with your actual API key
 
   private map!: tt.Map;
   private marker: tt.Marker | null = null;

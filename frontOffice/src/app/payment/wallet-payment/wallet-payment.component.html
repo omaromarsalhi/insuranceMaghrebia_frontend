@@ -7,18 +7,18 @@
     <div class="balance-summary">
         <div class="balance-row">
             <span>Current Balance:</span>
-            <span class="amount">${{ walletBalance | number:'1.2-2' }}</span>
+            <span class="amount">{{ walletBalance | number:'1.2-2' }} Dt</span>
         </div>
 
         <div class="balance-row">
             <span>Payment Amount:</span>
-            <span class="amount">-${{ paymentAmount | number:'1.2-2' }}</span>
+            <span class="amount">-{{ paymentAmount | number:'1.2-2' }} Dt</span>
         </div>
 
         <div class="balance-row total">
             <span>Remaining Balance:</span>
             <span class="amount" [class.insufficient]="!hasSufficientFunds">
-                ${{ remainingBalance | number:'1.2-2' }}
+                {{ remainingBalance | number:'1.2-2' }} Dt
             </span>
         </div>
 

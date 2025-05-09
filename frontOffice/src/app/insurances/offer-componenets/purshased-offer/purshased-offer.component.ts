@@ -44,7 +44,7 @@ import { WalletService } from 'src/app/core/services/wallet.service';
         ),
       ]),
     ]),
-     trigger('slideFade', [
+    trigger('slideFade', [
       transition(':enter', [
         style({
           opacity: 0,
@@ -105,13 +105,15 @@ export class PurshasedOfferComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private walletService: WalletService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
     this.offerId = this.route.snapshot.paramMap.get('offerId') || 'null';
     this.price = this.route.snapshot.queryParamMap.get('price');
     this.insuranceForm = this.fb.group({});
+
+    this.loadWalletData("user_4444");
 
     this._fetchData(() => {
       this.createFormControls();
@@ -260,8 +262,7 @@ export class PurshasedOfferComponent implements OnInit {
           this.walletId = walletResponse.walletId;
           console.log('wallet responsee ', walletResponse);
           console.log('wallet wallet IDe ', walletResponse.walletId);
-
-          this.isLoading = false;
+          // this.isLoading = false;
           resolve();
         },
         error: (err) => {
@@ -273,8 +274,8 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   openWalletModal() {
-    this.isWalletDialogOpen=!this.isWalletDialogOpen
-    this.selectedMethod ='wallet'
+    this.isWalletDialogOpen = !this.isWalletDialogOpen
+    this.selectedMethod = 'wallet'
     // this.isButtonVisible = false;
     // if (this.paymentForm.invalid) {
     //   return;
@@ -319,8 +320,8 @@ export class PurshasedOfferComponent implements OnInit {
   // }
 
   proceedToPayment() {
-    this.isWalletDialogOpen=false;
-    this.selectedMethod='card';
+    this.isWalletDialogOpen = false;
+    this.selectedMethod = 'card';
     if (this.selectedMethod === 'card') {
       this.router.navigate(['/card-payment']);
     }

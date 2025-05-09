@@ -185,9 +185,9 @@
                                 </div>
 
                                 <div *ngIf="step==maxSteps && isWalletDialogOpen">
-                                    <app-wallet-payment [@slideFade]  [paymentAmount]="100"
-                                        [walletBalance]="200" [walletId]="'abc123'" [planDuration]="6"
-                                        [offerId]="'offer789'" [userId]="'user456'">
+                                    <app-wallet-payment [@slideFade] [paymentAmount]="price"
+                                        [walletBalance]="walletBalance" [walletId]="walletId" [planDuration]="6"
+                                        [offerId]="offerId" [userId]="'user456'">
                                     </app-wallet-payment>
                                 </div>
 
