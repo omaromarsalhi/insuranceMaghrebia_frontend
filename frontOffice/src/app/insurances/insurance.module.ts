@@ -16,6 +16,7 @@ import { MapComponent } from './map/map.component';
 import { QuoteAppointmentComponent } from './offer-componenets/quote-appointment/quote-appointment.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { BillingPeriodPipe } from './pipes/billing-period.pipe';
+import { PaymentModule } from '../payment/payment.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { BillingPeriodPipe } from './pipes/billing-period.pipe';
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
+    PaymentModule
   ],
 })
 export class InsuranceModule {}

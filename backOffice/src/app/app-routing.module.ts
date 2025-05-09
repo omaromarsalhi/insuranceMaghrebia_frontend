@@ -3,15 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './layouts/layout.component';
-import { CategoryComponent } from './insurance/particular/category/category.component';
 import { PaymentComponent } from './payment/paymentContract/payment.component';
 
 
 const routes: Routes = [
-  {
-    path: 'category',
-    component: CategoryComponent
-  },
   {
     path: 'insurance',
     component: LayoutComponent,

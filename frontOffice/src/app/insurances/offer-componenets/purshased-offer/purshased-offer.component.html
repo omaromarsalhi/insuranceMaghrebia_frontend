@@ -1,19 +1,6 @@
-
 <app-preloader></app-preloader>
 
 <section class="contact-form-section gray-bg pt-125 pb-100" style="padding: 150px; padding-left: 150px">
-    <!-- Popup Overlay -->
-    <div class="overlay" *ngIf="showPopup" (click)="showPopup = false" @fadeInOut>
-        <div class="modal-content" (click)="$event.stopPropagation()" @slideIn>
-            <button class="close-btn" (click)="showPopup = false">&times;</button>
-            <h3>Thank You!</h3>
-            <span *ngIf="isLoading">
-                <i class="fa fa-spinner fa-spin"></i> Loading...
-            </span>
-            <p *ngIf="!isLoading">Your submission has been received.</p>
-            <button *ngIf="!isLoading" class="main-btn primary-btn" (click)="showPopup = false">Close</button>
-        </div>
-    </div>
 
     <div class="container">
         <div class="row align-items-center">
@@ -21,14 +8,30 @@
             <div class="col-xl-6 order-2 order-xl-1 mt-4 mb-4">
                 <div class="contact-form-area mb-10 p-r z-1 wow fadeInLeft formSection">
                     <div class="section-title mb-10">
-                        <h2>Get Your Insurance</h2>
+                        <h2 *ngIf="step!==maxSteps">Get Your Insurance</h2>
+                        <h2 *ngIf="step===maxSteps">Get Secure Payment</h2>
                     </div>
+
+                    <!-- Popup Overlay -->
+                    <div class="overlay" *ngIf="showPopup" (click)="showPopup = false" @fadeInOut>
+                        <div class="modal-content" (click)="$event.stopPropagation()" @slideIn>
+                            <button class="close-btn" (click)="showPopup = false">&times;</button>
+                            <h3>Thank You!</h3>
+                            <span *ngIf="isLoading">
+                                <i class=" fa fa-spinner fa-spin"></i> Loading...
+                            </span>
+                            <p *ngIf="!isLoading">Your submission has been received.</p>
+                            <button *ngIf="!isLoading" class="fs-6 main-btn primary-btn" style="height: 1rem"
+                                (click)="showPopup = false">Close</button>
+                        </div>
+                    </div>
+
 
                     <div class="tab-content">
                         <div class="tab-pane active show fade" id="dynamicForm">
                             <form class="contact-form" [formGroup]="insuranceForm">
                                 <ng-container *ngFor="
-                    let field of formFields;
+                    let field of chosenForm;
                     let i = index;
                     trackBy: trackByFn
                   ">
@@ -48,6 +51,11 @@
                                         <input *ngSwitchCase="'text'" class="form_control sideLine"
                                             [placeholder]="field.placeholder || ''"
                                             [formControlName]="getFormControlName(field, i)" type="text" />
+
+                                        <!-- show Text Input -->
+                                        <input *ngSwitchCase="'show_text'" class="form_control sideLine"
+                                            [disabled]="true" [value]="field.placeholder" type="text" />
+
 
                                         <!-- Textarea Input -->
                                         <textarea *ngSwitchCase="'textarea'" class="form_control sideLine"
@@ -94,7 +102,7 @@
                                         </div>
 
                                         <!-- Range Input -->
-                                
+
                                         <div *ngSwitchCase="'range'" class="single-progress-bar progress-style-one">
                                             <!-- Range Input -->
                                             <input type="range" class="form-control range-slider"
@@ -117,7 +125,8 @@
                                         <div *ngSwitchCase="'checkbox'" class="check-list flex items-center gap-2">
                                             <div class="checkbox-item">
                                                 <label class="checkbox-label">
-                                                    <input type="checkbox" [formControlName]="getFormControlName(field, i)">
+                                                    <input type="checkbox"
+                                                        [formControlName]="getFormControlName(field, i)">
                                                     <span class="checkmark"></span>
                                                     {{ field.label }}
                                                 </label>
@@ -134,7 +143,7 @@
                                         </div>
 
                                         <!-- Validation Errors -->
-                                        <div *ngIf="
+                                        <div *ngIf="step!==maxSteps&&
                         insuranceForm.controls[getFormControlName(field, i)]
                           .invalid &&
                         (insuranceForm.controls[getFormControlName(field, i)]
@@ -153,25 +162,59 @@
                                         </div>
                                     </div>
                                 </ng-container>
+                                <div *ngIf="step==maxSteps" class="methods-column">
+                                    <div class="method-options compact">
+                                        <h5 class="payment-title">Pay With:</h5>
+
+                                        <div class="method-row">
+                                            <div class="method-pill" (click)="proceedToPayment()"
+                                                [class.selected]="selectedMethod === 'card'">
+                                                <i class="far fa-credit-card"></i>
+
+                                                <span>Card </span>
+                                            </div>
+
+                                            <div class="method-pill" (click)="openWalletModal()"
+                                                [class.selected]="selectedMethod === 'wallet'">
+                                                <i class="fas fa-wallet"></i>
+                                                <span>Wallet</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="step==maxSteps && isWalletDialogOpen">
+                                    <app-wallet-payment [@slideFade]  [paymentAmount]="100"
+                                        [walletBalance]="200" [walletId]="'abc123'" [planDuration]="6"
+                                        [offerId]="'offer789'" [userId]="'user456'">
+                                    </app-wallet-payment>
+                                </div>
+
+
+
 
                                 <div class="form_group">
-                                    <!-- <button type="submit" class="main-btn primary-btn btn-link no-underline"
-                                        [disabled]="isLoading" (click)="onSubmit()">
-                                        <span *ngIf="!isLoading">Submit <i class="fa fa-arrow-right"></i></span>
-                                        <span *ngIf="isLoading">
-                                            <i class="fa fa-spinner fa-spin"></i> Loading...
-                                        </span>
-                                    </button> -->
-                                    <button type="submit" class="main-btn primary-btn btn-link no-underline"
-                                        (click)="onSubmit()">
-                                        <span >Submit <i class="fa fa-arrow-right"></i></span>
-                                    </button>
                                     <div *ngIf="!insuranceForm.valid && notValid"
                                         class="validation-error text-danger ms-1 mt-2">
                                         <span style="font-size: 18px">
                                             One or more fields have an error. Please check and try
                                             again.
                                         </span>
+                                    </div>
+                                    <div class="button-group mt-40">
+                                        <button *ngIf="step > 1" type="button" class="main-btn secondary-btn mr-20"
+                                            (click)="prevStep()">
+                                            <i class="fas fa-arrow-left"></i> Previous
+                                        </button>
+                                        <button *ngIf="step < maxSteps" type="button" class="main-btn primary-btn"
+                                            (click)="nextStep()">
+                                            Next <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                        <button *ngIf="step === maxSteps" type="submit"
+                                            class="main-btn primary-btn btn-link no-underline" (click)="onSubmit()">
+                                            <span>Submit <i class="fa fa-arrow-right"></i></span>
+                                        </button>
                                     </div>
                                 </div>
                             </form>

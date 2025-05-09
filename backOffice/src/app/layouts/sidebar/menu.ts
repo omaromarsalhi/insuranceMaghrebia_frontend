@@ -11,7 +11,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.INSURANCE.TEXT',
         icon: 'bx-store',
         subItems: [
-            {
+             {
                 id: 3,
                 label: 'MENUITEMS.INSURANCE.LIST.CATEGORY',
                 link: '/insurance/categories',
@@ -29,7 +29,18 @@ export const MENU: MenuItem[] = [
                 link: '/insurance/offers',
                 parentId: 2
             },
-
+            {
+                id: 6,
+                label: 'MENUITEMS.INSURANCE.LIST.EDITOFFER',
+                link: '/insurance/edit-offer',
+                parentId: 2
+            },
+            {
+                id: 7,
+                label: 'MENUITEMS.INSURANCE.LIST.APPOINTMENTS',
+                link: '/insurance/appointments',
+                parentId: 2
+            },
         ]
     },
     {

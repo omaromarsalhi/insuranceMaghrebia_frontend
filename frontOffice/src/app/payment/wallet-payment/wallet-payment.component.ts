@@ -16,33 +16,22 @@ import { PaymentPlanService } from 'src/app/core/services/payment-plan.service';
   styleUrls: ['./wallet-payment.component.css']
 })
 export class WalletPaymentComponent {
-  // @Input() paymentAmount: number = 0;
-  // @Output() paymentConfirmed = new EventEmitter<void>();
-  // @Output() cancelPayment = new EventEmitter<void>();
+  @Input() paymentAmount!: number;
+  @Input() walletBalance!: number;
+  @Input() walletId!: string;
+  @Input() planDuration!: number;
+  @Input() offerId!: string;
+  @Input() userId!: string;
 
-  paymentAmount: number;
-  walletBalance: number;
-  walletId: string;
-  planDuration: string;
-  offerId: string;
-  userId: string;
   isLoading: boolean = true;
 
 
   constructor(
     private walletService: WalletService,
     private paymentService: PaymentContractService,
-    public dialogRef: MatDialogRef<WalletPaymentComponent>,
     private router: Router,
     private paymentPlanService: PaymentPlanService,
-    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.paymentAmount = data.paymentAmount;
-    this.walletBalance = data.walletBalance;
-    this.walletId = data.walletId;
-    this.planDuration = data.planDuration;
-    this.offerId = data.offerId;
-    this.userId = data.userId
   }
 
 
@@ -54,49 +43,20 @@ export class WalletPaymentComponent {
     return this.walletBalance >= this.paymentAmount;
   }
 
-  async confirmPayment() {
-    if (!this.hasSufficientFunds) return;
-    try {
-      const paymentResponse = await this.savePayment();
-      const walletResponse = await this.updateWallet();
-      console.log(paymentResponse);
-      this.router.navigate([`/paymentPlan/${paymentResponse.contractPaymentId}`])
+  // async confirmPayment() {
+  //   if (!this.hasSufficientFunds) return;
+  //   try {
+  //     const paymentResponse = await this.savePayment();
+  //     const walletResponse = await this.updateWallet();
+  //     console.log(paymentResponse);
+  //     this.router.navigate([`/paymentPlan/${paymentResponse.contractPaymentId}`])
 
-      this.dialogRef.close({
-        success: true,
-        walletResponse: walletResponse.balance,
-        paymentData: paymentResponse,
-      });
+  //   } catch (error) {
+  //     console.error("error in wallet : ", error)
+  //   }
 
-
-    } catch (error) {
-      console.error("error in wallet : ", error)
-    }
-
-  }
-  cancel() {
-    this.dialogRef.close(false);
-  }
-
-  // updateWallet() {
-  //   const newWallet: WalletRequest = {
-  //     userId: "user_4444",
-  //     currency: "USD",
-  //     fullName: "John Doe",
-  //     source: TransactionType.PAYMENT,
-  //   };
-
-  //   this.walletService.update(newWallet, this.walletId, this.paymentAmount).subscribe({
-  //     next: (response) => {
-  //       console.log('Wallet created successfully!', response);
-  //       this.walletBalance = response.balance
-  //       console.log(response);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error creating wallet:', err);
-  //     }
-  //   });
   // }
+
 
   private async updateWallet(): Promise<any> {
     const newWallet: WalletRequest = {

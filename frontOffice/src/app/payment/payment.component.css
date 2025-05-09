@@ -549,32 +549,6 @@ button:disabled {
      font-family: 'Syne', sans-serif;
  }
 
- /* wallelt  */
- /* .wallet-breakdown {
-    border: 1px solid #e0e3e7;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem 0;
-}
-
-.breakdown-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.6rem 0;
-}
-
-.breakdown-row:not(:last-child) {
-    border-bottom: 1px solid #f1f3f5;
-}
-
-.breakdown-row.total {
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.text-danger {
-    color: #e74c3c;
-} */
 
  /* Wallet Panel Styles */
  .wallet-overlay {

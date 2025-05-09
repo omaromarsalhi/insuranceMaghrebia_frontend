@@ -166,6 +166,8 @@ export class PaymentComponent implements OnInit {
       this.router.navigate(['/card-payment']);
     }
   }
+
+
   savePayment() {
     if (this.paymentForm.invalid) {
       this.onPaymentPopUp("Fields Requirement", "Please fill all the required fields!");

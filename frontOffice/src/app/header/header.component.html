@@ -102,9 +102,10 @@
                                                     <small>3 available offers</small>
                                                 </div>
                                             </a>
-                                            
+
                                             <div class="myBtn read-more justify-content-center">
-                                                <a  [routerLink]="['/insurance/categories','PARTICULAR']" class="no-underline btn-link">More <i
+                                                <a [routerLink]="['/insurance/categories','PARTICULAR']"
+                                                    class="no-underline btn-link">More <i
                                                         class="fa fa-arrow-right"></i></a>
                                             </div>
                                         </div>
@@ -184,10 +185,54 @@
                 </div>
                 <!--====== Nav Right Item ======-->
                 <div class="nav-right-item">
+
+                    <div class="wallet-wrapper">
+                        <div class="wallet-trigger" (click)="toggleWallet()">
+                            <i class="fas fa-wallet"></i>
+                            <span class="wallet-amount">${{ walletBalance.toFixed(2) }}</span>
+                        </div>
+
+                        <div class="wallet-dropdown" *ngIf="showWalletDropdown" @fadeInAnimation>
+                            <div class="wallet-header">
+                                <h5>Your Wallet</h5>
+                                <div class="balance">${{ walletBalance.toFixed(2) }}</div>
+                            </div>
+                            <div class="wallet-actions">
+                                <a href="#" class="wallet-action-btn deposit">
+                                    <i class="fas fa-plus"></i> Deposit
+                                </a>
+                                <a href="#" class="wallet-action-btn transfer">
+                                    <i class="fas fa-exchange-alt"></i> Transfer
+                                </a>
+                            </div>
+                            <div class="transaction-history">
+                                <div class="transaction-item">
+                                    <i class="fas fa-arrow-up text-success"></i>
+                                    <div class="transaction-info">
+                                        <span>Insurance Claim</span>
+                                        <small>Today, 10:30 AM</small>
+                                    </div>
+                                    <span class="amount text-success">+$500.00</span>
+                                </div>
+                                <div class="transaction-item">
+                                    <i class="fas fa-arrow-down text-danger"></i>
+                                    <div class="transaction-info">
+                                        <span>Premium Payment</span>
+                                        <small>Yesterday, 2:15 PM</small>
+                                    </div>
+                                    <span class="amount text-danger">-$120.50</span>
+                                </div>
+                            </div>
+                            <div class="wallet-footer">
+                                <a href="#">View all transactions</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
                         <i class="fas fa-search"></i>
                     </div>
-                   
+
                     <div class="header-actions">
                         <a routerLink="/insurance/generate-quote" href="#" class="btn myBtn-quote">
                             <i class="fas fa-file-signature"></i>
