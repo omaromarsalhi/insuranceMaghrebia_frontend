@@ -1,14 +1,17 @@
-
-
-
-
 <app-header></app-header>
 
-<app-preloader></app-preloader>
+<router-outlet></router-outlet>
 
-<router-outlet ></router-outlet>
-
-<app-footer></app-footer>
+<ng-container [ngSwitch]="currentUrl" >
+    <footer *ngSwitchCase="'/'">
+        <app-home-footer></app-home-footer>
+    </footer>
+    <footer *ngSwitchCase="'/home'">
+        <app-home-footer></app-home-footer>
+    </footer>
+    <footer *ngSwitchDefault>
+        <app-footer></app-footer>
+    </footer>
+</ng-container>
 
 <app-back-to-top></app-back-to-top>
-

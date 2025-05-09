@@ -420,6 +420,7 @@ h6 {
 /* Base CSS */
 html {
   font-size: 100%;
+  scroll-behavior: smooth;
 }
 
 * {
@@ -1034,9 +1035,9 @@ button {
 .nice-select:after {
   position: absolute;
   right: 0;
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
 }
 
 .nice-select ul.list {
@@ -1670,17 +1671,25 @@ button {
 }
 
 /* Header Sticky */
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 999;
   -webkit-animation: sticky 1.2s;
-  animation: sticky 1.2s;
-}
+          animation: sticky 1.2s;
+} */
 
-@-webkit-keyframes sticky {
+/* .sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: all 0.3s ease-out;
+  will-change: transform;
+} */
+
+/* @-webkit-keyframes sticky {
   0% {
     top: -200px;
   }
@@ -1698,6 +1707,27 @@ button {
   100% {
     top: 0;
   }
+} */
+
+@keyframes stickySlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  animation: stickySlideIn 0.6s ease-out forwards;
+  will-change: transform, opacity; /* Optimizes performance */
 }
 
 /*---========================
@@ -1944,9 +1974,9 @@ button {
 
 .page-banner .page-banner-content ul.breadcrumb-link li:not(:last-child):after {
   display: inline-block;
-  content: "";
-  font-weight: 400;
-  font-family: "Font Awesome 5 Pro";
+  content: "\f054";
+  font-weight: 900;
+  font-family: "Font Awesome 6 Free";
   margin-left: 20px;
   margin-right: 13px;
 }
@@ -3911,19 +3941,19 @@ button {
 }
 
 .accordion-card .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  -webkit-transition: all 0.4s ease-out 0s;
-  transition: all 0.4s ease-out 0s;
+          transform: rotate(-45deg);
+  -webkit-transition: all 10s ease-out 0s !important;
+  transition: all .4s ease-out 0s !important
 }
 
 .accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
@@ -3966,9 +3996,9 @@ button {
 }
 
 .accordion-card-two .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
@@ -3983,7 +4013,7 @@ button {
 }
 
 .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
@@ -4012,9 +4042,9 @@ button {
 }
 
 .accordion-card-three .accordion-header .accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transition: all 0.4s ease-out 0s;
@@ -5553,18 +5583,22 @@ ul.slick-dots li {
 
 ul.slick-dots li:after {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 51%;
+  top: 51%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background-color: #193B1E;
+
+
 }
 
 ul.slick-dots li.slick-active {
   border-color: #FFB966;
+  
 }
 
 .slider-active-5-item,

@@ -1,3 +1,7 @@
+.no-underline {
+    text-decoration: none;
+}
+
 /* Force dialog to appear above everything */
 .cdk-overlay-container {
     position: fixed !important;
@@ -24,4 +28,49 @@
     position: relative !important;
     overflow-y: auto !important;
     max-height: 90vh !important;
+}
+
+.wallet-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(255, 185, 102, 0.15);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+    position: relative;
+}
+
+.wallet-trigger:hover {
+    background: rgba(255, 185, 102, 0.25);
+    transform: translateY(-1px);
+}
+
+.wallet-trigger i {
+    color: #FFB966;
+    font-size: 1.1rem;
+}
+
+.wallet-amount {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #193B1E;
+}
+
+.wallet-trigger:after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #FFB966;
+    transition: width 0.3s ease;
+}
+
+.wallet-trigger:hover:after {
+    width: 60%;
 }

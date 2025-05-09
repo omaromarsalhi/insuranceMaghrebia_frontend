@@ -1,9 +1,11 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { WalletService } from '../core/services/wallet.service';
-import { WalletRequest } from '../core/models/wallet/WalletRequest';
-import { TransactionType } from '../core/models/wallet/TransactionType';
+import { OfferCategoryControllerService } from '../core/services/offer/offer-category-controller.service';
+import { CategoryResponse } from '../core/models/offer/category-response';
 import { WalletResponse } from '../core/models/wallet/WalletResponse';
+import { ActivatedRoute } from '@angular/router';
+import { WalletService } from '../core/services/payment/wallet.service';
+import { TransactionType } from '../core/models/wallet/TransactionType';
+import { WalletRequest } from '../core/models/wallet/WalletRequest';
 import { WalletTransactionRequest } from '../core/models/wallet/TransactionWalletRequest';
 
 
@@ -13,25 +15,24 @@ import { WalletTransactionRequest } from '../core/models/wallet/TransactionWalle
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  isWalletDropdownOpen: boolean = false;
-  walletBalance!: number;
+  partivularcategroList: CategoryResponse[] = [];
+  showWalletDropdown = false;
   userHasWallet: boolean = false;
   premiumPayment!: number;
   claimRefund!: number;
   isLoading: boolean = true;
   wallet!: WalletResponse;
+  walletBalance = 1250.75;
 
   constructor(
+    private categoryService: OfferCategoryControllerService,
     private elementRef: ElementRef,
     private actvRoute: ActivatedRoute,
     private walletService: WalletService
-
   ) { }
 
-
   ngOnInit(): void {
-
+    this._fetchCtaegories('PARTICULAR');
     this.actvRoute.queryParams.subscribe(
       param => {
         const userId = param['userId'] || null;
@@ -40,6 +41,13 @@ export class HeaderComponent implements OnInit {
           this.loadWalletData(userId);
         }
       })
+  }
+
+
+  private _fetchCtaegories(target: 'PARTICULAR' | 'COMPANY') {
+    this.categoryService.getAllByTarget({ target }).subscribe((response) => {
+      this.partivularcategroList = response;
+    })
   }
 
   private loadWalletData(userid: String) {
@@ -72,20 +80,18 @@ export class HeaderComponent implements OnInit {
     return found?.amount || 0;
   }
 
-  toggleWalletDropdown() {
-    this.isWalletDropdownOpen = !this.isWalletDropdownOpen;
-  }
+
 
   setupWallet() {
 
-    this.isWalletDropdownOpen = false;
+    this.showWalletDropdown = false;
     this.createNewWallet();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.isWalletDropdownOpen = false;
+      this.showWalletDropdown = false;
     }
   }
 
@@ -110,5 +116,9 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+
+  toggleWallet() {
+    this.showWalletDropdown = !this.showWalletDropdown;
+  }
 
 }

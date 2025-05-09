@@ -1,44 +1,44 @@
-<!--====== Header Top Bar ======-->
+<!--====== Enhanced Insurance Header ======-->
 <div class="header-top-bar green-bg">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-7">
-                <!--=== Top Left ===-->
-                <div class="top-left">
-                    <span>
-                        <i class="fa fa-envelope"></i>
-                        <a href="mailto:supportinsurance@gmail.com">supportinsurancegmail.com</a>
+        <div class="header-top-content d-flex justify-content-between align-items-center">
+            <!-- Left Content -->
+            <div class="top-left d-flex align-items-center">
+                <div class="contact-info d-flex gap-3">
+                    <span class="contact-item d-flex align-items-center">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <span>Insured Since: 1992</span>
                     </span>
-                    <span>
-                        <i class="fa fa-phone"></i>
-                        <a href="tel:+222(345)66688">+222 (345) 666 88</a>
+                    <span class="contact-item d-flex align-items-center">
+                        <i class="fas fa-phone-volume me-2"></i>
+                        <a href="tel:+22234566688">24/7 Support: +222 345 666 88</a>
                     </span>
                 </div>
             </div>
-            <div class="col-lg-5">
-                <!--=== Top Right ===-->
-                <div class="top-right">
-                    <div class="lang-dropdown">
-                        <select>
-                            <option value="01">English</option>
-                            <option value="02">French</option>
-                        </select>
+
+            <!-- Right Content -->
+            <div class="top-right d-flex align-items-center gap-3">
+                <div class="emergency-badge d-flex align-items-center">
+                    <i class="fas fa-life-ring me-2"></i>
+                    <span>Emergency Claims</span>
+                </div>
+                <div class="header-divider"></div>
+                <div class="social-security d-flex align-items-center">
+                    <span class="me-2">Follow Us:</span>
+                    <div class="social-links d-flex gap-2">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                     </div>
-                    <ul class="social-link">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!--=== Header Navigation ===-->
-<header class="header-area header-one">
 
+<!--=== Header Navigation ===-->
+<header class=" header-placeholder header-area header-one">
     <!--====== Header Navigation ======-->
     <div class="header-navigation gray-bg">
         <div class="nav-overlay"></div>
@@ -47,7 +47,7 @@
                 <!--====== Site Branding ======-->
                 <div class="site-branding">
                     <a href="index.html" class="brand-logo">
-                        <img src="assets/images/logo/logo.png" alt="Logo">
+                        <img src="assets/images/logo/logo.png" alt="Logo" />
                     </a>
                 </div>
                 <!--====== Nav Menu ======-->
@@ -55,7 +55,7 @@
                     <!--====== Site Branding ======-->
                     <div class="mobile-logo mb-30 d-block d-xl-none">
                         <a href="index.html" class="brand-logo">
-                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+                            <img src="assets/images/logo/logo-black.png" alt="Site Logo" />
                         </a>
                     </div>
                     <!--=== Nav Search ===-->
@@ -63,7 +63,7 @@
                         <form>
                             <div class="form_group">
                                 <input type="email" class="form_control" placeholder="Search Here" name="email"
-                                    required>
+                                    required />
                                 <button class="search-btn">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -80,18 +80,78 @@
                                     <li><a href="index-2.html">Home 02</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item has-children">
-                                <a href="#">Insurance</a>
-                                <ul class="sub-menu">
-                                    <li><a href="tour.html">Our Insurance</a></li>
-                                    <li><a href="tour-details.html">Insurance Details</a></li>
-                                </ul>
+                            <!-- Enhanced Insurance Menu Items -->
+                            <li class="dropdown">
+                                <a class="dropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Insurance Plans
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-inner">
+                                        <div class="dropdown-column">
+                                            <h6 class="dropdown-header">Personal Insurance</h6>
+                                            <a *ngFor="let cat of partivularcategroList | slice:0:2"
+                                                class="dropdown-item"
+                                                [routerLink]="['/insurance/offer-list',cat.categoryId]">
+                                                <div class="icon d-flex justify-content-center align-items-center">
+                                                    <img [src]="cat.imageUri" alt="Icon" />
+                                                </div>
+
+                                                <div>
+                                                    <span>{{ cat.name }}</span>
+                                                    <small>3 available offers</small>
+                                                </div>
+                                            </a>
+
+                                            <div class="myBtn read-more justify-content-center">
+                                                <a [routerLink]="['/insurance/categories','PARTICULAR']"
+                                                    class="no-underline btn-link">More <i
+                                                        class="fa fa-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-column">
+                                            <h6 class="dropdown-header">Business Insurance</h6>
+                                            <a class="dropdown-item" href="#">
+                                                <i class="fas fa-building"></i>
+                                                <div>
+                                                    <span>Commercial</span>
+                                                    <small>3 offers available</small>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                <i class="fas fa-briefcase-medical"></i>
+                                                <div>
+                                                    <span>Health Plans</span>
+                                                    <small>2 offers available</small>
+                                                </div>
+                                            </a>
+                                            <div class="myBtn read-more justify-content-center">
+                                                <a class="no-underline btn-link">More <i
+                                                        class="fa fa-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-cta">
+                                            <div class="cta-content">
+                                                <h5>Need Help Choosing?</h5>
+                                                <p>
+                                                    Our experts will help you find the perfect coverage
+                                                </p>
+                                                <button class="btn btn-quote">
+                                                    <i class="fas fa-comments"></i>
+                                                    Consult Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <li class="menu-item has-children">
                                 <a href="#">Portfolio</a>
                                 <ul class="sub-menu">
                                     <li><a href="portfolio.html">Our Portfolio</a></li>
-                                    <li><a href="portfolio-details.html">Portfolio Details</a></li>
+                                    <li>
+                                        <a href="portfolio-details.html">Portfolio Details</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="menu-item has-children">
@@ -109,7 +169,7 @@
                                     <li><a href="job-details.html">Career Details</a></li>
                                     <li><a href="team.html">Our Team</a></li>
                                     <li><a href="team-details.html">Team Details</a></li>
-                                    <li><a routerLink="/payment">Payment</a></li>
+                                    <li><a href="faq.html">Faq</a></li>
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </li>
@@ -124,86 +184,62 @@
                     </div>
                 </div>
                 <!--====== Nav Right Item ======-->
-
                 <div class="nav-right-item">
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
                         <i class="fas fa-search"></i>
                     </div>
-                    <div class="menu-button d-xl-block d-none">
-                        <a href="contact.html" class="main-btn primary-btn">
-                            Get a Quote
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    <!-- <div class="bar-item">
-                        <img src="assets/images/bar.png" alt="dot">
-                    </div> -->
-                    <div class="wallet-menu menu-item has-children" [class.active]="isWalletDropdownOpen">
-                        <a href="javascript:void(0)" class="wallet-toggle" (click)="toggleWalletDropdown()">
+
+                    <div class="wallet-wrapper">
+                        <div class="wallet-trigger" (click)="toggleWallet()">
                             <i class="fas fa-wallet"></i>
-                            <span class="dd-trigger mobile-only"></span>
+                            <span class="wallet-amount">${{ walletBalance.toFixed(2) }}</span>
+                        </div>
 
-                        </a>
-
-                        <div class="sub-menu wallet-dropdown">
+                        <div class="wallet-dropdown" *ngIf="showWalletDropdown" @fadeInAnimation>
                             <div class="wallet-header">
-                                <h4>Your Wallet</h4>
-                                <span class="wallet-status" [class.active]="userHasWallet">
-                                    {{userHasWallet ? 'Connected' : 'Not Setup'}}
-                                </span>
+                                <h5>Your Wallet</h5>
+                                <div class="balance">${{ walletBalance.toFixed(2) }}</div>
                             </div>
-
-                            <div *ngIf="userHasWallet" class="wallet-content">
-                                <div class="wallet-amount">
-                                    <span>Balance</span>
-                                    <span class="amount">${{walletBalance | number:'1.2-2'}}</span>
+                            <div class="wallet-actions">
+                                <a href="#" class="wallet-action-btn deposit">
+                                    <i class="fas fa-plus"></i> Deposit
+                                </a>
+                                <a href="#" class="wallet-action-btn transfer">
+                                    <i class="fas fa-exchange-alt"></i> Transfer
+                                </a>
+                            </div>
+                            <div class="transaction-history">
+                                <div class="transaction-item">
+                                    <i class="fas fa-arrow-up text-success"></i>
+                                    <div class="transaction-info">
+                                        <span>Insurance Claim</span>
+                                        <small>Today, 10:30 AM</small>
+                                    </div>
+                                    <span class="amount text-success">+$500.00</span>
                                 </div>
-
-                                <!-- <div class="wallet-actions">
-                                    <button class="wallet-action-btn">
-                                        <i class="fas fa-plus-circle"></i> Add Funds
-                                    </button>
-                                    <button class="wallet-action-btn">
-                                        <i class="fas fa-exchange-alt"></i> Withdraw
-                                    </button>
-                                </div> -->
-                                <div class="wallet-transactions">
-                                    <h5>Recent Activity</h5>
-                                    <div class="transaction-item">
-                                        <i class="fas fa-coins"></i>
+                                <div class="transaction-item">
+                                    <i class="fas fa-arrow-down text-danger"></i>
+                                    <div class="transaction-info">
                                         <span>Premium Payment</span>
-                                        <span class="amount">-${{premiumPayment}}</span>
+                                        <small>Yesterday, 2:15 PM</small>
                                     </div>
-                                    <div class="transaction-item">
-                                        <i class="fas fa-hand-holding-usd"></i>
-                                        <span>Claim Refund</span>
-                                        <span class="amount positive">+${{claimRefund}}</span>
-                                    </div>
+                                    <span class="amount text-danger">-$120.50</span>
                                 </div>
                             </div>
-
-                            <div *ngIf="!userHasWallet" class="wallet-setup">
-                                <p>Setup your wallet to make payments faster</p>
-                                <p>Gain 5% on every payment</p>
-
-                                <button class="setup-btn" (click)="setupWallet()">
-                                    Setup Wallet
-                                </button>
-                            </div>
-
                             <div class="wallet-footer">
-                                <a href="/wallet/transactions">Transaction History</a>
+                                <a href="#">View all transactions</a>
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-toggler">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+
+                    <div class="header-actions">
+                        <a routerLink="/insurance/generate-quote" href="#" class="btn myBtn-quote">
+                            <i class="fas fa-file-signature"></i>
+                            Get Quote
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </header>
