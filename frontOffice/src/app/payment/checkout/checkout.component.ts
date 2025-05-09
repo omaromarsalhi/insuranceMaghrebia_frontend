@@ -14,6 +14,7 @@ import { ErrorPopUpComponent } from '../utils/error-pop-up/error-pop-up.componen
 import SignaturePad from 'signature_pad';
 import { SignatureService } from 'src/app/core/services/payment/singature.service';
 import { signatureRequest } from 'src/app/core/models/signature/signatureRequest';
+import { SignatureResponseDTO } from 'src/app/core/models/signature/signature-response.dto';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -46,6 +47,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   isVerifyingSignature = false;
   signatureVerificationResult: any = null;
   signatureVerificationMessage = '';
+  responseMessage: string = '';
+  forensicResults: SignatureResponseDTO['forensic_results'] = [];
 
 
   constructor(
@@ -269,6 +272,58 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   //     alert("Please draw your signature before confirming.");
   //   }
   // }
+  // async confirmSignature() {
+
+  //   console.log("hey i am in the confirm");
+
+  //   if (this.paymentForm.invalid) {
+  //     this.handleError('Please fill in all required fields.');
+  //     return;
+  //   }
+  //   if (!this.signaturePad.isEmpty()) {
+
+  //     this.isVerifyingSignature = true;
+  //     this.signatureVerificationResult = null;
+  //     this.signatureVerificationMessage = 'Verifying signature...';
+
+  //     try {
+  //       const signatureData = this.signaturePad.toDataURL();
+  //       const base64Data = signatureData.split(',')[1];
+  //       console.log(base64Data)
+
+  //       this.signatureRequest = {
+  //         base64_data: base64Data,
+  //         fullName: this.paymentForm.get('name')?.value,
+  //         cin: this.paymentForm.get('line1')?.value
+  //       };
+
+  //       const response = await this.signatureService.verifySignature(this.signatureRequest).toPromise();
+  //       this.signatureVerificationResult = response;
+  //       const similarityScore = response.results;
+
+  //       if (response.status === "no_matches" && similarityScore == 0) {
+  //         this.handleNewSignatureCase(response);
+  //         this.signatureVerificationMessage = 'New signature registered successfully!';
+  //         this.isVerifyingSignature = false;
+  //       }
+  //       else if (response.status === "success") {
+  //         this.handleSignatureComparison(response);
+  //       }
+  //       else
+  //         this.signatureVerificationMessage = 'New signature registered successfully!';
+
+  //     } catch (err) {
+  //       console.error("Signature verification failed", err);
+  //       this.isSigned = false;
+  //       this.hasValidSignature = false;
+  //       this.signatureVerificationMessage = 'Error during verification. Please try again.';
+  //     } finally {
+  //       this.isVerifyingSignature = false;
+  //     }
+  //   } else {
+  //     alert("Please draw your signature before confirming.");
+  //   }
+  // }
   async confirmSignature() {
 
     console.log("hey i am in the confirm");
@@ -286,6 +341,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       try {
         const signatureData = this.signaturePad.toDataURL();
         const base64Data = signatureData.split(',')[1];
+        console.log(base64Data)
 
         this.signatureRequest = {
           base64_data: base64Data,
@@ -293,20 +349,34 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
           cin: this.paymentForm.get('line1')?.value
         };
 
-        const response = await this.signatureService.verifySignature(this.signatureRequest).toPromise();
-        this.signatureVerificationResult = response;
-        const similarityScore = response.results;
+        const response = await this.signatureService
+          .verifySignature(this.signatureRequest).subscribe({
+            next: (res: SignatureResponseDTO) => {
+              this.responseMessage = res.message ?? '';
+              this.forensicResults = res.forensic_results ?? [];
 
-        if (response.status === "no_matches" && similarityScore == 0) {
-          this.handleNewSignatureCase(response);
-          this.signatureVerificationMessage = 'New signature registered successfully!';
-          this.isVerifyingSignature = false;
-        }
-        else if (response.status === "success") {
-          this.handleSignatureComparison(response);
-        }
-        else
-          this.signatureVerificationMessage = 'New signature registered successfully!';
+              if (res.status === 'no_matches') {
+                console.log('✅ New signature created:', res.new_signature_created);
+              } else if (res.status === 'success') {
+                console.log('🟢 Signature match found');
+              } else if (res.status === 'no_strong_matches') {
+                console.log('🟡 Similar but not strong match, new signature stored', this.forensicResults);
+              } else if (res.status === 'fraud_detected') {
+                console.log('⚠️ Fraud possibility detected!');
+              }
+
+            },
+            error: (err) => {
+              if (err.status === 409) {
+                this.responseMessage = '⚠️ Fraud possibility detected!';
+              } else if (err.status === 400) {
+                this.responseMessage = '❌ Invalid request: ' + err.error.detail;
+              } else {
+                this.responseMessage = '❌ Unexpected error: ' + err.message;
+              }
+              this.forensicResults = [];
+            }
+          });
 
       } catch (err) {
         console.error("Signature verification failed", err);

@@ -11,7 +11,7 @@ const cabecera = { headers: new HttpHeaders({ 'Content-Type': 'application/json'
 })
 export class SignatureService {
 
-    private apiUrl = 'http://localhost:9020/api/v1/signature';
+    private apiUrl = 'http://localhost:8000/api/compare-signature';
 
     constructor(private http: HttpClient) { }
 

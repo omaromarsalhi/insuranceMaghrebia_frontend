@@ -5,7 +5,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { OfferFormControllerService } from 'src/app/core/services/offer/offer-form-controller.service';
 
@@ -56,8 +56,10 @@ export class PurshasedOfferComponent implements OnInit {
     private fb: FormBuilder,
     private formData: OfferFormControllerService,
     private route: ActivatedRoute,
-    private purchasedoffer: PurchasedOfferControllerService
-  ) {}
+    private purchasedoffer: PurchasedOfferControllerService,
+    private router: Router,
+
+  ) { }
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
@@ -119,8 +121,9 @@ export class PurshasedOfferComponent implements OnInit {
         });
       });
       this.data2Save.formId = this.formId;
-      console.log(this.saveForData);
+      console.log("the séved data", this.saveForData);
       this.saveForData();
+      // this.router.navigate(['/payments/payment', `${this.offerId}`]);
     }
     setTimeout(() => {
       this.isLoading = false;

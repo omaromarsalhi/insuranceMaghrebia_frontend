@@ -8,7 +8,7 @@ import { PaymentPlanDetailsComponent } from './payment-plan-details/payment-plan
 
 const routes: Routes = [
 
-  { path: 'payment/:amount', component: PaymentComponent },
+  { path: 'payment/:offerId', component: PaymentComponent },
   { path: 'payment-details/:userId', component: PaymentContractsComponent },
   { path: 'card/:totalAmount', component: CheckoutComponent },
   { path: 'paymentPlan/:contractPaymentId', component: PaymentPlanDetailsComponent },

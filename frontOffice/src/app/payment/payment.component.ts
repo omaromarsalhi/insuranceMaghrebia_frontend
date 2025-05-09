@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import { WalletService } from '../core/services/payment/wallet.service';
 import { PaymentMethod } from '../core/models/payment/paymentMethod';
+import { OfferControllerService } from '../core/services/offer/offer-controller.service';
+import { OfferResponse } from '../core/models/offer/offer-response';
 
 @Component({
   selector: 'app-payment',
@@ -18,7 +20,7 @@ import { PaymentMethod } from '../core/models/payment/paymentMethod';
 })
 export class PaymentComponent implements OnInit {
   paymentForm!: FormGroup;
-  totalAmount!: number;
+  totalAmount?: number;
   selectedMethod: string | null = null;
   walletBalance!: number;
   showWalletPanel: boolean = false;
@@ -26,6 +28,10 @@ export class PaymentComponent implements OnInit {
   isLoading: boolean = true;
   walletId!: string;
   isButtonVisible = false;
+  offerDetails!: OfferResponse;
+  offerId!: string;
+
+
 
 
   constructor(
@@ -36,18 +42,15 @@ export class PaymentComponent implements OnInit {
     private modalService: NgbModal,
     public dialog: MatDialog,
     private overlay: Overlay,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private offerService: OfferControllerService,
+
   ) { }
 
   ngOnInit(): void {
-    const amount = this.actvRoute.snapshot.paramMap.get('amount');
-    if (amount !== null) {
-      this.totalAmount = Number(amount);
-    } else {
-      console.error('Amount parameter is missing in the URL.');
-      this.totalAmount = 0;
-    }
+    this.offerId = this.actvRoute.snapshot.paramMap.get('offerId')!;
     this.initializeForm();
+    this._loadOffers();
   }
 
   private initializeForm(): void {
@@ -156,8 +159,6 @@ export class PaymentComponent implements OnInit {
     this.selectedMethod = this.selectedMethod === method ? null : method;
     console.log("the selected emthode is :", method)
     this.isButtonVisible = (method === 'card' && this.selectedMethod === 'card');
-
-
   }
 
   proceedToPayment() {
@@ -175,7 +176,9 @@ export class PaymentComponent implements OnInit {
     const paymentData = {
       ...this.paymentForm.value,
       totalAmount: this.totalAmount,
+      offerId: this.offerId
     };
+    console.log("payment data : ", paymentData)
     this.paymentService.post(
       paymentData,
       PaymentMethod.WALLET).subscribe(
@@ -206,6 +209,16 @@ export class PaymentComponent implements OnInit {
   }
 
   get userId() { return this.paymentForm.get('userId'); }
-  get offerId() { return this.paymentForm.get('offerId'); }
-  get planDuration() { return this.paymentForm.get('planDuration'); }
+  // get offerId() { return this.paymentForm.get('offerId'); }
+  // get planDuration() { return this.paymentForm.get('planDuration'); }
+
+  private _loadOffers() {
+    console.log("the offer id equals to :", this.offerId)
+    this.offerService.getByOfferId({ offerId: this.offerId }).subscribe((offer) => {
+      this.offerDetails = offer;
+      const price = this.offerDetails?.packages?.[0]?.price
+      this.totalAmount = price
+      console.log(this.offerDetails);
+    });
+  }
 }

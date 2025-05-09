@@ -7,12 +7,12 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
+import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { MagnificPopupDirective } from './directives/magnific-popup.directive';
 import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
-import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.component';
-import { CounterComponent } from './shared/ui/counter/counter.component';
+import { BackToTopComponent } from './shared/back-to-top/back-to-top.component';
+import { CounterComponent } from './shared/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddClaimPageComponent } from './claim/pages/add-claim-page/add-claim-page.component';
@@ -35,10 +35,8 @@ import { JobComponent } from './hr/job/job.component';
 import { CandidateComponent } from './hr/candidate/candidate.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { HomeFooterComponent } from './home-footer/home-footer.component';
-import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { InsuranceModule } from './insurances/insurance.module';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { PaymentModule } from './payment/payment.module';
 
 @NgModule({
@@ -47,7 +45,6 @@ import { PaymentModule } from './payment/payment.module';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    PreloaderComponent,
     MagnificPopupDirective,
     NiceSelectDirective,
     AnimationDirective,
@@ -68,7 +65,6 @@ import { PaymentModule } from './payment/payment.module';
     ClaimsPageComponent,
     ClaimDetailsPageComponent,
     ImageSliderV2Component,
-
     CounterComponent,
     HomeFooterComponent
   ],
@@ -86,9 +82,9 @@ import { PaymentModule } from './payment/payment.module';
     NgxFileDropModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    SharedModule,
     InsuranceModule,
-    PaymentModule
+    PaymentModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

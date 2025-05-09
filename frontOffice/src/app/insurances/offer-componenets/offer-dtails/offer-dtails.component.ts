@@ -81,8 +81,9 @@ export class OfferDtailsComponent implements OnInit {
   };
 
   private _loadOffers() {
-    this.offerService.getByOfferId({offerId:this.offerId}).subscribe((offer) => {
+    this.offerService.getByOfferId({ offerId: this.offerId }).subscribe((offer) => {
       this.offerDetails = offer;
+      console.log(offer);
       console.log(this.offerDetails);
     });
   }

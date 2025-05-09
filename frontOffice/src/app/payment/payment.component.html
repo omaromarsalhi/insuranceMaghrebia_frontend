@@ -31,106 +31,111 @@
                     </div>
                     <form [formGroup]="paymentForm">
                         <!-- Offer Type -->
-                        <div class="form-group">
-                            <label for="offerType">Enter the offer type</label>
-                            <div class="input-with-icon">
-                                <i class="fa fa-gift"></i>
-                                <select id="offerType" formControlName="offerId">
-                                    <option value="" disabled selected>Select Offer Type</option>
-                                    <option value="car">car</option>
-                                    <option value="health">health</option>
+                        <ng-container *ngIf="offerDetails">
+                            <div class="form-group" *ngFor="let package of offerDetails.packages">
+                                <label for="offerType">Enter the offer type</label>
+                                <div class="input-with-icon">
+                                    <i class="fa fa-gift"></i>
+                                    <select id="offerType" formControlName="offerId">
+                                        <option value="" disabled selected>Select Offer Type</option>
+                                        <option value="car">{{package.title}}</option>
+                                        <!-- <option value="health">health</option>
                                     <option value="house">house</option>
                                     <option value="travel">travel</option>
-                                    <option value="business">business</option>
-                                </select>
-                            </div>
-                            <div *ngIf="offerId?.invalid && (offerId?.touched || offerId?.dirty)" class="error-message">
+                                    <option value="business">business</option> -->
+                                    </select>
+                                </div>
+                                <!-- <div *ngIf="package.title?.invalid && (offerId?.touched || offerId?.dirty)" class="error-message">
                                 <span *ngIf="offerId?.errors?.['required']">Offer type is required.</span>
-                            </div>
-                        </div>
-
-                        <!-- Full Name -->
-                        <div class="form-group">
-                            <label for="fullName">Enter your full name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="fullName" placeholder="John Doe" formControlName="userId">
-                            </div>
-                            <div *ngIf="userId?.invalid && (userId?.touched || userId?.dirty)" class="error-message">
-                                <span *ngIf="userId?.errors?.['required']">Full name is required.</span>
-                            </div>
-                        </div>
-
-
-                        <div class="amount-card">
-                            <div class="amount-header">
-                                <i class="fas fa-tag"></i>
-                                <span>Total Amount</span>
-                            </div>
-                            <div class="amount-value">
-                                ${{totalAmount}}
-                            </div>
-                        </div>
-
-
-                        <!-- Settlement Plan -->
-                        <div class="form-group">
-                            <label for="settlementPlan">Settlement Plan</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-calendar-alt"></i>
-                                <select id="settlementPlan" formControlName="planDuration">
-                                    <option value="" disabled selected>Select Settlement Plan</option>
-                                    <option value="3 months">3 months</option>
-                                    <option value="6 months">6 months</option>
-                                    <option value="1 year">1 year</option>
-                                </select>
-                            </div>
-                            <div *ngIf="planDuration?.invalid && (planDuration?.touched || planDuration?.dirty)"
+                            </div> -->
+                                <div class="amount-card">
+                                    <div class="amount-header">
+                                        <i class="fas fa-tag"></i>
+                                        <span>Total Amount</span>
+                                    </div>
+                                    <div class="amount-value">
+                                        ${{package.price}}
+                                    </div>
+                                </div>
+                                <!-- Settlement Plan -->
+                                <div class="form-group">
+                                    <label for="settlementPlan">Settlement Plan</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <select id="settlementPlan" formControlName="planDuration">
+                                            <option value="" disabled selected>Select Settlement Plan</option>
+                                            <option value={{package.duration}}>{{package.duration}}</option>
+                                            <!-- <option value="6 months">6 months</option>
+                                    <option value="1 year">1 year</option> -->
+                                        </select>
+                                    </div>
+                                    <!-- <div *ngIf="planDuration?.invalid && (planDuration?.touched || planDuration?.dirty)"
                                 class="error-message">
                                 <span *ngIf="planDuration?.errors?.['required']">Settlement plan is required.</span>
+                            </div> -->
+                                </div>
                             </div>
-                        </div>
-                        <!-- Methode  -->
-                        <div class="payment-container compact">
-                            <div class="payment-columns">
+
+                            <!-- Full Name -->
+                            <div class="form-group">
+                                <label for="fullName">Enter your full name</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="fullName" placeholder="John Doe" formControlName="userId">
+                                </div>
+                                <div *ngIf="userId?.invalid && (userId?.touched || userId?.dirty)"
+                                    class="error-message">
+                                    <span *ngIf="userId?.errors?.['required']">Full name is required.</span>
+                                </div>
+
+                            </div>
 
 
 
-                                <!-- Right Column - Payment Options -->
-                                <div class="methods-column">
-                                    <div class="method-options compact">
-                                        <h5 class="payment-title">Pay With:</h5>
 
-                                        <div class="method-row">
-                                            <div class="method-pill" (click)="selectPayment('card')"
-                                                [class.selected]="selectedMethod === 'card'">
-                                                <i class="far fa-credit-card"></i>
 
-                                                <span>Card </span>
+
+                            <!-- Methode  -->
+                            <div class="payment-container compact">
+                                <div class="payment-columns">
+
+
+
+                                    <!-- Right Column - Payment Options -->
+                                    <div class="methods-column">
+                                        <div class="method-options compact">
+                                            <h5 class="payment-title">Pay With:</h5>
+
+                                            <div class="method-row">
+                                                <div class="method-pill" (click)="selectPayment('card')"
+                                                    [class.selected]="selectedMethod === 'card'">
+                                                    <i class="far fa-credit-card"></i>
+
+                                                    <span>Card </span>
+                                                </div>
+
+                                                <div class="method-pill" (click)="openWalletModal()"
+                                                    [class.selected]="selectedMethod === 'wallet'">
+                                                    <i class="fas fa-wallet"></i>
+
+                                                    <span>Wallet</span>
+                                                </div>
                                             </div>
 
-                                            <div class="method-pill" (click)="openWalletModal()"
-                                                [class.selected]="selectedMethod === 'wallet'">
-                                                <i class="fas fa-wallet"></i>
-
-                                                <span>Wallet</span>
-                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <!-- Submit Button -->
-                        <div class="col-lg-12 text-center mt-3">
-                            <button class="main-btn primary-btn" type="submit" *ngIf="isButtonVisible"
-                                (click)="savePayment()" [disabled]="paymentForm.invalid || !selectedMethod">
-                                Confirm Payment <i class="fa fa-arrow-right"></i>
-                            </button>
-                        </div>
-
+                            <!-- Submit Button -->
+                            <div class="col-lg-12 text-center mt-3">
+                                <button class="main-btn primary-btn" type="submit" *ngIf="isButtonVisible"
+                                    (click)="savePayment()" [disabled]="paymentForm.invalid || !selectedMethod">
+                                    Confirm Payment <i class="fa fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </ng-container>
 
                     </form>
                 </div>
