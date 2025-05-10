@@ -61,76 +61,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
 
   ) { }
 
-  // ngOnInit(): void {
-  //   // this.totalAmount = Number(this.actvRoute.snapshot.paramMap.get('amount'));
-  //   this.paymentContractId = this.actvRoute.snapshot.paramMap.get('contractId')!;
-  //   this.actvRoute.params.subscribe(params => {
-  //     this.totalAmount = Number(params['amount']) || 0;
 
-  //     console.log('Payment Plan ID (Route):', this.paymentPlanId);
-  //     console.log('Total Amount:', this.totalAmount);
-  //   });
-
-  //   this.actvRoute.queryParams.subscribe(params => {
-  //     this.paymentPlanId = params['planId'] || null;
-  //     this.paymentType = params['type'] || null;
-  //     this.paymentContractId = params['planId'] || null;
-
-  //     console.log('Payment Plan ID (Query):', this.paymentPlanId);
-  //     console.log('Payment Type:', this.paymentType);
-  //   });
-  //   console.log(this.paymentContractId)
-
-  //   this.paymentForm = this.fb.group({
-  //     name: ['', Validators.required],
-  //     line1: ['', Validators.required],
-  //     city: ['', Validators.required],
-  //     postal_code: ['', Validators.required],
-  //   });
-
-  //   this.initializeStripe();
-  // }
-  // openSignatureModal() {
-  //   const dialogRef = this.dialog.open(SignatureComponent, {
-  //     width: '450px',
-  //     disableClose: true
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.signatureData = result;
-  //       console.log("Signature Captured:", result);
-  //       // TODO: Send signatureData to backend
-  //     }
-  //   });
-  // }
-
-  // openSignatureModal() {
-  //   const dialogRef = this.dialog.open(SignatureComponent, {
-  //     width: '90%',
-  //     maxWidth: '600px',
-  //     panelClass: 'signature-dialog-container',
-  //     disableClose: true,
-  //     autoFocus: false
-  //   });
-
-
-
-
-
-
-  // async initializeStripe() {
-  //   this.stripe = await loadStripe('pk_test_51QuEtGA3IRpOqAjD19y87vjYVjauMymaxNEA58EmVBTRSCutsQYZ5yXCtngEw0YQrnYepGyZ21pTV18M383fuNhM00KMjER1WJ');
-
-  //   if (this.stripe) {
-  //     this.elements = this.stripe.elements();
-  //     this.card = this.elements.create('card');
-  //     this.card.mount('#card-element');
-  //   } else {
-  //     this.errorMessage = 'Stripe failed to initialize. Please try again later.';
-  //     this.onPaymentPopUpFailed(" Stripe Error", this.errorMessage);
-  //   }
-  // }
 
 
   ngOnInit(): void {
@@ -179,6 +110,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       console.error('Stripe initialization error:', error);
     }
   }
+  // Signature Section 
   toggleSignaturePad() {
     this.signatureVisible = !this.signatureVisible;
     if (this.signatureVisible) {
@@ -236,39 +168,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
 
     }
   }
-  // confirmSignature() {
-  //   console.log("hey i am in the econfirm ");
-  //   if (!this.signaturePad.isEmpty()) {
-  //     this.isSigned = true;
-  //     const signatureData = this.signaturePad.toDataURL();
-  //     this.hasValidSignature = true;
-  //     console.log("Confirmed Signature:", signatureData);
-  //     this.signatureVisible = false;
-  //     const base64Data = signatureData.split(',')[1];
-  //     this.signatureRequest = {
-  //       base64_data: base64Data,
-  //       fullName: this.paymentForm.get('name')?.value,
-  //       cin: this.paymentForm.get('line1')?.value
 
-  //     };
-
-  //     console.log("Base64 Signature:", base64Data);
-  //     this.signatureService.verifySignature(this.signatureRequest).subscribe({
-  //       next: (response) => {
-  //         console.log("Signature Response :", response);
-  //       },
-  //       error: (err) => {
-  //         console.error("Signature verification failed ", err)
-  //       }
-  //     })
-  //     // setTimeout(() => {
-  //     //   this.hasValidSignature = false;
-  //     // }, 300);
-
-  //   } else {
-  //     alert("Please draw your signature before confirming.");
-  //   }
-  // }
   async confirmSignature() {
 
     console.log("hey i am in the confirm");
@@ -497,7 +397,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   handleSuccess(message: string) {
     this.successMessage = message;
     this.onPaymentPopUpSuccess("Success", message);
-    this.router.navigate([`/payment-details/${this.paymentPlanId}`]);
+    this.router.navigate([`/payments/payment-details/${this.paymentPlanId}`]);
   }
 
   handleError(message: string) {

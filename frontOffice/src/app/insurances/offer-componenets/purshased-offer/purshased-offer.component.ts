@@ -18,6 +18,8 @@ import { OfferResponse } from 'src/app/core/models/offer/offer-response';
 import { WalletPaymentComponent } from 'src/app/payment/wallet-payment/wallet-payment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WalletService } from 'src/app/core/services/wallet.service';
+import { PaymentContractService } from 'src/app/core/services/payment-contract.service';
+import { PaymentMethod } from 'src/app/core/models/payment/paymentMethod';
 
 @Component({
   selector: 'app-purshased-offer',
@@ -104,7 +106,9 @@ export class PurshasedOfferComponent implements OnInit {
     private offerService: OfferControllerService,
     public dialog: MatDialog,
     private router: Router,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private paymentService: PaymentContractService,
+
   ) { }
 
   ngOnInit() {
@@ -323,8 +327,39 @@ export class PurshasedOfferComponent implements OnInit {
     this.isWalletDialogOpen = false;
     this.selectedMethod = 'card';
     if (this.selectedMethod === 'card') {
-      this.router.navigate(['/card-payment']);
+      // this.router.navigate(['/card-payment']);
+      this.savePayment()
     }
+  }
+  savePayment() {
+    // if (this.paymentForm.invalid) {
+    //   return;
+    // }
+
+    const paymentData = {
+      // ...this.paymentForm.value,
+      planDuration: "6 months",
+      totalAmount: this.price,
+      offerId: this.offerDetails.category?.name
+    };
+    console.log("total amount equals to ", this.price);
+
+    this.paymentService.post(
+      paymentData,
+      PaymentMethod.CARD).subscribe(
+        (response: any) => {
+          const paymentContractId = response.contractPaymentId;
+          this.router.navigate([`/payments/card/${this.totalAmount}`], {
+            queryParams: {
+              type: 'contract',
+              planId: paymentContractId,
+            }
+          });
+        },
+        (error) => {
+          console.error('Error creating payment contract:', error);
+        }
+      );
   }
 
   processWalletPayment() {
@@ -376,4 +411,6 @@ export class PurshasedOfferComponent implements OnInit {
       },
     });
   }
+
+
 }
