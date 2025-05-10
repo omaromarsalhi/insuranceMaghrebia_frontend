@@ -28,7 +28,7 @@
                         <h3>Card Details</h3>
                     </div>
                     <form [formGroup]="paymentForm" (submit)="handlePayment(); $event.preventDefault();">
-                        <!-- Full Name -->
+                 
                         <div class="form-group">
                             <label for="name" class="form-label">Full Name</label>
                             <div class="input-with-icon">
@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <!-- Address -->
+                 
                         <div class="form-group">
                             <label for="line1" class="form-label">Address</label>
                             <div class="input-with-icon">
@@ -109,10 +109,7 @@
                                         (click)="clearSignature()">
                                         <i class="fa fa-eraser me-1"></i> Clear
                                     </button>
-                                    <!-- <button type="button" class="btn btn-success btn-xs signature-btn confirm-btn"
-                                        (click)="confirmSignature()">
-                                        <i class="fa fa-check-circle me-1"></i> Confirm
-                                    </button> -->
+                        
                                     <button type="button" class="btn btn-success btn-xs signature-btn confirm-btn"
                                         (click)="confirmSignature()" [disabled]="isVerifyingSignature">
                                         <i class="fa fa-check-circle me-1"></i>
@@ -128,35 +125,16 @@
 
                             </div>
                         </div>
-                        <!-- <div class="signature-section mt-4">
-                            <h4 class="mb-3">Authorization Signature</h4>
-                            <div class="signature-pad-container">
-                                <canvas #signatureCanvas class="signature-canvas"></canvas>
-                                <div class="signature-controls mt-2">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        (click)="clearSignature()">
-                                        <i class="fas fa-eraser"></i> Clear
-                                    </button>
-                                </div>
-                            </div>
-                            <small class="text-muted">Please sign above to authorize payment</small>
-                        </div> -->
+                
 
 
                         <div *ngIf="isProcessing" class="loading-spinner">
                             <div class="spinner"></div>
                         </div>
 
-                        <!-- Submit Button -->
+            
                         <div class="col-lg-12 text-center mt-3">
-                            <!-- <button class="main-btn primary-btn" type="submit"
-                                [disabled]="isProcessing || paymentForm.invalid">
-                                <span *ngIf="!isProcessing">Pay</span>
-                                <span *ngIf="isProcessing">
-                                    <div class="spinner-button"></div>
-                                    Processing...
-                                </span>
-                            </button> -->
+            
                             <button class="main-btn primary-btn" type="submit"
                                 [disabled]="isProcessing || paymentForm.invalid || !hasValidSignature">
                                 <span *ngIf="!isProcessing">Pay</span>

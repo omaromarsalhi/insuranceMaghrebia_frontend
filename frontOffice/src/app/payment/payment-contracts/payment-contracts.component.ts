@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Payment } from 'src/app/core/models/payment/Payments';
-import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { SharedDataService } from 'src/app/core/services/payment/shared-data.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { PaymentContractService } from 'src/app/core/services/payment-contract.service';
+import { PaymentContractService } from 'src/app/core/services/payment/payment-contract.service';
 @Component({
   selector: 'app-payment-contracts',
   templateUrl: './payment-contracts.component.html',

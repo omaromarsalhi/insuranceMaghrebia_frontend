@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TransactionType } from '../core/models/wallet/TransactionType';
 import { WalletRequest } from '../core/models/wallet/WalletRequest';
 import { WalletTransactionRequest } from '../core/models/wallet/TransactionWalletRequest';
-import { WalletService } from '../core/services/wallet.service';
+import { WalletService } from '../core/services/payment/wallet.service';
 
 
 @Component({

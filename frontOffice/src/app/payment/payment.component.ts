@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PaymentContractService } from '../core/services/payment-contract.service';
+import { PaymentContractService } from '../core/services/payment/payment-contract.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopUpComponent } from './utils/pop-up/pop-up.component';
@@ -8,7 +8,7 @@ import { ErrorPopUpComponent } from './utils/error-pop-up/error-pop-up.component
 import { WalletPaymentComponent } from './wallet-payment/wallet-payment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
-import { WalletService } from '../core/services/wallet.service';
+import { WalletService } from '../core/services/payment/wallet.service';
 import { PaymentMethod } from '../core/models/payment/paymentMethod';
 
 @Component({

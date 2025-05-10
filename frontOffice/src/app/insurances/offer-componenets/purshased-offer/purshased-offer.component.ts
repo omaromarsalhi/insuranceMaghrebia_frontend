@@ -17,9 +17,11 @@ import { OfferControllerService } from 'src/app/core/services/offer/offer-contro
 import { OfferResponse } from 'src/app/core/models/offer/offer-response';
 import { WalletPaymentComponent } from 'src/app/payment/wallet-payment/wallet-payment.component';
 import { MatDialog } from '@angular/material/dialog';
-import { WalletService } from 'src/app/core/services/wallet.service';
-import { PaymentContractService } from 'src/app/core/services/payment-contract.service';
+import { WalletService } from 'src/app/core/services/payment/wallet.service';
+import { PaymentContractService } from 'src/app/core/services/payment/payment-contract.service';
 import { PaymentMethod } from 'src/app/core/models/payment/paymentMethod';
+import { PurchasedOfferDataDto } from '../../../core/models/offer/purchased-offer-data-dto';
+import { PurchasedOffer } from 'src/app/core/models';
 
 @Component({
   selector: 'app-purshased-offer',
@@ -84,6 +86,7 @@ export class PurshasedOfferComponent implements OnInit {
   selectedValue: number = 0;
   data2Save: PurchasedOfferRequest = { data: [] };
   offerDetails!: OfferResponse;
+  puchasedOffer!: PurchasedOffer;
   showPopup = false;
   price: any;
   step: number = 1;
@@ -107,9 +110,8 @@ export class PurshasedOfferComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private walletService: WalletService,
-    private paymentService: PaymentContractService,
-
-  ) { }
+    private paymentService: PaymentContractService
+  ) {}
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
@@ -117,7 +119,7 @@ export class PurshasedOfferComponent implements OnInit {
     this.price = this.route.snapshot.queryParamMap.get('price');
     this.insuranceForm = this.fb.group({});
 
-    this.loadWalletData("user_4444");
+    this.loadWalletData('user_4444');
 
     this._fetchData(() => {
       this.createFormControls();
@@ -178,6 +180,7 @@ export class PurshasedOfferComponent implements OnInit {
         });
       });
       this.data2Save.formId = this.formId;
+      this.data2Save.offerId=this.offerId
       this.data2Save.userId = 'omar';
       this.saveForData();
       setTimeout(() => {
@@ -192,9 +195,11 @@ export class PurshasedOfferComponent implements OnInit {
       body: this.data2Save,
     };
 
-    this.purchasedoffer.create(parm).subscribe(() => {
-      setTimeout((response: string) => {
+    this.purchasedoffer.create(parm).subscribe((response:PurchasedOffer) => {
+      console.log('form responce: ' + response);
+      setTimeout(() => {
         console.log('form responce: ' + response);
+        this.puchasedOffer = response;
         this.isLoading = false;
         this.notValid = false;
         this.insuranceForm.reset();
@@ -210,7 +215,6 @@ export class PurshasedOfferComponent implements OnInit {
     if (this.step < this.maxSteps) {
       this.step++;
       this.chosenForm = this.paymentFormFields;
-      this.createFormControls();
     }
   }
 
@@ -218,7 +222,6 @@ export class PurshasedOfferComponent implements OnInit {
     if (this.step > 1) {
       this.step--;
       this.chosenForm = this.formFields;
-      this.createFormControls();
     }
   }
   // Method to get the current value of the range input
@@ -278,8 +281,8 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   openWalletModal() {
-    this.isWalletDialogOpen = !this.isWalletDialogOpen
-    this.selectedMethod = 'wallet'
+    this.isWalletDialogOpen = !this.isWalletDialogOpen;
+    this.selectedMethod = 'wallet';
     // this.isButtonVisible = false;
     // if (this.paymentForm.invalid) {
     //   return;
@@ -313,53 +316,37 @@ export class PurshasedOfferComponent implements OnInit {
     // });
   }
 
-  // selectPayment(method: 'card' | 'wallet') {
-  //   if (this.isWalletDialogOpen) {
-  //     return;
-  //   }
-
-  //   this.selectedMethod = this.selectedMethod === method ? null : method;
-  //   console.log('the selected emthode is :', method);
-  //   this.isButtonVisible = method === 'card' && this.selectedMethod === 'card';
-  // }
-
   proceedToPayment() {
     this.isWalletDialogOpen = false;
     this.selectedMethod = 'card';
-    if (this.selectedMethod === 'card') {
-      // this.router.navigate(['/card-payment']);
-      this.savePayment()
-    }
   }
-  savePayment() {
-    // if (this.paymentForm.invalid) {
-    //   return;
-    // }
 
+  cartPayment() {
+    this.showPopup=false;
+    console.log(this.purchasedoffer)
     const paymentData = {
-      // ...this.paymentForm.value,
-      planDuration: "6 months",
+      planDuration: this.offerDetails.packages?.filter(
+        (p) => p.price == this.price
+      )[0].duration,
       totalAmount: this.price,
-      offerId: this.offerDetails.category?.name
+      offerId: this.puchasedOffer.offerId,
+      userId:this.puchasedOffer.userId
     };
-    console.log("total amount equals to ", this.price);
 
-    this.paymentService.post(
-      paymentData,
-      PaymentMethod.CARD).subscribe(
-        (response: any) => {
-          const paymentContractId = response.contractPaymentId;
-          this.router.navigate([`/payments/card/${this.totalAmount}`], {
-            queryParams: {
-              type: 'contract',
-              planId: paymentContractId,
-            }
-          });
-        },
-        (error) => {
-          console.error('Error creating payment contract:', error);
-        }
-      );
+    this.paymentService.post(paymentData, PaymentMethod.CARD).subscribe(
+      (response: any) => {
+        const paymentContractId = response.contractPaymentId;
+        this.router.navigate([`/payments/card/${this.totalAmount}`], {
+          queryParams: {
+            type: 'contract',
+            planId: paymentContractId,
+          },
+        });
+      },
+      (error) => {
+        console.error('Error creating payment contract:', error);
+      }
+    );
   }
 
   processWalletPayment() {
@@ -411,6 +398,4 @@ export class PurshasedOfferComponent implements OnInit {
       },
     });
   }
-
-
 }

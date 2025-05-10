@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StorageService } from 'src/app/core/services/offer/storage.service';
 import { AutoInsuranceRequest } from 'src/app/core/models/offer/auto-insurance-request';
-import { AppointmentDto } from 'src/app/core/models';
-import { AppointmentControllerService } from 'src/app/core/services';
+import { AppointmentControllerService } from 'src/app/core/services/offer/appointment-controller.service';
+import { AppointmentDto } from 'src/app/core/models/offer/appointment-dto';
 
 @Component({
   selector: 'app-quote-appointment',

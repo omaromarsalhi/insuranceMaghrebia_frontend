@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CategoryResponse } from '../../models/offer/category-response';
+import { CategoryResponse } from '../../models/category-response';
 
 export interface GetAllByTarget$Params {
   target: 'PARTICULAR' | 'COMPANY';

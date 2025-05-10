@@ -8,8 +8,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferDeletionRequest } from '../../models/offer/offer-deletion-request';
-import { OfferGeneralResponse } from '../../models/offer/offer-general-response';
+import { OfferDeletionRequest } from '../../models/offer-deletion-request';
+import { OfferGeneralResponse } from '../../models/offer-general-response';
 
 export interface Delete$Params {
       body: OfferDeletionRequest

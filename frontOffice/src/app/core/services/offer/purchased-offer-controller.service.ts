@@ -13,6 +13,7 @@ import { StrictHttpResponse } from '../../strict-http-response';
 
 import { create } from '../../fn/purchased-offer-controller/create';
 import { Create$Params } from '../../fn/purchased-offer-controller/create';
+import { PurchasedOffer } from '../../models/purchased-offer';
 
 @Injectable({ providedIn: 'root' })
 export class PurchasedOfferControllerService extends BaseService {
@@ -29,7 +30,7 @@ export class PurchasedOfferControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create$Response(params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  create$Response(params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<PurchasedOffer>> {
     return create(this.http, this.rootUrl, params, context);
   }
 
@@ -39,9 +40,9 @@ export class PurchasedOfferControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  create(params: Create$Params, context?: HttpContext): Observable<string> {
+  create(params: Create$Params, context?: HttpContext): Observable<PurchasedOffer> {
     return this.create$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
+      map((r: StrictHttpResponse<PurchasedOffer>): PurchasedOffer => r.body)
     );
   }
 

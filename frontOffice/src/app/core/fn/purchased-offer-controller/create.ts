@@ -8,13 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { PurchasedOfferRequest } from '../../models/offer/purchased-offer-request';
+import { PurchasedOffer } from '../../models/purchased-offer';
+import { PurchasedOfferRequest } from '../../models/purchased-offer-request';
 
 export interface Create$Params {
       body: PurchasedOfferRequest
 }
 
-export function create(http: HttpClient, rootUrl: string, params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+export function create(http: HttpClient, rootUrl: string, params: Create$Params, context?: HttpContext): Observable<StrictHttpResponse<PurchasedOffer>> {
   const rb = new RequestBuilder(rootUrl, create.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -25,7 +26,7 @@ export function create(http: HttpClient, rootUrl: string, params: Create$Params,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<PurchasedOffer>;
     })
   );
 }

@@ -21,8 +21,10 @@
                                 <i class=" fa fa-spinner fa-spin"></i> Loading...
                             </span>
                             <p *ngIf="!isLoading">Your submission has been received.</p>
-                            <button *ngIf="!isLoading" class="fs-6 main-btn primary-btn" style="height: 1rem"
+                            <button *ngIf="!isLoading&&selectedMethod !== 'card'" class="fs-6 main-btn primary-btn" style="height: 1rem"
                                 (click)="showPopup = false">Close</button>
+                            <button *ngIf="!isLoading&&selectedMethod === 'card'" class="fs-6 main-btn primary-btn" style="height: 1rem"
+                                (click)="cartPayment()">Proceed Payment</button>
                         </div>
                     </div>
 
@@ -123,7 +125,7 @@
                                         <!-- Checkbox Group -->
 
                                         <div *ngSwitchCase="'checkbox'" class="check-list flex items-center gap-2">
-                                            <div class="checkbox-item">
+                                            <div class="checkbox-²item">
                                                 <label class="checkbox-label">
                                                     <input type="checkbox"
                                                         [formControlName]="getFormControlName(field, i)">
@@ -211,9 +213,15 @@
                                             (click)="nextStep()">
                                             Next <i class="fas fa-arrow-right"></i>
                                         </button>
-                                        <button *ngIf="step === maxSteps" type="submit"
-                                            class="main-btn primary-btn btn-link no-underline" (click)="onSubmit()">
+
+                                        <button *ngIf="step === maxSteps && this.selectedMethod !== 'card'"
+                                            type="submit" class="main-btn primary-btn btn-link no-underline"
+                                            (click)="onSubmit()">
                                             <span>Submit <i class="fa fa-arrow-right"></i></span>
+                                        </button>
+                                        <button *ngIf="step === maxSteps &&this.selectedMethod === 'card'" type="submit"
+                                            class="main-btn primary-btn btn-link no-underline" (click)="onSubmit()">
+                                            <span>Payment <i class="fa fa-arrow-right"></i></span>
                                         </button>
                                     </div>
                                 </div>
