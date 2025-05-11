@@ -1,0 +1,133 @@
+<app-preloader></app-preloader>
+
+<section class="page-banner overlay pt-170 pb-170 bg_cover"
+    style="background-image: url(assets/images/bg/page-bg.jpg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="page-banner-content text-center text-white">
+                    <h1 class="page-title">Insurance Services</h1>
+                    <ul class="breadcrumb-link text-white">
+                        <li><a routerLink="/home">Home</a></li>
+                        <li class="active">Services</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="payment-details-container">
+    <div *ngIf="paymentPlans && paymentPlans.length > 0">
+        <div class="header">
+            <h2>Mgherbia Insurance</h2>
+            <p class="contract-id"><strong>Contract ID:</strong> {{ contractPaymentId }}</p>
+        </div>
+
+        <div class="overall-progress">
+            <h3>Overall Payment Progress</h3>
+            <div class="single-progress-bar">
+                <div class="progress-title">
+                    <h6>{{ getOverallProgress() }}% Completed</h6>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" [ngStyle]="{ width: getOverallProgress() + '%' }"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="summary-item">
+                <i class="fas fa-dollar-sign"></i>
+                <div>
+                    <p class="label">Total Amount</p>
+                    <p class="value">{{ getTotalAmount() }} Dt</p>
+                </div>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <p class="label">Plan Duration</p>
+                    <p class="value">{{ getPlanDuration() }}</p>
+                </div>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <p class="label">Overall Status</p>
+                    <p class="value">{{ getOverallStatus() }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-plans">
+            <h3>Payment Plans</h3>
+            <div class="plan-cards">
+                <div *ngFor="let plan of paymentPlans" class="plan-card">
+                    <div class="plan-header">
+                        <i class="fas fa-file-invoice"></i>
+                        <h4>Payment Plan</h4>
+                    </div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <p class="label">Amount Due</p>
+                            <p class="value">{{ plan.amountDue | number:'0.3-3'}} Dt</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="label">Amount Paid</p>
+                            <p class="value">{{ plan.amountPaid | number:'0.3-3' }} Dt</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="label">Due Date</p>
+                            <p class="value">{{ plan.dueDate | date }}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="label">Payment Date</p>
+                            <p class="value">{{ plan.paymentDate | date }}</p>
+                        </div>
+                    </div>
+
+                    <div class="single-progress-bar">
+                        <div class="progress-title">
+                            <h6>Plan Progress <span>{{ getPlanProgress(plan) }}%</span></h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" [ngStyle]="{ width: getPlanProgress(plan) + '%' }"></div>
+                        </div>
+                    </div>
+
+                    <div class="plan-status">
+                        <span class="badge" [ngClass]="{
+                            'badge-success': plan.paymentStatus === 'Paid',
+                            'badge-warning': plan.paymentStatus === 'Pending',
+                            'badge-danger': plan.paymentStatus === 'Overdue'
+                        }">
+                            {{ plan.paymentStatus }}
+                        </span>
+
+                        <div *ngIf="plan.paymentStatus === 'Pending' || plan.paymentStatus === 'Overdue'"
+                            class="payment-methods">
+                            <button class="btn-pay-now" (click)="navigateToCheckout(plan, 'card')">
+                                <i class="far fa-credit-card"></i> Card
+                            </button>
+                            <button class="btn-pay-wallet" (click)="openWalletModal(plan)">
+                                <i class="fas fa-wallet"></i> Wallet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a [routerLink]="['/payments/payment-details', 'omar']" class="btn btn-primary">
+                Back to Offers
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="!paymentPlans || paymentPlans.length === 0" class="no-payment">
+        <p>No payment details found.</p>
+        <a routerLink="/payment-details" class="btn btn-primary">Back to Offers</a>
+    </div>
+</div>

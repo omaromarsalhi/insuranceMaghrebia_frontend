@@ -1,0 +1,30 @@
+<div class="wallet-payment-container">
+    <div class="wallet-header">
+        <i class="fas fa-wallet"></i>
+        <h3>Wallet Payment</h3>
+    </div>
+
+    <div class="balance-summary">
+        <div class="balance-row">
+            <span>Current Balance:</span>
+            <span class="amount">{{ walletBalance | number:'1.2-2' }} Dt</span>
+        </div>
+
+        <div class="balance-row">
+            <span>Payment Amount:</span>
+            <span class="amount">-{{ paymentAmount | number:'1.2-2' }} Dt</span>
+        </div>
+
+        <div class="balance-row total">
+            <span>Remaining Balance:</span>
+            <span class="amount" [class.insufficient]="!hasSufficientFunds">
+                {{ remainingBalance | number:'1.2-2' }} Dt
+            </span>
+        </div>
+
+        <div class="warning-message" *ngIf="!hasSufficientFunds">
+            <i class="fas fa-exclamation-triangle"></i>
+            Insufficient funds. Please add ${{ (paymentAmount - walletBalance) | number:'1.2-2' }} to your wallet.
+        </div>
+    </div>
+</div>

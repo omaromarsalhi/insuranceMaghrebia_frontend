@@ -7,11 +7,12 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
+import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
 import { MagnificPopupDirective } from './directives/magnific-popup.directive';
 import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
-import { BackToTopComponent } from './shared/ui/back-to-top/back-to-top.component';
-import { CounterComponent } from './shared/ui/counter/counter.component';
+import { BackToTopComponent } from './shared/back-to-top/back-to-top.component';
+import { CounterComponent } from './shared/counter/counter.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddClaimPageComponent } from './claim/pages/add-claim-page/add-claim-page.component';
@@ -35,12 +36,15 @@ import { CandidateComponent } from './hr/candidate/candidate.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import {ComplaintsModule} from "./complaints/complaints-module";
 import {SharedModule} from "./shared/ui/shared.module";
+import { InsuranceModule } from './insurances/insurance.module';
+import { PaymentModule } from './payment/payment.module';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    PreloaderComponent,
     MagnificPopupDirective,
     NiceSelectDirective,
     AnimationDirective,
@@ -62,14 +66,29 @@ import {SharedModule} from "./shared/ui/shared.module";
     ClaimDetailsPageComponent,
     ImageSliderV2Component,
 
+    CounterComponent,
+    CounterComponent,
+    CounterComponent,
+    HomeFooterComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutingModule,
+    RouterModule,
+    AppRoutingModule,
     SharedModule,
     SlickCarouselModule,
     FontAwesomeModule,
+    HttpClientModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    InsuranceModule,
+    PaymentModule,
+    SharedModule,
     HttpClientModule,
     MatDialogModule,
     BrowserAnimationsModule,

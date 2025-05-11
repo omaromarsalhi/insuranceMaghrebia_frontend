@@ -1,0 +1,89 @@
+/* Modal Container */
+.modal-content {
+    width: 200px;
+
+    margin: 0 auto;
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+
+.modal-header {
+    background-color: #4CAF50;
+
+    color: white;
+
+    padding: 15px 20px;
+
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.modal-header .modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.modal-header .close {
+    color: white;
+    /* White color for the close button */
+    opacity: 0.8;
+    font-size: 1.5rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    /* Push the close button to the right */
+}
+
+.modal-header .close:hover {
+    opacity: 1;
+    /* Full opacity on hover */
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px;
+    font-size: 1.1rem;
+    color: #333;
+    /* Dark gray text color */
+    line-height: 1.6;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-footer .btn-primary {
+    background-color: #4CAF50;
+    /* Green background for the button */
+    color: white;
+    /* White text color */
+    border: none;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
+}

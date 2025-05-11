@@ -1,0 +1,83 @@
+<!-- <div class="container-fluid">
+
+    <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <app-offer-creator [triggerCleanEvent]="triggerCleanEvent"
+                    (offerCreationEvent)="recieveOfferData($event)"></app-offer-creator>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <app-form-creator [triggerCleanEvent]="triggerCleanEvent"
+                    (offerFormCreationEvent)="recieveOfferFormData($event)"></app-form-creator>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container-fluid">
+    <app-page-title title="Form Layouts" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div *ngIf="!isThisEditMode.offer" class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-6" [class.col-lg-8]="isChatOpen">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <app-offer-creator *ngIf="!isChatOpen" @scaleFade [triggerCleanEvent]="triggerCleanEvent"
+                    [isThisEditMode]="isThisEditMode" [offer2Update]="offer2Update"
+                    (offerActionEvent)="recieveOfferAction($event)"></app-offer-creator>
+
+                <app-form-creator *ngIf="isChatOpen" @slideVertical [triggerCleanEvent]="triggerCleanEvent"
+                    [formCreatedByAi]="offerForm" [useFormCreatedByAi]="offerForm.length > 0"
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-6" @slideHorizontal *ngIf="!isChatOpen">
+            <div class="card shadow-lg border-0">
+                <app-form-creator [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
+                    [useFormCreatedByAi]="offerForm?.length > 0"
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isThisEditMode.offer" class="row g-4"
+        [class.justify-content-center]="!isChatOpen && !isThisEditMode.form">
+        <!-- Left Column -->
+        <div class="col-lg-6" [class.col-lg-8]="
+        !isThisEditMode.form || (isChatOpen && isThisEditMode.form)
+      ">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <app-offer-creator *ngIf="!isChatOpen && isThisEditMode.offer" @scaleFade
+                    [triggerCleanEvent]="triggerCleanEvent" [isThisEditMode]="isThisEditMode"
+                    [offer2Update]="offer2Update" (offerActionEvent)="recieveOfferAction($event)"></app-offer-creator>
+
+                <app-form-creator *ngIf="isChatOpen && isThisEditMode.form" @slideVertical
+                    [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
+                    [useFormCreatedByAi]="offerForm.length > 0" [form2Update]="form2Update"
+                    [isThisEditMode]="isThisEditMode"
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-6" @slideHorizontal *ngIf="!isChatOpen && isThisEditMode.form">
+            <div class="card shadow-lg border-0">
+                <app-form-creator [triggerCleanEvent]="triggerCleanEvent" [formCreatedByAi]="offerForm"
+                    [useFormCreatedByAi]="offerForm.length > 0" [form2Update]="form2Update"
+                    [isThisEditMode]="isThisEditMode"
+                    (offerFormActionEvent)="recieveOfferFormAction($event)"></app-form-creator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-chat *ngIf="!isThisEditMode.offer || (isThisEditMode.offer && isThisEditMode.form)" [(isChatOpen)]="isChatOpen"
+    [existingForm]="form2Update?.fields" [isFormBiengUpdated]="isThisEditMode.offer && isThisEditMode.form"
+    (aiResponse)="receiveData($event)"></app-chat>

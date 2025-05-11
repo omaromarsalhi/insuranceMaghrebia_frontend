@@ -1,0 +1,346 @@
+<!-- form-creator.component.html -->
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">
+      <i class="fas fa-drafting-compass me-2"></i>Form Builder
+    </h2>
+    <button type="button" class="btn btn-success" (click)="openModal(content)">
+      <i class="fas fa-eye me-2"></i>Show Live Preview
+    </button>
+  </div>
+
+  <!-- Builder Section -->
+  <div *ngIf="!isThisEditMode.form||(isThisEditMode.form && isForm2UpdateLoaded)" class="card mb-4">
+    <div class="card-header text-white">
+      <h4 class="mb-0"><i class="fas fa-cog me-2"></i>Field Configuration</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="dynamicForm" (ngSubmit)="send2OfferManager()">
+        <div formArrayName="fields" cdkDropList (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let field of sortedFields; let i = index" [formGroupName]="i" class="mb-3 border p-3 rounded"
+            cdkDrag>
+            <!-- Field Header -->
+            <div class="d-flex align-items-center mb-3">
+              <div class="drag-handle me-3" cdkDragHandle>
+                <i class="fas fa-arrows-alt text-muted"></i>
+              </div>
+              <button type="button" class="btn btn-danger btn-sm me-3" (click)="removeField(i)">
+                <i class="fas fa-trash"></i>
+              </button>
+              <div class="form-check form-switch me-3">
+                <input class="form-check-input" type="checkbox" formControlName="required" id="required{{ i }}" />
+                <label class="form-check-label" for="required{{ i }}">Required</label>
+              </div>
+            </div>
+
+            <!-- Main Configuration -->
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Label</label>
+                <input type="text" class="form-control" formControlName="label" placeholder="Field label" [ngClass]="{
+                    'is-invalid': submit && getFieldControl(i, 'label').errors,
+                    'is-valid': submit && !getFieldControl(i, 'label').errors
+                  }" placeholder="Put the Label in here" />
+                <div *ngIf="submit && getFieldControl(i, 'label').errors" class="invalid-feedback">
+                  <span *ngIf="getFieldControl(i, 'label').errors?.required">Label is required</span>
+                  <span *ngIf="getFieldControl(i, 'label')?.hasError('pattern')">
+                    Label must contain only letters, numbers, spaces, hyphens, or basic punctuation.
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold">Type</label>
+                <select class="form-select" formControlName="type">
+                  <option *ngFor="let type of availableFieldTypes" [value]="type">
+                    {{ type }}
+                  </option>
+                </select>
+
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold">Position</label>
+                <div class="input-group">
+                  <button class="btn btn-outline-secondary" type="button" (click)="
+                      updateOrder(field, getFieldControl(i, 'order').value - 1)
+                    ">
+                    <i class="fas fa-chevron-up"></i>
+                  </button>
+                  <input readonly type="number" class="form-control px-1 fs-6 text-center"
+                    [formControl]="getFieldControl(i, 'order')" min="1" [max]="fields.length" />
+                  <button class="btn btn-outline-secondary" type="button" (click)="
+                      updateOrder(field, getFieldControl(i, 'order').value + 1)
+                    ">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Settings -->
+            <div class="mt-3">
+              <!-- Text-based Fields -->
+              <div *ngIf="
+                  [
+                  'number', 
+                  'textarea',
+                    'text',
+                    'email',
+                    'date',
+                    'time',
+                    'checkbox',
+                    'color'
+                  ].includes(getFieldControl(i, 'type').value)
+                " class="row g-3">
+                <div class="col-md-6" *ngIf="
+                  [
+                  'number', 
+                  'textarea',
+                    'text',
+                    'email'
+                  ].includes(getFieldControl(i, 'type').value)">
+                  <label class="form-label fw-bold">Placeholder</label>
+                  <input type="text" class="form-control" formControlName="placeholder" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'placeholder').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'placeholder').errors
+                    }" placeholder="Put the placeholder message in here" />
+                  <div *ngIf="submit && getFieldControl(i, 'placeholder').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'placeholder').errors?.required">Placeholder is required</span>
+                    <span *ngIf="getFieldControl(i, 'placeholder')?.hasError('pattern')">
+                      Placeholder must contain only letters, numbers, spaces, or basic punctuation.
+                    </span>
+                  </div>
+                </div>
+
+
+                <div *ngIf="['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value)" class="col-md-6">
+                  <label class="form-label fw-bold">Validation Pattern</label>
+                  <input type="text" class="form-control" formControlName="regex" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'regex').errors,
+                      'is-valid': submit && !getFieldControl(i, 'regex').errors
+                    }" placeholder="Put the regex expression in here" />
+                  <div *ngIf="submit && getFieldControl(i, 'regex').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'regex').errors?.required">Regex pattern is required</span>
+                    <span *ngIf="getFieldControl(i, 'regex')?.hasError('invalidRegex')">Invalid regular
+                      expression.</span>
+                  </div>
+                </div>
+
+                <div *ngIf="['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value)" [ngClass]="{'col-12': ['email','text','number', 'textarea'].includes(getFieldControl(i, 'type').value) , 'col-6': ['text',
+                  'email',
+                  'date',
+                  'time',
+                  'checkbox','number', 'textarea',
+                  'color'].includes(getFieldControl(i, 'type').value)}">
+                  <label class="form-label fw-bold">Error Message</label>
+                  <input type="text" class="form-control" formControlName="regexErrorMessage" [ngClass]="{
+                      'is-invalid':
+                        submit &&
+                        getFieldControl(i, 'regexErrorMessage').errors,
+                      'is-valid':
+                        submit &&
+                        !getFieldControl(i, 'regexErrorMessage').errors
+                    }" placeholder="Displayed when input doesn't match pattern" />
+                  <div *ngIf="
+                      submit && getFieldControl(i, 'regexErrorMessage').errors
+                    " class="invalid-feedback">
+                    <span *ngIf="
+                        getFieldControl(i, 'regexErrorMessage').errors?.required
+                      ">Error message is required</span>
+                    <span *ngIf="getFieldControl(i, 'regexErrorMessage')?.hasError('pattern')">
+                      Error message must contain only letters, numbers, spaces, or basic punctuation.
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Range Settings -->
+              <div *ngIf="getFieldControl(i, 'type').value === 'range'" class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Minimum</label>
+                  <input type="number" class="form-control" formControlName="rangeStart" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'rangeStart').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'rangeStart').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'rangeStart').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'rangeStart').errors?.required">Minimum value is required</span>
+                    <span *ngIf="getFieldControl(i, 'rangeStart')?.hasError('pattern')">Range start must be a
+                      number.</span>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Maximum</label>
+                  <input type="number" class="form-control" formControlName="rangeEnd" [ngClass]="{
+                      'is-invalid':
+                        submit && getFieldControl(i, 'rangeEnd').errors,
+                      'is-valid':
+                        submit && !getFieldControl(i, 'rangeEnd').errors
+                    }" />
+                  <div *ngIf="submit && getFieldControl(i, 'rangeEnd').errors" class="invalid-feedback">
+                    <span *ngIf="getFieldControl(i, 'rangeEnd').errors?.required">Maximum value is required</span>
+                    <span *ngIf="getFieldControl(i, 'rangeEnd')?.hasError('pattern')">Range end must be a number.</span>
+                  </div>
+                </div>
+              </div>
+
+
+              <div *ngIf="getFieldControl(i, 'type').value === 'select' || getFieldControl(i, 'type').value === 'radio'"
+                class="mt-3">
+                <label class="form-label fw-bold">Options</label>
+                <div formArrayName="selectOptions">
+                  <div *ngFor="
+                      let opt of getSelectOptions(field).controls;
+                      let j = index
+                    " class="input-group mb-2">
+                    <input type="text" class="form-control" [formControlName]="j" [ngClass]="{
+                        'is-invalid': (submit || opt.touched) && opt.errors
+                      }" />
+                    <button type="button" class="btn btn-outline-danger" (click)="removeSelectOption(field, j)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    <div *ngIf="(submit || opt.touched) && opt.errors" class="invalid-feedback">
+                      <span *ngIf="opt.errors?.required">Option is required</span>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="addSelectOption(field)">
+                  <i class="fas fa-plus me-2"></i>Add Option
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mb-2">
+          <button type="button" class="btn btn-outline-dark" (click)="addField()">
+            <i class="fas fa-plus me-2"></i>Add New Field
+          </button>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary me-2">
+            <i class="fas fa-save me-2"></i>Save Form
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+            <i class="fas fa-undo me-2"></i>Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #content role="document" let-modal>
+  <div class="modal-header bg-light border-bottom">
+    <h5 class="modal-title text-dark">
+      <i class="bi bi-eye me-2"></i>Form Preview
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" 
+            (click)="modal.dismiss()"></button>
+  </div>
+  
+  <div class="modal-body p-4">
+    <div class="preview-container bg-white rounded-3 shadow-sm">
+      <form #previewForm="ngForm">
+        <div *ngFor="let field of sortedFields" class="preview-field mb-4">
+          <div class="field-container" *ngIf="field.get('type')?.value !== 'section'">
+            <label class="form-label d-block fw-medium text-dark mb-2">
+              {{ field.get("label")?.value || 'Untitled Field' }}
+              <span *ngIf="field.get('required')?.value" class="text-danger">*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <ng-container [ngSwitch]="field.get('type')?.value">
+                <!-- Text Input -->
+                <input *ngSwitchCase="'text'" type="text"
+                      class="form-control"
+                      [placeholder]="field.get('placeholder')?.value"
+                      [required]="field.get('required')?.value">
+
+                <!-- Email Input -->
+                <input *ngSwitchCase="'email'" type="email"
+                      class="form-control"
+                      [placeholder]="field.get('placeholder')?.value"
+                      [required]="field.get('required')?.value">
+
+                <!-- Textarea -->
+                <textarea *ngSwitchCase="'textarea'"
+                        class="form-control" rows="3"
+                        [placeholder]="field.get('placeholder')?.value"
+                        [required]="field.get('required')?.value"></textarea>
+
+                <!-- Date Input -->
+                <div *ngSwitchCase="'date'" class="position-relative">
+                  <input type="date" class="form-control"
+                        [required]="field.get('required')?.value">
+                  <i class="bi bi-calendar input-icon"></i>
+                </div>
+
+                <!-- Select Dropdown -->
+                <select *ngSwitchCase="'select'" class="form-select">
+                  <option value="" disabled selected>Select an option</option>
+                  <option *ngFor="let opt of getSelectOptions(field).value" 
+                          [value]="opt">{{ opt }}</option>
+                </select>
+
+                <!-- Checkbox -->
+                <div *ngSwitchCase="'checkbox'" class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <label class="form-check-label">
+                    {{ field.get('placeholder')?.value || 'Check this option' }}
+                  </label>
+                </div>
+
+                <!-- Radio Group -->
+                <div *ngSwitchCase="'radio'" class="radio-group">
+                  <div *ngFor="let opt of getSelectOptions(field).value" 
+                      class="form-check">
+                    <input class="form-check-input" type="radio" 
+                          [name]="'radioGroup' + field.get('order')?.value">
+                    <label class="form-check-label">{{ opt }}</label>
+                  </div>
+                </div>
+
+                <!-- Range Slider -->
+                <div *ngSwitchCase="'range'">
+                  <input type="range" class="form-range"
+                        [min]="field.get('rangeStart')?.value"
+                        [max]="field.get('rangeEnd')?.value">
+                  <div class="d-flex justify-content-between small text-muted">
+                    <span>{{ field.get('rangeStart')?.value }}</span>
+                    <span>{{ field.get('rangeEnd')?.value }}</span>
+                  </div>
+                </div>
+
+              </ng-container>
+            </div>
+
+            <!-- Helper Text -->
+            <div *ngIf="field.get('description')?.value" 
+                class="form-text text-muted mt-1 small">
+              {{ field.get("description")?.value }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer bg-light border-top">
+    <button type="button" class="btn btn-outline-secondary" 
+            (click)="modal.close()">
+      Close Preview
+    </button>
+  </div>
+</ng-template>

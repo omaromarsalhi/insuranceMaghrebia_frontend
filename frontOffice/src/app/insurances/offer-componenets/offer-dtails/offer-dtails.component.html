@@ -1,0 +1,240 @@
+<app-preloader></app-preloader>
+
+<!--====== Start Breadcrumb Section ======-->
+<section class="page-banner overlay pt-170 pb-170 bg_cover"
+    style="background-image: url(../../../assets/images/bg/page-bg.jpg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!--=== Page Banner Content ===-->
+                <div class="page-banner-content text-center text-white">
+                    <h1 class="page-title">Service Details</h1>
+                    <ul class="breadcrumb-link text-white">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">Service Details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--====== End Breadcrumb Section ======-->
+<!--====== Start What We Section ======-->
+<section class="what-we-section pt-120">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-6">
+                <!--=== Section Title  ===-->
+                <div class="section-title mb-55 wow fadeInLeft">
+                    <span class="sub-title">What We Do</span>
+                    <h2>Customer Focused
+                        Insurance Experts</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!--=== Content Box  ===-->
+                <div class="we-content-box mb-55 wow fadeInRight">
+                    <p>Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam
+                        rem aperiam eaque quae abillo inventore
+                        veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-2">
+            <ngx-slick-carousel class="compact-slider col-lg-9 col-md-8 col-sm-12"
+                [config]="testimonialItemsSliderConfig">
+                <div ngxSlickItem *ngFor="let label of offerDetails.labels" class="mb-4 d-flex mx-4">
+                    <div class="single-features-item-three h-100 w-100 d-flex flex-column wow fadeInUp rounded">
+                        <div class="icon bg-primary-gradient">
+                            <i class="flaticon-insurance-policy"></i>
+                        </div>
+                        <div class="content flex-grow-1">
+                            <h4 class="title">{{ label.name }}</h4>
+                            <ngx-slick-carousel class="question-slider" [config]="questionSliderConfig">
+                                <div ngxSlickItem *ngFor="let question of label.questions">
+                                    <p class="description">{{ question.questionText }}</p>
+                                </div>
+                            </ngx-slick-carousel>
+                        </div>
+                        <a [routerLink]="['/offer-details']" class="btn-link">
+                            Learn More<i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </ngx-slick-carousel>
+        </div>
+    </div>
+</section>
+<!--====== End What We Section ======-->
+
+
+<section *ngFor="let label of offerDetails.labels; let lIndex = index" class="faq-section pt-70 pb-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Left Image for Odd Indexes -->
+            <div *ngIf="lIndex % 2 === 1" class="col-lg-6">
+                <div class="faq-image-box pr-lg-70 mb-50 wow fadeInRight">
+                    <img src="assets/images/gallery/faq-1.jpg" alt="Faq Image">
+                </div>
+            </div>
+
+            <!-- FAQ Content -->
+            <div class="col-lg-6">
+                <div
+                    [ngClass]="{'faq-content-box pl-lg-70 mb-20 wow fadeInLeft':lIndex % 2 === 1,'faq-content-box pr-lg-70 mb-20 wow fadeInRight':lIndex % 2 === 0}">
+                    <!--=== Section Title ===-->
+                    <div class="section-title mb-40">
+                        <span class="sub-title">What We offer ?</span>
+                        <h2>{{ label.name }}</h2>
+                    </div>
+
+                    <!--=== Accordion ===-->
+                    <div class="accordion" [id]="'accordion' + lIndex">
+                        <div *ngFor="let question of label.questions; let i = index" class="accordion-card mb-25">
+                            <div class="accordion-header">
+                                <h6 class="accordion-title" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#collapse' + lIndex + '-' + i"
+                                    [attr.aria-expanded]="i === 0 ? 'true' : 'false'" [class.collapsed]="i !== 0">
+                                    <span class="number">0{{ i + 1 }}.</span> {{ question.questionText }}
+                                </h6>
+                            </div>
+                            <div [id]="'collapse' + lIndex + '-' + i" class="accordion-collapse collapse"
+                                [class.show]="i === 0" [attr.data-bs-parent]="'#accordion' + lIndex">
+                                <div class="accordion-body">
+                                    <p *ngIf="label.answers && label.answers[i]">{{ label.answers[i].answerText }}</p>
+                                    <p *ngIf="!label.answers || !label.answers[i]">No answer available.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Image for Even Indexes -->
+            <div *ngIf="lIndex % 2 === 0" class="col-lg-6">
+                <div class="faq-image-box pl-lg-70 mb-50 wow fadeInLeft">
+                    <img src="assets/images/gallery/faq-1.jpg" alt="Faq Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====== Start Benefit Section ======-->
+<section class="benefit_area-one pb-80">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-6">
+                <!--=== Benefit Content Box ===-->
+                <div class="benefit-content-box mb-50 wow fadeInLeft">
+                    <!--=== Section Title ===-->
+                    <div class="section-title mb-30">
+                        <span class="sub-title">Benefits</span>
+                        <h2>Special Benefits of the
+                            Business Insurance</h2>
+                    </div>
+                    <p class="mb-35">We denounce with righteous indignation and dislike men who are beguiled and
+                        demoralized by the charms of pleasure of the moment</p>
+                    <ul class="check-list">
+                        <li *ngFor="let benefit of offerDetails.benefits "><i
+                                class="fa fa-check-circle"></i>{{benefit.benefitText}}.</li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <!--=== Benefit Image ===-->
+                <div class="benefit_one-image mb-50 wow fadeInRight">
+                    <img src="../../../assets/images/gallery/features-3.jpg" alt="Features Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--====== End Benefit Section ======-->
+<!--====== Start Pricing Section ======-->
+<section class="pricing-section pt-120 pb-90 gray-bg pricing-scale">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <!--=== Section Title ===-->
+                <div class="section-title text-center mb-55 wow fadeInDown">
+                    <span class="sub-title">Pricing Plan</span>
+                    <h2>Amazing Insurance Offer Pricing Package</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let package of offerDetails.packages">
+                <div class="single-pricing-item mb-40 wow fadeInUp d-flex flex-column h-100">
+                    <div class="pricing-head">
+                        <h3 class="title">{{package.title}}</h3>
+                        <p class="price">
+                            <span class="currency">$</span>{{package.price}}
+                            <span class="duration">/{{package.duration || package.customDuration}}</span>
+                        </p>
+                    </div>
+                    <div class="pricing-body flex-grow-1">
+                        <ul class="pricing-check">
+                            <li *ngFor="let feature of package.features" class="check">
+                                <i class="flaticon-check"></i>{{feature}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mt-auto">
+                        <a [routerLink]="['/insurance/offer-pushasing', offerDetails.formId, offerDetails.offerId]"
+                            [queryParams]="{ price: package.price }" class="main-btn primary-btn btn-link no-underline mt-2">
+                            Choose Package <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====== End Pricing Section ======-->
+<!--====== Start Intro Section ======-->
+<section class="intro-section overlay pt-200 pb-200 bg_cover wow fadeInUp"
+    style="background-image: url(../../../assets/images/bg/intro-bg-2.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=== Play Content Box ===-->
+                <div class="play-content-box text-center">
+                    <a href="https://www.youtube.com/watch?v=K2mP36DoekA" class="video-popup"><i
+                            class="fas fa-play"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--====== End Intro Section ======-->
+<!--====== Start CTA Section ======-->
+<section class="cta-section cta_area-two pt-145 pb-80">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <!--=== CTA Content Box ===-->
+                <div class="cta_one-content-box mb-40">
+                    <h2>Find Your Insurance
+                        Agent! Say Hello</h2>
+                    <a href="#" class="main-btn primary-btn">Track Claim<i class="far fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <!--=== CTA Image ===-->
+                <div class="cta_image-one float-xl-end p-r z-1 mb-40">
+                    <div class="shape"><span><img src="../../../assets/images/gallery/experience.png" alt=""></span>
+                    </div>
+                    <img src="../../../assets/images/gallery/cta-2.jpg" alt="CTA Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=== Start Animate Headline ===-->
+    <div class="animate-headline">
+        <div class="headline-text">
+            <div class="animate-text">
+                <span class="text">Insurance Agent</span>
+            </div>
+        </div>
+    </div><!--=== End Animate Headline ===-->
+</section><!--====== End CTA Section ======-->

@@ -1,0 +1,304 @@
+/* Enhanced Payment Form Styling */
+.payment-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #155724, #28a745);
+}
+
+.section-title {
+    position: relative;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 700;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #FFB966;
+}
+
+.sub-title {
+    display: block;
+    font-size: 14px;
+    color: #193B1E;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 15px;
+}
+
+.input-with-icon {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.input-with-icon:hover i {
+    color: #155724;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #95a5a6;
+    transition: all 0.3s ease;
+}
+
+input {
+    width: 100%;
+    padding: 14px 14px 14px 45px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #333;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    border-color: #155724;
+    box-shadow: 0 0 0 3px rgba(21, 87, 36, 0.1);
+    background: #fff;
+}
+
+/* Card Element  */
+#card-element {
+    padding: 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f9f9f9;
+    font-size: 15px;
+    min-height: 60px;
+    transition: all 0.3s ease;
+}
+
+#card-element:hover,
+#card-element:focus {
+    border-color: #155724;
+    box-shadow: 0 0 0 3px rgba(21, 87, 36, 0.1);
+}
+
+/* Signature Section  */
+.signature-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 30px 0;
+    transition: all 0.3s ease;
+}
+
+.signature-header {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.signature-header:hover {
+    background: #f1f3f5;
+}
+
+.signature-header .form-label {
+    margin-bottom: 0;
+    color: #155724;
+    font-weight: 700;
+}
+
+.signature-header i {
+    color: #155724;
+    transition: transform 0.3s ease;
+}
+
+.signature-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    padding: 0 20px;
+}
+
+.signature-content.show {
+    max-height: 300px;
+    padding: 20px;
+}
+
+.signature-pad-container {
+    border: 1px dashed #d5d5d5;
+    border-radius: 8px;
+    background: #fff;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.signature-pad-container:hover {
+    border-color: #193B1E;
+}
+
+.signature-canvas {
+    width: 100%;
+    height: 160px;
+    background: white;
+    display: block;
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.signature-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.signature-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-secondary {
+    border: 1px solid #e0e0e0;
+    color: #555;
+}
+
+.btn-outline-secondary:hover {
+    background: #f8f9fa;
+    border-color: #d5d5d5;
+}
+
+.confirm-btn {
+    background-color: #193B1E;
+    border-color: #193B1E;
+    color: white;
+    margin-right: 5px;
+}
+
+.confirm-btn:hover {
+    background-color: #0e3a17;
+    border-color: #0e3a17;
+}
+
+.confirm-btn:disabled {
+    background-color: #95a5a6;
+    border-color: #95a5a6;
+    opacity: 0.8;
+}
+
+/* End of signature Section */
+
+.main-btn {
+    width: 50%;
+}
+
+.main-btn:disabled {
+    background: #95a5a6;
+    transform: none;
+    box-shadow: none;
+}
+
+.spinner-button {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 16px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(21, 87, 36, 0.1);
+    border-top: 4px solid #155724;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .payment-form {
+        padding: 25px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    input {
+        padding: 12px 12px 12px 40px;
+    }
+}
+
+/* Animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.clear-btn {
+    margin-left: 5px;
+}

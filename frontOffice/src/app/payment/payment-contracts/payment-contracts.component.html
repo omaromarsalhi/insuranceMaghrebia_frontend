@@ -1,0 +1,98 @@
+<app-preloader></app-preloader>
+<section class="services-section pt-120 pb-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!--=== Section Title ===-->
+                <div class="section-title text-center mb-50">
+                    <span class="sub-title">Payment Services</span>
+                    <h2>Your Purchased Offers</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search by Offer offer..." [(ngModel)]="searchQuery"
+                    (input)="applyFilter()">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" [(ngModel)]="statusFilter" (change)="applyFilter()">
+                    <option value="">All Statuses</option>
+                    <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+                    <i class="bx bx-refresh"></i> Reset Filters
+                </button>
+            </div>
+        </div>
+
+        <div class="offer-list">
+            <!-- Loop through payments -->
+            <div class="offer-item" *ngFor="let payment of listData">
+                <!-- Offer Header -->
+                <div class="offer-header">
+                    <div class="offer-icon">
+                        <img [src]="getPhotoUrl(payment.offerId)" alt="Icon">
+                    </div>
+                    <div class="offer-info">
+                        <h3 class="title"> {{ payment.offerId ? (offerNamesMap[payment.offerId] || 'Loading...') :
+                            'Unknown' }}Insurance</h3>
+                        <div class="badges">
+                            <span class="badge" [ngClass]="{
+                  'badge-success': payment.paymentStatus === 'Paid',
+                  'badge-warning': payment.paymentStatus === 'Pending',
+                  'badge-danger': payment.paymentStatus === 'Overdue'
+                }">
+                                {{ payment.paymentStatus }}
+                            </span>
+                            <span class="badge badge-info">{{ payment.planDuration }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-bar-container">
+                    <div class="progress">
+                        <div class="progress-bar" [ngStyle]="{ width: getPaymentProgress(payment) + '%' }">
+                            <span class="progress-text">{{ getPaymentProgress(payment) }}%</span>
+                        </div>
+                    </div>
+                    <small class="progress-text">{{ getPaymentProgress(payment) }}% Completed</small>
+                </div>
+
+                <!-- Payment Contract Details -->
+                <div class="payment-contracts">
+                    <div class="contract-details">
+                        <div class="detail-item">
+                            <i class="fas fa-file-contract"></i>
+                            <span><strong>Contract ID:</strong> {{ payment.contractPaymentId }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span><strong>Total Amount:</strong> {{ payment.totalAmount }} Dt</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Plan Duration:</strong> {{ payment.planDuration }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span><strong>Created At:</strong> {{ payment.contractCreatedAt | date }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Read More Button -->
+                <div class="read-more">
+                    <button (click)="generatePDF(payment)" class="btn-pdf">
+                        <i class="fas fa-file-pdf"></i> Download Contract
+                    </button>
+                    <a (click)="viewDetails(payment)" class="btn-link">View Details <i
+                            class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

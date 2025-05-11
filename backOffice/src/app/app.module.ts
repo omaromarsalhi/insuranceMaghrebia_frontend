@@ -19,6 +19,10 @@ import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { UserModule } from './user/user.module';
 import { AuthInterceptor } from './auth.interceptor';
 import { UIModule } from "./shared/ui/ui.module";
+import { InsuranceModule } from './insurance/insurance.module';
+import { PaymentModule } from './payment/payment.module';
+import { PagetitleComponent } from './pagetitle/pagetitle.component';
+import { SharedModule } from './shared/shared.module';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -33,12 +37,15 @@ export function createTranslateLoader(http: HttpClient): any {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PagetitleComponent,
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    PaymentModule,
     TranslateModule.forRoot({
         loader: {
             provide: TranslateLoader,
@@ -48,15 +55,18 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
     LayoutsModule,
     AppRoutingModule,
+    //ExtrapagesModule,
     CarouselModule,
     NgbAccordionModule,
     NgbNavModule,
     NgbTooltipModule,
+    SharedModule,
     ScrollToModule.forRoot(),
     NgbModule,
+    InsuranceModule,
     UserModule,
     UIModule
-],
+  ],
   bootstrap: [AppComponent],
   providers: [
     //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

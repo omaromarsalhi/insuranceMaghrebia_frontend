@@ -38,20 +38,57 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.INSURANCE.TEXT',
         icon: 'bx-store',
         subItems: [
-            {
+             {
                 id: 3,
                 label: 'MENUITEMS.INSURANCE.LIST.CATEGORY',
-                link: 'insurance/particular/category',
+                link: '/insurance/categories',
                 parentId: 2
             },
             {
                 id: 4,
-                label: 'MENUITEMS.INSURANCE.LIST.PRODUCTDETAIL',
-                link: '/INSURANCE/product-detail/1',
+                label: 'MENUITEMS.INSURANCE.LIST.ADDOFFER',
+                link: '/insurance/offer-manager',
                 parentId: 2
             },
-
+            {
+                id: 5,
+                label: 'MENUITEMS.INSURANCE.LIST.OFFER',
+                link: '/insurance/offers',
+                parentId: 2
+            },
+            {
+                id: 6,
+                label: 'MENUITEMS.INSURANCE.LIST.EDITOFFER',
+                link: '/insurance/edit-offer',
+                parentId: 2
+            },
+            {
+                id: 7,
+                label: 'MENUITEMS.INSURANCE.LIST.APPOINTMENTS',
+                link: '/insurance/appointments',
+                parentId: 2
+            },
         ]
+    },
+    {
+        id: 5,
+        label: 'Payment',
+        icon: 'bx-credit-card',
+        subItems: [
+            {
+                id: 6,
+                label: 'Payment ',
+                link: '/payment/contract',
+                parentId: 5
+            },
+            {
+                id: 7,
+                label: 'Payment Details',
+                link: '/payment/details/:userId',
+                parentId: 5
+            }
+        ]
+
     },
     {
         id : 3,

@@ -1,0 +1,192 @@
+
+.container-fluid {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.row.g-4.h-100 {
+    flex: 1;
+    min-height: 0;
+}
+
+/* Right column scrollable area */
+.col-xl-4.col-sm-6.h-100 {
+    overflow-y: auto; /* Enable vertical scroll */
+    max-height: 100vh; /* Prevent overflow */
+    padding-right: 0.5rem; /* Prevent scrollbar overlap */
+}
+
+/* Optional: Custom scrollbar styling */
+.col-xl-4.col-sm-6.h-100::-webkit-scrollbar {
+    width: 6px;
+}
+
+.col-xl-4.col-sm-6.h-100::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 4px;
+}
+
+/* Ensure proper scroll behavior */
+.h-100 {
+    height: 100% !important;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.word-break {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.text-decoration-underline {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.text-decoration-underline:hover {
+    transform: translateY(-1px);
+}
+
+.text-decoration-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.text-decoration-underline:hover::after {
+    width: 100%;
+}
+
+/* Remove default underline and add custom animation */
+a.text-primary {
+    text-decoration: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated underline effect */
+a.text-primary::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.text-primary:hover::after {
+    width: 100%;
+}
+
+/* Bounce animation */
+a.text-primary:hover {
+    transform: translateY(-2px);
+}
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.input-group-merge {
+    border-radius: 0.75rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.input-group-merge:focus-within {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+}
+
+.input-group-merge .input-group-text {
+    background: transparent;
+    border: none;
+    padding-left: 1rem;
+}
+
+.input-group-merge .form-control {
+    border: none;
+    padding-left: 0.5rem;
+    background: transparent;
+}
+
+.input-group-merge .form-control:focus {
+    box-shadow: none;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-size: 1.05rem;
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer; /* Maintain pointer cursor */
+    outline: none; /* Remove focus outline */
+}
+
+/* Remove hover/active states */
+a:hover,
+a:active,
+a:visited,
+a:focus {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-control, .form-select {
+    border-left: none !important;
+    padding-left: 1rem !important;
+}
+
+
+
+.mdi-chevron-down.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+

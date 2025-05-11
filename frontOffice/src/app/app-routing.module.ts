@@ -17,8 +17,9 @@ import { AddClaimPageComponent } from './claim/pages/add-claim-page/add-claim-pa
 import { ClaimsPageComponent } from './claim/pages/claims-page/claims-page.component';
 import { ClaimDetailsPageComponent } from './claim/pages/claim-details-page/claim-details-page.component';
 
+
 const routes: Routes = [
-  { path: '', redirectTo:'home', pathMatch: 'full'},
+  //{ path: '', redirectTo:'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent , canActivate : [completeProfileGuard] },
   { path: 'account/profile', component: ProfileComponent , canActivate : [completeProfileGuard] },
   { path: 'account/edit-profile', component: EditProfileComponent , canActivate : [blockEntryGuard] },
@@ -36,6 +37,11 @@ const routes: Routes = [
     component: ClaimDetailsPageComponent,canActivate : [completeProfileGuard]
   },
   {path: 'complaints', loadChildren: () => import('./complaints/complaints-module').then(m => m.ComplaintsModule) ,canActivate : [completeProfileGuard] },
+  { path: '', component: HomeComponent }, // Default route for the home page
+  { path: 'home', component: HomeComponent }, // Route for /home
+  { path: 'insurance', loadChildren: () => import('./insurances/insurance-routing.module').then(m => m.InsuranceRoutingModule) },
+  { path: 'payments', loadChildren: () => import('./payment/payment-routing.module').then(m => m.PaymentRoutingModule) }
+
 ];
 
 @NgModule({

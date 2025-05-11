@@ -4,7 +4,7 @@
     Template Name: Surancy - Insurance Agency Figma Template
     Template URI: site.com
     Description: Surancy is a creative & unique HTML template specifically created for insurance, car insurance, health insurance, life insurance and all insurance company related any business website.
-    Author: WebTend
+    Author: WebTend 
     Author URI: https://webtend.net/
     Version: 1.0
 
@@ -12,7 +12,7 @@
     CSS INDEX
 --------------------------
 
-    01. Common css
+    01. Common css 
     02. Header css
     03. Hero css
     04. About css
@@ -31,320 +31,43 @@
     17. Sections css
 
 -----------------------------------------------------------------------------------*/
-.cta_area-two.green-bg .cta_one-content-box .main-btn.secondary-btn:hover,
-.testimonial-wrapper .single-testimonial-item .testimonial-inner-content .testimonial-content>p,
-.footer-copyright,
-.service-nav-widget .footer-content .footer-widget-nav li a:hover,
-.footer-widget,
-.contact-form .form_group label,
-.contact-nav-tab .nav-link,
-.sidebar-widget-area .tag-cloud-widget a,
-form.comment-form .main-btn:hover,
-.comments-area .comment .comment-wrap .comment-author-content span.author-name,
-.blog-post .entry-content .block-quote span,
-.post-meta span:hover a,
-.accordion-card-two .accordion-header h6.accordion-title span.number,
-.testimonial-arrows .slick-arrow.next,
-.single-testimonial-item-two .testimonial-inner-content .testimonial-content>p,
-.single-team-item-three .member-info ul.social-link li a,
-.single-team-item-three:hover .member-info p.position,
-.single-team-item-two .member-img .hover-content .social-box ul li a,
-.single-team-item .member-img .hover-content .social-box ul.social-link li a,
-.job-details-wrapper .job-content .info-box span,
-.single-job-item .content .text h3.title span.duration,
-.single-job-item .sn-number,
-.single-info-item .info span.title,
-.single-info-item .icon,
-.single-insta-item .insta-img .hover-content .content .icon-btn,
-.single-phone-item .icon,
-.single-process-item .content p,
-.single-pricing-item .pricing-body .pricing-check li,
-.single-pricing-item .pricing-head p.price,
-.fancy-icon-box:hover .content p,
-.surancy-pagination li a,
-.check-list li,
-.portfolio-info-area>ul>li span.title,
-.filter-button .filter-btn li,
-.experience-box .experience-inner-content h2.number,
-.experience-box .experience-inner-content span.title,
-.page-banner .page-banner-content ul.breadcrumb-link li,
-.header-top-bar .top-right .lang-dropdown .nice-select .list,
-.nav-right-item .search-btn,
-.header-navigation .main-menu ul>li .sub-menu li a,
-.header-navigation .main-menu ul>li>a,
-.btn-link,
-.main-btn.filled-btn,
-.main-btn.white-btn,
-.main-btn.secondary-btn,
-.main-btn.primary-btn:hover,
-.main-btn,
-h6,
-h5,
-h4,
-h3,
-h2,
-h1 {
+.cta_area-two.green-bg .cta_one-content-box .main-btn.secondary-btn:hover, .testimonial-wrapper .single-testimonial-item .testimonial-inner-content .testimonial-content > p, .footer-copyright, .service-nav-widget .footer-content .footer-widget-nav li a:hover, .footer-widget, .contact-form .form_group label, .contact-nav-tab .nav-link, .sidebar-widget-area .tag-cloud-widget a, form.comment-form .main-btn:hover, .comments-area .comment .comment-wrap .comment-author-content span.author-name, .blog-post .entry-content .block-quote span, .post-meta span:hover a, .accordion-card-two .accordion-header h6.accordion-title span.number, .testimonial-arrows .slick-arrow.next, .single-testimonial-item-two .testimonial-inner-content .testimonial-content > p, .single-team-item-three .member-info ul.social-link li a, .single-team-item-three:hover .member-info p.position, .single-team-item-two .member-img .hover-content .social-box ul li a, .single-team-item .member-img .hover-content .social-box ul.social-link li a, .job-details-wrapper .job-content .info-box span, .single-job-item .content .text h3.title span.duration, .single-job-item .sn-number, .single-info-item .info span.title, .single-info-item .icon, .single-insta-item .insta-img .hover-content .content .icon-btn, .single-phone-item .icon, .single-process-item .content p, .single-pricing-item .pricing-body .pricing-check li, .single-pricing-item .pricing-head p.price, .fancy-icon-box:hover .content p, .surancy-pagination li a, .check-list li, .portfolio-info-area > ul > li span.title, .filter-button .filter-btn li, .experience-box .experience-inner-content h2.number, .experience-box .experience-inner-content span.title, .page-banner .page-banner-content ul.breadcrumb-link li, .header-top-bar .top-right .lang-dropdown .nice-select .list, .nav-right-item .search-btn, .header-navigation .main-menu ul > li .sub-menu li a, .header-navigation .main-menu ul > li > a, .btn-link, .main-btn.filled-btn, .main-btn.white-btn, .main-btn.secondary-btn, .main-btn.primary-btn:hover, .main-btn, h6, h5, h4, h3, h2, h1 {
   color: #0F0F2D;
 }
 
-.footer-copyright .footer-nav ul li a:hover,
-.footer-widget .footer-content .social-box ul.social-link li a:hover,
-.green-bg .footer-newsletter-widget .footer-content form label,
-.blue-bg .footer-newsletter-widget .footer-content form label,
-.social-link-two li a,
-.sidebar-widget-area .recent-post-widget .recent-post-list .post-thumbnail-content .post-title-date span.posted-on:hover,
-.sidebar-widget-area .category-widget ul.category-nav li a:hover,
-.single-blog-post .entry-content .btn-link,
-.single-experience-box .text .icon i,
-.check-list li i,
-.single-portfolio-item-two .content .cat-link,
-.hero-content span.tag-line,
-.header-navigation.breakpoint-on .nav-search .search-btn,
-.btn-link:hover,
-.sub-title {
+.footer-copyright .footer-nav ul li a:hover, .footer-widget .footer-content .social-box ul.social-link li a:hover, .green-bg .footer-newsletter-widget .footer-content form label, .blue-bg .footer-newsletter-widget .footer-content form label, .social-link-two li a, .sidebar-widget-area .recent-post-widget .recent-post-list .post-thumbnail-content .post-title-date span.posted-on:hover, .sidebar-widget-area .category-widget ul.category-nav li a:hover, .single-blog-post .entry-content .btn-link, .single-experience-box .text .icon i, .check-list li i, .single-portfolio-item-two .content .cat-link, .hero-content span.tag-line, .header-navigation.breakpoint-on .nav-search .search-btn, .btn-link:hover, .sub-title {
   color: #193B1E;
 }
 
-.benefit-content-box ul.check-list li i,
-.footer-newsletter-widget .footer-content form label,
-.green-bg .footer-copyright .footer-nav ul li a:hover,
-.green-bg .contact-info-widget .footer-content ul li a:hover,
-.green-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover,
-.blue-bg .contact-info-widget .footer-content ul li a:hover,
-.blue-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover,
-.contact-nav-tab .nav-link.active i,
-.social-link-two li a:hover,
-.sidebar-widget-area .recent-post-widget .recent-post-list .post-thumbnail-content .post-title-date h5:hover,
-.post-navigation-item .post-nav-item .content h6:hover,
-.post-author-box .author-content ul.social-link li a:hover,
-.blog-post .entry-footer .social-share a:hover,
-.blog-post .entry-content ul li i,
-.blog-post-bgi-item .entry-content .btn-link:hover,
-.blog-post-bgi-item .entry-content h3.title:hover,
-.blog-post-bgi-item .entry-content .post-meta span:hover a,
-.blog-post-quote-item .entry-content h3.title:hover,
-.single-blog-post-four:hover .entry-content h3.title:hover,
-.single-blog-post-three .entry-content h3.title:hover,
-.single-blog-post-two .post-thumbnail .hover-content .entry-content h3.title:hover,
-.single-blog-post:hover .entry-content .btn-link,
-.accordion-card-three .accordion-header .accordion-title span.number,
-.accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after,
-.accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true] span.number,
-.accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after,
-.accordion-card .accordion-header h6.accordion-title span.number,
-.testimonial-arrows .slick-arrow,
-.single-team-item-three:hover .member-info ul.social-link li a:hover,
-.single-team-item-two .member-info h4.title:hover,
-.single-team-item .member-info h3.title:hover,
-.job-details-wrapper .job-content-box ul.check-list li i,
-.single-phone-item .info h6:hover a,
-.single-pricing-item .pricing-body .pricing-check li i,
-.single-features-item-three .icon i,
-.single-features-item-two .content .btn-link,
-.video-popup:hover,
-.video-popup,
-.single-portfolio-item-two .content .btn-link:hover,
-.single-portfolio-item .img-holder .content-hover .content .icon-btn,
-.page-banner .page-banner-content ul.breadcrumb-link li.active,
-.page-banner .page-banner-content ul.breadcrumb-link.text-white li.active,
-.header-top-bar .top-right .social-link li a:hover,
-.header-top-bar .top-left span:hover a,
-.nav-right-item .search-btn:hover,
-.header-navigation .main-menu ul>li:hover>a,
-.header-navigation .main-menu ul>li .sub-menu li:hover>a,
-.header-navigation .main-menu ul>li .sub-menu li a:hover,
-.text-white span.sub-title {
+.benefit-content-box ul.check-list li i, .footer-newsletter-widget .footer-content form label, .green-bg .footer-copyright .footer-nav ul li a:hover, .green-bg .contact-info-widget .footer-content ul li a:hover, .green-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover, .blue-bg .contact-info-widget .footer-content ul li a:hover, .blue-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover, .contact-nav-tab .nav-link.active i, .social-link-two li a:hover, .sidebar-widget-area .recent-post-widget .recent-post-list .post-thumbnail-content .post-title-date h5:hover, .post-navigation-item .post-nav-item .content h6:hover, .post-author-box .author-content ul.social-link li a:hover, .blog-post .entry-footer .social-share a:hover, .blog-post .entry-content ul li i, .blog-post-bgi-item .entry-content .btn-link:hover, .blog-post-bgi-item .entry-content h3.title:hover, .blog-post-bgi-item .entry-content .post-meta span:hover a, .blog-post-quote-item .entry-content h3.title:hover, .single-blog-post-four:hover .entry-content h3.title:hover, .single-blog-post-three .entry-content h3.title:hover, .single-blog-post-two .post-thumbnail .hover-content .entry-content h3.title:hover, .single-blog-post:hover .entry-content .btn-link, .accordion-card-three .accordion-header .accordion-title span.number, .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after, .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true] span.number, .accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after, .accordion-card .accordion-header h6.accordion-title span.number, .testimonial-arrows .slick-arrow, .single-team-item-three:hover .member-info ul.social-link li a:hover, .single-team-item-two .member-info h4.title:hover, .single-team-item .member-info h3.title:hover, .job-details-wrapper .job-content-box ul.check-list li i, .single-phone-item .info h6:hover a, .single-pricing-item .pricing-body .pricing-check li i, .single-features-item-three .icon i, .single-features-item-two .content .btn-link, .video-popup:hover, .video-popup, .single-portfolio-item-two .content .btn-link:hover, .single-portfolio-item .img-holder .content-hover .content .icon-btn, .page-banner .page-banner-content ul.breadcrumb-link li.active, .page-banner .page-banner-content ul.breadcrumb-link.text-white li.active, .header-top-bar .top-right .social-link li a:hover, .header-top-bar .top-left span:hover a, .nav-right-item .search-btn:hover, .header-navigation .main-menu ul > li:hover > a, .header-navigation .main-menu ul > li .sub-menu li:hover > a, .header-navigation .main-menu ul > li .sub-menu li a:hover, .text-white span.sub-title {
   color: #FFB966;
 }
 
-.cta_area-one .cta-wrapper.yellow-bg .main-btn.primary-btn:hover,
-.green-bg .footer-copyright,
-.green-bg .footer-widget h4.widget-title,
-.green-bg .footer-widget,
-.blue-bg .footer-copyright,
-.blue-bg .footer-widget h4.widget-title,
-.blue-bg .footer-widget,
-.sidebar-widget-area .tag-cloud-widget a:hover,
-.sidebar-widget-area .sidebar-banner-widget .banner-widget-content .banner-img .hover-content p,
-.sidebar-widget-area .sidebar-banner-widget .banner-widget-content .banner-img .hover-content h2.title,
-.comments-respond p,
-.comments-respond h3.comments-heading,
-.blog-post .entry-footer .tag-links a:hover,
-.blog-post-bgi-item .entry-content .btn-link,
-.blog-post-bgi-item .entry-content h3.title,
-.blog-post-bgi-item .entry-content .post-meta span,
-.single-blog-post-four:hover .entry-content h3.title,
-.single-blog-post-four:hover .entry-content,
-.single-blog-post:hover .entry-content h3.title,
-.single-blog-post:hover .entry-content,
-.single-team-item-three:hover .member-info ul.social-link li a,
-.single-team-item .member-info p,
-.single-team-item .member-info h3.title,
-.single-process-item.text-white .content p,
-.single-pricing-item:hover .pricing-body .pricing-check li,
-.single-pricing-item:hover .pricing-body p,
-.single-pricing-item:hover .pricing-head p.price span.duration,
-.single-pricing-item:hover .pricing-head p.price,
-.single-pricing-item:hover .pricing-head h3.title,
-.single-features-item-three .content h4.title,
-.single-features-item-two .content p,
-.single-features-item-two .content h4.title,
-.single-features-item:hover .content h4.title,
-.single-service-item-two:hover .service-content .content .btn-link,
-.single-service-item-two:hover .service-content .content h4.title,
-.single-service-item-two:hover .service-content,
-.single-service-item:hover .content p,
-.single-service-item:hover .content h3.title,
-.page-banner .page-banner-content ul.breadcrumb-link.text-white li,
-.hero-wrapper-two .hero-content.text-white span.tag-line,
-.header-top-bar .top-right .social-link li a,
-.header-top-bar .top-right .lang-dropdown .nice-select,
-.header-top-bar .top-left span,
-.header-navigation.breakpoint-on .nav-menu .main-menu ul li,
-.back-to-top:hover,
-.back-to-top:focus,
-.offcanvas-panel .panel-close,
-.main-btn.filled-btn.filled-white,
-.main-btn.filled-btn:hover,
-.main-btn.secondary-btn:hover,
-.main-btn.primary-btn,
-.text-white p,
-.text-white h1,
-.text-white h2,
-.text-white h3,
-.text-white h4,
-.text-white h5,
-.text-white h6 {
+.cta_area-one .cta-wrapper.yellow-bg .main-btn.primary-btn:hover, .green-bg .footer-copyright, .green-bg .footer-widget h4.widget-title, .green-bg .footer-widget, .blue-bg .footer-copyright, .blue-bg .footer-widget h4.widget-title, .blue-bg .footer-widget, .sidebar-widget-area .tag-cloud-widget a:hover, .sidebar-widget-area .sidebar-banner-widget .banner-widget-content .banner-img .hover-content p, .sidebar-widget-area .sidebar-banner-widget .banner-widget-content .banner-img .hover-content h2.title, .comments-respond p, .comments-respond h3.comments-heading, .blog-post .entry-footer .tag-links a:hover, .blog-post-bgi-item .entry-content .btn-link, .blog-post-bgi-item .entry-content h3.title, .blog-post-bgi-item .entry-content .post-meta span, .single-blog-post-four:hover .entry-content h3.title, .single-blog-post-four:hover .entry-content, .single-blog-post:hover .entry-content h3.title, .single-blog-post:hover .entry-content, .single-team-item-three:hover .member-info ul.social-link li a, .single-team-item .member-info p, .single-team-item .member-info h3.title, .single-process-item.text-white .content p, .single-pricing-item:hover .pricing-body .pricing-check li, .single-pricing-item:hover .pricing-body p, .single-pricing-item:hover .pricing-head p.price span.duration, .single-pricing-item:hover .pricing-head p.price, .single-pricing-item:hover .pricing-head h3.title, .single-features-item-three .content h4.title, .single-features-item-two .content p, .single-features-item-two .content h4.title, .single-features-item:hover .content h4.title, .single-service-item-two:hover .service-content .content .btn-link, .single-service-item-two:hover .service-content .content h4.title, .single-service-item-two:hover .service-content, .single-service-item:hover .content p, .single-service-item:hover .content h3.title, .page-banner .page-banner-content ul.breadcrumb-link.text-white li, .hero-wrapper-two .hero-content.text-white span.tag-line, .header-top-bar .top-right .social-link li a, .header-top-bar .top-right .lang-dropdown .nice-select, .header-top-bar .top-left span, .header-navigation.breakpoint-on .nav-menu .main-menu ul li  , .back-to-top:hover, .back-to-top:focus, .offcanvas-panel .panel-close, .main-btn.filled-btn.filled-white, .main-btn.filled-btn:hover, .main-btn.secondary-btn:hover, .main-btn.primary-btn, .text-white p, .text-white h1, .text-white h2, .text-white h3, .text-white h4, .text-white h5, .text-white h6 {
   color: #fff;
 }
 
-.features-wrapper .features-inner-wrap:after,
-.counter-wrapper .inner-wrapper,
-.footer-newsletter-widget .footer-content form label,
-.footer-one:before,
-.social-link-two li a:hover,
-.sidebar-widget-area .tag-cloud-widget a:hover,
-.comments-respond,
-.blog-post .entry-footer .tag-links a:hover,
-.single-blog-post-four:hover .entry-content,
-.single-blog-post:hover .entry-content,
-.post-meta span:not(:last-child):after,
-.testimonial-arrows .slick-arrow,
-.pie-item:before,
-.single-team-item-three:hover .member-info ul.social-link li a:hover,
-.single-progress-bar.progress-style-two .progress .progress-bar,
-.single-pricing-item:hover,
-.single-features-item-three,
-.single-portfolio-item .img-holder .content-hover .content .icon-btn,
-.single-service-item-two:hover .service-content,
-.single-service-item:hover .content,
-.header-navigation.breakpoint-on .nav-menu .main-menu ul li,
-.offcanvas-panel .panel-close,
-.main-btn.filled-btn.filled-white:hover,
-.main-btn.filled-btn:hover,
-.main-btn.secondary-btn:hover,
-.main-btn.primary-btn,
-.green-bg {
+.features-wrapper .features-inner-wrap:after, .counter-wrapper .inner-wrapper, .footer-newsletter-widget .footer-content form label, .footer-one:before, .social-link-two li a:hover, .sidebar-widget-area .tag-cloud-widget a:hover, .comments-respond, .blog-post .entry-footer .tag-links a:hover, .single-blog-post-four:hover .entry-content, .single-blog-post:hover .entry-content, .post-meta span:not(:last-child):after, .testimonial-arrows .slick-arrow, .pie-item:before, .single-team-item-three:hover .member-info ul.social-link li a:hover, .single-progress-bar.progress-style-two .progress .progress-bar, .single-pricing-item:hover, .single-features-item-three, .single-portfolio-item .img-holder .content-hover .content .icon-btn, .single-service-item-two:hover .service-content, .single-service-item:hover .content, .header-navigation.breakpoint-on .nav-menu .main-menu ul li  , .offcanvas-panel .panel-close, .main-btn.filled-btn.filled-white:hover, .main-btn.filled-btn:hover, .main-btn.secondary-btn:hover, .main-btn.primary-btn, .green-bg {
   background-color: #193B1E;
 }
 
-.about_area-one:before,
-.green-bg .footer-newsletter-widget .footer-content form label,
-.green-bg .contact-info-widget .footer-content ul li a:after,
-.green-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover:after,
-.blue-bg .footer-newsletter-widget .footer-content form label,
-.blue-bg .contact-info-widget .footer-content ul li a:after,
-.blue-bg .service-nav-widget .footer-content .footer-widget-nav li a:after,
-.footer-one:after,
-.contact-nav-tab .nav-link:after,
-.blog-post .entry-content .block-quote span:before,
-.blog-post-bgi-item .entry-content .post-meta span:after,
-.blog-post-quote-item .entry-content h4:before,
-.testimonial-arrows .slick-arrow.next,
-.single-team-item-three .member-info ul.social-link li a,
-.single-team-item-three:hover .member-info,
-.single-team-item-two .member-img .hover-content .social-box,
-.single-team-item .member-img .hover-content .social-box,
-.single-job-item .content .text h3.title span.duration,
-.single-experience-box .text .icon:after,
-.single-info-item .icon,
-.single-progress-bar.progress-style-two .progress,
-.single-progress-bar.progress-style-one .progress .progress-bar,
-.single-pricing-item:hover .pricing-body .main-btn.primary-btn,
-.fancy-icon-box:hover,
-.single-features-item-two .icon,
-.surancy-pagination li a:hover,
-.single-portfolio-item .img-holder .content-hover .content,
-.filter-button .filter-btn li:hover,
-.filter-button .filter-btn li.active,
-.single-service-item:hover .read-more,
-.experience-box,
-.hero-content span.tag-line i,
-.header-two .header-navigation .inner-navigation:after,
-.back-to-top:hover,
-.back-to-top:focus,
-.main-btn.secondary-btn,
-.main-btn.primary-btn:hover,
-.yellow-bg,
-.sub-title:before {
+.about_area-one:before, .green-bg .footer-newsletter-widget .footer-content form label, .green-bg .contact-info-widget .footer-content ul li a:after, .green-bg .service-nav-widget .footer-content .footer-widget-nav li a:hover:after, .blue-bg .footer-newsletter-widget .footer-content form label, .blue-bg .contact-info-widget .footer-content ul li a:after, .blue-bg .service-nav-widget .footer-content .footer-widget-nav li a:after, .footer-one:after, .contact-nav-tab .nav-link:after, .blog-post .entry-content .block-quote span:before, .blog-post-bgi-item .entry-content .post-meta span:after, .blog-post-quote-item .entry-content h4:before, .testimonial-arrows .slick-arrow.next, .single-team-item-three .member-info ul.social-link li a, .single-team-item-three:hover .member-info, .single-team-item-two .member-img .hover-content .social-box, .single-team-item .member-img .hover-content .social-box, .single-job-item .content .text h3.title span.duration, .single-experience-box .text .icon:after, .single-info-item .icon, .single-progress-bar.progress-style-two .progress, .single-progress-bar.progress-style-one .progress .progress-bar, .single-pricing-item:hover .pricing-body .main-btn.primary-btn, .fancy-icon-box:hover, .single-features-item-two .icon, .surancy-pagination li a:hover, .single-portfolio-item .img-holder .content-hover .content, .filter-button .filter-btn li:hover, .filter-button .filter-btn li.active, .single-service-item:hover .read-more, .experience-box, .hero-content span.tag-line i, .header-two .header-navigation .inner-navigation:after, .back-to-top:hover, .back-to-top:focus, .main-btn.secondary-btn, .main-btn.primary-btn:hover, .yellow-bg, .sub-title:before {
   background-color: #FFB966;
 }
 
-.cta_area-one .cta-wrapper.yellow-bg .main-btn.primary-btn:hover,
-.single-blog-post-four .entry-content .main-btn.secondary-btn:hover,
-.single-team-item-three:hover .member-info ul.social-link li a,
-.offcanvas-panel .panel-overlay,
-.black-bg {
+.cta_area-one .cta-wrapper.yellow-bg .main-btn.primary-btn:hover, .single-blog-post-four .entry-content .main-btn.secondary-btn:hover, .single-team-item-three:hover .member-info ul.social-link li a, .offcanvas-panel .panel-overlay, .black-bg {
   background-color: #1D231F;
 }
 
-.cta_area-two.green-bg .cta_one-content-box .main-btn.secondary-btn:hover,
-ul.slick-dots li:after,
-.footer-newsletter-widget .footer-content form .form_control,
-.contact-form-area,
-.sidebar-widget-area .tag-cloud-widget a,
-form.comment-form .main-btn:hover,
-.blog-post-quote-item .entry-content,
-.single-blog-post-four .entry-content,
-.single-blog-post-two .post-thumbnail .hover-content .entry-content,
-.single-blog-post .entry-content,
-.accordion-card-three,
-.accordion-card-two,
-.single-insta-item .insta-img .hover-content .content .icon-btn,
-.single-progress-bar.progress-style-one .progress,
-.single-pricing-item,
-.fancy-icon-box,
-.single-features-item .content,
-.video-popup,
-.single-service-item-two .service-content,
-.single-service-item,
-.about-experience-box,
-.hero-contact-area,
-.header-top-bar .top-right .lang-dropdown:after,
-.header-top-bar .top-left span:after,
-.header-two .header-navigation.sticky,
-.header-one .header-navigation.sticky,
-.header-navigation.breakpoint-on .nav-menu,
-.header-navigation .main-menu ul>li .sub-menu,
-.preloader,
-.offcanvas-panel .offcanvas-panel-inner,
-.main-btn.white-btn,
-.white-bg {
+.cta_area-two.green-bg .cta_one-content-box .main-btn.secondary-btn:hover, ul.slick-dots li:after, .footer-newsletter-widget .footer-content form .form_control, .contact-form-area, .sidebar-widget-area .tag-cloud-widget a, form.comment-form .main-btn:hover, .blog-post-quote-item .entry-content, .single-blog-post-four .entry-content, .single-blog-post-two .post-thumbnail .hover-content .entry-content, .single-blog-post .entry-content, .accordion-card-three, .accordion-card-two, .single-insta-item .insta-img .hover-content .content .icon-btn, .single-progress-bar.progress-style-one .progress, .single-pricing-item, .fancy-icon-box, .single-features-item .content, .video-popup, .single-service-item-two .service-content, .single-service-item, .about-experience-box, .hero-contact-area, .header-top-bar .top-right .lang-dropdown:after, .header-top-bar .top-left span:after, .header-two .header-navigation.sticky, .header-one .header-navigation.sticky, .header-navigation.breakpoint-on .nav-menu, .header-navigation .main-menu ul > li .sub-menu, .preloader, .offcanvas-panel .offcanvas-panel-inner, .main-btn.white-btn, .white-bg {
   background-color: #fff;
 }
 
-.contact-form .nice-select:focus,
-.contact-form .form_control:focus,
-.sidebar-widget-area .tag-cloud-widget,
-.sidebar-widget-area .search-widget,
-.blog-post .entry-content .block-quote,
-.portfolio-info-area,
-.gray-bg {
+.contact-form .nice-select:focus, .contact-form .form_control:focus, .sidebar-widget-area .tag-cloud-widget, .sidebar-widget-area .search-widget, .blog-post .entry-content .block-quote, .portfolio-info-area, .gray-bg {
   background-color: #FEFBE9;
 }
 
-.about_area-one:after,
-.blue-bg {
+.about_area-one:after, .blue-bg {
   background-color: #0F0F2D;
 }
 
@@ -384,45 +107,27 @@ h6 {
   line-height: 30px;
 }
 
-.play-wrapper,
-.footer-newsletter-widget .footer-content form label,
-.social-link-two li a,
-.testimonial-arrows .slick-arrow,
-.single-team-item-three .member-info ul.social-link li a,
-.single-info-item .icon,
-.single-insta-item .insta-img .hover-content .content .icon-btn,
-.single-insta-item .insta-img .hover-content,
-.single-phone-item .icon,
-.single-process-item .process-inner-content,
-.single-features-item-two .icon,
-.surancy-pagination li a,
-.video-popup,
-.single-portfolio-item .img-holder .content-hover .content .icon-btn,
-.experience-box,
-.hero-content span.tag-line i,
-.header-navigation.breakpoint-on .nav-menu .main-menu ul li,
-.preloader {
+.play-wrapper, .footer-newsletter-widget .footer-content form label, .social-link-two li a, .testimonial-arrows .slick-arrow, .single-team-item-three .member-info ul.social-link li a, .single-info-item .icon, .single-insta-item .insta-img .hover-content .content .icon-btn, .single-insta-item .insta-img .hover-content, .single-phone-item .icon, .single-process-item .process-inner-content, .single-features-item-two .icon, .surancy-pagination li a, .video-popup, .single-portfolio-item .img-holder .content-hover .content .icon-btn, .experience-box, .hero-content span.tag-line i, .header-navigation.breakpoint-on .nav-menu .main-menu ul li  , .preloader {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 /*---========================
-        01. Default css
+        01. Default css 
 =======================----*/
 /* Base CSS */
 html {
   font-size: 100%;
+  scroll-behavior: smooth;
 }
-.test{
-  margin-top:10px;
-}
+
 * {
   margin: 0;
   padding: 0;
@@ -436,9 +141,7 @@ a {
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
 }
-
-a:hover,
-a:focus {
+a:hover, a:focus {
   color: inherit;
   text-decoration: none;
 }
@@ -464,7 +167,7 @@ h4,
 h5,
 h6 {
   margin: 0px;
-  font-family: "Syne", sans-serif !important;
+  font-family: "Syne", sans-serif;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
@@ -486,8 +189,7 @@ h6 {
   }
 }
 
-ul,
-ol {
+ul, ol {
   margin: 0px;
   padding: 0px;
   list-style-type: none;
@@ -497,8 +199,7 @@ p {
   margin: 0px;
 }
 
-input,
-textarea {
+input, textarea {
   display: inherit;
 }
 
@@ -708,8 +409,8 @@ textarea.form_control {
   display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   font: 700 18px "DM Sans", sans-serif;
   line-height: 30px;
 }
@@ -746,11 +447,11 @@ button {
   display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 17px 35px;
   font: 700 16px "DM Sans", sans-serif;
   text-transform: capitalize;
@@ -795,34 +496,34 @@ button {
 @-webkit-keyframes playpopup {
   0% {
     -webkit-transform: scale(1);
-    transform: scale(1);
+            transform: scale(1);
     opacity: 0.6;
   }
   50% {
     -webkit-transform: scale(1.3);
-    transform: scale(1.3);
+            transform: scale(1.3);
     opacity: 0.3;
   }
   100% {
     -webkit-transform: scale(1.5);
-    transform: scale(1.5);
+            transform: scale(1.5);
     opacity: 0;
   }
 }
 @keyframes playpopup {
   0% {
     -webkit-transform: scale(1);
-    transform: scale(1);
+            transform: scale(1);
     opacity: 0.6;
   }
   50% {
     -webkit-transform: scale(1.5);
-    transform: scale(1.5);
+            transform: scale(1.5);
     opacity: 0.3;
   }
   100% {
     -webkit-transform: scale(2);
-    transform: scale(2);
+            transform: scale(2);
     opacity: 0;
   }
 }
@@ -889,8 +590,8 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: all 0.3s ease-out 0s;
@@ -943,9 +644,7 @@ button {
     padding: 30px 20px;
   }
 }
-
-.offcanvas-panel .offcanvas-panel-inner .panel-logo,
-.offcanvas-panel .offcanvas-panel-inner .about-us {
+.offcanvas-panel .offcanvas-panel-inner .panel-logo, .offcanvas-panel .offcanvas-panel-inner .about-us {
   margin-bottom: 40px;
 }
 .offcanvas-panel .offcanvas-panel-inner::-webkit-scrollbar {
@@ -975,11 +674,11 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   z-index: 2;
 }
 
@@ -995,9 +694,9 @@ button {
 .nice-select:after {
   position: absolute;
   right: 0;
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
 }
 .nice-select ul.list {
   border-radius: 0;
@@ -1027,7 +726,7 @@ button {
   height: 50px;
   background: #193B1E;
   -webkit-animation: loaderAnimate 0.5s linear infinite;
-  animation: loaderAnimate 0.5s linear infinite;
+          animation: loaderAnimate 0.5s linear infinite;
   position: absolute;
   top: 0;
   left: 0;
@@ -1043,7 +742,7 @@ button {
   left: 0;
   border-radius: 50%;
   -webkit-animation: loaderShadow 0.5s linear infinite;
-  animation: loaderShadow 0.5s linear infinite;
+          animation: loaderShadow 0.5s linear infinite;
 }
 
 @-webkit-keyframes loaderAnimate {
@@ -1052,20 +751,20 @@ button {
   }
   25% {
     -webkit-transform: translateY(9px) rotate(22.5deg);
-    transform: translateY(9px) rotate(22.5deg);
+            transform: translateY(9px) rotate(22.5deg);
   }
   50% {
     -webkit-transform: translateY(18px) scale(1, 0.9) rotate(45deg);
-    transform: translateY(18px) scale(1, 0.9) rotate(45deg);
+            transform: translateY(18px) scale(1, 0.9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
   75% {
     -webkit-transform: translateY(9px) rotate(67.5deg);
-    transform: translateY(9px) rotate(67.5deg);
+            transform: translateY(9px) rotate(67.5deg);
   }
   100% {
     -webkit-transform: translateY(0) rotate(90deg);
-    transform: translateY(0) rotate(90deg);
+            transform: translateY(0) rotate(90deg);
   }
 }
 @keyframes loaderAnimate {
@@ -1074,32 +773,32 @@ button {
   }
   25% {
     -webkit-transform: translateY(9px) rotate(22.5deg);
-    transform: translateY(9px) rotate(22.5deg);
+            transform: translateY(9px) rotate(22.5deg);
   }
   50% {
     -webkit-transform: translateY(18px) scale(1, 0.9) rotate(45deg);
-    transform: translateY(18px) scale(1, 0.9) rotate(45deg);
+            transform: translateY(18px) scale(1, 0.9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
   75% {
     -webkit-transform: translateY(9px) rotate(67.5deg);
-    transform: translateY(9px) rotate(67.5deg);
+            transform: translateY(9px) rotate(67.5deg);
   }
   100% {
     -webkit-transform: translateY(0) rotate(90deg);
-    transform: translateY(0) rotate(90deg);
+            transform: translateY(0) rotate(90deg);
   }
 }
 @-webkit-keyframes loaderShadow {
   50% {
     -webkit-transform: scale(1.2, 1);
-    transform: scale(1.2, 1);
+            transform: scale(1.2, 1);
   }
 }
 @keyframes loaderShadow {
   50% {
     -webkit-transform: scale(1.2, 1);
-    transform: scale(1.2, 1);
+            transform: scale(1.2, 1);
   }
 }
 /*====== Start Back to top css ======*/
@@ -1123,10 +822,10 @@ button {
   z-index: 337;
 }
 /*====================
-    End COMMON css
+    End COMMON css 
 ======================*/
 /*---==================
-    02. Header css
+    02. Header css 
 =================----*/
 /* Transparent Header  */
 .transparent-header {
@@ -1176,24 +875,22 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
-
-.header-navigation .main-menu ul>li {
+.header-navigation .main-menu ul > li {
   display: inline-block;
   position: relative;
   margin-left: 17px;
   margin-right: 17px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
-  .header-navigation .main-menu ul>li {
+  .header-navigation .main-menu ul > li {
     margin-left: 14px;
     margin-right: 14px;
   }
 }
-
-.header-navigation .main-menu ul>li>a {
+.header-navigation .main-menu ul > li > a {
   position: relative;
   display: block;
   font: 700 18px "Syne", sans-serif;
@@ -1201,17 +898,15 @@ button {
   text-transform: capitalize;
   line-height: 1;
 }
-
-.header-navigation .main-menu ul>li>a span {
+.header-navigation .main-menu ul > li > a span  {
   margin-left: 5px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
-  .header-navigation .main-menu ul>li>a {
+  .header-navigation .main-menu ul > li > a {
     font-size: 16px;
   }
 }
-
-.header-navigation .main-menu ul>li .sub-menu {
+.header-navigation .main-menu ul > li .sub-menu {
   position: absolute;
   left: 0;
   top: 120%;
@@ -1226,22 +921,20 @@ button {
   text-align: left;
   border-radius: 5px;
   -webkit-box-shadow: 0px 30px 80px 15px rgba(0, 0, 0, 0.09);
-  box-shadow: 0px 30px 80px 15px rgba(0, 0, 0, 0.09);
+          box-shadow: 0px 30px 80px 15px rgba(0, 0, 0, 0.09);
 }
-
-.header-navigation .main-menu ul>li .sub-menu li {
+.header-navigation .main-menu ul > li .sub-menu li {
   display: block;
   margin: 0 20px 10px;
   border-bottom: 1px solid #ececec;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li a {
+.header-navigation .main-menu ul > li .sub-menu li a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 0 5px 10px;
   position: relative;
   line-height: 1.5;
@@ -1249,30 +942,24 @@ button {
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li a span {
+.header-navigation .main-menu ul > li .sub-menu li a span  {
   float: right;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li:last-child {
+.header-navigation .main-menu ul > li .sub-menu li:last-child {
   border-bottom: 0;
   margin-bottom: 0;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li:last-child a {
+.header-navigation .main-menu ul > li .sub-menu li:last-child a {
   padding-bottom: 0;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li .sub-menu {
+.header-navigation .main-menu ul > li .sub-menu li .sub-menu {
   left: 100%;
   top: 50%;
 }
-
-.header-navigation .main-menu ul>li .sub-menu li:hover .sub-menu {
+.header-navigation .main-menu ul > li .sub-menu li:hover .sub-menu {
   top: 0%;
 }
-
-.header-navigation .main-menu ul>li:hover>.sub-menu {
+.header-navigation .main-menu ul > li:hover > .sub-menu {
   opacity: 1;
   visibility: visible;
   top: 100%;
@@ -1295,10 +982,10 @@ button {
   width: 290px;
   height: 100%;
   -webkit-transition-duration: 500ms;
-  transition-duration: 500ms;
+          transition-duration: 500ms;
   padding: 40px 20px;
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   display: block;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -1327,7 +1014,7 @@ button {
   left: 0;
   padding: 0;
   -webkit-box-shadow: none;
-  box-shadow: none;
+          box-shadow: none;
   background-color: transparent;
   visibility: visible;
   opacity: 1;
@@ -1335,12 +1022,10 @@ button {
   -webkit-transition: none;
   transition: none;
 }
-
-.header-navigation.breakpoint-on .nav-menu .main-menu ul li .sub-menu>li>a {
+.header-navigation.breakpoint-on .nav-menu .main-menu ul li .sub-menu > li > a {
   padding: 10px 20px;
 }
-
-.header-navigation.breakpoint-on .nav-menu .main-menu ul li {
+.header-navigation.breakpoint-on .nav-menu .main-menu ul li   {
   position: absolute;
   right: 0;
   top: 10px;
@@ -1393,7 +1078,7 @@ button {
 }
 .header-navigation .navbar-toggler.active span:nth-of-type(1) {
   -webkit-transform: rotate3d(0, 0, 1, 45deg);
-  transform: rotate3d(0, 0, 1, 45deg);
+          transform: rotate3d(0, 0, 1, 45deg);
   top: 7px;
 }
 .header-navigation .navbar-toggler.active span:nth-of-type(2) {
@@ -1401,7 +1086,7 @@ button {
 }
 .header-navigation .navbar-toggler.active span:nth-of-type(3) {
   -webkit-transform: rotate3d(0, 0, 1, -45deg);
-  transform: rotate3d(0, 0, 1, -45deg);
+          transform: rotate3d(0, 0, 1, -45deg);
   top: -7px;
 }
 
@@ -1410,8 +1095,8 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .nav-right-item .search-btn {
   cursor: pointer;
@@ -1433,8 +1118,8 @@ button {
 
 .header-one .header-navigation .primary-menu {
   -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 @media (max-width: 1199px) {
@@ -1459,7 +1144,7 @@ button {
   width: 400px;
   height: 100%;
   -webkit-clip-path: polygon(0 0, 93% 0, 100% 100%, 0% 100%);
-  clip-path: polygon(0 0, 93% 0, 100% 100%, 0% 100%);
+          clip-path: polygon(0 0, 93% 0, 100% 100%, 0% 100%);
   z-index: -1;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
@@ -1484,8 +1169,8 @@ button {
 }
 .header-two .header-navigation .primary-menu {
   -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .header-two .header-navigation .nav-right-item .menu-button {
   margin-left: 40px;
@@ -1505,8 +1190,8 @@ button {
   display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .header-top-bar .top-left span i {
   margin-right: 10px;
@@ -1530,19 +1215,19 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .header-top-bar .top-right .lang-dropdown {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .header-top-bar .top-right .lang-dropdown:after {
   display: -webkit-inline-box;
@@ -1564,17 +1249,25 @@ button {
   margin-right: 20px;
 }
 /* Header Sticky */
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 999;
   -webkit-animation: sticky 1.2s;
-  animation: sticky 1.2s;
-}
+          animation: sticky 1.2s;
+} */
 
-@-webkit-keyframes sticky {
+/* .sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: all 0.3s ease-out;
+  will-change: transform;
+} */
+
+/* @-webkit-keyframes sticky {
   0% {
     top: -200px;
   }
@@ -1589,9 +1282,30 @@ button {
   100% {
     top: 0;
   }
+} */
+
+@keyframes stickySlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  animation: stickySlideIn 0.6s ease-out forwards;
+  will-change: transform, opacity; /* Optimizes performance */
 }
 /*---========================
-        03. Hero css
+        03. Hero css 
 =======================----*/
 /* Hero Content */
 .hero-content span.tag-line {
@@ -1716,9 +1430,7 @@ button {
   line-height: 1;
   z-index: 1;
 }
-
-.hero-contact-area .hero-contact-form .nice-select,
-.hero-contact-area .hero-contact-form .form_control {
+.hero-contact-area .hero-contact-form .nice-select, .hero-contact-area .hero-contact-form .form_control {
   border: 1px solid rgba(9, 8, 8, 0.1);
   padding: 19px 50px;
   border-radius: 32px;
@@ -1802,13 +1514,13 @@ button {
 .page-banner .page-banner-content ul.breadcrumb-link li:not(:last-child):after {
   display: inline-block;
   content: "\f054";
-  font-family: "Font Awesome 6 Free";
   font-weight: 900;
+  font-family: "Font Awesome 6 Free";
   margin-left: 20px;
   margin-right: 13px;
 }
 /*---========================
-        04. About css
+        04. About css 
 =======================----*/
 .about-one_image-box img {
   border-radius: 301px 301.5px 0px 0px;
@@ -1816,8 +1528,8 @@ button {
 
 .about-one_content-box img {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
   width: 85px;
   border-radius: 55px;
   -webkit-transform: rotate(25deg);
@@ -1837,7 +1549,7 @@ button {
 .about-experience-box {
   padding: 50px 50px 60px;
   -webkit-box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.06);
-  box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.06);
+          box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.06);
 }
 @media (max-width: 767px) {
   .about-experience-box {
@@ -1882,8 +1594,8 @@ button {
   display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 24px;
 }
 .experience-box .experience-inner-content span.title i {
@@ -1905,17 +1617,16 @@ button {
   font-size: 30px;
   margin-bottom: 20px;
 }
-
-.experience-content-box>p {
+.experience-content-box > p {
   margin-bottom: 25px;
 }
 
 /*---========================
-        05. Services css
+        05. Services css 
 =======================----*/
 .single-service-item {
   -webkit-box-shadow: 0px 7px 60px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 7px 60px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 7px 60px rgba(0, 0, 0, 0.1);
 }
 .single-service-item .content {
   padding: 40px 35px 33px;
@@ -1946,24 +1657,24 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 @media (max-width: 575px) {
   .single-service-item-two {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 .single-service-item-two .img-holder {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
   max-width: 370px;
 }
 .single-service-item-two .img-holder img {
@@ -1986,7 +1697,7 @@ button {
   margin-left: -60px;
   padding: 40px 40px 30px;
   -webkit-box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
+          box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
 }
@@ -2019,7 +1730,7 @@ button {
 }
 
 /*---========================
-        06. Portfolio css
+        06. Portfolio css 
 =======================----*/
 /* Portfolio Filter */
 .filter-button .filter-btn {
@@ -2030,7 +1741,7 @@ button {
 @media (max-width: 767px) {
   .filter-button .filter-btn {
     -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+        flex-wrap: wrap;
   }
 }
 .filter-button .filter-btn li {
@@ -2109,24 +1820,24 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 @media (max-width: 575px) {
   .single-portfolio-item-two {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 .single-portfolio-item-two .img-holder {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
   width: 300px;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 575px) {
   .single-portfolio-item-two .img-holder {
@@ -2196,19 +1907,17 @@ button {
 .portfolio-info-area h3 {
   margin-bottom: 20px;
 }
-
-.portfolio-info-area>ul {
+.portfolio-info-area > ul {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+      flex-wrap: wrap;
 }
-
-.portfolio-info-area>ul>li {
+.portfolio-info-area > ul > li {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
   width: 33.33%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2216,27 +1925,25 @@ button {
   margin-bottom: 20px;
 }
 @media (max-width: 1199px) {
-  .portfolio-info-area>ul>li {
+  .portfolio-info-area > ul > li {
     width: 50%;
   }
 }
 @media (max-width: 767px) {
-  .portfolio-info-area>ul>li {
+  .portfolio-info-area > ul > li {
     width: 100%;
   }
 }
-
-.portfolio-info-area>ul>li span.title {
+.portfolio-info-area > ul > li span.title {
   font-size: 22px;
   font-weight: 700;
 }
 @media (max-width: 991px) {
-  .portfolio-info-area>ul>li span.title {
+  .portfolio-info-area > ul > li span.title {
     font-size: 16px;
   }
 }
-
-.portfolio-info-area>ul>li span.title:after {
+.portfolio-info-area > ul > li span.title:after {
   display: inline-block;
   content: ":";
   margin-left: 20px;
@@ -2244,7 +1951,7 @@ button {
 }
 
 /*---========================
-        07. Elements css
+        07. Elements css 
 =======================----*/
 /* Overlay */
 .overlay {
@@ -2275,7 +1982,7 @@ button {
   font: 700 180px "Syne", sans-serif;
   padding-left: 100%;
   -webkit-animation: marquee_left 22s linear infinite;
-  animation: marquee_left 22s linear infinite;
+          animation: marquee_left 22s linear infinite;
   line-height: 1;
 }
 @media (max-width: 1199px) {
@@ -2303,22 +2010,22 @@ button {
 @-webkit-keyframes marquee_left {
   from {
     -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
   }
   to {
     -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
   }
 }
 
 @keyframes marquee_left {
   from {
     -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
   }
   to {
     -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
   }
 }
 /* Check List */
@@ -2327,8 +2034,8 @@ button {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-right: 15px;
   font: 600 18px "Syne", sans-serif;
   line-height: 30px;
@@ -2365,9 +2072,7 @@ button {
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
-
-.video-popup:after,
-.video-popup:before {
+.video-popup:after, .video-popup:before {
   position: absolute;
   left: 0;
   top: 0;
@@ -2377,11 +2082,11 @@ button {
   height: 100%;
   border: 1px solid #e1e1e1;
   -webkit-animation: playpopup infinite linear 1s;
-  animation: playpopup infinite linear 1s;
+          animation: playpopup infinite linear 1s;
 }
 .video-popup:before {
   -webkit-animation: playpopup infinite linear 2s;
-  animation: playpopup infinite linear 2s;
+          animation: playpopup infinite linear 2s;
 }
 
 /* paragraph */
@@ -2396,7 +2101,7 @@ button {
   display: -ms-inline-flexbox;
   display: inline-flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 .surancy-pagination li:not(:last-child) {
   margin-right: 15px;
@@ -2430,7 +2135,7 @@ button {
   position: relative;
   padding: 40px 40px 35px;
   -webkit-box-shadow: 0px 4px 60px 30px rgba(0, 0, 0, 0.05);
-  box-shadow: 0px 4px 60px 30px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 4px 60px 30px rgba(0, 0, 0, 0.05);
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
 }
@@ -2906,7 +2611,7 @@ button {
 }
 
 /*---========================
-        08. Career css
+        08. Career css 
 =======================----*/
 .single-job-item {
   padding-bottom: 37px;
@@ -3079,7 +2784,7 @@ button {
 }
 
 /*---========================
-        09. Team css
+        09. Team css 
 =======================----*/
 .single-team-item:hover .member-img .hover-content {
   visibility: visible;
@@ -3310,7 +3015,7 @@ button {
 }
 
 /*---========================
-    10. Testimonial css
+    10. Testimonial css 
 =======================----*/
 /* Quote Title Box */
 .quote-title-box {
@@ -3487,7 +3192,7 @@ button {
 }
 
 /*---========================
-    11. Faq css
+    11. Faq css 
 =======================----*/
 .accordion-card .accordion-header h6.accordion-title {
   display: -webkit-box;
@@ -3515,19 +3220,20 @@ button {
 .accordion-card .accordion-header h6.accordion-title span.number {
   margin-right: 5px;
 }
+
 .accordion-card .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
-  -webkit-transition: all 0.4s ease-out 0s;
-  transition: all 0.4s ease-out 0s;
+  -webkit-transition: all 10s ease-out 0s !important;
+  transition: all .4s ease-out 0s !important
 }
 .accordion-card .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
@@ -3565,9 +3271,9 @@ button {
   margin-right: 5px;
 }
 .accordion-card-two .accordion-header h6.accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transform: rotate(-45deg);
@@ -3580,7 +3286,7 @@ button {
   border-color: #0F0F2D;
 }
 .accordion-card-two .accordion-header h6.accordion-title[aria-expanded=true]:after {
-  content: "";
+  content: "\f078";
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
@@ -3606,9 +3312,9 @@ button {
   border-bottom: 1px solid transparent;
 }
 .accordion-card-three .accordion-header .accordion-title:after {
-  content: "";
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 400;
+  content: "\f054";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 18px;
   margin-left: auto;
   -webkit-transition: all 0.4s ease-out 0s;
@@ -3663,7 +3369,7 @@ button {
 }
 
 /*---========================
-    12. Blog css
+    12. Blog css 
 =======================----*/
 .post-meta span {
   font-weight: 500;
@@ -4250,8 +3956,6 @@ button {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 35px;
-  border-radius: 20px;
-  border:none;
 }
 .comments-area .comment .comment-avatar {
   -webkit-box-flex: 0;
@@ -4308,13 +4012,12 @@ button {
 }
 .comments-respond p {
   margin-bottom: 30px;
-  font-size: 20px;
 }
 
 /* Comment Form */
 form.comment-form .form_control {
   margin-bottom: 20px;
-  background-color: rgba(115, 98, 98, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid transparent;
   border-radius: 5px;
   color: #ffff;
@@ -4325,7 +4028,7 @@ form.comment-form .form_control {
   transition: all 0.3s ease-out 0s;
 }
 form.comment-form .form_control.placeholder {
-  color: #f5f5f5;
+  color: #ffff;
 }
 form.comment-form .form_control:-moz-placeholder {
   color: #ffff;
@@ -4546,7 +4249,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
 }
 
 /*---========================
-    13. Contact css
+    13. Contact css 
 =======================----*/
 /* Social Link */
 .social-link-two li {
@@ -4619,7 +4322,6 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   display: block;
   font: 600 18px "Syne", sans-serif;
   margin-bottom: 17px;
-  font-size: 20px;
 }
 .contact-form .nice-select, .contact-form .form_control {
   padding: 19px 30px;
@@ -4629,7 +4331,6 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
   margin-bottom: 35px;
-  border-radius: 9px;
 }
 .contact-form .nice-select:focus, .contact-form .form_control:focus {
   border-color: transparent;
@@ -4728,7 +4429,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
 }
 
 /*---========================
-    14. Footer css
+    14. Footer css 
 =======================----*/
 .footer-one:before {
   position: absolute;
@@ -4912,7 +4613,7 @@ form.comment-form .form_control:focus::-webkit-input-placeholder {
   font-weight: 500;
 }
 /*---========================
-    15. Sliders css
+    15. Sliders css 
 =======================----*/
 /* Slider Dots */
 ul.slick-dots li {
@@ -4924,17 +4625,21 @@ ul.slick-dots li {
 }
 ul.slick-dots li:after {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 51%;
+  top: 51%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background-color: #193B1E;
+
+
 }
 ul.slick-dots li.slick-active {
   border-color: #FFB966;
+  
 }
 
 .slider-active-5-item,
@@ -5002,7 +4707,7 @@ ul.slick-dots li.slick-active {
 }
 
 /*---========================
-    16. Wrapper css
+    16. Wrapper css 
 =======================----*/
 /* Counter Wrapper */
 .counter-wrapper {
@@ -5279,7 +4984,7 @@ ul.slick-dots li.slick-active {
 }
 
 /*---========================
-    17. Sections css
+    17. Sections css 
 =======================----*/
 /* About Section */
 .about-section .about-experience-box {
@@ -5418,3 +5123,4 @@ ul.slick-dots li.slick-active {
   background-color: rgba(9, 8, 8, 0.65);
   mix-blend-mode: multiply;
 }
+/*# sourceMappingURL=style.css.map */

@@ -1,3 +1,33 @@
+.no-underline {
+  text-decoration: none;
+}
+
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 100000 !important;
+  /* Extreme high value */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  /* Allows clicks through empty areas */
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-global-overlay-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.mat-mdc-dialog-container {
+  pointer-events: auto;
+  /* Re-enable clicks for dialog */
+  position: relative !important;
+  overflow-y: auto !important;
+  max-height: 90vh !important;
+}

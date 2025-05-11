@@ -113,13 +113,15 @@
       "TEXT": "Insurance",
       "LIST": {
         "CATEGORY": "Categories",
-        "PRODUCTDETAIL": "Product Detail",
-        "ORDERS": "Orders",
+        "ADDOFFER": "Add offer",
+        "OFFER": "Offers",
+        "EDITOFFER": "Edit Offer",
         "CUSTOMERS": "Customers",
         "CART": "Cart",
         "CHECKOUT": "Checkout",
         "SHOPS": "Shops",
-        "ADDPRODUCT": "Add Product"
+        "ADDPRODUCT": "Add Product",
+        "APPOINTMENTS": "Show Appointments"
       }
     },
     "USER": {
