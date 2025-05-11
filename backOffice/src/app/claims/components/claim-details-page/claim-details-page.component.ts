@@ -26,7 +26,7 @@ export class ClaimDetailsPageComponent implements OnInit {
   responseForm: FormGroup;
   loading: string[];
   estimated: DamageReport[];
-
+  loggedUser: User = null;
   isSwitchOn: boolean;
 
   leafletMap!: any;
@@ -40,6 +40,7 @@ export class ClaimDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     this.breadCrumbItems = [
       { label: "Blog" },
       { label: "Blog Grid", active: true },
@@ -47,6 +48,9 @@ export class ClaimDetailsPageComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get("id");
     this.claimService.getClaim(id).subscribe((data) => {
       this.claim = data;
+      this.userService.getProfile(this.claim.user).subscribe(
+        data2 => this.loggedUser = data2
+      )
       this.isSwitchOn = this.claim.status != ClaimStatus.CLOSED
       this.loading = new Array(this.claim.images.length).fill(["notyet"]);
       this.estimated = new Array(this.claim.images.length);

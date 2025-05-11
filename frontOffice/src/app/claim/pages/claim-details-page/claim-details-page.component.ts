@@ -17,7 +17,7 @@ import { UserService } from 'src/app/core/services/user/user.service';
 export class ClaimDetailsPageComponent implements OnInit {
   claim!: Claim;
   responseForm!: FormGroup;
-
+  
 
 
   constructor(
@@ -30,6 +30,7 @@ export class ClaimDetailsPageComponent implements OnInit {
   ){
 
   }
+  
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id')!;
       this.claimService.getClaim(id).subscribe(data =>{

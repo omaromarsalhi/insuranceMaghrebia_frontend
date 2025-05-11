@@ -12,7 +12,7 @@ export class Claim{
   incidentType!: IncidentType;
   id!: string;
   title!: string;
-  user!: User;
+  user!: string;
   description!: string;
   incidentLocation!: string;
   locationCoordinates!: string;
