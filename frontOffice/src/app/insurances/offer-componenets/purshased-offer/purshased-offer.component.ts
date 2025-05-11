@@ -22,6 +22,7 @@ import { PaymentContractService } from 'src/app/core/services/payment/payment-co
 import { PaymentMethod } from 'src/app/core/models/payment/paymentMethod';
 import { PurchasedOfferDataDto } from '../../../core/models/offer/purchased-offer-data-dto';
 import { PurchasedOffer } from 'src/app/core/models';
+import { AuthService } from 'src/app/core/services/user/auth.service';
 
 @Component({
   selector: 'app-purshased-offer',
@@ -110,7 +111,9 @@ export class PurshasedOfferComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private walletService: WalletService,
-    private paymentService: PaymentContractService
+    private paymentService: PaymentContractService,
+    private authService : AuthService
+    
   ) { }
 
   ngOnInit() {
@@ -181,7 +184,7 @@ export class PurshasedOfferComponent implements OnInit {
       });
       this.data2Save.formId = this.formId;
       this.data2Save.offerId = this.offerId
-      this.data2Save.userId = 'omar';
+      this.data2Save.userId = this.authService.getCurrentUserId()!;
       this.saveForData();
       setTimeout(() => {
         this.isLoading = false;

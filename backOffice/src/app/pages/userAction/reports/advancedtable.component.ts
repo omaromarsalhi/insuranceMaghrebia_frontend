@@ -3,7 +3,7 @@ import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Table } from './advanced.model';
 import { editableTable, tableData } from './data';
-import { AdvancedService } from './advanced.service';
+//import { AdvancedService } from './advanced.service';
 import { AdvancedSortableDirective } from './advanced-sortable.directive';
 import { ReportService } from '../../../core/services/userAction/ReportService';
 import { ReportResponse } from '../../../core/models/userAction/ReportResponse';
@@ -15,7 +15,7 @@ import { AuthService } from 'src/app/core/services/user/auth.service';
     selector: 'app-reports',
     templateUrl: './advancedtable.component.html',
     styleUrls: ['./advancedtable.component.scss'],
-    providers: [AdvancedService, DecimalPipe]
+    providers: [ DecimalPipe] //AdvancedService
 })
 export class AdvancedtableComponent implements OnInit {
 
@@ -38,12 +38,12 @@ export class AdvancedtableComponent implements OnInit {
     reports: ReportResponse[] = [];
     @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
 
-    constructor(public service: AdvancedService,
+    constructor(//public service: AdvancedService,
         private reportService: ReportService,
         private userService: UserService,
         private authService: AuthService) {
-        this.tables$ = service.tables$;
-        this.total$ = service.total$;
+        // this.tables$ = service.tables$;
+        // this.total$ = service.total$;
     }
 
 

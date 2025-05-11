@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
+//import { PreloaderComponent } from './shared/ui/preloader/preloader.component';
 import { MagnificPopupDirective } from './directives/magnific-popup.directive';
 import { NiceSelectDirective } from './directives/nice-select.directive';
 import { AnimationDirective } from './directives/animation.directive';
@@ -35,16 +35,17 @@ import { JobComponent } from './hr/job/job.component';
 import { CandidateComponent } from './hr/candidate/candidate.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import {ComplaintsModule} from "./complaints/complaints-module";
-import {SharedModule} from "./shared/ui/shared.module";
 import { InsuranceModule } from './insurances/insurance.module';
 import { PaymentModule } from './payment/payment.module';
+import { HomeFooterComponent } from './home-footer/home-footer.component';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    PreloaderComponent,
+   // PreloaderComponent,
     MagnificPopupDirective,
     NiceSelectDirective,
     AnimationDirective,
@@ -57,24 +58,17 @@ import { PaymentModule } from './payment/payment.module';
     JobsComponent,
     JobComponent,
     CandidateComponent,
-    CounterComponent,
     AddClaimPageComponent,
     MapComponent,
     ImageEditorComponent,
     ImageSliderComponent,
     ClaimsPageComponent,
     ClaimDetailsPageComponent,
-    ImageSliderV2Component,
-
-    CounterComponent,
-    CounterComponent,
-    CounterComponent,
+    ImageSliderV2Component,  
     HomeFooterComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule,
-    AppRoutingModule,
     RouterModule,
     AppRoutingModule,
     SharedModule,
@@ -85,15 +79,8 @@ import { PaymentModule } from './payment/payment.module';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule,
     InsuranceModule,
     PaymentModule,
-    SharedModule,
-    HttpClientModule,
-    MatDialogModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
     NgxFileDropModule,
     ComplaintsModule
   ],

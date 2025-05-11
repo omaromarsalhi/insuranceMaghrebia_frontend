@@ -30,12 +30,6 @@
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                     </div>
-                    <ul class="social-link">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -200,41 +194,7 @@
                 </div>
                 <!--====== Nav Right Item ======-->
                 <div class="nav-right-item">
-                    <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <!--=== User Dropdown ===-->
-                    <div class="user-dropdown">
-                        <div class="user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToLogin()" *ngIf="!userLogged">Login</a></li>
-                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToRegister()" *ngIf="!userLogged">Register</a></li>
-                            <li><a class="dropdown-item" routerLink="account/profile" *ngIf="userLogged">Profile</a></li>
-                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="logout()" *ngIf="userLogged">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu-button d-xl-block d-none">
-                        <a href="contact.html" class="main-btn primary-btn">
-                            Get a Quote
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    <div class="bar-item">
-                        <img src="assets/images/bar.png" alt="dot">
-                    </div>
-                    <div class="navbar-toggler">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+                    
                     <div class="wallet-wrapper">
                         <div class="wallet-trigger" (click)="toggleWallet()">
                             <i class="fas fa-wallet"></i>
@@ -281,7 +241,18 @@
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal">
                         <i class="fas fa-search"></i>
                     </div>
-
+                    
+                    <div class="user-dropdown">
+                        <div class="user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToLogin()" *ngIf="!userLogged">Login</a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="navigateToRegister()" *ngIf="!userLogged">Register</a></li>
+                            <li><a class="dropdown-item" routerLink="account/profile" *ngIf="userLogged">Profile</a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0);" (click)="logout()" *ngIf="userLogged">Logout</a></li>
+                        </ul>
+                    </div>
                     <div class="header-actions">
                         <a routerLink="/insurance/generate-quote" href="#" class="btn myBtn-quote">
                             <i class="fas fa-file-signature"></i>
@@ -293,4 +264,3 @@
         </div>
     </div>
 </header>
-

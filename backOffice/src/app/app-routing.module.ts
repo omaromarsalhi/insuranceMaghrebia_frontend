@@ -5,8 +5,7 @@ import { PaymentComponent } from './payment/paymentContract/payment.component';
 
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-  //{ path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)},
-
+  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)},
   {
     path: 'insurance',
     component: LayoutComponent,
@@ -19,10 +18,10 @@ const routes: Routes = [
   },
 
 
-  {
-    path: '',
-    component: LayoutComponent
-  }
+  // {
+  //   path: '',
+  //   component: LayoutComponent
+  // }
 ];
 
 @NgModule({

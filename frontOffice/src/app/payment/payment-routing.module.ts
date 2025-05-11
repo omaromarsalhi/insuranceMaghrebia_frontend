@@ -4,14 +4,15 @@ import { PaymentComponent } from './payment.component';
 import { PaymentContractsComponent } from './payment-contracts/payment-contracts.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PaymentPlanDetailsComponent } from './payment-plan-details/payment-plan-details.component';
+import { completeProfileGuard } from '../core/guards/complete-profile.guard';
 
 
 const routes: Routes = [
 
-  { path: 'payment/:offerId', component: PaymentComponent },
-  { path: 'payment-details/:userId', component: PaymentContractsComponent },
-  { path: 'card/:totalAmount', component: CheckoutComponent },
-  { path: 'paymentPlan/:contractPaymentId', component: PaymentPlanDetailsComponent },
+  { path: 'payment/:offerId', component: PaymentComponent ,canActivate : [completeProfileGuard]},
+  { path: 'payment-details/:userId', component: PaymentContractsComponent, canActivate : [completeProfileGuard] },
+  { path: 'card/:totalAmount', component: CheckoutComponent, canActivate : [completeProfileGuard] },
+  { path: 'paymentPlan/:contractPaymentId', component: PaymentPlanDetailsComponent, canActivate : [completeProfileGuard] },
 
 ];
 @NgModule({

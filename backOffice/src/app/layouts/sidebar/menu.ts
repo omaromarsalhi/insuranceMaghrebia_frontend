@@ -7,7 +7,7 @@ export const MENU: MenuItem[] = [
         isTitle: true
     },
     {
-        id: 1,
+        id: 69,
         label: 'Claims',
         icon: 'bx-receipt',
         subItems: [
@@ -15,19 +15,19 @@ export const MENU: MenuItem[] = [
                 id: 2,
                 label: 'Incident Types',
                 link: '/claims/incident-type/list',
-                parentId: 3
+                parentId: 69
             },
             {
                 id: 4,
                 label: 'Claims',
                 link: '/claims',
-                parentId: 5
+                parentId: 69
             },
             {
                 id: 6,
                 label: 'MAP',
                 link: '/claims/map',
-                parentId: 7
+                parentId: 69
             },
 
 

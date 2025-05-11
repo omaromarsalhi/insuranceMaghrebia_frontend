@@ -408,7 +408,7 @@
   right: 0;
   z-index: 999;
   animation: stickySlideIn 0.8s ease-out forwards;
-  will-change: transform, opacity;
+  will-change: transform, opacity; 
 } */
 
 
@@ -650,35 +650,83 @@ wallet-dropdown.show {
   animation: fadeIn 0.3s ease-out;
 }
 
+/* User Dropdown Styles */
 .user-dropdown {
-    position: relative;
-    margin-left: 20px;
+  position: relative;
+  margin-left: 1.5rem;
 }
 
-.user-dropdown .user-icon {
-    cursor: pointer;
-    font-size: 20px;
-    color: #0F0F2D;
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-icon:hover {
+  background: #ffb966;
+}
+
+.user-icon i {
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 1.1em;
+  transition: color 0.3s ease;
 }
 
 .user-dropdown .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background-color: #fff;
-    border: 1px solid #e1e1e1;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+  min-width: 200px !important;
+  left: auto !important;
+  right: 0 !important;
+  transform: translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-top: 3px solid #ffb966 !important;
+  padding: 8px 0 !important;
+  margin-top: 12px !important;
+}
+
+.user-dropdown .dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .user-dropdown .dropdown-item {
-    padding: 10px 20px;
-    color: #0F0F2D;
-    text-decoration: none;
-    display: block;
+  padding: 10px 25px !important;
+  font-size: 0.9em;
+  color: #0f0f2d !important;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .user-dropdown .dropdown-item:hover {
-    background-color: #f8f9fa;
+  background: #fefbe9;
+  padding-left: 30px !important;
+  color: #193b1e !important;
+}
+
+.user-dropdown .dropdown-item:active {
+  background-color: rgba(255, 185, 102, 0.15);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1199px) {
+  .user-dropdown {
+    margin-left: 1rem;
+  }
+  
+  .user-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-dropdown .dropdown-menu {
+    min-width: 180px !important;
+  }
 }

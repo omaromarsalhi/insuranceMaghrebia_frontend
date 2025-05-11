@@ -23,6 +23,7 @@ import { InsuranceModule } from './insurance/insurance.module';
 import { PaymentModule } from './payment/payment.module';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { SharedModule } from './shared/shared.module';
+import { ClaimsModule } from './claims/components/claims.module';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -65,6 +66,7 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbModule,
     InsuranceModule,
     UserModule,
+    ClaimsModule,
     UIModule
   ],
   bootstrap: [AppComponent],
