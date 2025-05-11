@@ -15,6 +15,7 @@ import { SignatureComponent } from './signature/signature.component';
 import { WalletPaymentComponent } from './wallet-payment/wallet-payment.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxStripeModule } from 'ngx-stripe';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -35,11 +36,12 @@ import { NgxStripeModule } from 'ngx-stripe';
     SharedModule,
     SlickCarouselModule,
     FontAwesomeModule,
+    RouterModule,
     ReactiveFormsModule,
     MatDialogModule,
     FormsModule,
-    NgxStripeModule.forRoot('pk_test_51QuEtGA3IRpOqAjD19y87vjYVjauMymaxNEA58EmVBTRSCutsQYZ5yXCtngEw0YQrnYepGyZ21pTV18M383fuNhM00KMjER1WJ'),
+    NgxStripeModule.forRoot('pk_test_51RNCSjPFGPBSjOp2kZBykfxV7vvl7azm13pazDmauGduXryDOkB0GVIGHdjWyh9TIZcZWQAZT7Ho3qMWuu7X3uPv005TbvbNWT'),
   ],
-   exports: [WalletPaymentComponent]
+  exports: [WalletPaymentComponent]
 })
 export class PaymentModule { }

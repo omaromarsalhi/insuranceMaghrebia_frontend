@@ -37,7 +37,8 @@
                         <img [src]="getPhotoUrl(payment.offerId)" alt="Icon">
                     </div>
                     <div class="offer-info">
-                        <h3 class="title">{{ payment.offerId | titlecase }} Insurance</h3>
+                        <h3 class="title"> {{ payment.offerId ? (offerNamesMap[payment.offerId] || 'Loading...') :
+                            'Unknown' }}Insurance</h3>
                         <div class="badges">
                             <span class="badge" [ngClass]="{
                   'badge-success': payment.paymentStatus === 'Paid',
@@ -70,7 +71,7 @@
                         </div>
                         <div class="detail-item">
                             <i class="fas fa-dollar-sign"></i>
-                            <span><strong>Total Amount:</strong> ${{ payment.totalAmount }}</span>
+                            <span><strong>Total Amount:</strong> {{ payment.totalAmount }} Dt</span>
                         </div>
                         <div class="detail-item">
                             <i class="fas fa-calendar-alt"></i>

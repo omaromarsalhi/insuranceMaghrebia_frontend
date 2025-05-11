@@ -41,7 +41,7 @@
                 <i class="fas fa-dollar-sign"></i>
                 <div>
                     <p class="label">Total Amount</p>
-                    <p class="value">${{ getTotalAmount() }}</p>
+                    <p class="value">{{ getTotalAmount() }} Dt</p>
                 </div>
             </div>
             <div class="summary-item">
@@ -71,11 +71,11 @@
                     <div class="plan-details">
                         <div class="detail-item">
                             <p class="label">Amount Due</p>
-                            <p class="value">${{ plan.amountDue | number:'0.3-3'}}</p>
+                            <p class="value">{{ plan.amountDue | number:'0.3-3'}} Dt</p>
                         </div>
                         <div class="detail-item">
                             <p class="label">Amount Paid</p>
-                            <p class="value">${{ plan.amountPaid | number:'0.3-3' }}</p>
+                            <p class="value">{{ plan.amountPaid | number:'0.3-3' }} Dt</p>
                         </div>
                         <div class="detail-item">
                             <p class="label">Due Date</p>
@@ -120,7 +120,9 @@
         </div>
 
         <div class="back-button">
-            <a routerLink="/payment-details" class="btn btn-primary">Back to Offers</a>
+            <a [routerLink]="['/payments/payment-details', 'omar']" class="btn btn-primary">
+                Back to Offers
+            </a>
         </div>
     </div>
 

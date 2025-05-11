@@ -97,7 +97,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   }
   async initializeStripe(): Promise<void> {
     try {
-      this.stripe = await loadStripe('pk_test_51QuEtGA3IRpOqAjD19y87vjYVjauMymaxNEA58EmVBTRSCutsQYZ5yXCtngEw0YQrnYepGyZ21pTV18M383fuNhM00KMjER1WJ');
+      this.stripe = await loadStripe('pk_test_51RNCSjPFGPBSjOp2kZBykfxV7vvl7azm13pazDmauGduXryDOkB0GVIGHdjWyh9TIZcZWQAZT7Ho3qMWuu7X3uPv005TbvbNWT');
       if (this.stripe) {
         this.elements = this.stripe.elements();
         this.card = this.elements.create('card');
@@ -324,7 +324,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   async processPaymentContract(paymentMethodId: string) {
     try {
       const paymentIntent = await this.createPaymentIntent(paymentMethodId);
-      await this.updateBlockchainAndPaymentContract(paymentIntent.id);
+      console.log("the paymentplan ", this.paymentPlanId)
+      await this.updateBlockchainAndPaymentContract(paymentMethodId);
       this.handleSuccess('Payment successful!');
     } catch (error: any) {
       this.handleGeneralError(error);
@@ -334,7 +335,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   async processPaymentPlan(paymentMethodId: string) {
     try {
       const paymentIntent = await this.createPaymentIntent(paymentMethodId);
-      await this.updateBlockchainAndPaymentPlan(paymentIntent.id);
+      await this.updateBlockchainAndPaymentPlan(paymentMethodId);
       this.handleSuccess('Payment successful!');
     } catch (error: any) {
       this.handleGeneralError(error);
@@ -356,10 +357,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     }
 
     const { error, paymentIntent } = await this.stripe!.confirmCardPayment(response.clientSecret);
-    if (error) {
-      this.handleStripeError(error);
-      throw error;
-    }
+    // if (error) {
+    //   this.handleStripeError(error);
+    //   throw error;
+    // }
 
     return paymentIntent;
   }
@@ -367,15 +368,17 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   async updateBlockchainAndPaymentContract(paymentIntentId: string) {
     console.log('the amount in blockchain is = ', this.totalAmount)
     this.blockchaindto = {
-      paymentId: this.paymentContractId,
+      paymentId: this.paymentPlanId,
       amount: this.totalAmount,
       fullname: this.paymentForm.get('name')?.value,
     };
+    console.log("block chainnnnnn ", this.blockchaindto)
+
 
     const blockchainResponse = await this.blockchainService.create(this.blockchaindto).toPromise();
     this.hashblock = blockchainResponse.blockHash;
 
-    await this.paymentContractService.updatePaymentPlans(this.paymentContractId, this.hashblock).toPromise();
+    await this.paymentContractService.updatePaymentPlans(this.paymentPlanId, this.hashblock).toPromise();
     await this.paymentService.capturePayment(paymentIntentId).toPromise();
   }
 
@@ -385,7 +388,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       amount: this.totalAmount,
       fullname: this.paymentForm.get('name')?.value,
     };
-    console.log(this.blockchaindto.paymentId)
+    console.log("block chainnnnnn ", this.blockchaindto)
 
     const blockchainResponse = await this.blockchainService.create(this.blockchaindto).toPromise();
     this.hashblock = blockchainResponse.blockHash;
@@ -403,6 +406,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   handleError(message: string) {
     this.errorMessage = message;
     this.onPaymentPopUpFailed("Error", message);
+    this.router.navigate([`/payments/payment-details/${this.paymentPlanId}`]);
+
   }
 
   handleStripeError(error: any) {

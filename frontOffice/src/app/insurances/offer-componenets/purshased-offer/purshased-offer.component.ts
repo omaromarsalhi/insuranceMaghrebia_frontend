@@ -111,7 +111,7 @@ export class PurshasedOfferComponent implements OnInit {
     private router: Router,
     private walletService: WalletService,
     private paymentService: PaymentContractService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.formId = this.route.snapshot.paramMap.get('formId') || 'null';
@@ -180,7 +180,7 @@ export class PurshasedOfferComponent implements OnInit {
         });
       });
       this.data2Save.formId = this.formId;
-      this.data2Save.offerId=this.offerId
+      this.data2Save.offerId = this.offerId
       this.data2Save.userId = 'omar';
       this.saveForData();
       setTimeout(() => {
@@ -195,7 +195,7 @@ export class PurshasedOfferComponent implements OnInit {
       body: this.data2Save,
     };
 
-    this.purchasedoffer.create(parm).subscribe((response:PurchasedOffer) => {
+    this.purchasedoffer.create(parm).subscribe((response: PurchasedOffer) => {
       console.log('form responce: ' + response);
       setTimeout(() => {
         console.log('form responce: ' + response);
@@ -322,21 +322,21 @@ export class PurshasedOfferComponent implements OnInit {
   }
 
   cartPayment() {
-    this.showPopup=false;
-    console.log(this.purchasedoffer)
+    this.showPopup = false;
+    console.log("purchased offer from cart :", this.purchasedoffer)
     const paymentData = {
       planDuration: this.offerDetails.packages?.filter(
         (p) => p.price == this.price
       )[0].duration,
       totalAmount: this.price,
       offerId: this.puchasedOffer.offerId,
-      userId:this.puchasedOffer.userId
+      userId: this.puchasedOffer.userId
     };
 
     this.paymentService.post(paymentData, PaymentMethod.CARD).subscribe(
       (response: any) => {
         const paymentContractId = response.contractPaymentId;
-        this.router.navigate([`/payments/card/${this.totalAmount}`], {
+        this.router.navigate([`/payments/card/${this.price}`], {
           queryParams: {
             type: 'contract',
             planId: paymentContractId,

@@ -6,6 +6,8 @@ import { SharedDataService } from 'src/app/core/services/payment/shared-data.ser
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { PaymentContractService } from 'src/app/core/services/payment/payment-contract.service';
+import { OfferResponse } from 'src/app/core/models';
+import { OfferControllerService } from 'src/app/core/services/offer/offer-controller.service';
 @Component({
   selector: 'app-payment-contracts',
   templateUrl: './payment-contracts.component.html',
@@ -29,25 +31,33 @@ export class PaymentContractsComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   hasMoreData: boolean = true;
+  offerDetails!: OfferResponse;
+  offerNamesMap: { [key: string]: string } = {};
+  name!: string;
+
+
   userId!: string;
 
   constructor(
     private router: Router,
     private actvRoute: ActivatedRoute,
+    private offerService: OfferControllerService,
     private paymentService: PaymentContractService
   ) { }
 
   ngOnInit(): void {
     this.userId = String(this.actvRoute.snapshot.paramMap.get('userId'));
+    console.log("this.userId:", this.userId)
     this._fetchData();
   }
 
   private _fetchData(): void {
-    this.paymentService.getPaymentContracts(this.userId).subscribe({
+    this.paymentService.getPaymentContracts("omar").subscribe({
       next: (data: Payment[]) => {
         this.listData = data;
         this.filteredData = data;
         this.updatePagination();
+        this._loadOffers();
       },
       error: (error) => {
         console.error('Error fetching payments:', error);
@@ -81,7 +91,7 @@ export class PaymentContractsComponent implements OnInit {
 
 
   viewDetails(payment: Payment): void {
-    this.router.navigate(['/paymentPlan', payment.contractPaymentId]);
+    this.router.navigate(['/payments/paymentPlan', payment.contractPaymentId]);
   }
   getPaymentProgress(payment: Payment): number {
     if (!payment.paymentPlans) return 0;
@@ -93,22 +103,8 @@ export class PaymentContractsComponent implements OnInit {
   }
 
   getPhotoUrl(offerId: string | undefined): string {
-    switch (offerId) {
-      case 'car':
-        return 'assets/images/icon/icon-2.png';
-      case 'health':
-        return 'assets/images/icon/icon-3.png';
-      case 'house':
-        return 'assets/images/icon/icon-1.png';
-      case 'travel':
-        return 'assets/images/icon/icon-4.png';
-      case 'business':
-        return 'assets/images/icon/icon-5.png';
-      case 'agri':
-        return 'assets/images/icon/icon-6.png';
-      default:
-        return 'assets/images/icon/default-icon.png';
-    }
+
+    return 'assets/images/icon/icon-2.png';
   }
 
   generatePDF(payment: any) {
@@ -123,12 +119,12 @@ export class PaymentContractsComponent implements OnInit {
       .text('Phone: +00 216 71 788 800  | Fax: 00 216 71 788 334', 70, 37);
 
     doc.setFontSize(18).setFont('helvetica', 'bold')
-      .text(`Contract Details - ${payment.offerId} Insurance`, 10, 50);
+      .text(`Contract Details -  Insurance`, 10, 50);
 
     let yPosition = 65;
     doc.setFontSize(12).setFont('helvetica', 'normal')
       .text(`Full Name: ${payment.userId}`, 10, yPosition)
-      .text(`Total Amount: $${payment.totalAmount}`, 10, yPosition + 10)
+      .text(`Total Amount: ${payment.totalAmount}Dt`, 10, yPosition + 10)
       .text(`Plan Duration: ${payment.planDuration}`, 10, yPosition + 20)
       .text(`Purchased at: ${this.formatDate(payment.contractCreatedAt)}`, 10, yPosition + 30);
 
@@ -139,8 +135,8 @@ export class PaymentContractsComponent implements OnInit {
 
     const paymentPlans = payment.paymentPlans.map((plan: any, index: number) => [
       `Plan ${index + 1}`,
-      `$${plan.amountDue}`,
-      `$${plan.amountPaid}`,
+      `${plan.amountDue.toFixed(2)}Dt`,
+      `${plan.amountPaid.toFixed(2)}Dt`,
       plan.paymentStatus,
       this.formatDate(plan.dueDate)
     ]);
@@ -166,12 +162,12 @@ export class PaymentContractsComponent implements OnInit {
       '   - If the full balance is not paid by the due date, a monthly service charge will be applied to the remaining unpaid amount.',
       '   - The service charge will be calculated as 3% of the outstanding balance if the payment is more than one month overdue.',
       '          ',
-      '2. **Total Payment for Services**:',
-      '   - The client agrees to pay Maghrebia a total sum of the total amount for the purchased package , in accordance with the terms outlined in this agreement.',
-      '          ',
-      '3. **Delinquent Payments and Default**:',
-      '   - Payments not received by the due date will be considered delinquent.',
-      '   - If a payment becomes delinquent, the agreement may be considered in default, and the full remaining balance, including penalties and interest, will become due immediately.'
+      // '2. **Total Payment for Services**:',
+      // '   - The client agrees to pay Maghrebia a total sum of the total amount for the purchased package , in accordance with the terms outlined in this agreement.',
+      // '          ',
+      // '2. **Delinquent Payments and Default**:',
+      // '   - Payments not received by the due date will be considered delinquent.',
+      // '   - If a payment becomes delinquent, the agreement may be considered in default, and the full remaining balance, including penalties and interest, will become due immediately.'
     ];
 
 
@@ -198,5 +194,27 @@ export class PaymentContractsComponent implements OnInit {
       day: 'numeric'
     });
   }
+  private _loadOffers(): void {
+    const uniqueOfferIds = [...new Set(this.listData.map(payment => payment.offerId))];
+
+    uniqueOfferIds.forEach(offerId => {
+      if (!offerId) return; // Skip if offerId is undefined
+
+      this.offerService.getByOfferId({ offerId }).subscribe({
+        next: (offer: OfferResponse) => {
+          const matchingPayment = this.listData.find(p => p.offerId === offerId);
+          const price = matchingPayment?.totalAmount;
+
+          const matchedPackage = offer.packages?.find(pkg => pkg.price === price);
+          this.offerNamesMap[offerId] = matchedPackage?.title || 'Unknown Package';
+        },
+        error: (error) => {
+          console.error(`Failed to load offer with ID ${offerId}:`, error);
+          this.offerNamesMap[offerId] = 'Unknown Offer';
+        }
+      });
+    });
+  }
+
 
 }
