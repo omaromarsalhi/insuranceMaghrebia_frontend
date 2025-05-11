@@ -33,6 +33,7 @@
                 "node_modules/slick-carousel/slick/slick.css",
                 "node_modules/slick-carousel/slick/slick-theme.css",
                 "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+                "node_modules/jquery-nice-select/css/nice-select.css",
                 "src/assets/css/animate.css",
                 "src/assets/css/default.css",
                 "src/assets/css/style.css",
@@ -45,6 +46,9 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/slick-carousel/slick/slick.min.js",
               "node_modules/wow.js/dist/wow.min.js",
+              "node_modules/jquery-nice-select/js/jquery.nice-select.min.js",
+              "node_modules/jquery.counterup/jquery.counterup.min.js",
+              "node_modules/magnific-popup/dist/jquery.magnific-popup.min.js",
               "src/assets/js/theme.js"
             ]
           },
@@ -79,13 +83,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "insuranceUi:build:production"
+              "browserTarget": "insuranceUi:build:production",
+
             },
             "development": {
               "browserTarget": "insuranceUi:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4200
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -114,5 +122,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "46ca5016-a6c1-42a7-a3c6-130c2a94a3d9"
   }
 }

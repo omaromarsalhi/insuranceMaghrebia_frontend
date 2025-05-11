@@ -1,0 +1,158 @@
+
+.complaint-card {
+  transition: all 0.2s ease;
+  border-radius: 12px;
+  border-color: #3f51b5;
+}
+
+.hover-effect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.badgetest{
+  //color: #FFB966;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  background-color: #FFB966;
+}
+.modal-content {
+  border-radius: 14px;
+  border-bottom-color: #28a745;
+}
+
+.modal-body {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+
+.description-modal .modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.description-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-xl-3 {
+  display: flex;
+}
+
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.fixed-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ddd;
+}
+
+.holographic-notification-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hologram-beam-center {
+  width: 80px;
+  height: 80px;
+  background: rgb(236, 207, 207);
+  border-radius: 50%;
+  animation: hologram-beam-center 3s infinite;
+  filter: blur(12px);
+}
+
+.hologram-pulse-center {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #d98484;
+  border-radius: 50%;
+  animation: hologram-pulse-center 3s infinite;
+  top: 0;
+  left: 0;
+}
+
+.hologram-text-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e56161;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: hologram-text-center 2s infinite alternate;
+  text-shadow: 0 0 15px #ea0303;
+}
+
+@keyframes hologram-beam-center {
+  0% { transform: scale(0.8); opacity: 0.3; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+  100% { transform: scale(0.8); opacity: 0.3; }
+}
+
+@keyframes hologram-pulse-center {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes hologram-text-center {
+  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.hover-3d:hover {
+  transform:
+          translateY(-3px)
+          rotateX(2deg)
+          rotateY(2deg)
+          scale(1.02);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
