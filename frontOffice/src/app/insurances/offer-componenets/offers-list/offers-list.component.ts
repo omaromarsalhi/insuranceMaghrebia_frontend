@@ -10,7 +10,7 @@ import {
   keyframes,
 } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
-import { OfferFiltered } from 'src/app/core/models/offer/my-filtered-offers';
+import { OfferFiltered } from 'src/app/core/models';
 import { OfferControllerService } from 'src/app/core/services/offer/offer-controller.service';
 
 @Component({

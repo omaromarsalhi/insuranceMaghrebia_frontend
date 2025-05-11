@@ -13,7 +13,9 @@ import { StrictHttpResponse } from '../../strict-http-response';
 
 import { calculate } from '../../fn/automobile-quote-controller/calculate';
 import { Calculate$Params } from '../../fn/automobile-quote-controller/calculate';
-import { QuoteResponse } from '../../models/offer/quote-response';
+import { QuoteResponse } from '../../models';
+
+
 
 @Injectable({ providedIn: 'root' })
 export class AutomobileQuoteControllerService extends BaseService {

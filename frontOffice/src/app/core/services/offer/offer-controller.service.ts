@@ -21,9 +21,9 @@ import { getAllByCategoryId } from '../../fn/offer-controller/get-all-by-categor
 import { GetAllByCategoryId$Params } from '../../fn/offer-controller/get-all-by-category-id';
 import { getByOfferId } from '../../fn/offer-controller/get-by-offer-id';
 import { GetByOfferId$Params } from '../../fn/offer-controller/get-by-offer-id';
-import { OfferGeneralResponse } from '../../models/offer-general-response';
-import { OfferResponse } from '../../models/offer-response';
-import { OfferWithTagsResponse } from '../../models/offer-with-tags-response';
+import { OfferGeneralResponse } from '../../models';
+import { OfferResponse } from '../../models';
+import { OfferWithTagsResponse } from '../../models';
 import { update } from '../../fn/offer-controller/update';
 import { Update$Params } from '../../fn/offer-controller/update';
 import { updateStatus } from '../../fn/offer-controller/update-status';

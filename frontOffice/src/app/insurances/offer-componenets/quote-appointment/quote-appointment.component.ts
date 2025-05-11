@@ -1,3 +1,4 @@
+import { QuoteResponse } from 'src/app/core/models/offer/quote-response';
 import { Component, Input, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StorageService } from 'src/app/core/services/offer/storage.service';
@@ -33,10 +34,13 @@ import { AppointmentDto } from 'src/app/core/models/offer/appointment-dto';
 })
 export class QuoteAppointmentComponent implements OnInit {
   @Input() currentAppointementInsuranceType!: string;
+  @Input() generatedQutoe!: QuoteResponse;
 
   selectedValue: number = 0;
   popupMessage!: string;
   errorsTable: { field: string; step: number }[] = [];
+  showPopup = false;
+  isLoading: boolean = false;
 
   oneFormConfigurations: any = {
     data: [
@@ -385,40 +389,45 @@ export class QuoteAppointmentComponent implements OnInit {
     this.quotesHistory = this.quotesHistory.filter((q) => q.key !== key);
   }
 
-  makeAutoReservation(data: any) {
-    const autoAppointment: AppointmentDto = data.data as AppointmentDto;
-    autoAppointment.cin = Number(autoAppointment.cin);
-    autoAppointment.phone = Number(autoAppointment.phone);
-    autoAppointment.dob = this.formatDateToISO(autoAppointment.dob);
+  makeReservation(data: any) {
+    console.log(data);
 
-    console.log(autoAppointment);
+    const appointment: AppointmentDto = data.data as AppointmentDto;
+    appointment.cin = Number(appointment.cin);
+    appointment.phone = Number(appointment.phone);
+    appointment.dob = this.formatDateToISO(appointment.dob);
+    appointment.offerDetails = this.quotesHistory[0].obj;
+    appointment.offerType =
+      this.currentAppointementInsuranceType == 'auto' ? 'AUTO' : 'HEALTH';
+    appointment.generatedQuote = this.generatedQutoe;
+
+    console.log(appointment);
+    
     this.appointmentService
-      .save({ body: autoAppointment })
+      .save({ body: appointment })
       .subscribe((response) => {
-        console.log(response);
+        setTimeout(() => {
+          this.isLoading = false;
+          this.showPopup = false;
+        }, 2000);
       });
   }
 
-
-
   recieveFormData(data: any) {
-    switch (this.currentAppointementInsuranceType) {
-      case 'auto':
-        this.makeAutoReservation(data);
-        break;
-      default:
-        console.log(data);
-        break;
-    }
+    this.isLoading = true;
+    this.showPopup = true;
+    this.makeReservation(data);
   }
 
+  togglePopUp() {
+    this.showPopup = !this.showPopup;
+  }
 
   private formatDateToISO(date: any): string {
-
     if (!date) date = new Date();
 
     if (typeof date === 'string' && date.includes('T')) return date;
-    
+
     if (date instanceof Date) return date.toISOString();
 
     if (typeof date === 'string') {

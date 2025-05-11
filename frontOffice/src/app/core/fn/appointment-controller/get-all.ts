@@ -8,16 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OfferResponse } from '../../models/offer/offer-response';
+import { AppointmentDto } from '../../models/offer/appointment-dto';
 
-export interface GetOne$Params {
-  categoryId: string;
+export interface GetAll$Params {
 }
 
-export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<OfferResponse>> {
-  const rb = new RequestBuilder(rootUrl, getOne.PATH, 'get');
+export function getAll(http: HttpClient, rootUrl: string, params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<AppointmentDto>>> {
+  const rb = new RequestBuilder(rootUrl, getAll.PATH, 'get');
   if (params) {
-    rb.path('categoryId', params.categoryId, {});
   }
 
   return http.request(
@@ -25,9 +23,9 @@ export function getOne(http: HttpClient, rootUrl: string, params: GetOne$Params,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OfferResponse>;
+      return r as StrictHttpResponse<Array<AppointmentDto>>;
     })
   );
 }
 
-getOne.PATH = '/api/v1/offers/one/{categoryId}';
+getAll.PATH = '/api/v1/appointments/getAll';

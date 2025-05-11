@@ -18,6 +18,20 @@
         </div>
       </div>
 
+      <!-- Popup Overlay -->
+                    <div class="overlay" *ngIf="showPopup" (click)="showPopup = false" @fadeInOut>
+                        <div class="modal-content" (click)="$event.stopPropagation()" @slideIn>
+                            <button class="close-btn" (click)="showPopup = false">&times;</button>
+                            <h3>Thank You!</h3>
+                            <span *ngIf="isLoading">
+                                <i class=" fa fa-spinner fa-spin"></i> Loading...
+                            </span>
+                            <p *ngIf="!isLoading">Your submission has been received.</p>
+                            <button  class="fs-6 main-btn primary-btn" style="height: 1rem"
+                                (click)="togglePopUp()">Close</button>
+                        </div>
+                    </div>
+
       <div class="col-xl-6 order-1 order-xl-2 green-bg sideSection">
         <div class="faq-section" style="background-color: white;">
           <div class="d-flex justify-content-center pt-20">

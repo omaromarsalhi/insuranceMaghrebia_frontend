@@ -11,7 +11,7 @@ import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
 import { StrictHttpResponse } from '../../strict-http-response';
 
-import { CategoryResponse } from '../../models/offer/category-response';
+import { CategoryResponse } from '../../models';
 import { createOfferCategory } from '../../fn/offer-category-controller/create-offer-category';
 import { CreateOfferCategory$Params } from '../../fn/offer-category-controller/create-offer-category';
 import { deleteOfferCategory } from '../../fn/offer-category-controller/delete-offer-category';

@@ -15,7 +15,7 @@ import { create2 } from '../../fn/offer-form-controller/create-2';
 import { Create2$Params } from '../../fn/offer-form-controller/create-2';
 import { get } from '../../fn/offer-form-controller/get';
 import { Get$Params } from '../../fn/offer-form-controller/get';
-import { OfferFormResponse } from '../../models/offer-form-response';
+import { OfferFormResponse } from '../../models';
 import { update1 } from '../../fn/offer-form-controller/update-1';
 import { Update1$Params } from '../../fn/offer-form-controller/update-1';
 

@@ -13,7 +13,7 @@ import { StrictHttpResponse } from '../../strict-http-response';
 
 import { create } from '../../fn/purchased-offer-controller/create';
 import { Create$Params } from '../../fn/purchased-offer-controller/create';
-import { PurchasedOffer } from '../../models/purchased-offer';
+import { PurchasedOffer } from '../../models';
 
 @Injectable({ providedIn: 'root' })
 export class PurchasedOfferControllerService extends BaseService {

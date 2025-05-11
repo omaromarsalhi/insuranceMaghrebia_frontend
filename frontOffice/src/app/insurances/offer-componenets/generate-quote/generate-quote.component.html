@@ -178,7 +178,7 @@
 
 
             <!-- AI Results Column -->
-            <div *ngIf="aiInsights.length>0" class="col-xl-3 order-3 order-xl-3" style="padding: 0 0.4rem 0 0.4rem;">
+            <div *ngIf="aiInsights.length>0 && !isResponseReady" class="col-xl-3 order-3 order-xl-3" style="padding: 0 0.4rem 0 0.4rem;">
                 <div class="ai-results-container green-bg p-4 shadow-lg" @aiPanel [@.disabled]="!aiInsights.length"
                     (@aiPanel.start)="onPanelAnimate($event)" (@aiPanel.done)="onPanelAnimate($event)">
                     <!-- Header -->
@@ -220,5 +220,5 @@
 
 </section>
 
-<app-quote-appointment *ngIf="isAppointmentActive" [currentAppointementInsuranceType]="currentFormType"
+<app-quote-appointment *ngIf="isAppointmentActive" [currentAppointementInsuranceType]="currentFormType" [generatedQutoe]="quoteResponse"
     [@fadeIn]></app-quote-appointment>

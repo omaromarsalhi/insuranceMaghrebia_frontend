@@ -143,7 +143,7 @@ export class GenerateQuoteComponent implements OnInit {
   @ViewChild('aiContent') private aiContent!: ElementRef;
   isLoading: boolean = false;
   isResponseReady: boolean = false;
-  isAppointmentActive: boolean = false;
+  isAppointmentActive: boolean = true;
   showPopup: boolean = false;
 
   selectedValue: number = 0;
@@ -970,6 +970,7 @@ export class GenerateQuoteComponent implements OnInit {
         this.popupMessage = 'The Quote Is generated Successfuly';
         this.quoteResponse = response;
         this.isLoading = false;
+        this.aiInsights=[];
       },
       error: (err: any) => {
         this.errorsTable = [];
