@@ -9,7 +9,7 @@ import { PaymentPlan } from '../../models/payment/PaymentsPlan';
 })
 export class PaymentPlanService {
 
-  private apiUrl = 'http://localhost:9001/api/v1/payment-plan';
+  private apiUrl = 'http://localhost:8888/api/v1/payment-plan';
 
   constructor(private http: HttpClient) { }
 

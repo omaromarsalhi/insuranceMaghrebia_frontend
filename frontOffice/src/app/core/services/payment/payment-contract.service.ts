@@ -9,7 +9,7 @@ import { PaymentMethod } from '../../models/payment/paymentMethod';
 })
 export class PaymentContractService {
 
-  private apiUrl = 'http://localhost:9001/api/v1/payment-contracts';
+  private apiUrl = 'http://localhost:8888/api/v1/payment-contracts';
   constructor(private http: HttpClient) { }
 
   getApiUrl(): string { return this.apiUrl; }

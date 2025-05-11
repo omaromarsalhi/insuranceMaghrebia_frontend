@@ -9,7 +9,7 @@ import { PaymentBlockRequestDto } from '../../models/blockchain/PaymentBlockRequ
 })
 export class BlockchainService {
 
-  private apiUrl = 'http://localhost:9015/api/v1/blockchain';
+  private apiUrl = 'http://localhost:8888/api/v1/blockchain';
 
   constructor(private http: HttpClient) { }
 
