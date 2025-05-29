@@ -116,13 +116,14 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private prepereData4Update(formValue) {
-    this.offer2Update.benefits = formValue.benefits;
-    this.offer2Update.category = this.getFilteredCategory(formValue.categoryId);
-    this.offer2Update.header = formValue.header;
-    this.offer2Update.labels = formValue.labels;
-    this.offer2Update.name = formValue.name;
-    this.offer2Update.tags = formValue.tags;
-    this.offer2Update.packages = formValue.packages;
+    if(formValue){
+    this.offer2Update.benefits = formValue?.benefits;
+    this.offer2Update.category = this.getFilteredCategory(formValue?.categoryId);
+    this.offer2Update.header = formValue?.header;
+    this.offer2Update.labels = formValue?.labels;
+    this.offer2Update.name = formValue?.name;
+    this.offer2Update.tags = formValue?.tags;
+    this.offer2Update.packages = formValue?.packages;}
   }
 
   get f() {
@@ -503,7 +504,7 @@ export class OfferCreatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.prepereData4Update(this.labelsForm.value);
+    // this.prepereData4Update(this.labelsForm.value);
 
     this.offerActionEvent.emit({
       action: "temp_save",
